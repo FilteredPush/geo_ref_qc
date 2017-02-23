@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.filteredpush.kuration.util;
+package org.filteredpush.qc.georeference.util;
 
 import java.util.ArrayList;
 import java.util.List;

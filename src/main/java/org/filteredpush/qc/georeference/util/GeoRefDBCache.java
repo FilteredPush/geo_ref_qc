@@ -1,4 +1,4 @@
-package org.filteredpush.kuration.util;
+package org.filteredpush.qc.georeference.util;
 
 import java.sql.*;
 import java.util.List;

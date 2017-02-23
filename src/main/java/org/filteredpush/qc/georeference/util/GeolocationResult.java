@@ -1,7 +1,7 @@
 /**
- * 
+ *
  */
-package org.filteredpush.kuration.util;
+package org.filteredpush.qc.georeference.util;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.noggit.JSONParser.ParseException;
 import org.dom4j.Document;
 
 import edu.tulane.museum.www.webservices.Georef_Result;
@@ -18,18 +17,18 @@ import edu.tulane.museum.www.webservices.Georef_Result_Set;
 
 /**
  * Representation of a single georeference assertion as made by GeoLocate's service.
- * 
+ *
  * @author mole
  *
  */
 public class GeolocationResult implements Serializable {
 
 	private static final long serialVersionUID = 5250497528282353757L;
-	
+
 	private static final Log logger = LogFactory.getLog(GeolocationResult.class);
-	
+
 	public static final int MIN_SCORE_THRESHOLD = 25;
-	
+
 	private Double latitude;
 	private Double longitude;
 	private Integer coordinateUncertainty;
@@ -50,29 +49,27 @@ public class GeolocationResult implements Serializable {
 		this.parseString = parseString;
 		this.coordinateUncertainty = coordinateUncertainty;
 	}
-	
-	public static List<GeolocationResult> constructFromXML(Document geolocateXmlResult) { 
+
+	public static List<GeolocationResult> constructFromXML(Document geolocateXmlResult) {
 		ArrayList<GeolocationResult> result = new ArrayList<GeolocationResult>();
-		
+
 		return result;
 	}
-	
-	public static List<GeolocationResult> constructFromGeolocateResultSet(Georef_Result_Set results) { 
+
+	public static List<GeolocationResult> constructFromGeolocateResultSet(Georef_Result_Set results) {
 		ArrayList<GeolocationResult> resultList = new ArrayList<GeolocationResult>();
 		if (results !=null && results.getNumResults()>0) {
-		    int numResults = results.getNumResults(); 
-			for (int i=0; i<numResults; i++) { 
+		    int numResults = results.getNumResults();
+			for (int i=0; i<numResults; i++) {
 			   Georef_Result row = results.getResultSet(i);
-			   if (row.getScore()>MIN_SCORE_THRESHOLD) { 
+			   if (row.getScore()>MIN_SCORE_THRESHOLD) {
 				   int uncertainty = 0;
-				   try { 
-					   if (row.getUncertaintyRadiusMeters()!=null && !row.getUncertaintyRadiusMeters().equals("Unavailable")) { 
+				   try {
+					   if (row.getUncertaintyRadiusMeters()!=null && !row.getUncertaintyRadiusMeters().equals("Unavailable")) {
 					      uncertainty = Integer.parseInt(row.getUncertaintyRadiusMeters());
 					   }
-				   } catch (NumberFormatException ex) {  
+				   } catch (NumberFormatException ex) {
 					   logger.debug(ex.getMessage());
-				   } catch (ParseException e) { 
-					   logger.debug(e.getMessage());
 				   }
 				   GeolocationResult result = new GeolocationResult(
 						   row.getWGS84Coordinate().getLatitude(),
@@ -87,20 +84,20 @@ public class GeolocationResult implements Serializable {
 		}
 		return resultList;
 	}
-	
+
 	public static boolean isLocationNearAResult(double latitude, double longitude, List<GeolocationResult> toCompare, int thresholdDistanceMeters) {
 		boolean result = false;
-		if (toCompare!=null && toCompare.size()>0) { 
+		if (toCompare!=null && toCompare.size()>0) {
 			Iterator<GeolocationResult> i = toCompare.iterator();
-			while (!result && i.hasNext()) { 
+			while (!result && i.hasNext()) {
 				GeolocationResult candidate = i.next();
 				long distance = GEOUtil.calcDistanceHaversineMeters(latitude, longitude, candidate.getLatitude(), candidate.getLongitude());
-				if (candidate.getCoordinateUncertaintyMeters()>0) { 
-					if (distance<=candidate.getCoordinateUncertaintyMeters() || distance<=thresholdDistanceMeters) { 
+				if (candidate.getCoordinateUncertaintyMeters()>0) {
+					if (distance<=candidate.getCoordinateUncertaintyMeters() || distance<=thresholdDistanceMeters) {
 						result = true;
 					}
-				} else { 
-				    if (distance<=thresholdDistanceMeters) { 
+				} else {
+				    if (distance<=thresholdDistanceMeters) {
 				    	result = true;
 				    }
 				}
@@ -108,23 +105,23 @@ public class GeolocationResult implements Serializable {
 		}
 		return result;
 	}
-	
-	
+
+
 	public static GeoRefCacheValue getCachableNearAResult(double latitude, double longitude, List<GeolocationResult> toCompare, int thresholdDistanceMeters) {
 		GeoRefCacheValue result = null;
-		if (toCompare!=null && toCompare.size()>0) { 
+		if (toCompare!=null && toCompare.size()>0) {
 			Iterator<GeolocationResult> i = toCompare.iterator();
 			boolean matched = false;
-			while (!matched && i.hasNext()) { 
+			while (!matched && i.hasNext()) {
 				GeolocationResult candidate = i.next();
 				long distance = GEOUtil.calcDistanceHaversineMeters(latitude, longitude, candidate.getLatitude(), candidate.getLongitude());
-				if (candidate.getCoordinateUncertaintyMeters()>0) { 
-					if (distance<=candidate.getCoordinateUncertaintyMeters()) { 
+				if (candidate.getCoordinateUncertaintyMeters()>0) {
+					if (distance<=candidate.getCoordinateUncertaintyMeters()) {
 						matched = true;
 						result = new GeoRefCacheValue(candidate.getLatitude(),candidate.getLongitude());
 					}
-				} else { 
-				    if (distance<=thresholdDistanceMeters) { 
+				} else {
+				    if (distance<=thresholdDistanceMeters) {
 				    	matched = true;
 						result = new GeoRefCacheValue(candidate.getLatitude(),candidate.getLongitude());
 				    }
@@ -132,8 +129,8 @@ public class GeolocationResult implements Serializable {
 			}
 		}
 		return result;
-	}	
-	
+	}
+
 	/**
 	 * @return the latitude
 	 */
@@ -194,6 +191,6 @@ public class GeolocationResult implements Serializable {
 	public void setParseString(String parseString) {
 		this.parseString = parseString;
 	}
-	
-	
+
+
 }

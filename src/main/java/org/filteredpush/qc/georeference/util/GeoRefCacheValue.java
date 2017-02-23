@@ -1,9 +1,9 @@
-package org.filteredpush.kuration.util;
+package org.filteredpush.qc.georeference.util;
 
 /**
  * Created by tianhong on 3/4/15.
  */
-public class GeoRefCacheValue extends CacheValue{
+public class GeoRefCacheValue extends CacheValue {
 
     double lng;
     double lat;

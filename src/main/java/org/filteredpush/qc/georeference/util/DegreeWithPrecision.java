@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.filteredpush.kuration.util;
+package org.filteredpush.qc.georeference.util;
 
 /**
  * Representation of degrees with a specified precision

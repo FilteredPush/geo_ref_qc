@@ -41,6 +41,12 @@
 
 	<repositories>
 		<repository>
+			<id>ncsa.thirdparty</id>
+			<name>NCSA 3rd party jar maven repository</name>
+			<url>https://opensource.ncsa.illinois.edu/nexus/content/repositories/thirdparty/</url>
+		</repository>
+
+		<repository>
 			<id>gbif-all</id>
 			<url>http://repository.gbif.org/content/groups/gbif</url>
 		</repository>
@@ -98,6 +104,12 @@
 			<groupId>org.nocrala</groupId>
 			<artifactId>shapefile-reader</artifactId>
 			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
 		</dependency>
 
 		<dependency>

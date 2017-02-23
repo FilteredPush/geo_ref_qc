@@ -1,4 +1,4 @@
-package org.filteredpush.kuration.util;
+package org.filteredpush.qc.georeference.util;
 
 import java.awt.geom.Path2D;
 import java.io.IOException;
@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.filteredpush.kuration.services.GeoLocate3;
 import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureCollection;
@@ -168,7 +167,7 @@ public class GEOUtil {
 	
 	public static boolean isPointInCountry(String country, double latitude, double longitude) { 
 		boolean result = false;
-        URL countryShapeFile = GeoLocate3.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_0_countries.shp");
+        URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_0_countries.shp");
         FileDataStore store = null;
 		try {
 			store = FileDataStoreFinder.getDataStore(countryShapeFile);
@@ -200,7 +199,7 @@ public class GEOUtil {
 	 */
 	public static boolean isPointNearCountry(String country, double latitude, double longitude, double distanceKm) { 
 		boolean result = false;
-        URL countryShapeFile = GeoLocate3.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_0_countries.shp");
+        URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_0_countries.shp");
         FileDataStore store = null;
 		try {
 			store = FileDataStoreFinder.getDataStore(countryShapeFile);
@@ -232,7 +231,7 @@ public class GEOUtil {
 	 */
 	public static boolean isPointInPrimary(String country, String primaryDivision, double latitude, double longitude) { 
 		boolean result = false;
-        URL countryShapeFile = GeoLocate3.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_1_states_provinces.shp");
+        URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_1_states_provinces.shp");
         FileDataStore store = null;
 		try {
 			store = FileDataStoreFinder.getDataStore(countryShapeFile);
@@ -254,7 +253,7 @@ public class GEOUtil {
 	
 	public static boolean isCountryKnown(String country) { 
 		boolean result = false;
-        URL countryShapeFile = GeoLocate3.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_0_countries.shp");
+        URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_0_countries.shp");
         FileDataStore store = null;
 		try {
 			store = FileDataStoreFinder.getDataStore(countryShapeFile);
@@ -283,7 +282,7 @@ public class GEOUtil {
 	 */
 	public static boolean isPrimaryKnown(String country, String primaryDivision) { 
 		boolean result = false;
-        URL countryShapeFile = GeoLocate3.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_1_states_provinces.shp");
+        URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_1_states_provinces.shp");
         FileDataStore store = null;
 		try {
 			store = FileDataStoreFinder.getDataStore(countryShapeFile);
