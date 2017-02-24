@@ -1,5 +1,6 @@
 package org.filteredpush.qc.georeference;
 
+import edu.tulane.museum.www.webservices.GeographicPoint;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.filteredpush.qc.georeference.util.*;
@@ -22,8 +23,8 @@ import java.util.Set;
 import java.util.Vector;
 
 public class GeoLocate3 {
-	
 	private static final Log logger = LogFactory.getLog(GeoLocate3.class);
+	private static final GeoLocateService service = new GeoLocateService();
 
     private boolean useCache = true;
     private Cache cache;
@@ -79,7 +80,7 @@ public class GeoLocate3 {
             //System.out.println("key = " + key);
         } else {
         	// Look up locality in Tulane's GeoLocate service
-			potentialMatches = queryGeoLocateMulti(country, stateProvince, county, locality, latitude, longitude);
+			potentialMatches = service.queryGeoLocateMulti(country, stateProvince, county, locality, latitude, longitude);
 
             if(potentialMatches == null || potentialMatches.size()==0){
                 //setCurationStatus(CurationComment.UNABLE_DETERMINE_VALIDITY);
@@ -369,72 +370,5 @@ public class GeoLocate3 {
     private String constructCachedMapKey(String country, String state, String county, String locality){
         return country+" "+state+" "+county+" "+locality;
     }
-
-    /**
-     * Given country, stateProvince, county/Shire, and locality strings, return all matches found by geolocate for
-     * that location.
-     * 
-     * @param country
-     * @param stateProvince
-     * @param county
-     * @param locality
-     * @param latitude for distance comparison in log
-     * @param longitude for distance comparison in log
-     * @return
-     */
-	private List<GeolocationResult> queryGeoLocateMulti(String country, String stateProvince, String county, String locality, String latitude, String longitude) {
-        //addToServiceName("GeoLocate");
-        long starttime = System.currentTimeMillis();
-        List<GeolocationResult> result = new ArrayList<GeolocationResult>();
-        
-        GeolocatesvcSoapProxy geolocateService = new GeolocatesvcSoapProxy();
-        
-        // Test page for georef2 at: http://www.museum.tulane.edu/webservices/geolocatesvcv2/geolocatesvc.asmx?op=Georef2
-        
-        boolean hwyX = false;   // look for road/river crossing
-        if (locality!=null && locality.toLowerCase().matches("bridge")) { 
-        	hwyX = true;
-        }
-        boolean findWaterbody = false;  // find waterbodies
-        if (locality!=null && locality.toLowerCase().matches("(lake|pond|sea|ocean)")) { 
-        	findWaterbody = true;
-        }
-        boolean restrictToLowestAdm = true;  
-        boolean doUncert = true;  // include uncertainty radius in results
-        boolean doPoly = false;   // include error polygon in results
-        boolean displacePoly = false;  // displace error polygon in results
-        boolean polyAsLinkID = false;
-        int languageKey = 0;  // 0=english; 1=spanish
-        
-        Georef_Result_Set results;
-		try {
-			results = geolocateService.georef2(country, stateProvince, county, locality, hwyX, findWaterbody, restrictToLowestAdm, doUncert, doPoly, displacePoly, polyAsLinkID, languageKey);
-            int numResults = results.getNumResults();
-            //addToComment(" found " + numResults + " possible georeferences with Geolocate engine:" + results.getEngineVersion());
-            for (int i=0; i<numResults; i++) { 
-            	Georef_Result res = results.getResultSet(i);
-            	try {
-            	   double lat2 = Double.parseDouble(latitude);
-            	   double lon2 = Double.parseDouble(longitude);
-              	   long distance = GEOUtil.calcDistanceHaversineMeters(res.getWGS84Coordinate().getLatitude(), res.getWGS84Coordinate().getLongitude(), lat2, lon2)/100;
-            	   //addToComment(res.getParsePattern() + " score:" + res.getScore() + " "+ res.getWGS84Coordinate().getLatitude() + " " + res.getWGS84Coordinate().getLongitude() + " km:" + distance);
-            	} catch (NumberFormatException e) {             	
-            	   //addToComment(res.getParsePattern() + " score:" + res.getScore() + " "+ res.getWGS84Coordinate().getLatitude() + " " + res.getWGS84Coordinate().getLongitude());
-            	}
-            }
-            result = GeolocationResult.constructFromGeolocateResultSet(results);
-		} catch (RemoteException e) {
-			logger.debug(e.getMessage());
-			//addToComment(e.getMessage());
-		}
-        
-        List l = new LinkedList();
-        l.add(this.getClass().getSimpleName());
-        l.add(starttime);
-        l.add(System.currentTimeMillis());
-        l.add("POST");
-        log.add(l);		
-		return result;
-	}
 	
 }
