@@ -1,21 +1,28 @@
 package org.filteredpush.qc.georeference;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.datakurator.ffdq.annotations.Provides;
 import org.datakurator.ffdq.api.EnumDQAmendmentResultState;
 import org.datakurator.ffdq.api.EnumDQResultState;
 import org.datakurator.ffdq.api.EnumDQValidationResult;
+import org.datakurator.ffdq.api.ResultState;
 import org.filteredpush.qc.georeference.util.GEOUtil;
+import org.filteredpush.qc.georeference.util.GISDataLoader;
+import org.filteredpush.qc.georeference.util.GeolocationAlternative;
 import org.filteredpush.qc.georeference.util.GeolocationResult;
+import org.nocrala.tools.gis.data.esri.shapefile.exception.InvalidShapeFileException;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.awt.geom.Path2D;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by lowery on 2/24/17.
  */
 public class DwCGeoRefDQ {
+    private static final Log logger = LogFactory.getLog(DwCGeoRefDQ.class);
+
     private static final GeoLocateService service = new GeoLocateService();
     private static int thresholdDistanceKm = 20;
 
@@ -90,7 +97,7 @@ public class DwCGeoRefDQ {
         return result;
     }
 
-    @Provides(value = "COORDINATE_FILLED_IN_FROM_SERVICE")
+    @Provides(value = "FILL_IN_MISSING_ VALUES")
     public GeoDQAmendment fillInMissing(String country, String stateProvince, String county, String locality, String latitude, String longitude) {
         GeoDQAmendment result = new GeoDQAmendment();
 
@@ -107,10 +114,8 @@ public class DwCGeoRefDQ {
         if (potentialMatches == null || potentialMatches.size() == 0) {
             result.addComment("GeoLocate service can't find coordinates of Locality.");
             result.setResultState(EnumDQResultState.EXTERNAL_PREREQUISITES_NOT_MET);
-        }
-
-        // Try to fill in missing values
-        if (latitude == null || longitude == null) {
+        } else if (latitude == null || longitude == null) {
+            // Try to fill in missing values
             if (potentialMatches.size() > 0 && potentialMatches.get(0).getConfidence() > 80) {
                 int thresholdDistanceMeters = (int) Math.round(thresholdDistanceKm * 1000);
 
@@ -165,6 +170,197 @@ public class DwCGeoRefDQ {
         } else {
             result.setResultState(EnumDQAmendmentResultState.NO_CHANGE);
             result.addComment("latitude and longitude contain values, not changing.");
+        }
+
+        return result;
+    }
+
+    @Provides("COORDINATE_TRANSPOSITION")
+    public GeoDQAmendment checkAlternatives(String country, String stateProvince, String county, String locality, String waterBody, String latitude, String longitude) {
+        GeoDQAmendment result = new GeoDQAmendment();
+
+        //calculate the distance from the returned point and original point in the record
+        //If the distance is smaller than a certainty, then use the original point --- GEOService, like GeoLocate can't parse detailed locality. In this case, the original point has higher confidence
+        //Otherwise, use the point returned from GeoLocate
+        //addToComment("Latitute and longitude are both present.");
+
+        Double originalLat = isNumeric(latitude) ? Double.parseDouble(latitude) : null;
+        Double originalLong = isNumeric(longitude) ? Double.parseDouble(longitude) : null;
+
+        // Construct a list of alternatives
+        List<GeolocationAlternative> alternatives = GeolocationAlternative.constructListOfAlternatives(originalLat, originalLong);
+
+        boolean flagError = false;
+        boolean foundGoodMatch = false;
+
+        // Check for possible error conditions
+
+        // (1) Latitude and longitude out of range
+        if (Math.abs(originalLat)>90) {
+            //addToComment("The original latitude is out of range.");
+            flagError = true;
+        }
+        if (Math.abs(originalLong)>180) {
+            //addToComment("The original longitude is out of range.");
+            flagError = true;
+        }
+        if (!flagError) {
+            //addToComment("Latitute is within +/-90 and longitude is within +/-180.");
+        }
+
+        // Check country and stateProvince
+        if (country != null && country.length()>0) {
+            //standardize country names
+            if (country.toUpperCase().equals("USA")) {
+                country = "United States";
+            } else if (country.toUpperCase().equals("U.S.A.")) {
+                country = "United States";
+            } else if (country.toLowerCase().equals("united states of america")) {
+                country = "United States";
+            } else {
+                country = country.toUpperCase();
+                //System.out.println("not in !##"+country+"##");
+            }
+
+            // (2) Locality not inside country?
+            if (GEOUtil.isCountryKnown(country)) {
+                if (GEOUtil.isPointInCountry(country, originalLat, originalLong)) {
+                    //addToComment("Original coordinate is inside country ("+country+").");
+                    //addToServiceName("Country boundary data from Natural Earth");
+                } else {
+                    //addToComment("Original coordinate is not inside country ("+country+").");
+                    //addToServiceName("Country boundary data from Natural Earth");
+                    flagError = true;
+                }
+            } else {
+                //addToComment("Can't find country: " + country + " in country name list");
+            }
+
+            if (stateProvince!=null && stateProvince.length()>0) {
+                // (3) Locality not inside primary division?
+                if (GEOUtil.isPrimaryKnown(country, stateProvince)) {
+                    if (GEOUtil.isPointInPrimary(country, stateProvince, originalLat, originalLong)) {
+                        //addToComment("Original coordinate is inside primary division ("+stateProvince+").");
+                        //addToServiceName("State/province boundary data from Natural Earth");
+                    } else {
+                        //addToComment("Original coordinate is not inside primary division ("+stateProvince+").");
+                        //addToServiceName("State/province boundary data from Natural Earth");
+                        flagError = true;
+                    }
+                } else {
+                    //addToComment("Can't find state/province: " + stateProvince + " in primaryDivision name list");
+                }
+            }
+        }
+
+        // (4) Is locality marine?
+        Set<Path2D> setPolygon = null;
+        try {
+            setPolygon = new GISDataLoader().ReadLandData();
+            //System.out.println("read data");
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        } catch (InvalidShapeFileException e) {
+            logger.error(e.getMessage());
+        }
+
+        boolean isMarine = false;
+        if ((country==null||country.length()==0) && (stateProvince==null||stateProvince.length()==0) && (county==null||county.length()==0)) {
+            //addToComment("No country, state/province, or county provided, guessing that this is a marine locality. ");
+            // no country provided, assume locality is marine
+            isMarine = true;
+        } else {
+            if (waterBody!=null && waterBody.trim().length()>0) {
+                if (waterBody.matches("(Indian|Pacific|Arctic|Atlantic|Ocean|Sea|Carribean|Mediteranian)")) {
+                    isMarine = true;
+                    //addToComment("A water body name that appears to be an ocean or a sea was provided, guessing that this is a marine locality. ");
+                } else {
+                    //addToComment("A country, state/province, or county was provided with a water body that doesn't appear to be an ocean or a sea, guessing that this is a non-marine locality. ");
+                }
+            } else {
+                //addToComment("A country, state/province, or county was provided but no water body, guessing that this is a non-marine locality. ");
+            }
+        }
+        if (!GEOUtil.isInPolygon(setPolygon, originalLong, originalLat, isMarine)) {
+            if (isMarine) {
+                //addToComment("Coordinate is on land for a supposedly marine locality.");
+                flagError = true;
+            } else {
+                //addToComment("Coordinate is not on land for a supposedly non-marine locality.");
+                double thresholdDistanceKmFromLand = 44.448d;  // 24 nautical miles, territorial waters plus contigouus zone.
+                if (GEOUtil.isPointNearCountry(country, originalLat, originalLong, thresholdDistanceKmFromLand)) {
+                    //addToComment("Coordinate is within 24 nautical miles of country boundary, could be a nearshore marine locality.");
+                } else {
+                    //addToComment("Coordinate is further than 24 nautical miles of country boundary, country in error or marine within EEZ.");
+                    flagError = true;
+                }
+            }
+        }
+
+        // Look up locality in Tulane's GeoLocate service or cache
+        List<GeolocationResult> potentialMatches = service.queryGeoLocateMulti(country, stateProvince, county, locality, latitude, longitude);
+
+        // (5) Geolocate returned some result, is original locality near that result?
+        if (potentialMatches!=null && potentialMatches.size()>0) {
+            if (GeolocationResult.isLocationNearAResult(originalLat, originalLong, potentialMatches, (int)Math.round(thresholdDistanceKm * 1000))) {
+                result.setResultState(EnumDQResultState.NOT_RUN);
+                result.addComment("Original coordinates are near (within georeference error radius or " +  thresholdDistanceKm + " km) the georeference for the locality text from the Geolocate service.  Accepting the original coordinates. ");
+                flagError = false;
+            } else {
+                result.addComment("Original coordinates are not near (within georeference error radius or " +  thresholdDistanceKm + " km) the georeference for the locality text from the Geolocate service. ");
+                flagError = true;
+            }
+        }
+
+        // If some error condition was found, see if any transposition returns a plausible locality
+        boolean matchFound = false;
+
+        if (flagError) {
+            Iterator<GeolocationAlternative> i = alternatives.iterator();
+            while (i.hasNext() && !matchFound) {
+                GeolocationAlternative alt = i.next();
+                if (potentialMatches !=null && potentialMatches.size()>0) {
+                    if (GeolocationResult.isLocationNearAResult(alt.getLatitude(), alt.getLongitude(), potentialMatches, (int)Math.round(thresholdDistanceKm * 1000))) {
+                        result.setResultState(EnumDQResultState.RUN_HAS_RESULT);
+
+                        result.addComment("Modified coordinates ("+alt.getAlternative()+") are near (within georeference error radius or " +  thresholdDistanceKm + " km) the georeference for the locality text from the Geolocate service.  Accepting the " + alt.getAlternative() + " coordinates. ");
+                        result.addResult("latitude", Double.toString(alt.getLatitude()));
+                        result.addResult("longitude", Double.toString(alt.getLongitude()));
+
+                       matchFound = true;
+                    }
+                } else {
+                    if (isMarine) {
+                        if (country!=null && GEOUtil.isCountryKnown(country)) {
+                            double thresholdDistanceKmFromLand = 44.448d;  // 24 nautical miles, territorial waters plus contigouus zone.
+                            if (GEOUtil.isPointNearCountry(country, originalLat, originalLong, thresholdDistanceKmFromLand)) {
+                                result.setResultState(EnumDQResultState.RUN_HAS_RESULT);
+
+                                result.addComment("Modified coordinate (" + alt.getAlternative() + ") is within 24 nautical miles of country boundary.");
+                                result.addResult("latitude", Double.toString(alt.getLatitude()));
+                                result.addResult("longitude", Double.toString(alt.getLongitude()));
+
+                                matchFound = true;
+                            }
+                        }
+                    } else {
+                        if (GEOUtil.isCountryKnown(country) &&
+                                GEOUtil.isPointInCountry(country, alt.getLatitude(), alt.getLongitude())) {
+                            if (GEOUtil.isPrimaryKnown(country, stateProvince) &&
+                                    GEOUtil.isPointInPrimary(country, stateProvince, originalLat, originalLong)) {
+                                result.setResultState(EnumDQResultState.RUN_HAS_RESULT);
+
+                                result.addComment("Modified coordinate ("+alt.getAlternative()+") is inside stateProvince ("+stateProvince+").");
+                                result.addResult("latitude", Double.toString(alt.getLatitude()));
+                                result.addResult("longitude", Double.toString(alt.getLongitude()));
+
+                                matchFound = true;
+                            }
+                        }
+                    }
+                }
+            }
+
         }
 
         return result;
