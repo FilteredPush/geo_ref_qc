@@ -6,15 +6,21 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.filteredpush.qc.georeference.DwCGeoRefDQ;
 import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.filter.text.cql2.CQLException;
 import org.geotools.filter.text.ecql.ECQL;
+import org.nocrala.tools.gis.data.esri.shapefile.exception.InvalidShapeFileException;
 import org.opengis.filter.Filter;
 
 public class GEOUtil {
+    private static final Log logger = LogFactory.getLog(GEOUtil.class);
+
 	/**
 	 * Equatorial radius of the Earth in kilometers (GRS80).
 	 */
@@ -348,5 +354,65 @@ public class GEOUtil {
 			return lon;
 		}
 	}
+
+
+    /**
+     * Checks coordinate consistency with country/stateProvince or checks that coordinates are not on land if flagged
+     * as a marine locality
+     *
+     * @param country
+     * @param stateProvince
+     * @param originalLat
+     * @param originalLong
+     * @param isMarine
+     * @return true if consistent, false otherwise
+     */
+    public static boolean validateCoordinates(String country, String stateProvince, double originalLat, double originalLong, boolean isMarine) {
+        if (!isMarine) {
+            // standardize country names
+            if (country.toUpperCase().equals("USA") || country.toUpperCase().equals("U.S.A.") || country.toLowerCase().equals("united states of america")) {
+                country = "United States";
+            } else {
+                country = country.toUpperCase();
+            }
+
+            // Locality not inside country or not inside primary division?
+            return GEOUtil.isCountryKnown(country) && GEOUtil.isPointInCountry(country, originalLat, originalLong) &&
+                    GEOUtil.isPrimaryKnown(country, stateProvince) &&
+                    GEOUtil.isPointInPrimary(country, stateProvince, originalLat, originalLong);
+        } else {
+            try {
+                // Marine locality on land?
+                Set<Path2D> setPolygon = new GISDataLoader().ReadLandData();
+                return GEOUtil.isInPolygon(setPolygon, originalLong, originalLat, true);
+            } catch (IOException | InvalidShapeFileException e) {
+                logger.error(e.getMessage());
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks to see if a locality is marine. If country, stateProvince and county are not present, or if waterBody is
+     * a known value, the test returns true.
+     *
+     * @param country
+     * @param stateProvince
+     * @param county
+     * @param waterBody
+     * @return true if marine locality, false otherwise
+     */
+    public static boolean isMarine(String country, String stateProvince, String county, String waterBody) {
+        // if no country, stateProvince or county are provided, assume locality is marine
+        if ((country == null || country.isEmpty()) && (stateProvince == null || stateProvince.isEmpty()) &&
+                (county == null || county.isEmpty())) {
+            return true;
+        } else if (waterBody != null && waterBody.trim().length() > 0 && waterBody.matches("(Indian|Pacific|Arctic|Atlantic|Ocean|Sea|Carribean|Mediteranian)")) {
+            return true;
+        }
+
+        return false;
+    }
 }
 

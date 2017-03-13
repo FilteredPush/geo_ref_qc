@@ -21,8 +21,6 @@ import java.util.*;
  * Created by lowery on 2/24/17.
  */
 public class DwCGeoRefDQ {
-    private static final Log logger = LogFactory.getLog(DwCGeoRefDQ.class);
-
     private static final GeoLocateService service = new GeoLocateService();
     private static int thresholdDistanceKm = 20;
 
@@ -330,7 +328,7 @@ public class DwCGeoRefDQ {
         boolean flagError = false;
         boolean foundGoodMatch = false;
 
-        boolean isMarine = isMarine(country, stateProvince, county, waterBody);
+        boolean isMarine = GEOUtil.isMarine(country, stateProvince, county, waterBody);
 
         // Check for possible error conditions
 
@@ -338,7 +336,7 @@ public class DwCGeoRefDQ {
             if (!isMarine && (country == null || country.isEmpty() || stateProvince == null || stateProvince.isEmpty())) {
                 result.addComment("No value provided for either country or state and this does not appear to be a marine locality.");
                 result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
-            } else if (validateCoordinates(country, stateProvince, originalLat, originalLong, isMarine)) {
+            } else if (GEOUtil.validateCoordinates(country, stateProvince, originalLat, originalLong, isMarine)) {
                 result.addComment("latitude and longitude provided are within range and coordinates are consistent with locality data, not changing.");
                 result.setResultState(EnumDQAmendmentResultState.NO_CHANGE);
             } else {
@@ -403,50 +401,5 @@ public class DwCGeoRefDQ {
         }
 
         return result;
-    }
-
-
-    private static boolean checkLatLongRange(double originalLat, double originalLong) {
-        // (1) Latitude and longitude out of range
-        return Math.abs(originalLat) > 90 || Math.abs(originalLong) > 180;
-    }
-
-    private static boolean validateCoordinates(String country, String stateProvince, double originalLat, double originalLong, boolean isMarine) {
-
-        if (!isMarine) {
-            // standardize country names
-            if (country.toUpperCase().equals("USA") || country.toUpperCase().equals("U.S.A.") || country.toLowerCase().equals("united states of america")) {
-                country = "United States";
-            } else {
-                country = country.toUpperCase();
-            }
-
-            // Locality not inside country or not inside primary division?
-            return GEOUtil.isCountryKnown(country) && GEOUtil.isPointInCountry(country, originalLat, originalLong) &&
-                    GEOUtil.isPrimaryKnown(country, stateProvince) &&
-                    GEOUtil.isPointInPrimary(country, stateProvince, originalLat, originalLong);
-        } else {
-            try {
-                // Marine locality on land?
-                Set<Path2D> setPolygon = new GISDataLoader().ReadLandData();
-                return GEOUtil.isInPolygon(setPolygon, originalLong, originalLat, true);
-            } catch (IOException | InvalidShapeFileException e) {
-                logger.error(e.getMessage());
-            }
-        }
-
-        return false;
-    }
-
-    private static boolean isMarine(String country, String stateProvince, String county, String waterBody) {
-        // if no country, stateProvince or county are provided, assume locality is marine
-        if ((country == null || country.isEmpty()) && (stateProvince == null || stateProvince.isEmpty()) &&
-                (county == null || county.isEmpty())) {
-            return true;
-        } else if (waterBody != null && waterBody.trim().length() > 0 && waterBody.matches("(Indian|Pacific|Arctic|Atlantic|Ocean|Sea|Carribean|Mediteranian)")) {
-             return true;
-        }
-
-        return false;
     }
 }
