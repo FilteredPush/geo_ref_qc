@@ -303,8 +303,50 @@ public class GEOUtil {
 			if (store!=null) { store.dispose(); }			
 		}
 		return result;
-	}	
-	
-	
+	}
+
+	/**
+	 * Parse latitude from string and check that value is in range (-90 to 90 inclusive).
+	 *
+	 * @param latitude
+	 * @return parsed latitude or null if not valid
+	 */
+	public static Double parseLatitude(String latitude) {
+		Double lat = null;
+
+		if (latitude != null && !latitude.isEmpty()) {
+			try {
+				lat = Double.parseDouble(latitude);
+			} catch (NumberFormatException e) { /* ignore exception and just return null lat */ }
+		}
+
+		if (Math.abs(lat) > 90) {
+			return null;
+		} else {
+			return lat;
+		}
+	}
+
+	/**
+	 * Parse longitude from string and check that value is in range (-90 to 90 inclusive).
+	 *
+	 * @param longitude
+	 * @return parsed longitude or null if not valid
+	 */
+	public static Double parseLongitude(String longitude) {
+		Double lon = null;
+
+		if (longitude != null && !longitude.isEmpty()) {
+			try {
+				lon = Double.parseDouble(longitude);
+			} catch (NumberFormatException e) { /* ignore exception and just return null lon */ }
+		}
+
+		if (Math.abs(lon) > 180) {
+			return null;
+		} else {
+			return lon;
+		}
+	}
 }
 
