@@ -2,7 +2,7 @@ package org.filteredpush.qc.georeference;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.datakurator.ffdq.annotations.Provides;
+import org.datakurator.ffdq.annotations.*;
 import org.datakurator.ffdq.api.EnumDQAmendmentResultState;
 import org.datakurator.ffdq.api.EnumDQResultState;
 import org.datakurator.ffdq.api.EnumDQValidationResult;
@@ -27,6 +27,12 @@ public class DwCGeoRefDQ {
     private static int thresholdDistanceKm = 20;
 
     @Provides(value = "COORDINATE_IN_RANGE")
+    @Validation(label = "Coordinate In Range", description = "Test to see whether a provided latitude and longitude is a numeric " +
+            "value in range")
+    @Specification(value = "Compliant if dwc:latitude is a numeric value in the range -90 to 90 inclusive and dwc:longitude is a numeric value in the range -180 to 180 inclusive," +
+            " not compliant otherwise. Internal prerequisites not met if either is empty or value is not a number.")
+    @PreEnhancement
+    @PostEnhancement
     public GeoDQValidation isLatLongInRange(String latitude, String longitude) {
         GeoDQValidation result = new GeoDQValidation();
 
@@ -67,35 +73,55 @@ public class DwCGeoRefDQ {
     }
 
     @Provides(value = "COUNTRY_IS_CONSISTENT")
-    public GeoDQValidation isPointInCountry(String country, String originalLat, String originalLong) {
+    @Validation(label = "Coordinate In Country", description = "Check if the values for latitude and longitude represents a coordinate inside or nearshore to country.")
+    @Specification("Check that the values for dwc:latitude and dwc:longitude are consistent with the value for dwc:country. Compliant if the coordinates are inside the " +
+            "country or are within 24 nautical miles of country boundary, not compliant otherwise. Internal prerequisites not met if valid values for latitude, longitude " +
+            "or country could not be parsed")
+    @PreEnhancement
+    @PostEnhancement
+    public GeoDQValidation isPointInCountry(String country, String originalLat, String originalLong, String waterBody) {
         GeoDQValidation result = new GeoDQValidation();
 
-        if (country == null || country.isEmpty()) {
-            result.addComment("No value provided for country.");
-            result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
-        } else if (originalLat == null || originalLong == null || originalLat.isEmpty() || originalLong.isEmpty()) {
-            result.addComment("Either latitude or longitude is empty.");
-            result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        if (waterBody != null && (country == null || country.isEmpty())) {
+            // If a waterBody is provided with no country then assume locality is marine, nothing to run
+            result.setResultState(EnumDQResultState.NOT_RUN);
         } else {
-            try {
-                double thresholdDistanceKmFromLand = 44.448d;  // 24 nautical miles, territorial waters plus contigouus zone.
-
-                double latitude = Double.parseDouble(originalLat);
-                double longitude = Double.parseDouble(originalLong);
-
-                if (GEOUtil.isPointInCountry(country, latitude, longitude)) {
-                    result.addComment("Original coordinate is inside country (" + country + ").");
-                    result.setResult(EnumDQValidationResult.COMPLIANT);
-                } else if (GEOUtil.isPointNearCountry(country, latitude, longitude, thresholdDistanceKmFromLand)) {
-                    result.addComment("Coordinate is within 24 nautical miles of country boundary, could be a nearshore marine locality.");
-                    result.setResult(EnumDQValidationResult.COMPLIANT);
-                } else {
-                    result.addComment("Original coordinate is not inside country (" + country + ").");
-                    result.setResult(EnumDQValidationResult.NOT_COMPLIANT);
-                }
-            } catch (NumberFormatException e) {
-                result.addComment("The value for either latitude or longitude is non numeric.");
+            boolean flagErrors = false;
+            if (country == null || country.isEmpty()) {
+                flagErrors = true;
+                result.addComment("No value provided for country.");
                 result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
+            }
+
+            if (originalLat == null || originalLong == null || originalLat.isEmpty() || originalLong.isEmpty()) {
+                flagErrors = true;
+                result.addComment("Either latitude or longitude is empty.");
+                result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
+            }
+
+            if (!flagErrors) {
+                try {
+                    double thresholdDistanceKmFromLand = 44.448d;  // 24 nautical miles, territorial waters plus contigouus zone.
+
+                    double latitude = Double.parseDouble(originalLat);
+                    double longitude = Double.parseDouble(originalLong);
+
+                    if (GEOUtil.isPointInCountry(country, latitude, longitude)) {
+                        result.addComment("Original coordinate is inside country (" + country + ").");
+                        result.setResult(EnumDQValidationResult.COMPLIANT);
+                    } else if (GEOUtil.isPointNearCountry(country, latitude, longitude, thresholdDistanceKmFromLand)) {
+                        result.addComment("Coordinate is within 24 nautical miles of country boundary, could be a nearshore marine locality.");
+                        result.setResult(EnumDQValidationResult.COMPLIANT);
+                    } else {
+                        result.addComment("Original coordinate is not inside country (" + country + ").");
+                        result.setResult(EnumDQValidationResult.NOT_COMPLIANT);
+                    }
+
+                    result.setResultState(EnumDQResultState.RUN_HAS_RESULT);
+                } catch (NumberFormatException e) {
+                    result.addComment("The value for either latitude or longitude is non numeric.");
+                    result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
+                }
             }
         }
 
@@ -103,86 +129,108 @@ public class DwCGeoRefDQ {
     }
 
     @Provides(value = "STATE_PROVINCE_IS_CONSISTENT")
+    @Validation(label = "State Province Is Consistent", description = "Check that that latitude and longitude are in state/province and that state/provice is inside country")
+    @Specification("Compliant if the value for dwc:stateProvince is known to be inside dwc:country and values for dwc:latitude and dwc:longitude are inside stateProvince, " +
+            "non compliant otherwise. Internal prerequisites not met if a value could not be parsed for any of dwc:latitude, dwc:longitude, dwc:stateProvince or dwc:country.")
+    @PreEnhancement
+    @PostEnhancement
     public GeoDQValidation stateProvinceIsConsistent(String country, String stateProvince, String originalLat, String originalLong) {
         GeoDQValidation result = new GeoDQValidation();
 
+        boolean flagErrors = false;
         if (country == null || country.isEmpty() || stateProvince == null || stateProvince.isEmpty()) {
+            flagErrors = true;
             result.addComment("No value provided for either country or state.");
             result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
-        } else if (originalLat == null || originalLong == null || originalLat.isEmpty() || originalLong.isEmpty()) {
+        }
+
+        if (originalLat == null || originalLong == null || originalLat.isEmpty() || originalLong.isEmpty()) {
+            flagErrors = true;
             result.addComment("Either latitude or longitude is empty.");
             result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
-        } else if (GEOUtil.isPrimaryKnown(country, stateProvince)) {
+        }
+
+        if (!flagErrors) {
             try {
                 double latitude = Double.parseDouble(originalLat);
                 double longitude = Double.parseDouble(originalLong);
 
-                if (GEOUtil.isPointInPrimary(country, stateProvince, latitude, longitude)) {
-                    result.addComment("Original coordinate is inside primary division ("+stateProvince+").");
-                    result.setResult(EnumDQValidationResult.COMPLIANT);
+                if (GEOUtil.isPrimaryKnown(country, stateProvince)) {
+                    if (GEOUtil.isPointInPrimary(country, stateProvince, latitude, longitude)) {
+                        result.addComment("Original coordinate is inside primary division (" + stateProvince + ").");
+                        result.setResult(EnumDQValidationResult.COMPLIANT);
+                    } else {
+                        result.addComment("Original coordinate is not inside primary division (" + stateProvince + ").");
+                        result.setResult(EnumDQValidationResult.NOT_COMPLIANT);
+                    }
                 } else {
-                    result.addComment("Original coordinate is not inside primary division ("+stateProvince+").");
+                    result.addComment("Can't find state/province: " + stateProvince + " in primaryDivision name list");
                     result.setResult(EnumDQValidationResult.NOT_COMPLIANT);
                 }
+
+                result.setResultState(EnumDQResultState.RUN_HAS_RESULT);
             } catch (NumberFormatException e) {
                 result.addComment("The value for either latitude or longitude is non numeric.");
                 result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
             }
-        } else {
-            result.addComment("Can't find state/province: " + stateProvince + " in primaryDivision name list");
-            result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
         }
-            return result;
+
+        return result;
 
     }
 
     @Provides(value = "WATER_BODY_IS_CONSISTENT")
-    public GeoDQValidation waterBodyIsConsistent(String country, String stateProvince, String county, String waterBody, String originalLat, String originalLong) {
+    @Validation(label = "Water Body Is Consistent", description = "Check that the latitude and longitude are outside of country boundaries and that water body is an ocean or sea.")
+    @Specification("If a value for dwc:country is provided, the result is compliant if dwc:latitude and dwc:longitude are not within the country boundaries. " +
+            "If no value for dwc:country is provided, it is assumed that the locality is marine and considered compliant if dwc:waterBody is an ocean or a sea. Not compliant if the coordinate is " +
+            "on land or the water body is not an ocean or a sea. Internal prerequisites not met if values for either latitude or longitude cannot be parsed.")
+    @PreEnhancement
+    @PostEnhancement
+    public GeoDQValidation waterBodyIsConsistent(String country, String waterBody, String originalLat, String originalLong) {
         GeoDQValidation result = new GeoDQValidation();
 
         double thresholdDistanceKmFromLand = 44.448d;  // 24 nautical miles, territorial waters plus contigouus zone.
 
-        double latitude = Double.parseDouble(originalLat);
-        double longitude = Double.parseDouble(originalLong);
-
-        // (4) Is locality marine?
-        Set<Path2D> setPolygon = null;
-        try {
-            setPolygon = new GISDataLoader().ReadLandData();
-            //System.out.println("read data");
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        } catch (InvalidShapeFileException e) {
-            logger.error(e.getMessage());
-        }
-
-        boolean isMarine = false;
         if (waterBody != null && waterBody.trim().length() > 0) {
-            if (waterBody.matches("(Indian|Pacific|Arctic|Atlantic|Ocean|Sea|Carribean|Mediteranian)")) {
-                isMarine = true;
-                result.setResultState(EnumDQResultState.RUN_HAS_RESULT);
+            if (originalLat != null && originalLong != null && !originalLat.isEmpty() && !originalLong.isEmpty()) {
+                try {
+                    double latitude = Double.parseDouble(originalLat);
+                    double longitude = Double.parseDouble(originalLong);
+
+                    Set<Path2D> setPolygon = new GISDataLoader().ReadLandData();
+
+                    if (!waterBody.matches("(Indian|Pacific|Arctic|Atlantic|Ocean|Sea|Carribean|Mediteranian)")) {
+                        result.addComment("Water body doesn't appear to be an ocean or a sea. ");
+                        result.setResult(EnumDQValidationResult.NOT_COMPLIANT);
+                    } else if (GEOUtil.isInPolygon(setPolygon, longitude, latitude)) {
+                        result.addComment("Coordinate is on land for a supposedly marine locality.");
+                        result.setResult(EnumDQValidationResult.NOT_COMPLIANT);
+                    } else {
+                        result.setResult(EnumDQValidationResult.COMPLIANT);
+
+                        if (country != null && GEOUtil.isPointNearCountry(country, latitude, longitude, thresholdDistanceKmFromLand)) {
+                            result.addComment("Coordinate is within 24 nautical miles of country boundary, could be a nearshore marine locality.");
+                        } else {
+                            result.addComment("Coordinate is further than 24 nautical miles of country boundary.");
+                        }
+                    }
+
+                    result.setResultState(EnumDQResultState.RUN_HAS_RESULT);
+                } catch (NumberFormatException e) {
+                    result.addComment("The value for either latitude or longitude is non numeric.");
+                    result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
+                } catch (InvalidShapeFileException | IOException e) {
+                    result.addComment("Could not load land data from shape file.");
+                    result.addComment(e.getMessage());
+                    result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
+                }
             } else {
-                result.addComment("A country, state/province, or county was provided with a water body that doesn't appear to be an ocean or a sea, guessing that this is a non-marine locality. ");
-                result.setResult(EnumDQValidationResult.NOT_COMPLIANT);
+                result.addComment("Either latitude or longitude is empty.");
+                result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
             }
         } else {
             // no value for water body, nothing to validate
             result.setResultState(EnumDQResultState.NOT_RUN);
-        }
-
-        if (!GEOUtil.isInPolygon(setPolygon, longitude, latitude, isMarine)) {
-            if (isMarine) {
-                result.addComment("Coordinate is on land for a supposedly marine locality.");
-                result.setResult(EnumDQValidationResult.NOT_COMPLIANT);
-            } else {
-                if (GEOUtil.isPointNearCountry(country, latitude, longitude, thresholdDistanceKmFromLand)) {
-                    result.addComment("Coordinate is within 24 nautical miles of country boundary, could be a nearshore marine locality.");
-                    result.setResult(EnumDQValidationResult.NOT_COMPLIANT);
-                } else {
-                    result.addComment("Coordinate is further than 24 nautical miles of country boundary, country in error or marine within EEZ.");
-                    result.setResult(EnumDQValidationResult.COMPLIANT);
-                }
-            }
         }
 
         return result;
