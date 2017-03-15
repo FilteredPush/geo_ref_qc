@@ -108,6 +108,7 @@ public class DwCGeoRefDQ {
                         result.addComment("Original coordinate is inside country (" + country + ").");
                         result.setResult(EnumDQValidationResult.COMPLIANT);
                     } else if (GEOUtil.isPointNearCountry(country, latitude, longitude, thresholdDistanceKmFromLand)) {
+                        // TODO: Consult marineregions.org EEZ service instead
                         result.addComment("Coordinate is within 24 nautical miles of country boundary, could be a nearshore marine locality.");
                         result.setResult(EnumDQValidationResult.COMPLIANT);
                     } else {
@@ -198,6 +199,7 @@ public class DwCGeoRefDQ {
                     Set<Path2D> setPolygon = new GISDataLoader().ReadLandData();
 
                     if (!waterBody.matches("(Indian|Pacific|Arctic|Atlantic|Ocean|Sea|Carribean|Mediteranian)")) {
+                        // TODO: Does not account for water body that is not an ocean or sea, add check against shape file for rivers and lakes
                         result.addComment("Water body doesn't appear to be an ocean or a sea. ");
                         result.setResult(EnumDQValidationResult.NOT_COMPLIANT);
                     } else if (GEOUtil.isInPolygon(setPolygon, longitude, latitude)) {
@@ -310,6 +312,13 @@ public class DwCGeoRefDQ {
         return result;
     }
 
+    @Amendment(label = "Coordinate Transposition", description = "If the coordinates fail to validate, lookup the locality using the GeoLocate service " +
+            "and check to see if any transposition of the coordinates corresponds to a " +
+            "good match.")
+    @Specification("Calculate the distance from the returned point and original point in the record " +
+            "If the distance is smaller than a certainty, then use the original point --- GEOService, like GeoLocate can't parse detailed locality. " +
+            "In this case, the original point has higher confidence otherwise, use the point returned from GeoLocate")
+    @Enhancement
     @Provides("COORDINATE_TRANSPOSITION")
     public GeoDQAmendment coordinateTransposition(String country, String stateProvince, String county, String locality, String waterBody, String latitude, String longitude) {
         GeoDQAmendment result = new GeoDQAmendment();
@@ -317,16 +326,12 @@ public class DwCGeoRefDQ {
         //calculate the distance from the returned point and original point in the record
         //If the distance is smaller than a certainty, then use the original point --- GEOService, like GeoLocate can't parse detailed locality. In this case, the original point has higher confidence
         //Otherwise, use the point returned from GeoLocate
-        //addToComment("Latitute and longitude are both present.");
 
         Double originalLat = GEOUtil.parseLatitude(latitude);
         Double originalLong = GEOUtil.parseLongitude(longitude);
 
         // Construct a list of alternatives
         List<GeolocationAlternative> alternatives = GeolocationAlternative.constructListOfAlternatives(originalLat, originalLong);
-
-        boolean flagError = false;
-        boolean foundGoodMatch = false;
 
         boolean isMarine = GEOUtil.isMarine(country, stateProvince, county, waterBody);
 
@@ -336,6 +341,9 @@ public class DwCGeoRefDQ {
             if (!isMarine && (country == null || country.isEmpty() || stateProvince == null || stateProvince.isEmpty())) {
                 result.addComment("No value provided for either country or state and this does not appear to be a marine locality.");
                 result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
+            } else if (locality == null || locality.isEmpty()) {
+                result.addComment("No value provided for locality.");
+                result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
             } else if (GEOUtil.validateCoordinates(country, stateProvince, originalLat, originalLong, isMarine)) {
                 result.addComment("latitude and longitude provided are within range and coordinates are consistent with locality data, not changing.");
                 result.setResultState(EnumDQAmendmentResultState.NO_CHANGE);
@@ -344,8 +352,8 @@ public class DwCGeoRefDQ {
                 List<GeolocationResult> potentialMatches = service.queryGeoLocateMulti(country, stateProvince, county, locality, latitude, longitude);
 
                 // Geolocate returned some result, is original locality near that result?
-                if (potentialMatches != null && potentialMatches.size() > 0 &&
-                        GeolocationResult.isLocationNearAResult(originalLat, originalLong, potentialMatches, (int) Math.round(thresholdDistanceKm * 1000))) {
+                boolean localityIsNearResult = GeolocationResult.isLocationNearAResult(originalLat, originalLong, potentialMatches, (int) Math.round(thresholdDistanceKm * 1000));
+                if (potentialMatches != null && potentialMatches.size() > 0 && localityIsNearResult) {
                     result.addComment("Original coordinates are near (within georeference error radius or " + thresholdDistanceKm + " km) the georeference for the locality text from the Geolocate service. Accepting the original coordinates. ");
                     result.setResultState(EnumDQAmendmentResultState.NO_CHANGE);
                 } else {
