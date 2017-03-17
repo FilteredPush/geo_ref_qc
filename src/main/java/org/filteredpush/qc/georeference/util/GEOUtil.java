@@ -326,7 +326,7 @@ public class GEOUtil {
 			} catch (NumberFormatException e) { /* ignore exception and just return null lat */ }
 		}
 
-		if (Math.abs(lat) > 90) {
+		if (lat == null || Math.abs(lat) > 90) {
 			return null;
 		} else {
 			return lat;
@@ -348,7 +348,7 @@ public class GEOUtil {
 			} catch (NumberFormatException e) { /* ignore exception and just return null lon */ }
 		}
 
-		if (Math.abs(lon) > 180) {
+		if (lon == null || Math.abs(lon) > 180) {
 			return null;
 		} else {
 			return lon;

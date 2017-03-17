@@ -330,14 +330,14 @@ public class DwCGeoRefDQ {
         Double originalLat = GEOUtil.parseLatitude(latitude);
         Double originalLong = GEOUtil.parseLongitude(longitude);
 
-        // Construct a list of alternatives
-        List<GeolocationAlternative> alternatives = GeolocationAlternative.constructListOfAlternatives(originalLat, originalLong);
-
-        boolean isMarine = GEOUtil.isMarine(country, stateProvince, county, waterBody);
-
         // Check for possible error conditions
 
         if (originalLat != null && originalLong != null) {
+            // Construct a list of alternatives
+            List<GeolocationAlternative> alternatives = GeolocationAlternative.constructListOfAlternatives(originalLat, originalLong);
+
+            boolean isMarine = GEOUtil.isMarine(country, stateProvince, county, waterBody);
+
             if (!isMarine && (country == null || country.isEmpty() || stateProvince == null || stateProvince.isEmpty())) {
                 result.addComment("No value provided for either country or state and this does not appear to be a marine locality.");
                 result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
