@@ -255,8 +255,42 @@ public class GEOUtil {
 			if (store!=null) { store.dispose(); }			
 		}
 		return result;
-	}	
-	
+	}
+
+	/**
+	 * Test to see if a point is near (to a specified distance in km) or within a primary division (state/province) of a given country.
+	 *
+	 * @param country
+	 * @param latitude
+	 * @param longitude
+	 * @param distanceKm
+	 *
+	 * @return true if latitude/longitude is inside or within distanceKm of a primary division (state/province) of a given country.
+	 */
+	public static boolean isPointNearPrimary(String country, String primaryDivision, double latitude, double longitude, double distanceKm) {
+		boolean result = false;
+		URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_1_states_provinces.shp");
+		FileDataStore store = null;
+		try {
+			store = FileDataStoreFinder.getDataStore(countryShapeFile);
+			SimpleFeatureSource featureSource = store.getFeatureSource();
+			if (country.toLowerCase().equals("united states")) { country = "United States of America"; }
+			double distanceD = distanceKm / 111d; // GeoTools ignores units, uses units of underlying projection (degrees in this case), fudge by dividing km by number of km in one degree of latitude (this will describe a wide ellipse far north or south).
+			Filter filter = ECQL.toFilter("name ILIKE '"+ primaryDivision.replace("'", "''") +"' AND admin ILIKE '"+ country +"' AND DWITHIN(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "), "+ distanceD +", kilometers)");
+			SimpleFeatureCollection collection=featureSource.getFeatures(filter);
+			result = !collection.isEmpty();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (store!=null) { store.dispose(); }
+		}
+		return result;
+	}
+
 	public static boolean isCountryKnown(String country) { 
 		boolean result = false;
         URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_0_countries.shp");

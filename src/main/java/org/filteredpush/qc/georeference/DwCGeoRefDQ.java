@@ -151,11 +151,14 @@ public class DwCGeoRefDQ {
 
         if (!flagErrors) {
             try {
+                double thresholdDistanceKmFromLand = 44.448d;  // 24 nautical miles, territorial waters plus contigouus zone.
+
                 double latitude = Double.parseDouble(originalLat);
                 double longitude = Double.parseDouble(originalLong);
 
                 if (GEOUtil.isPrimaryKnown(country, stateProvince)) {
-                    if (GEOUtil.isPointInPrimary(country, stateProvince, latitude, longitude)) {
+                    if (GEOUtil.isPointInPrimary(country, stateProvince, latitude, longitude) ||
+                            GEOUtil.isPointNearPrimary(country, stateProvince, latitude, longitude, thresholdDistanceKmFromLand)) {
                         result.addComment("Original coordinate is inside primary division (" + stateProvince + ").");
                         result.setResult(EnumDQValidationResult.COMPLIANT);
                     } else {
