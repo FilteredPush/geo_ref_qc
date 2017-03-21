@@ -404,11 +404,7 @@ public class GEOUtil {
     public static boolean validateCoordinates(String country, String stateProvince, double originalLat, double originalLong, boolean isMarine) {
         if (!isMarine) {
             // standardize country names
-            if (country.toUpperCase().equals("USA") || country.toUpperCase().equals("U.S.A.") || country.toLowerCase().equals("united states of america")) {
-                country = "United States";
-            } else {
-                country = country.toUpperCase();
-            }
+			country = standardizeCountryName(country);
 
             // Locality not inside country or not inside primary division?
             return GEOUtil.isCountryKnown(country) && GEOUtil.isPointInCountry(country, originalLat, originalLong) &&
@@ -427,7 +423,15 @@ public class GEOUtil {
         return false;
     }
 
-    /**
+	public static String standardizeCountryName(String country) {
+		if (country.toUpperCase().equals("USA") || country.toUpperCase().equals("U.S.A.") || country.toLowerCase().equals("united states of america")) {
+			return "United States";
+		} else {
+			return country.toUpperCase();
+		}
+	}
+
+	/**
      * Checks to see if a locality is marine. If country, stateProvince and county are not present, or if waterBody is
      * a known value, the test returns true.
      *

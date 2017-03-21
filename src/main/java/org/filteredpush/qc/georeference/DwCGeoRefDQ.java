@@ -24,7 +24,7 @@ public class DwCGeoRefDQ {
     private static final GeoLocateService service = new GeoLocateService();
     private static int thresholdDistanceKm = 20;
 
-    @Provides(value = "COORDINATE_IN_RANGE")
+    @Provides(value = "COORDINATES_IN_RANGE") // same as "COORDINATES_OUT_OF_RANGE" defined in the spreadsheet that contains list of tests
     @Validation(label = "Coordinate In Range", description = "Test to see whether a provided latitude and longitude is a numeric " +
             "value in range")
     @Specification(value = "Compliant if dwc:latitude is a numeric value in the range -90 to 90 inclusive and dwc:longitude is a numeric value in the range -180 to 180 inclusive," +
@@ -70,8 +70,8 @@ public class DwCGeoRefDQ {
         return result;
     }
 
-    @Provides(value = "COUNTRY_IS_CONSISTENT")
-    @Validation(label = "Coordinate In Country", description = "Check if the values for latitude and longitude represents a coordinate inside or nearshore to country.")
+    @Provides(value = "COUNTRY_COORDINATE_MISMATCH")
+    @Validation(label = "Coordinate In Country", description = "Check if the values for latitude and longitude represents a coordinate inside the range for the reported country.")
     @Specification("Check that the values for dwc:latitude and dwc:longitude are consistent with the value for dwc:country. Compliant if the coordinates are inside the " +
             "country or are within 24 nautical miles of country boundary, not compliant otherwise. Internal prerequisites not met if valid values for latitude, longitude " +
             "or country could not be parsed")
@@ -104,6 +104,9 @@ public class DwCGeoRefDQ {
                     double latitude = Double.parseDouble(originalLat);
                     double longitude = Double.parseDouble(originalLong);
 
+                    // standardize country names
+                    country = GEOUtil.standardizeCountryName(country);
+
                     if (GEOUtil.isPointInCountry(country, latitude, longitude)) {
                         result.addComment("Original coordinate is inside country (" + country + ").");
                         result.setResult(EnumDQValidationResult.COMPLIANT);
@@ -127,7 +130,7 @@ public class DwCGeoRefDQ {
         return result;
     }
 
-    @Provides(value = "STATE_PROVINCE_IS_CONSISTENT")
+    @Provides(value = "STATEPROVINCE_COORDINATE_MISMATCH")
     @Validation(label = "State Province Is Consistent", description = "Check that that latitude and longitude are in state/province and that state/provice is inside country")
     @Specification("Compliant if the value for dwc:stateProvince is known to be inside dwc:country and values for dwc:latitude and dwc:longitude are inside stateProvince, " +
             "non compliant otherwise. Internal prerequisites not met if a value could not be parsed for any of dwc:latitude, dwc:longitude, dwc:stateProvince or dwc:country.")
@@ -155,6 +158,9 @@ public class DwCGeoRefDQ {
 
                 double latitude = Double.parseDouble(originalLat);
                 double longitude = Double.parseDouble(originalLong);
+
+                // standardize country names
+                country = GEOUtil.standardizeCountryName(country);
 
                 if (GEOUtil.isPrimaryKnown(country, stateProvince)) {
                     if (GEOUtil.isPointInPrimary(country, stateProvince, latitude, longitude) ||
