@@ -53,7 +53,7 @@ public class DwCGeoRefDQ {
                 result.setResultState(EnumDQResultState.RUN_HAS_RESULT);
 
                 if (isInRange) {
-                    result.addComment("Latitute is within +/-90 and longitude is within +/-180.");
+                    result.addComment("Latitude is within +/-90 and longitude is within +/-180.");
                     result.setResult(EnumDQValidationResult.COMPLIANT);
                 } else {
                     result.setResult(EnumDQValidationResult.NOT_COMPLIANT);
