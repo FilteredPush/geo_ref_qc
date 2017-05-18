@@ -31,7 +31,7 @@ public class DwCGeoRefDQ {
             " not compliant otherwise. Internal prerequisites not met if either is empty or value is not a number.")
     @PreEnhancement
     @PostEnhancement
-    public GeoDQValidation isLatLongInRange(@ActedUpon("dwc:decimalLatitude") String latitude, @ActedUpon("dwc:decimalLongitude") String longitude) {
+    public GeoDQValidation isLatLongInRange(@ActedUpon("decimalLatitude") String latitude, @ActedUpon("decimalLongitude") String longitude) {
         GeoDQValidation result = new GeoDQValidation();
 
         if (latitude != null && longitude != null && !latitude.isEmpty() && !longitude.isEmpty()) {
@@ -77,7 +77,7 @@ public class DwCGeoRefDQ {
             "or country could not be parsed")
     @PreEnhancement
     @PostEnhancement
-    public GeoDQValidation isPointInCountry(@ActedUpon("dwc:country") String country, @Consulted("dwc:decimalLatitude") String originalLat, @Consulted("dwc:decimalLongitude") String originalLong, @Consulted("dwc:waterBody") String waterBody) {
+    public GeoDQValidation isPointInCountry(@ActedUpon("country") String country, @Consulted("decimalLatitude") String originalLat, @Consulted("decimalLongitude") String originalLong, @Consulted("waterBody") String waterBody) {
         GeoDQValidation result = new GeoDQValidation();
 
         if (waterBody != null && (country == null || country.isEmpty())) {
@@ -136,7 +136,7 @@ public class DwCGeoRefDQ {
             "non compliant otherwise. Internal prerequisites not met if a value could not be parsed for any of dwc:latitude, dwc:longitude, dwc:stateProvince or dwc:country.")
     @PreEnhancement
     @PostEnhancement
-    public GeoDQValidation stateProvinceIsConsistent(@Consulted("dwc:country") String country, @ActedUpon("dwc:stateProvince") String stateProvince, @Consulted("dwc:decimalLatitude") String originalLat, @Consulted("dwc:decimalLongitude") String originalLong) {
+    public GeoDQValidation stateProvinceIsConsistent(@Consulted("country") String country, @ActedUpon("stateProvince") String stateProvince, @Consulted("decimalLatitude") String originalLat, @Consulted("decimalLongitude") String originalLong) {
         GeoDQValidation result = new GeoDQValidation();
 
         boolean flagErrors = false;
@@ -194,7 +194,7 @@ public class DwCGeoRefDQ {
             "on land or the water body is not an ocean or a sea. Internal prerequisites not met if values for either latitude or longitude cannot be parsed.")
     @PreEnhancement
     @PostEnhancement
-    public GeoDQValidation waterBodyIsConsistent(@Consulted("dwc:country") String country, @ActedUpon("dwc:waterBody") String waterBody, @Consulted("dwc:decimalLatitude") String originalLat, @Consulted("dwc:decimalLongitude") String originalLong) {
+    public GeoDQValidation waterBodyIsConsistent(@Consulted("country") String country, @ActedUpon("waterBody") String waterBody, @Consulted("decimalLatitude") String originalLat, @Consulted("decimalLongitude") String originalLong) {
         GeoDQValidation result = new GeoDQValidation();
 
         double thresholdDistanceKmFromLand = 44.448d;  // 24 nautical miles, territorial waters plus contigouus zone.
@@ -250,7 +250,7 @@ public class DwCGeoRefDQ {
     @Specification("If dwc:latitude and/or dwc:longitude are missing or invalid, lookup locality using values of dwc:country, dwc:stateProvince, dwc:locality as parameters to " +
             "the GeoLocate service. If a good match is found, fill in latitude and longitude values from the response")
     @Enhancement
-    public GeoDQAmendment fillInMissing(@Consulted("dwc:country") String country, @Consulted("dwc:stateProvince") String stateProvince, @Consulted("dwc:county") String county, @Consulted("dwc:locality") String locality, @ActedUpon("dwc:decimalLatitude") String latitude, @ActedUpon("dwc:decimalLongitude") String longitude) {
+    public GeoDQAmendment fillInMissing(@Consulted("country") String country, @Consulted("stateProvince") String stateProvince, @Consulted("county") String county, @Consulted("locality") String locality, @ActedUpon("decimalLatitude") String latitude, @ActedUpon("decimalLongitude") String longitude) {
         GeoDQAmendment result = new GeoDQAmendment();
 
         // values parse to null if they don't contain valid lat/long
@@ -329,7 +329,7 @@ public class DwCGeoRefDQ {
             "In this case, the original point has higher confidence otherwise, use the point returned from GeoLocate")
     @Enhancement
     @Provides("COORDINATE_TRANSPOSITION")
-    public GeoDQAmendment coordinateTransposition(@Consulted("dwc:country") String country, @Consulted("dwc:stateProvince") String stateProvince, @Consulted("dwc:county") String county, @Consulted("dwc:locality") String locality, @Consulted("dwc:waterBody") String waterBody, @ActedUpon("dwc:decimalLatitude") String latitude, @ActedUpon("dwc:decimalLongitude") String longitude) {
+    public GeoDQAmendment coordinateTransposition(@Consulted("country") String country, @Consulted("stateProvince") String stateProvince, @Consulted("county") String county, @Consulted("locality") String locality, @Consulted("waterBody") String waterBody, @ActedUpon("decimalLatitude") String latitude, @ActedUpon("decimalLongitude") String longitude) {
         GeoDQAmendment result = new GeoDQAmendment();
 
         //calculate the distance from the returned point and original point in the record
