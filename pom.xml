@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.filteredpush</groupId>
 	<artifactId>geo_ref_qc</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<name>geo_ref_qc</name>
 	<description>FilteredPush dwc:Georeference data quality library.  Tools for working with georeference data in forms found in biodiversity data.</description>
 	<url>https://wiki.filteredpush.org/</url>
