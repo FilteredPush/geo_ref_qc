@@ -30,11 +30,15 @@ import org.opengis.feature.simple.SimpleFeature;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Georeference validation utility based on org.filteredpush.qc.georeference.util.GEOUtil
  */
 public class GeoTester {
+    private final ExecutorService executor = Executors.newFixedThreadPool(8);
     private final GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
 
     private Map<String, MultiPolygon> countryPolys = new HashMap<>();
@@ -133,6 +137,46 @@ public class GeoTester {
     public boolean isPrimaryKnown(String country, String primaryDivision) {
         Map<String, MultiPolygon> primaryDivisions = countryPrimaryDivisions.get(country);
         return primaryDivisions.containsKey(primaryDivision);
+    }
+
+    public void validate(final Map<String, String> record) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                boolean pointInCountry = false, pointInPrimary = false;
+
+                String country = record.get("dwc:country");
+                String stateProvince = record.get("dwc:stateProvince");
+                String decimalLatitude = record.get("dwc:decimalLatitude");
+                String decimalLongitude = record.get("dwc:decimalLongitude");
+
+                Map<String, Boolean> flags = new HashMap<>();
+
+                if (country.isEmpty() || country == null ||
+                        stateProvince.isEmpty() || stateProvince == null ||
+                        decimalLatitude.isEmpty() || decimalLatitude == null ||
+                        decimalLongitude.isEmpty() || decimalLongitude == null) {
+
+                    flags.put("MISSING_REQUIRED_FIELDS", true);
+
+                } else {
+                    double originalLat = Double.parseDouble(decimalLatitude);
+                    double originalLng = Double.parseDouble(decimalLongitude);
+
+                    pointInCountry = isPointInCountry(country, originalLat, originalLng);
+                    pointInPrimary = isPointInPrimary(country, stateProvince, originalLat, originalLng);
+                }
+
+                flags.put("COORDINATE_IN_COUNTRY", pointInCountry);
+                flags.put("COORDINATE_IN_STATEPROVINCE", pointInPrimary);
+
+                System.out.println(country + ", " + stateProvince + ", " + decimalLatitude + ", " + decimalLongitude + ", " + flags);
+            }
+        });
+    }
+
+    public void close() {
+        executor.shutdown();
     }
 
     public static void main(String[] args) throws IOException {
