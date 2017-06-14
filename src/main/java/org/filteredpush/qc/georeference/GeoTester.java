@@ -119,6 +119,15 @@ public class GeoTester {
         return polygon.contains(geometryFactory.createPoint(new Coordinate(longitude, latitude)));
     }
 
+    public boolean isPointNearCountry(String country, double latitude, double longitude, double distanceKm) {
+        // GeoTools ignores units, uses units of underlying projection (degrees in this case), fudge by dividing km by
+        // number of km in one degree of latitude (this will describe a wide ellipse far north or south).
+        double distanceD = distanceKm / 111d;
+
+        MultiPolygon polygon = countryPolys.get(country);
+        return polygon.isWithinDistance(geometryFactory.createPoint(new Coordinate(longitude, latitude)), distanceD);
+    }
+
     public boolean isPointInPrimary(String country, String primaryDivision, double latitude, double longitude) {
         // Standardize country names first
         if (country.toLowerCase().equals("united states")) {
@@ -128,6 +137,21 @@ public class GeoTester {
         Map<String, MultiPolygon> primaryDivisions = countryPrimaryDivisions.get(country);
         MultiPolygon polygon = primaryDivisions.get(primaryDivision);
         return polygon.contains(geometryFactory.createPoint(new Coordinate(longitude, latitude)));
+    }
+
+    public boolean isPointNearPrimary(String country, String primaryDivision, double latitude, double longitude, double distanceKm) {
+        // GeoTools ignores units, uses units of underlying projection (degrees in this case), fudge by dividing km by
+        // number of km in one degree of latitude (this will describe a wide ellipse far north or south).
+        double distanceD = distanceKm / 111d;
+
+        // Standardize country names first
+        if (country.toLowerCase().equals("united states")) {
+            country = "United States of America";
+        }
+
+        Map<String, MultiPolygon> primaryDivisions = countryPrimaryDivisions.get(country);
+        MultiPolygon polygon = primaryDivisions.get(primaryDivision);
+        return polygon.isWithinDistance(geometryFactory.createPoint(new Coordinate(longitude, latitude)), distanceD);
     }
 
     public boolean isCountryKnown(String country) {

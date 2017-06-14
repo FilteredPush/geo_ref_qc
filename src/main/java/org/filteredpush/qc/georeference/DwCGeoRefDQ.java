@@ -21,8 +21,17 @@ import java.util.*;
  * Created by lowery on 2/24/17.
  */
 public class DwCGeoRefDQ {
+    private static final GeoTester geoTester;
     private static final GeoLocateService service = new GeoLocateService();
     private static int thresholdDistanceKm = 20;
+
+    static {
+        try {
+            geoTester = new GeoTester();
+        } catch (IOException e) {
+            throw new RuntimeException("Error initializing GeoTester", e);
+        }
+    }
 
     @Provides(value = "COORDINATES_IN_RANGE") // same as "COORDINATES_OUT_OF_RANGE" defined in the spreadsheet that contains list of tests
     @Validation(label = "Coordinate In Range", description = "Test to see whether a provided latitude and longitude is a numeric " +
@@ -107,10 +116,10 @@ public class DwCGeoRefDQ {
                     // standardize country names
                     country = GEOUtil.standardizeCountryName(country);
 
-                    if (GEOUtil.isPointInCountry(country, latitude, longitude)) {
+                    if (geoTester.isPointInCountry(country, latitude, longitude)) {
                         result.addComment("Original coordinate is inside country (" + country + ").");
                         result.setResult(EnumDQValidationResult.COMPLIANT);
-                    } else if (GEOUtil.isPointNearCountry(country, latitude, longitude, thresholdDistanceKmFromLand)) {
+                    } else if (geoTester.isPointNearCountry(country, latitude, longitude, thresholdDistanceKmFromLand)) {
                         // TODO: Consult marineregions.org EEZ service instead
                         result.addComment("Coordinate is within 24 nautical miles of country boundary, could be a nearshore marine locality.");
                         result.setResult(EnumDQValidationResult.COMPLIANT);
@@ -162,9 +171,9 @@ public class DwCGeoRefDQ {
                 // standardize country names
                 country = GEOUtil.standardizeCountryName(country);
 
-                if (GEOUtil.isPrimaryKnown(country, stateProvince)) {
-                    if (GEOUtil.isPointInPrimary(country, stateProvince, latitude, longitude) ||
-                            GEOUtil.isPointNearPrimary(country, stateProvince, latitude, longitude, thresholdDistanceKmFromLand)) {
+                if (geoTester.isPrimaryKnown(country, stateProvince)) {
+                    if (geoTester.isPointInPrimary(country, stateProvince, latitude, longitude) ||
+                            geoTester.isPointNearPrimary(country, stateProvince, latitude, longitude, thresholdDistanceKmFromLand)) {
                         result.addComment("Original coordinate is inside primary division (" + stateProvince + ").");
                         result.setResult(EnumDQValidationResult.COMPLIANT);
                     } else {
@@ -217,7 +226,7 @@ public class DwCGeoRefDQ {
                     } else {
                         result.setResult(EnumDQValidationResult.COMPLIANT);
 
-                        if (country != null && GEOUtil.isPointNearCountry(country, latitude, longitude, thresholdDistanceKmFromLand)) {
+                        if (country != null && geoTester.isPointNearCountry(country, latitude, longitude, thresholdDistanceKmFromLand)) {
                             result.addComment("Coordinate is within 24 nautical miles of country boundary, could be a nearshore marine locality.");
                         } else {
                             result.addComment("Coordinate is further than 24 nautical miles of country boundary.");
@@ -385,7 +394,7 @@ public class DwCGeoRefDQ {
                         } else if (isMarine) {
                             double thresholdDistanceKmFromLand = 44.448d;  // 24 nautical miles, territorial waters plus contigouus zone.
 
-                            if (country != null && GEOUtil.isCountryKnown(country) && GEOUtil.isPointNearCountry(country, originalLat, originalLong, thresholdDistanceKmFromLand)) {
+                            if (country != null && geoTester.isCountryKnown(country) && GEOUtil.isPointNearCountry(country, originalLat, originalLong, thresholdDistanceKmFromLand)) {
                                 result.setResultState(EnumDQAmendmentResultState.TRANSPOSED);
 
                                 result.addComment("Modified coordinate (" + alt.getAlternative() + ") is within 24 nautical miles of country boundary.");
@@ -395,8 +404,8 @@ public class DwCGeoRefDQ {
                                 matchFound = true;
 
                             }
-                        } else if (GEOUtil.isCountryKnown(country) && GEOUtil.isPointInCountry(country, alt.getLatitude(), alt.getLongitude()) &&
-                                GEOUtil.isPrimaryKnown(country, stateProvince) && GEOUtil.isPointInPrimary(country, stateProvince, originalLat, originalLong)) {
+                        } else if (geoTester.isCountryKnown(country) && geoTester.isPointInCountry(country, alt.getLatitude(), alt.getLongitude()) &&
+                                geoTester.isPrimaryKnown(country, stateProvince) && geoTester.isPointInPrimary(country, stateProvince, originalLat, originalLong)) {
                             result.setResultState(EnumDQAmendmentResultState.TRANSPOSED);
 
                             result.addComment("Modified coordinate (" + alt.getAlternative() + ") is inside stateProvince (" + stateProvince + ").");
