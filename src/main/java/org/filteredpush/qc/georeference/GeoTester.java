@@ -41,8 +41,8 @@ public class GeoTester {
     private final ExecutorService executor = Executors.newFixedThreadPool(8);
     private final GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
 
-    private Map<String, MultiPolygon> countryPolys = new HashMap<>();
-    private Map<String, Map<String, MultiPolygon>> countryPrimaryDivisions = new HashMap<>();
+    private Map<String, MultiPolygon> countryPolys = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private Map<String, Map<String, MultiPolygon>> countryPrimaryDivisions = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     public GeoTester() throws IOException {
         // Preload the shapefile polygons into HashMaps as a cheap index on country and stateProvince
@@ -99,7 +99,7 @@ public class GeoTester {
 
                 if (primaryDivisions == null) {
                     // Create a new state province to polygon map if it doesn't already exist
-                    primaryDivisions = new HashMap<>();
+                    primaryDivisions = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
                     countryPrimaryDivisions.put(admin, primaryDivisions);
                 }
 
@@ -115,11 +115,19 @@ public class GeoTester {
     }
 
     public boolean isPointInCountry(String country, double latitude, double longitude) {
+        if (!countryPolys.containsKey(country)) {
+            return false;
+        }
+
         MultiPolygon polygon = countryPolys.get(country);
         return polygon.contains(geometryFactory.createPoint(new Coordinate(longitude, latitude)));
     }
 
     public boolean isPointNearCountry(String country, double latitude, double longitude, double distanceKm) {
+        if (!countryPolys.containsKey(country)) {
+            return false;
+        }
+
         // GeoTools ignores units, uses units of underlying projection (degrees in this case), fudge by dividing km by
         // number of km in one degree of latitude (this will describe a wide ellipse far north or south).
         double distanceD = distanceKm / 111d;
@@ -134,7 +142,16 @@ public class GeoTester {
             country = "United States of America";
         }
 
+        if (!countryPrimaryDivisions.containsKey(country)) {
+            return false;
+        }
+
         Map<String, MultiPolygon> primaryDivisions = countryPrimaryDivisions.get(country);
+
+        if (!primaryDivisions.containsKey(primaryDivision)) {
+            return false;
+        }
+
         MultiPolygon polygon = primaryDivisions.get(primaryDivision);
         return polygon.contains(geometryFactory.createPoint(new Coordinate(longitude, latitude)));
     }
@@ -149,7 +166,16 @@ public class GeoTester {
             country = "United States of America";
         }
 
+        if (!countryPrimaryDivisions.containsKey(country)) {
+            return false;
+        }
+
         Map<String, MultiPolygon> primaryDivisions = countryPrimaryDivisions.get(country);
+
+        if (!primaryDivisions.containsKey(primaryDivision)) {
+            return false;
+        }
+
         MultiPolygon polygon = primaryDivisions.get(primaryDivision);
         return polygon.isWithinDistance(geometryFactory.createPoint(new Coordinate(longitude, latitude)), distanceD);
     }
@@ -159,6 +185,15 @@ public class GeoTester {
     }
 
     public boolean isPrimaryKnown(String country, String primaryDivision) {
+        // Standardize country names first
+        if (country.toLowerCase().equals("united states")) {
+            country = "United States of America";
+        }
+
+        if (!countryPrimaryDivisions.containsKey(country)) {
+            return false;
+        }
+
         Map<String, MultiPolygon> primaryDivisions = countryPrimaryDivisions.get(country);
         return primaryDivisions.containsKey(primaryDivision);
     }
