@@ -38,8 +38,6 @@ public class DwCGeoRefDQ {
             "value in range")
     @Specification(value = "Compliant if dwc:latitude is a numeric value in the range -90 to 90 inclusive and dwc:longitude is a numeric value in the range -180 to 180 inclusive," +
             " not compliant otherwise. Internal prerequisites not met if either is empty or value is not a number.")
-    @PreEnhancement
-    @PostEnhancement
     public GeoDQValidation isLatLongInRange(@ActedUpon("decimalLatitude") String latitude, @ActedUpon("decimalLongitude") String longitude) {
         GeoDQValidation result = new GeoDQValidation();
 
@@ -84,8 +82,6 @@ public class DwCGeoRefDQ {
     @Specification("Check that the values for dwc:latitude and dwc:longitude are consistent with the value for dwc:country. Compliant if the coordinates are inside the " +
             "country or are within 24 nautical miles of country boundary, not compliant otherwise. Internal prerequisites not met if valid values for latitude, longitude " +
             "or country could not be parsed")
-    @PreEnhancement
-    @PostEnhancement
     public GeoDQValidation isPointInCountry(@ActedUpon("country") String country, @Consulted("decimalLatitude") String originalLat, @Consulted("decimalLongitude") String originalLong, @Consulted("waterBody") String waterBody) {
         GeoDQValidation result = new GeoDQValidation();
 
@@ -143,8 +139,6 @@ public class DwCGeoRefDQ {
     @Validation(label = "State Province Is Consistent", description = "Check that that latitude and longitude are in state/province and that state/provice is inside country")
     @Specification("Compliant if the value for dwc:stateProvince is known to be inside dwc:country and values for dwc:latitude and dwc:longitude are inside stateProvince, " +
             "non compliant otherwise. Internal prerequisites not met if a value could not be parsed for any of dwc:latitude, dwc:longitude, dwc:stateProvince or dwc:country.")
-    @PreEnhancement
-    @PostEnhancement
     public GeoDQValidation stateProvinceIsConsistent(@Consulted("country") String country, @ActedUpon("stateProvince") String stateProvince, @Consulted("decimalLatitude") String originalLat, @Consulted("decimalLongitude") String originalLong) {
         GeoDQValidation result = new GeoDQValidation();
 
@@ -201,8 +195,6 @@ public class DwCGeoRefDQ {
     @Specification("If a value for dwc:country is provided, the result is compliant if dwc:latitude and dwc:longitude are not within the country boundaries. " +
             "If no value for dwc:country is provided, it is assumed that the locality is marine and considered compliant if dwc:waterBody is an ocean or a sea. Not compliant if the coordinate is " +
             "on land or the water body is not an ocean or a sea. Internal prerequisites not met if values for either latitude or longitude cannot be parsed.")
-    @PreEnhancement
-    @PostEnhancement
     public GeoDQValidation waterBodyIsConsistent(@Consulted("country") String country, @ActedUpon("waterBody") String waterBody, @Consulted("decimalLatitude") String originalLat, @Consulted("decimalLongitude") String originalLong) {
         GeoDQValidation result = new GeoDQValidation();
 
@@ -258,7 +250,6 @@ public class DwCGeoRefDQ {
     @Amendment(label = "Fill In Missing Coordinates", description = "If coordinates are missing or invalid, attempts to fill in values from lookup of locality in GeoLocate service.")
     @Specification("If dwc:latitude and/or dwc:longitude are missing or invalid, lookup locality using values of dwc:country, dwc:stateProvince, dwc:locality as parameters to " +
             "the GeoLocate service. If a good match is found, fill in latitude and longitude values from the response")
-    @Enhancement
     public GeoDQAmendment fillInMissing(@Consulted("country") String country, @Consulted("stateProvince") String stateProvince, @Consulted("county") String county, @Consulted("locality") String locality, @ActedUpon("decimalLatitude") String latitude, @ActedUpon("decimalLongitude") String longitude) {
         GeoDQAmendment result = new GeoDQAmendment();
 
@@ -336,7 +327,6 @@ public class DwCGeoRefDQ {
     @Specification("Calculate the distance from the returned point and original point in the record " +
             "If the distance is smaller than a certainty, then use the original point --- GEOService, like GeoLocate can't parse detailed locality. " +
             "In this case, the original point has higher confidence otherwise, use the point returned from GeoLocate")
-    @Enhancement
     @Provides("COORDINATE_TRANSPOSITION")
     public GeoDQAmendment coordinateTransposition(@Consulted("country") String country, @Consulted("stateProvince") String stateProvince, @Consulted("county") String county, @Consulted("locality") String locality, @Consulted("waterBody") String waterBody, @ActedUpon("decimalLatitude") String latitude, @ActedUpon("decimalLongitude") String longitude) {
         GeoDQAmendment result = new GeoDQAmendment();
