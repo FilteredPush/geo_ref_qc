@@ -21,16 +21,23 @@ import java.util.*;
  * Created by lowery on 2/24/17.
  */
 public class DwCGeoRefDQ {
+    private static final GeoTester geoTester;
     private static final GeoLocateService service = new GeoLocateService();
     private static int thresholdDistanceKm = 20;
+
+    static {
+        try {
+            geoTester = new GeoTester();
+        } catch (IOException e) {
+            throw new RuntimeException("Error initializing GeoTester", e);
+        }
+    }
 
     @Provides(value = "COORDINATES_IN_RANGE") // same as "COORDINATES_OUT_OF_RANGE" defined in the spreadsheet that contains list of tests
     @Validation(label = "Coordinate In Range", description = "Test to see whether a provided latitude and longitude is a numeric " +
             "value in range")
     @Specification(value = "Compliant if dwc:latitude is a numeric value in the range -90 to 90 inclusive and dwc:longitude is a numeric value in the range -180 to 180 inclusive," +
             " not compliant otherwise. Internal prerequisites not met if either is empty or value is not a number.")
-    @PreEnhancement
-    @PostEnhancement
     public GeoDQValidation isLatLongInRange(@ActedUpon("decimalLatitude") String latitude, @ActedUpon("decimalLongitude") String longitude) {
         GeoDQValidation result = new GeoDQValidation();
 
@@ -75,8 +82,6 @@ public class DwCGeoRefDQ {
     @Specification("Check that the values for dwc:latitude and dwc:longitude are consistent with the value for dwc:country. Compliant if the coordinates are inside the " +
             "country or are within 24 nautical miles of country boundary, not compliant otherwise. Internal prerequisites not met if valid values for latitude, longitude " +
             "or country could not be parsed")
-    @PreEnhancement
-    @PostEnhancement
     public GeoDQValidation isPointInCountry(@ActedUpon("country") String country, @Consulted("decimalLatitude") String originalLat, @Consulted("decimalLongitude") String originalLong, @Consulted("waterBody") String waterBody) {
         GeoDQValidation result = new GeoDQValidation();
 
@@ -107,10 +112,10 @@ public class DwCGeoRefDQ {
                     // standardize country names
                     country = GEOUtil.standardizeCountryName(country);
 
-                    if (GEOUtil.isPointInCountry(country, latitude, longitude)) {
+                    if (geoTester.isPointInCountry(country, latitude, longitude)) {
                         result.addComment("Original coordinate is inside country (" + country + ").");
                         result.setResult(EnumDQValidationResult.COMPLIANT);
-                    } else if (GEOUtil.isPointNearCountry(country, latitude, longitude, thresholdDistanceKmFromLand)) {
+                    } else if (geoTester.isPointNearCountry(country, latitude, longitude, thresholdDistanceKmFromLand)) {
                         // TODO: Consult marineregions.org EEZ service instead
                         result.addComment("Coordinate is within 24 nautical miles of country boundary, could be a nearshore marine locality.");
                         result.setResult(EnumDQValidationResult.COMPLIANT);
@@ -134,8 +139,6 @@ public class DwCGeoRefDQ {
     @Validation(label = "State Province Is Consistent", description = "Check that that latitude and longitude are in state/province and that state/provice is inside country")
     @Specification("Compliant if the value for dwc:stateProvince is known to be inside dwc:country and values for dwc:latitude and dwc:longitude are inside stateProvince, " +
             "non compliant otherwise. Internal prerequisites not met if a value could not be parsed for any of dwc:latitude, dwc:longitude, dwc:stateProvince or dwc:country.")
-    @PreEnhancement
-    @PostEnhancement
     public GeoDQValidation stateProvinceIsConsistent(@Consulted("country") String country, @ActedUpon("stateProvince") String stateProvince, @Consulted("decimalLatitude") String originalLat, @Consulted("decimalLongitude") String originalLong) {
         GeoDQValidation result = new GeoDQValidation();
 
@@ -162,9 +165,9 @@ public class DwCGeoRefDQ {
                 // standardize country names
                 country = GEOUtil.standardizeCountryName(country);
 
-                if (GEOUtil.isPrimaryKnown(country, stateProvince)) {
-                    if (GEOUtil.isPointInPrimary(country, stateProvince, latitude, longitude) ||
-                            GEOUtil.isPointNearPrimary(country, stateProvince, latitude, longitude, thresholdDistanceKmFromLand)) {
+                if (geoTester.isPrimaryKnown(country, stateProvince)) {
+                    if (geoTester.isPointInPrimary(country, stateProvince, latitude, longitude) ||
+                            geoTester.isPointNearPrimary(country, stateProvince, latitude, longitude, thresholdDistanceKmFromLand)) {
                         result.addComment("Original coordinate is inside primary division (" + stateProvince + ").");
                         result.setResult(EnumDQValidationResult.COMPLIANT);
                     } else {
@@ -192,8 +195,6 @@ public class DwCGeoRefDQ {
     @Specification("If a value for dwc:country is provided, the result is compliant if dwc:latitude and dwc:longitude are not within the country boundaries. " +
             "If no value for dwc:country is provided, it is assumed that the locality is marine and considered compliant if dwc:waterBody is an ocean or a sea. Not compliant if the coordinate is " +
             "on land or the water body is not an ocean or a sea. Internal prerequisites not met if values for either latitude or longitude cannot be parsed.")
-    @PreEnhancement
-    @PostEnhancement
     public GeoDQValidation waterBodyIsConsistent(@Consulted("country") String country, @ActedUpon("waterBody") String waterBody, @Consulted("decimalLatitude") String originalLat, @Consulted("decimalLongitude") String originalLong) {
         GeoDQValidation result = new GeoDQValidation();
 
@@ -217,7 +218,7 @@ public class DwCGeoRefDQ {
                     } else {
                         result.setResult(EnumDQValidationResult.COMPLIANT);
 
-                        if (country != null && GEOUtil.isPointNearCountry(country, latitude, longitude, thresholdDistanceKmFromLand)) {
+                        if (country != null && geoTester.isPointNearCountry(country, latitude, longitude, thresholdDistanceKmFromLand)) {
                             result.addComment("Coordinate is within 24 nautical miles of country boundary, could be a nearshore marine locality.");
                         } else {
                             result.addComment("Coordinate is further than 24 nautical miles of country boundary.");
@@ -249,7 +250,6 @@ public class DwCGeoRefDQ {
     @Amendment(label = "Fill In Missing Coordinates", description = "If coordinates are missing or invalid, attempts to fill in values from lookup of locality in GeoLocate service.")
     @Specification("If dwc:latitude and/or dwc:longitude are missing or invalid, lookup locality using values of dwc:country, dwc:stateProvince, dwc:locality as parameters to " +
             "the GeoLocate service. If a good match is found, fill in latitude and longitude values from the response")
-    @Enhancement
     public GeoDQAmendment fillInMissing(@Consulted("country") String country, @Consulted("stateProvince") String stateProvince, @Consulted("county") String county, @Consulted("locality") String locality, @ActedUpon("decimalLatitude") String latitude, @ActedUpon("decimalLongitude") String longitude) {
         GeoDQAmendment result = new GeoDQAmendment();
 
@@ -327,7 +327,6 @@ public class DwCGeoRefDQ {
     @Specification("Calculate the distance from the returned point and original point in the record " +
             "If the distance is smaller than a certainty, then use the original point --- GEOService, like GeoLocate can't parse detailed locality. " +
             "In this case, the original point has higher confidence otherwise, use the point returned from GeoLocate")
-    @Enhancement
     @Provides("COORDINATE_TRANSPOSITION")
     public GeoDQAmendment coordinateTransposition(@Consulted("country") String country, @Consulted("stateProvince") String stateProvince, @Consulted("county") String county, @Consulted("locality") String locality, @Consulted("waterBody") String waterBody, @ActedUpon("decimalLatitude") String latitude, @ActedUpon("decimalLongitude") String longitude) {
         GeoDQAmendment result = new GeoDQAmendment();
@@ -385,7 +384,7 @@ public class DwCGeoRefDQ {
                         } else if (isMarine) {
                             double thresholdDistanceKmFromLand = 44.448d;  // 24 nautical miles, territorial waters plus contigouus zone.
 
-                            if (country != null && GEOUtil.isCountryKnown(country) && GEOUtil.isPointNearCountry(country, originalLat, originalLong, thresholdDistanceKmFromLand)) {
+                            if (country != null && geoTester.isCountryKnown(country) && GEOUtil.isPointNearCountry(country, originalLat, originalLong, thresholdDistanceKmFromLand)) {
                                 result.setResultState(EnumDQAmendmentResultState.TRANSPOSED);
 
                                 result.addComment("Modified coordinate (" + alt.getAlternative() + ") is within 24 nautical miles of country boundary.");
@@ -395,8 +394,8 @@ public class DwCGeoRefDQ {
                                 matchFound = true;
 
                             }
-                        } else if (GEOUtil.isCountryKnown(country) && GEOUtil.isPointInCountry(country, alt.getLatitude(), alt.getLongitude()) &&
-                                GEOUtil.isPrimaryKnown(country, stateProvince) && GEOUtil.isPointInPrimary(country, stateProvince, originalLat, originalLong)) {
+                        } else if (geoTester.isCountryKnown(country) && geoTester.isPointInCountry(country, alt.getLatitude(), alt.getLongitude()) &&
+                                geoTester.isPrimaryKnown(country, stateProvince) && geoTester.isPointInPrimary(country, stateProvince, originalLat, originalLong)) {
                             result.setResultState(EnumDQAmendmentResultState.TRANSPOSED);
 
                             result.addComment("Modified coordinate (" + alt.getAlternative() + ") is inside stateProvince (" + stateProvince + ").");
