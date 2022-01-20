@@ -4,7 +4,7 @@ import edu.tulane.museum.www.webservices.GeographicPoint;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.filteredpush.qc.georeference.util.*;
-import org.nocrala.tools.gis.data.esri.shapefile.exception.InvalidShapeFileException;
+import org.geotools.data.shapefile.shp.ShapefileException;
 
 import edu.tulane.museum.www.webservices.GeolocatesvcSoapProxy;
 import edu.tulane.museum.www.webservices.Georef_Result;
@@ -217,9 +217,9 @@ public class GeoLocate3 {
             try {
             	setPolygon = new GISDataLoader().ReadLandData();
             	//System.out.println("read data");
-            } catch (IOException e) {
+            } catch (ShapefileException e) {
             	logger.error(e.getMessage());
-            } catch (InvalidShapeFileException e) {
+            } catch (IOException e) {
             	logger.error(e.getMessage());
             }
             boolean isMarine = false;

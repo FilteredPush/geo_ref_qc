@@ -36,15 +36,15 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<geotools.version>13.2</geotools.version>
+		<geotools.version>26.1</geotools.version>
 	</properties>
 
 	<repositories>
-		<repository>
+		<!-- repository>
 			<id>ncsa.thirdparty</id>
 			<name>NCSA 3rd party jar maven repository</name>
 			<url>https://opensource.ncsa.illinois.edu/nexus/content/repositories/thirdparty/</url>
-		</repository>
+		</repository -->
 
 		<repository>
 			<id>gbif-all</id>
@@ -54,8 +54,9 @@
 		<repository>
 			<id>osgeo</id>
 			<name>Open Source Geospatial Foundation Repository</name>
-			<url>http://download.osgeo.org/webdav/geotools/</url>
+			<url>https://repo.osgeo.org/repository/release/</url>
 		</repository>
+
 	</repositories>
 
 	<dependencies>
@@ -100,11 +101,11 @@
 			<artifactId>gt-swing</artifactId>
 			<version>${geotools.version}</version>
 		</dependency>
-		<dependency>
+		<!-- dependency>
 			<groupId>org.nocrala</groupId>
 			<artifactId>shapefile-reader</artifactId>
 			<version>1.0</version>
-		</dependency>
+		</dependency -->
 
 		<dependency>
 			<groupId>org.dom4j</groupId>
@@ -170,6 +171,9 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.9.1</version>
+				<configuration>
+					<source>8</source>
+				</configuration>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>

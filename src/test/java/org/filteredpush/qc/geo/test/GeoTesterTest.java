@@ -8,7 +8,6 @@ import org.filteredpush.qc.georeference.util.GEOUtil;
 import org.filteredpush.qc.georeference.util.GISDataLoader;
 import org.junit.Before;
 import org.junit.Test;
-import org.nocrala.tools.gis.data.esri.shapefile.exception.InvalidShapeFileException;
 
 import java.awt.geom.Path2D;
 import java.io.IOException;

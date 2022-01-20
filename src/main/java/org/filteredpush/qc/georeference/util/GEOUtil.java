@@ -15,7 +15,6 @@ import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.filter.text.cql2.CQLException;
 import org.geotools.filter.text.ecql.ECQL;
-import org.nocrala.tools.gis.data.esri.shapefile.exception.InvalidShapeFileException;
 import org.opengis.filter.Filter;
 
 public class GEOUtil {
@@ -415,7 +414,7 @@ public class GEOUtil {
                 // Marine locality on land?
                 Set<Path2D> setPolygon = new GISDataLoader().ReadLandData();
                 return GEOUtil.isInPolygon(setPolygon, originalLong, originalLat, true);
-            } catch (IOException | InvalidShapeFileException e) {
+            } catch (IOException e) {
                 logger.error(e.getMessage());
             }
         }

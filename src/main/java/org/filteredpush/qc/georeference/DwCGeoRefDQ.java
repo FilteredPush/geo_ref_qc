@@ -11,7 +11,7 @@ import org.filteredpush.qc.georeference.util.GEOUtil;
 import org.filteredpush.qc.georeference.util.GISDataLoader;
 import org.filteredpush.qc.georeference.util.GeolocationAlternative;
 import org.filteredpush.qc.georeference.util.GeolocationResult;
-import org.nocrala.tools.gis.data.esri.shapefile.exception.InvalidShapeFileException;
+import org.geotools.data.shapefile.shp.ShapefileException;
 
 import java.awt.geom.Path2D;
 import java.io.IOException;
@@ -229,10 +229,14 @@ public class DwCGeoRefDQ {
                 } catch (NumberFormatException e) {
                     result.addComment("The value for either latitude or longitude is non numeric.");
                     result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
-                } catch (InvalidShapeFileException | IOException e) {
+                } catch (ShapefileException e) {
                     result.addComment("Could not load land data from shape file.");
                     result.addComment(e.getMessage());
                     result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
+                } catch (IOException e) {    
+                    result.addComment("IO Error loading land data from shape file.");
+                    result.addComment(e.getMessage());
+                    result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);                    
                 }
             } else {
                 result.addComment("Either latitude or longitude is empty.");

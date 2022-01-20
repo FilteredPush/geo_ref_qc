@@ -14,9 +14,9 @@ import java.util.Set;
 
 import org.filteredpush.qc.georeference.util.GEOUtil;
 import org.filteredpush.qc.georeference.util.GISDataLoader;
+import org.geotools.data.shapefile.shp.ShapefileException;
 import org.geotools.filter.text.cql2.CQLException;
 import org.junit.Test;
-import org.nocrala.tools.gis.data.esri.shapefile.exception.InvalidShapeFileException;
 
 /**
  * @author mole
@@ -66,9 +66,9 @@ public class GeoUtiltsTest {
         try {
             setPolygon = new GISDataLoader().ReadLandData();
             //System.out.println("read data");
-        } catch (IOException e) {
+        } catch (ShapefileException e) {
         	fail(e.getMessage());
-        } catch (InvalidShapeFileException e) {
+        } catch (IOException  e) {
         	fail(e.getMessage());
         }
         boolean invertSense = false;

@@ -16,20 +16,21 @@
  */
 package org.filteredpush.qc.georeference;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.MultiPolygon;
 import org.filteredpush.qc.georeference.util.GEOUtil;
 import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.geometry.jts.JTSFactoryFinder;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.MultiPolygon;
 import org.opengis.feature.simple.SimpleFeature;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -39,7 +40,7 @@ import java.util.concurrent.Executors;
  */
 public class GeoTester {
     private final ExecutorService executor = Executors.newFixedThreadPool(8);
-    private final GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
+    private final org.locationtech.jts.geom.GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
 
     private Map<String, MultiPolygon> countryPolys = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private Map<String, Map<String, MultiPolygon>> countryPrimaryDivisions = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
