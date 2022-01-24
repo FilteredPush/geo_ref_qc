@@ -19,8 +19,10 @@ import java.util.*;
 
 /**
  * Created by lowery on 2/24/17.
+ * @depricated
+ * @see org.filteredpush.qc.georeference.DwCGeoRefDQ
  */
-public class DwCGeoRefDQ {
+public class DwCGeoRefDQ_v1 {
     private static final GeoTester geoTester;
     private static final GeoLocateService service = new GeoLocateService();
     private static int thresholdDistanceKm = 20;
