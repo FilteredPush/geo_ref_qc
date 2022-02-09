@@ -1,4 +1,5 @@
 /target
+geo_ref_qc-*-executable.jar
 .classpath
 .project
 .settings/
