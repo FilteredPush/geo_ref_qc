@@ -146,6 +146,27 @@ public class GEOUtil {
         if (invertSense) { foundInPolygon = ! foundInPolygon; } 
         return foundInPolygon;
     } 	
+    
+    /**
+     * Test to see if a point is on land 
+     * @param Xvalue a decimal longitude expressed as a double
+     * @param Yvalue a decimal latitude expressed as a double 
+     * @param invertSense true to invert the result, false to keep the result unchanged.
+     *    that is, if invertSense is true, make this a test of is marine.
+     * @return true if the x/y value is inside land and invertSense is false 
+     *         false if the x/y value is outside land and invertSense is false
+     *         false if the x/y value is inside land and invertSense is true
+     *         true if the x/y value is outside land and invertSense is true
+     */
+    public static boolean isOnLand(double Xvalue, double Yvalue, boolean invertSense) { 
+    	boolean result = false;
+    	
+    	GISDataLoader loader = new GISDataLoader();
+    	
+    	result = loader.pointIsWithinLand(Xvalue, Yvalue, invertSense);
+    	
+    	return result;
+    }
  
     /**
      * Test to see if an x/y coordinate is inside any of a set of polygons.
@@ -412,9 +433,9 @@ public class GEOUtil {
         } else {
             try {
                 // Marine locality on land?
-                Set<Path2D> setPolygon = new GISDataLoader().ReadLandData();
-                return GEOUtil.isInPolygon(setPolygon, originalLong, originalLat, true);
-            } catch (IOException e) {
+            	GISDataLoader loader = new GISDataLoader();
+                return !loader.pointIsWithinLand(originalLat, originalLong);
+            } catch (Exception e) {
                 logger.error(e.getMessage());
             }
         }

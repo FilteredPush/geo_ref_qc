@@ -61,26 +61,26 @@ public class GeoUtiltsTest {
 	}
 	
 	@Test
-	public void testOnLand() { 
-        Set<Path2D> setPolygon = null;
-        try {
-            setPolygon = new GISDataLoader().ReadLandData();
-            //System.out.println("read data");
-        } catch (ShapefileException e) {
-        	fail(e.getMessage());
-        } catch (IOException  e) {
-        	fail(e.getMessage());
-        }
+	public void testisOnLand() { 
         boolean invertSense = false;
+        
+        // Topeka, Kansas
+        double originalLng = -95.689444d;
+        double originalLat = 39.055833d;
+        assertTrue(GEOUtil.isOnLand(originalLng, originalLat, invertSense));
         // Barrow, Alaska
-        double originalLng = -156.766389d;
-        double originalLat = 71.295556d;
-        assertTrue(GEOUtil.isInPolygon(setPolygon, originalLng, originalLat, invertSense));
+        originalLng = -156.766389d;
+        originalLat = 71.295556d;
+        assertTrue(GEOUtil.isOnLand(originalLng, originalLat, invertSense));
         // further north
         originalLng = -156.766389d;
         originalLat = 80.0d;
-        assertFalse(GEOUtil.isInPolygon(setPolygon, originalLng, originalLat, invertSense));
-	} 
+        assertFalse(GEOUtil.isOnLand(originalLng, originalLat, invertSense));
+        originalLng = -156.766389d;
+        originalLat = 80.0d;
+        invertSense = true;
+        assertTrue(GEOUtil.isOnLand(originalLng, originalLat, invertSense));
+	}
 	
 	@Test
 	public void testInCountry() { 

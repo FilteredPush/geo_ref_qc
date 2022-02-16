@@ -208,13 +208,13 @@ public class DwCGeoRefDQ_v1 {
                     double latitude = Double.parseDouble(originalLat);
                     double longitude = Double.parseDouble(originalLong);
 
-                    Set<Path2D> setPolygon = new GISDataLoader().ReadLandData();
+                    GISDataLoader loader = new GISDataLoader();
 
                     if (!waterBody.matches("(Indian|Pacific|Arctic|Atlantic|Ocean|Sea|Carribean|Mediteranian)")) {
                         // TODO: Does not account for water body that is not an ocean or sea, add check against shape file for rivers and lakes
                         result.addComment("Water body doesn't appear to be an ocean or a sea. ");
                         result.setResult(EnumDQValidationResult.NOT_COMPLIANT);
-                    } else if (GEOUtil.isInPolygon(setPolygon, longitude, latitude)) {
+                    } else if (loader.pointIsWithinLand(latitude, longitude)) {
                         result.addComment("Coordinate is on land for a supposedly marine locality.");
                         result.setResult(EnumDQValidationResult.NOT_COMPLIANT);
                     } else {
@@ -231,14 +231,14 @@ public class DwCGeoRefDQ_v1 {
                 } catch (NumberFormatException e) {
                     result.addComment("The value for either latitude or longitude is non numeric.");
                     result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
-                } catch (ShapefileException e) {
-                    result.addComment("Could not load land data from shape file.");
-                    result.addComment(e.getMessage());
-                    result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
-                } catch (IOException e) {    
-                    result.addComment("IO Error loading land data from shape file.");
-                    result.addComment(e.getMessage());
-                    result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);                    
+//                } catch (ShapefileException e) {
+//                    result.addComment("Could not load land data from shape file.");
+//                    result.addComment(e.getMessage());
+//                    result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
+//                } catch (IOException e) {    
+//                    result.addComment("IO Error loading land data from shape file.");
+//                    result.addComment(e.getMessage());
+//                    result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);                    
                 }
             } else {
                 result.addComment("Either latitude or longitude is empty.");

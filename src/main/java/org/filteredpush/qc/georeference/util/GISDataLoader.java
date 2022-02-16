@@ -3,63 +3,59 @@
  */
 package org.filteredpush.qc.georeference.util;
 
-import java.awt.geom.Path2D;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
-import org.geotools.data.shapefile.files.ShpFiles;
-import org.geotools.data.shapefile.shp.ShapefileException;
-import org.geotools.data.shapefile.shp.ShapefileReader;
-import org.geotools.data.shapefile.shp.ShapefileReader.Record;
-import org.opengis.geometry.Boundary;
-import org.opengis.geometry.Geometry;
-import org.opengis.geometry.coordinate.Polygon;
-import org.opengis.geometry.primitive.Primitive;
+import java.net.URL;
+import org.geotools.data.FileDataStore;
+import org.geotools.data.FileDataStoreFinder;
+import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.data.simple.SimpleFeatureSource;
+import org.geotools.filter.text.cql2.CQLException;
+import org.geotools.filter.text.ecql.ECQL;
+import org.opengis.filter.Filter;
 
 /**
  * @author mole
  *
  */
 public class GISDataLoader {
-
-    public Set<Path2D> ReadLandData() throws IOException, ShapefileException {
-
-        ShpFiles is = new ShpFiles(GISDataLoader.class.getResource("/org.filteredpush.kuration.services/ne_10m_land.shp"));
-        //FileInputStream is = null;
-        //is = new FileInputStream("/etc/filteredpush/descriptors/ne_10m_land.shp");
-
-        ShapefileReader reader = null;
-        reader = new ShapefileReader(is, false, false, null);
-
-        Set<Path2D> polygonSet = new HashSet<Path2D>();
-
-        Geometry shape;
-        while (reader.hasNext() ) {
-        	shape = (Geometry) reader.nextRecord().shape();
-        	
-        	// TODO: Rework to extract points using geotools.  
-        	
-//            for (int i = 0; i < aPolygon.getNumberOfParts(); i++) {
-//                PointData[] points = aPolygon.getPointsOfPart(i);
-//                //System.out.println("- part " + i + " has " + points.length + " points");
-//
-//                Path2D polygon = new Path2D.Double();
-//                for (int j = 0; j < points.length; j++) {
-//                    if (j==0) polygon.moveTo(points[j].getX(), points[j].getY());
-//                    else polygon.lineTo(points[j].getX(), points[j].getY());
-//                    //System.out.println("- point " + i + " has " + points[j].getX() + " and " + points[j].getY());
-//                }
-//                polygonSet.add(polygon);
-//            }
-        }
-        reader.close();
-        is.dispose();
-        return polygonSet;
-    }
+	
+	public boolean pointIsWithinLand(double latitude, double longitude) {
+		return pointIsWithinLand(latitude, longitude, false);
+	}
 	
 	
+	public boolean pointIsWithinLand(double longitude, double latitude, boolean invertSense) {
+		
+		boolean result = false;
+
+        URL landShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_land.shp");
+        FileDataStore store = null;
+		try {
+			store = FileDataStoreFinder.getDataStore(landShapeFile);
+            SimpleFeatureSource featureSource = store.getFeatureSource();
+            System.out.println(featureSource.getInfo());
+            System.out.println(featureSource.getName());
+		    String filterString = " CONTAINS (the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "))";
+		    System.out.println(filterString);
+		    Filter filter = ECQL.toFilter(filterString);
+		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
+		    result = !collection.isEmpty();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if (invertSense) {
+			result = !result;
+		}
+ 		
+		return result;
+	}
+	
+	
+	
+
 }

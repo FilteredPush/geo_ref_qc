@@ -208,15 +208,7 @@ public class GeoLocate3 {
             }
 
             // (4) Is locality marine? 
-            Set<Path2D> setPolygon = null;
-            try {
-            	setPolygon = new GISDataLoader().ReadLandData();
-            	//System.out.println("read data");
-            } catch (ShapefileException e) {
-            	logger.error(e.getMessage());
-            } catch (IOException e) {
-            	logger.error(e.getMessage());
-            }
+            GISDataLoader loader = new GISDataLoader();
             boolean isMarine = false;
             if ((country==null||country.length()==0) && (stateProvince==null||stateProvince.length()==0) && (county==null||county.length()==0)) {
             	//addToComment("No country, state/province, or county provided, guessing that this is a marine locality. ");
@@ -234,7 +226,7 @@ public class GeoLocate3 {
             	    //addToComment("A country, state/province, or county was provided but no water body, guessing that this is a non-marine locality. ");
             	}
             }
-            if (!GEOUtil.isInPolygon(setPolygon, originalLong, originalLat, isMarine)) {
+            if (!loader.pointIsWithinLand(originalLong, originalLat, isMarine)) {
             	if (isMarine) { 
             		//addToComment("Coordinate is on land for a supposedly marine locality.");
             		flagError = true;
