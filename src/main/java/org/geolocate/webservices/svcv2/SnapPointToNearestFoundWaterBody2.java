@@ -1,5 +1,5 @@
 
-package org.geolocate.webservices;
+package org.geolocate.webservices.svcv2;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;

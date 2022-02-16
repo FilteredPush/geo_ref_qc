@@ -1,5 +1,5 @@
 
-package org.geolocate.webservices;
+package org.geolocate.webservices.svcv2;
 
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
@@ -29,12 +29,12 @@ public interface GeolocatesvcSoap {
      * 
      * @param localityDescription
      * @return
-     *     returns org.geolocate.webservices.ArrayOfString
+     *     returns org.geolocate.webservices.svcv2.ArrayOfString
      */
     @WebMethod(operationName = "FindWaterBodiesWithinLocality", action = "http://geo-locate.org/webservices/FindWaterBodiesWithinLocality")
     @WebResult(name = "FindWaterBodiesWithinLocalityResult", targetNamespace = "http://geo-locate.org/webservices/")
-    @RequestWrapper(localName = "FindWaterBodiesWithinLocality", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.FindWaterBodiesWithinLocality")
-    @ResponseWrapper(localName = "FindWaterBodiesWithinLocalityResponse", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.FindWaterBodiesWithinLocalityResponse")
+    @RequestWrapper(localName = "FindWaterBodiesWithinLocality", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.svcv2.FindWaterBodiesWithinLocality")
+    @ResponseWrapper(localName = "FindWaterBodiesWithinLocalityResponse", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.svcv2.FindWaterBodiesWithinLocalityResponse")
     public ArrayOfString findWaterBodiesWithinLocality(
         @WebParam(name = "LocalityDescription", targetNamespace = "http://geo-locate.org/webservices/")
         LocalityDescription localityDescription);
@@ -52,12 +52,12 @@ public interface GeolocatesvcSoap {
      * @param localityDescription
      * @param hwyX
      * @return
-     *     returns org.geolocate.webservices.GeorefResultSet
+     *     returns org.geolocate.webservices.svcv2.GeorefResultSet
      */
     @WebMethod(operationName = "Georef", action = "http://geo-locate.org/webservices/Georef")
     @WebResult(name = "Result", targetNamespace = "http://geo-locate.org/webservices/")
-    @RequestWrapper(localName = "Georef", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.Georef")
-    @ResponseWrapper(localName = "GeorefResponse", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.GeorefResponse")
+    @RequestWrapper(localName = "Georef", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.svcv2.Georef")
+    @ResponseWrapper(localName = "GeorefResponse", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.svcv2.GeorefResponse")
     public GeorefResultSet georef(
         @WebParam(name = "LocalityDescription", targetNamespace = "http://geo-locate.org/webservices/")
         LocalityDescription localityDescription,
@@ -94,12 +94,12 @@ public interface GeolocatesvcSoap {
      * @param languageKey
      * @param hwyX
      * @return
-     *     returns org.geolocate.webservices.GeorefResultSet
+     *     returns org.geolocate.webservices.svcv2.GeorefResultSet
      */
     @WebMethod(operationName = "Georef2", action = "http://geo-locate.org/webservices/Georef2")
     @WebResult(name = "Result", targetNamespace = "http://geo-locate.org/webservices/")
-    @RequestWrapper(localName = "Georef2", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.Georef2")
-    @ResponseWrapper(localName = "Georef2Response", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.Georef2Response")
+    @RequestWrapper(localName = "Georef2", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.svcv2.Georef2")
+    @ResponseWrapper(localName = "Georef2Response", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.svcv2.Georef2Response")
     public GeorefResultSet georef2(
         @WebParam(name = "Country", targetNamespace = "http://geo-locate.org/webservices/")
         String country,
@@ -140,12 +140,12 @@ public interface GeolocatesvcSoap {
      * @param languageKey
      * @param hwyX
      * @return
-     *     returns org.geolocate.webservices.GeorefResultSet
+     *     returns org.geolocate.webservices.svcv2.GeorefResultSet
      */
     @WebMethod(operationName = "Georef3", action = "http://geo-locate.org/webservices/Georef3")
     @WebResult(name = "Result", targetNamespace = "http://geo-locate.org/webservices/")
-    @RequestWrapper(localName = "Georef3", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.Georef3")
-    @ResponseWrapper(localName = "Georef3Response", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.Georef3Response")
+    @RequestWrapper(localName = "Georef3", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.svcv2.Georef3")
+    @ResponseWrapper(localName = "Georef3Response", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.svcv2.Georef3Response")
     public GeorefResultSet georef3(
         @WebParam(name = "vLocality", targetNamespace = "http://geo-locate.org/webservices/")
         String vLocality,
@@ -175,8 +175,8 @@ public interface GeolocatesvcSoap {
      * @param localityDescription
      */
     @WebMethod(operationName = "SnapPointToNearestFoundWaterBody", action = "http://geo-locate.org/webservices/SnapPointToNearestFoundWaterBody")
-    @RequestWrapper(localName = "SnapPointToNearestFoundWaterBody", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.SnapPointToNearestFoundWaterBody")
-    @ResponseWrapper(localName = "SnapPointToNearestFoundWaterBodyResponse", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.SnapPointToNearestFoundWaterBodyResponse")
+    @RequestWrapper(localName = "SnapPointToNearestFoundWaterBody", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.svcv2.SnapPointToNearestFoundWaterBody")
+    @ResponseWrapper(localName = "SnapPointToNearestFoundWaterBodyResponse", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.svcv2.SnapPointToNearestFoundWaterBodyResponse")
     public void snapPointToNearestFoundWaterBody(
         @WebParam(name = "LocalityDescription", targetNamespace = "http://geo-locate.org/webservices/")
         LocalityDescription localityDescription,
@@ -193,12 +193,12 @@ public interface GeolocatesvcSoap {
      * @param localityString
      * @param state
      * @return
-     *     returns org.geolocate.webservices.GeographicPoint
+     *     returns org.geolocate.webservices.svcv2.GeographicPoint
      */
     @WebMethod(operationName = "SnapPointToNearestFoundWaterBody2", action = "http://geo-locate.org/webservices/SnapPointToNearestFoundWaterBody2")
     @WebResult(name = "WGS84Coordinate", targetNamespace = "http://geo-locate.org/webservices/")
-    @RequestWrapper(localName = "SnapPointToNearestFoundWaterBody2", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.SnapPointToNearestFoundWaterBody2")
-    @ResponseWrapper(localName = "SnapPointToNearestFoundWaterBody2Response", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.SnapPointToNearestFoundWaterBody2Response")
+    @RequestWrapper(localName = "SnapPointToNearestFoundWaterBody2", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.svcv2.SnapPointToNearestFoundWaterBody2")
+    @ResponseWrapper(localName = "SnapPointToNearestFoundWaterBody2Response", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.svcv2.SnapPointToNearestFoundWaterBody2Response")
     public GeographicPoint snapPointToNearestFoundWaterBody2(
         @WebParam(name = "Country", targetNamespace = "http://geo-locate.org/webservices/")
         String country,
@@ -222,8 +222,8 @@ public interface GeolocatesvcSoap {
      */
     @WebMethod(operationName = "CalcUncertaintyPoly", action = "http://geo-locate.org/webservices/CalcUncertaintyPoly")
     @WebResult(name = "CalcUncertaintyPolyResult", targetNamespace = "http://geo-locate.org/webservices/")
-    @RequestWrapper(localName = "CalcUncertaintyPoly", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.CalcUncertaintyPoly")
-    @ResponseWrapper(localName = "CalcUncertaintyPolyResponse", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.CalcUncertaintyPolyResponse")
+    @RequestWrapper(localName = "CalcUncertaintyPoly", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.svcv2.CalcUncertaintyPoly")
+    @ResponseWrapper(localName = "CalcUncertaintyPolyResponse", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.svcv2.CalcUncertaintyPolyResponse")
     public String calcUncertaintyPoly(
         @WebParam(name = "PolyGenerationKey", targetNamespace = "http://geo-locate.org/webservices/")
         String polyGenerationKey);
@@ -244,12 +244,12 @@ public interface GeolocatesvcSoap {
      * @param languageKey
      * @param hwyX
      * @return
-     *     returns org.geolocate.webservices.GeorefResultSet
+     *     returns org.geolocate.webservices.svcv2.GeorefResultSet
      */
     @WebMethod(operationName = "Georef2plusBG", action = "http://geo-locate.org/webservices/Georef2plusBG")
     @WebResult(name = "Result", targetNamespace = "http://geo-locate.org/webservices/")
-    @RequestWrapper(localName = "Georef2plusBG", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.Georef2PlusBG")
-    @ResponseWrapper(localName = "Georef2plusBGResponse", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.Georef2PlusBGResponse")
+    @RequestWrapper(localName = "Georef2plusBG", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.svcv2.Georef2PlusBG")
+    @ResponseWrapper(localName = "Georef2plusBGResponse", targetNamespace = "http://geo-locate.org/webservices/", className = "org.geolocate.webservices.svcv2.Georef2PlusBGResponse")
     public GeorefResultSet georef2PlusBG(
         @WebParam(name = "Country", targetNamespace = "http://geo-locate.org/webservices/")
         String country,

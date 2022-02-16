@@ -1,5 +1,5 @@
 
-package org.geolocate.webservices;
+package org.geolocate.webservices.svcv2;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -18,10 +18,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="Country" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="State" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="County" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="LocalityString" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="LocalityDescription" type="{http://geo-locate.org/webservices/}LocalityDescription"/&gt;
  *         &lt;element name="HwyX" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
  *         &lt;element name="FindWaterbody" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
  *         &lt;element name="RestrictToLowestAdm" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
@@ -40,10 +37,7 @@ import jakarta.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "country",
-    "state",
-    "county",
-    "localityString",
+    "localityDescription",
     "hwyX",
     "findWaterbody",
     "restrictToLowestAdm",
@@ -53,17 +47,11 @@ import jakarta.xml.bind.annotation.XmlType;
     "polyAsLinkID",
     "languageKey"
 })
-@XmlRootElement(name = "Georef2plusBG")
-public class Georef2PlusBG {
+@XmlRootElement(name = "Georef")
+public class Georef {
 
-    @XmlElement(name = "Country")
-    protected String country;
-    @XmlElement(name = "State")
-    protected String state;
-    @XmlElement(name = "County")
-    protected String county;
-    @XmlElement(name = "LocalityString")
-    protected String localityString;
+    @XmlElement(name = "LocalityDescription", required = true)
+    protected LocalityDescription localityDescription;
     @XmlElement(name = "HwyX")
     protected boolean hwyX;
     @XmlElement(name = "FindWaterbody")
@@ -78,99 +66,27 @@ public class Georef2PlusBG {
     protected int languageKey;
 
     /**
-     * Gets the value of the country property.
+     * Gets the value of the localityDescription property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link LocalityDescription }
      *     
      */
-    public String getCountry() {
-        return country;
+    public LocalityDescription getLocalityDescription() {
+        return localityDescription;
     }
 
     /**
-     * Sets the value of the country property.
+     * Sets the value of the localityDescription property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link LocalityDescription }
      *     
      */
-    public void setCountry(String value) {
-        this.country = value;
-    }
-
-    /**
-     * Gets the value of the state property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getState() {
-        return state;
-    }
-
-    /**
-     * Sets the value of the state property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setState(String value) {
-        this.state = value;
-    }
-
-    /**
-     * Gets the value of the county property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getCounty() {
-        return county;
-    }
-
-    /**
-     * Sets the value of the county property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setCounty(String value) {
-        this.county = value;
-    }
-
-    /**
-     * Gets the value of the localityString property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getLocalityString() {
-        return localityString;
-    }
-
-    /**
-     * Sets the value of the localityString property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setLocalityString(String value) {
-        this.localityString = value;
+    public void setLocalityDescription(LocalityDescription value) {
+        this.localityDescription = value;
     }
 
     /**

@@ -1,5 +1,5 @@
 
-package org.geolocate.webservices;
+package org.geolocate.webservices.svcv2;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -18,7 +18,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="LocalityDescription" type="{http://geo-locate.org/webservices/}LocalityDescription"/&gt;
+ *         &lt;element name="Result" type="{http://geo-locate.org/webservices/}Georef_Result_Set"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -29,36 +29,36 @@ import jakarta.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "localityDescription"
+    "result"
 })
-@XmlRootElement(name = "FindWaterBodiesWithinLocality")
-public class FindWaterBodiesWithinLocality {
+@XmlRootElement(name = "GeorefResponse")
+public class GeorefResponse {
 
-    @XmlElement(name = "LocalityDescription", required = true)
-    protected LocalityDescription localityDescription;
+    @XmlElement(name = "Result", required = true)
+    protected GeorefResultSet result;
 
     /**
-     * Gets the value of the localityDescription property.
+     * Gets the value of the result property.
      * 
      * @return
      *     possible object is
-     *     {@link LocalityDescription }
+     *     {@link GeorefResultSet }
      *     
      */
-    public LocalityDescription getLocalityDescription() {
-        return localityDescription;
+    public GeorefResultSet getResult() {
+        return result;
     }
 
     /**
-     * Sets the value of the localityDescription property.
+     * Sets the value of the result property.
      * 
      * @param value
      *     allowed object is
-     *     {@link LocalityDescription }
+     *     {@link GeorefResultSet }
      *     
      */
-    public void setLocalityDescription(LocalityDescription value) {
-        this.localityDescription = value;
+    public void setResult(GeorefResultSet value) {
+        this.result = value;
     }
 
 }

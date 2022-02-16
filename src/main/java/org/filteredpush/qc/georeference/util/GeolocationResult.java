@@ -11,8 +11,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
-import org.geolocate.webservices.GeorefResult;
-import org.geolocate.webservices.GeorefResultSet;
+import org.geolocate.webservices.svcv2.GeorefResult;
+import org.geolocate.webservices.svcv2.GeorefResultSet;
 
 /**
  * Representation of a single georeference assertion as made by GeoLocate's service.

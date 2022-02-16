@@ -1,5 +1,5 @@
 
-package org.geolocate.webservices;
+package org.geolocate.webservices.svcv2;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -18,7 +18,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="PolyGenerationKey" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="FindWaterBodiesWithinLocalityResult" type="{http://geo-locate.org/webservices/}ArrayOfString" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -29,36 +29,36 @@ import jakarta.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "polyGenerationKey"
+    "findWaterBodiesWithinLocalityResult"
 })
-@XmlRootElement(name = "CalcUncertaintyPoly")
-public class CalcUncertaintyPoly {
+@XmlRootElement(name = "FindWaterBodiesWithinLocalityResponse")
+public class FindWaterBodiesWithinLocalityResponse {
 
-    @XmlElement(name = "PolyGenerationKey")
-    protected String polyGenerationKey;
+    @XmlElement(name = "FindWaterBodiesWithinLocalityResult")
+    protected ArrayOfString findWaterBodiesWithinLocalityResult;
 
     /**
-     * Gets the value of the polyGenerationKey property.
+     * Gets the value of the findWaterBodiesWithinLocalityResult property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link ArrayOfString }
      *     
      */
-    public String getPolyGenerationKey() {
-        return polyGenerationKey;
+    public ArrayOfString getFindWaterBodiesWithinLocalityResult() {
+        return findWaterBodiesWithinLocalityResult;
     }
 
     /**
-     * Sets the value of the polyGenerationKey property.
+     * Sets the value of the findWaterBodiesWithinLocalityResult property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link ArrayOfString }
      *     
      */
-    public void setPolyGenerationKey(String value) {
-        this.polyGenerationKey = value;
+    public void setFindWaterBodiesWithinLocalityResult(ArrayOfString value) {
+        this.findWaterBodiesWithinLocalityResult = value;
     }
 
 }

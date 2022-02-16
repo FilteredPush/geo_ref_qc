@@ -1,5 +1,5 @@
 
-package org.geolocate.webservices;
+package org.geolocate.webservices.svcv2;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -18,7 +18,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="Result" type="{http://geo-locate.org/webservices/}Georef_Result_Set"/&gt;
+ *         &lt;element name="CalcUncertaintyPolyResult" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -29,36 +29,36 @@ import jakarta.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "result"
+    "calcUncertaintyPolyResult"
 })
-@XmlRootElement(name = "Georef3Response")
-public class Georef3Response {
+@XmlRootElement(name = "CalcUncertaintyPolyResponse")
+public class CalcUncertaintyPolyResponse {
 
-    @XmlElement(name = "Result", required = true)
-    protected GeorefResultSet result;
+    @XmlElement(name = "CalcUncertaintyPolyResult")
+    protected String calcUncertaintyPolyResult;
 
     /**
-     * Gets the value of the result property.
+     * Gets the value of the calcUncertaintyPolyResult property.
      * 
      * @return
      *     possible object is
-     *     {@link GeorefResultSet }
+     *     {@link String }
      *     
      */
-    public GeorefResultSet getResult() {
-        return result;
+    public String getCalcUncertaintyPolyResult() {
+        return calcUncertaintyPolyResult;
     }
 
     /**
-     * Sets the value of the result property.
+     * Sets the value of the calcUncertaintyPolyResult property.
      * 
      * @param value
      *     allowed object is
-     *     {@link GeorefResultSet }
+     *     {@link String }
      *     
      */
-    public void setResult(GeorefResultSet value) {
-        this.result = value;
+    public void setCalcUncertaintyPolyResult(String value) {
+        this.calcUncertaintyPolyResult = value;
     }
 
 }

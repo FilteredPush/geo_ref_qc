@@ -1,5 +1,5 @@
 
-package org.geolocate.webservices;
+package org.geolocate.webservices.svcv2;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -18,7 +18,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="Result" type="{http://geo-locate.org/webservices/}Georef_Result_Set"/&gt;
+ *         &lt;element name="WGS84Coordinate" type="{http://geo-locate.org/webservices/}GeographicPoint"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -29,36 +29,36 @@ import jakarta.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "result"
+    "wgs84Coordinate"
 })
-@XmlRootElement(name = "GeorefResponse")
-public class GeorefResponse {
+@XmlRootElement(name = "SnapPointToNearestFoundWaterBodyResponse")
+public class SnapPointToNearestFoundWaterBodyResponse {
 
-    @XmlElement(name = "Result", required = true)
-    protected GeorefResultSet result;
+    @XmlElement(name = "WGS84Coordinate", required = true)
+    protected GeographicPoint wgs84Coordinate;
 
     /**
-     * Gets the value of the result property.
+     * Gets the value of the wgs84Coordinate property.
      * 
      * @return
      *     possible object is
-     *     {@link GeorefResultSet }
+     *     {@link GeographicPoint }
      *     
      */
-    public GeorefResultSet getResult() {
-        return result;
+    public GeographicPoint getWGS84Coordinate() {
+        return wgs84Coordinate;
     }
 
     /**
-     * Sets the value of the result property.
+     * Sets the value of the wgs84Coordinate property.
      * 
      * @param value
      *     allowed object is
-     *     {@link GeorefResultSet }
+     *     {@link GeographicPoint }
      *     
      */
-    public void setResult(GeorefResultSet value) {
-        this.result = value;
+    public void setWGS84Coordinate(GeographicPoint value) {
+        this.wgs84Coordinate = value;
     }
 
 }

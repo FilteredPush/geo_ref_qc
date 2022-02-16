@@ -1,5 +1,5 @@
 
-package org.geolocate.webservices;
+package org.geolocate.webservices.svcv2;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -31,8 +31,8 @@ import jakarta.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "result"
 })
-@XmlRootElement(name = "Georef2Response")
-public class Georef2Response {
+@XmlRootElement(name = "Georef3Response")
+public class Georef3Response {
 
     @XmlElement(name = "Result", required = true)
     protected GeorefResultSet result;

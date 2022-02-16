@@ -1,5 +1,5 @@
 
-package org.geolocate.webservices;
+package org.geolocate.webservices.svcv2;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -18,7 +18,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="CalcUncertaintyPolyResult" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="PolyGenerationKey" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -29,36 +29,36 @@ import jakarta.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "calcUncertaintyPolyResult"
+    "polyGenerationKey"
 })
-@XmlRootElement(name = "CalcUncertaintyPolyResponse")
-public class CalcUncertaintyPolyResponse {
+@XmlRootElement(name = "CalcUncertaintyPoly")
+public class CalcUncertaintyPoly {
 
-    @XmlElement(name = "CalcUncertaintyPolyResult")
-    protected String calcUncertaintyPolyResult;
+    @XmlElement(name = "PolyGenerationKey")
+    protected String polyGenerationKey;
 
     /**
-     * Gets the value of the calcUncertaintyPolyResult property.
+     * Gets the value of the polyGenerationKey property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getCalcUncertaintyPolyResult() {
-        return calcUncertaintyPolyResult;
+    public String getPolyGenerationKey() {
+        return polyGenerationKey;
     }
 
     /**
-     * Sets the value of the calcUncertaintyPolyResult property.
+     * Sets the value of the polyGenerationKey property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setCalcUncertaintyPolyResult(String value) {
-        this.calcUncertaintyPolyResult = value;
+    public void setPolyGenerationKey(String value) {
+        this.polyGenerationKey = value;
     }
 
 }

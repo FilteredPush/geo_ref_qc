@@ -1,5 +1,5 @@
 
-package org.geolocate.webservices;
+package org.geolocate.webservices.svcv2;
 
 import javax.xml.namespace.QName;
 import jakarta.xml.bind.JAXBElement;
@@ -10,7 +10,7 @@ import jakarta.xml.bind.annotation.XmlRegistry;
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
- * generated in the org.geolocate.webservices package. 
+ * generated in the org.geolocate.webservices.svcv2 package. 
  * <p>An ObjectFactory allows you to programatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
@@ -29,7 +29,7 @@ public class ObjectFactory {
     private final static QName _String_QNAME = new QName("http://geo-locate.org/webservices/", "string");
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.geolocate.webservices
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.geolocate.webservices.svcv2
      * 
      */
     public ObjectFactory() {

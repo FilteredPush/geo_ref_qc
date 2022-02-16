@@ -6,11 +6,10 @@ import org.filteredpush.qc.georeference.util.CacheValue;
 import org.filteredpush.qc.georeference.util.GEOUtil;
 import org.filteredpush.qc.georeference.util.GeoRefCacheValue;
 import org.filteredpush.qc.georeference.util.GeolocationResult;
-
-import org.geolocate.webservices.Geolocatesvc;
-import org.geolocate.webservices.GeolocatesvcSoap;
-import org.geolocate.webservices.GeorefResult;
-import org.geolocate.webservices.GeorefResultSet;
+import org.geolocate.webservices.svcv2.Geolocatesvc;
+import org.geolocate.webservices.svcv2.GeolocatesvcSoap;
+import org.geolocate.webservices.svcv2.GeorefResult;
+import org.geolocate.webservices.svcv2.GeorefResultSet;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;

@@ -1,5 +1,5 @@
 
-package org.geolocate.webservices;
+package org.geolocate.webservices.svcv2;
 
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
@@ -15,12 +15,12 @@ import jakarta.xml.bind.annotation.XmlSeeAlso;
  * Generated source version: 3.0
  * 
  */
-@WebService(name = "geolocatesvcHttpPost", targetNamespace = "http://geo-locate.org/webservices/")
+@WebService(name = "geolocatesvcHttpGet", targetNamespace = "http://geo-locate.org/webservices/")
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 @XmlSeeAlso({
     ObjectFactory.class
 })
-public interface GeolocatesvcHttpPost {
+public interface GeolocatesvcHttpGet {
 
 
     /**
@@ -39,7 +39,7 @@ public interface GeolocatesvcHttpPost {
      * @param languageKey
      * @param hwyX
      * @return
-     *     returns org.geolocate.webservices.GeorefResultSet
+     *     returns org.geolocate.webservices.svcv2.GeorefResultSet
      */
     @WebMethod(operationName = "Georef2")
     @WebResult(name = "Georef_Result_Set", targetNamespace = "http://geo-locate.org/webservices/", partName = "Body")
@@ -83,7 +83,7 @@ public interface GeolocatesvcHttpPost {
      * @param languageKey
      * @param hwyX
      * @return
-     *     returns org.geolocate.webservices.GeorefResultSet
+     *     returns org.geolocate.webservices.svcv2.GeorefResultSet
      */
     @WebMethod(operationName = "Georef3")
     @WebResult(name = "Georef_Result_Set", targetNamespace = "http://geo-locate.org/webservices/", partName = "Body")
@@ -119,7 +119,7 @@ public interface GeolocatesvcHttpPost {
      * @param localityString
      * @param state
      * @return
-     *     returns org.geolocate.webservices.GeographicPoint
+     *     returns org.geolocate.webservices.svcv2.GeographicPoint
      */
     @WebMethod(operationName = "SnapPointToNearestFoundWaterBody2")
     @WebResult(name = "GeographicPoint", targetNamespace = "http://geo-locate.org/webservices/", partName = "Body")
@@ -166,7 +166,7 @@ public interface GeolocatesvcHttpPost {
      * @param languageKey
      * @param hwyX
      * @return
-     *     returns org.geolocate.webservices.GeorefResultSet
+     *     returns org.geolocate.webservices.svcv2.GeorefResultSet
      */
     @WebMethod(operationName = "Georef2plusBG")
     @WebResult(name = "Georef_Result_Set", targetNamespace = "http://geo-locate.org/webservices/", partName = "Body")
