@@ -1,14 +1,9 @@
 package org.filteredpush.qc.georeference;
 
-import edu.tulane.museum.www.webservices.GeographicPoint;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.filteredpush.qc.georeference.util.*;
 import org.geotools.data.shapefile.shp.ShapefileException;
-
-import edu.tulane.museum.www.webservices.GeolocatesvcSoapProxy;
-import edu.tulane.museum.www.webservices.Georef_Result;
-import edu.tulane.museum.www.webservices.Georef_Result_Set;
 
 import java.awt.geom.Path2D;
 import java.io.File;

@@ -56,6 +56,7 @@ public class GISDataLoader {
 //                polygonSet.add(polygon);
 //            }
         }
+        reader.close();
         is.dispose();
         return polygonSet;
     }

@@ -11,9 +11,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
-
-import edu.tulane.museum.www.webservices.Georef_Result;
-import edu.tulane.museum.www.webservices.Georef_Result_Set;
+import org.geolocate.webservices.GeorefResult;
+import org.geolocate.webservices.GeorefResultSet;
 
 /**
  * Representation of a single georeference assertion as made by GeoLocate's service.
@@ -56,12 +55,13 @@ public class GeolocationResult implements Serializable {
 		return result;
 	}
 
-	public static List<GeolocationResult> constructFromGeolocateResultSet(Georef_Result_Set results) {
+	public static List<GeolocationResult> constructFromGeolocateResultSet(GeorefResultSet results) {
 		ArrayList<GeolocationResult> resultList = new ArrayList<GeolocationResult>();
 		if (results !=null && results.getNumResults()>0) {
 		    int numResults = results.getNumResults();
-			for (int i=0; i<numResults; i++) {
-			   Georef_Result row = results.getResultSet(i);
+		    Iterator<GeorefResult> i = results.getResultSet().iterator();
+			while(i.hasNext()) {
+			   GeorefResult row = i.next();
 			   if (row.getScore()>MIN_SCORE_THRESHOLD) {
 				   int uncertainty = 0;
 				   try {

@@ -1,8 +1,5 @@
 package org.filteredpush.qc.georeference;
 
-import edu.tulane.museum.www.webservices.GeolocatesvcSoapProxy;
-import edu.tulane.museum.www.webservices.Georef_Result;
-import edu.tulane.museum.www.webservices.Georef_Result_Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.filteredpush.qc.georeference.util.CacheValue;
@@ -10,9 +7,15 @@ import org.filteredpush.qc.georeference.util.GEOUtil;
 import org.filteredpush.qc.georeference.util.GeoRefCacheValue;
 import org.filteredpush.qc.georeference.util.GeolocationResult;
 
+import org.geolocate.webservices.Geolocatesvc;
+import org.geolocate.webservices.GeolocatesvcSoap;
+import org.geolocate.webservices.GeorefResult;
+import org.geolocate.webservices.GeorefResultSet;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -49,7 +52,9 @@ public class GeoLocateService {
             //System.out.println("key = " + key);
         }
 
-        GeolocatesvcSoapProxy geolocateService = new GeolocatesvcSoapProxy();
+        Geolocatesvc service = new Geolocatesvc();
+        
+        GeolocatesvcSoap geolocateService = service.getGeolocatesvcSoap();;
 
         // Test page for georef2 at: http://www.museum.tulane.edu/webservices/geolocatesvcv2/geolocatesvc.asmx?op=Georef2
 
@@ -68,13 +73,14 @@ public class GeoLocateService {
         boolean polyAsLinkID = false;
         int languageKey = 0;  // 0=english; 1=spanish
 
-        Georef_Result_Set results;
+        GeorefResultSet results;
         try {
             results = geolocateService.georef2(country, stateProvince, county, locality, hwyX, findWaterbody, restrictToLowestAdm, doUncert, doPoly, displacePoly, polyAsLinkID, languageKey);
             int numResults = results.getNumResults();
             //addToComment(" found " + numResults + " possible georeferences with Geolocate engine:" + results.getEngineVersion());
-            for (int i=0; i<numResults; i++) {
-                Georef_Result res = results.getResultSet(i);
+            Iterator<GeorefResult> i = results.getResultSet().iterator();
+            while (i.hasNext()) {
+                GeorefResult res = i.next();
                 try {
                     double lat2 = Double.parseDouble(latitude);
                     double lon2 = Double.parseDouble(longitude);
@@ -89,7 +95,7 @@ public class GeoLocateService {
             if (useCache) {
                 responseCache.put(key, result);
             }
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             logger.debug(e.getMessage());
             //addToComment(e.getMessage());
         }
