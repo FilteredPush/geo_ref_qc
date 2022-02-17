@@ -5,11 +5,13 @@ package org.filteredpush.qc.georeference;
 import org.datakurator.ffdq.annotations.*;
 import org.datakurator.ffdq.api.DQResponse;
 import org.datakurator.ffdq.model.ResultState;
+import org.filteredpush.qc.georeference.util.GEOUtil;
 import org.datakurator.ffdq.api.result.*;
 
 @Mechanism(value="71fa3762-0dfa-43c7-a113-d59797af02e8",label="Kurator: Date Validator - DwCGeoRefDQ:v2.0.0")
 public class DwCGeoRefDQ{
-
+	
+	
     /**
      * #20 Validation SingleRecord Conformance: countrycode notstandard
      *
@@ -19,15 +21,39 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("0493bcfb-652e-4d17-815b-b0cce0742fbe")
-    public DQResponse<ComplianceValue> validationCountrycodeNotstandard(@ActedUpon("dwc:countryCode") String countryCode) {
+    public static DQResponse<ComplianceValue> validationCountrycodeNotstandard(@ActedUpon("dwc:countryCode") String countryCode) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // EXTERNAL_PREREQUISITES_NOT_MET if the ISO 3166 service was 
         // not available; INTERNAL_PREREQUISITES_NOT_MET if the dwc:countryCode 
         // was EMPTY; COMPLIANT if dwc:countryCode is a valid ISO (ISO 
         // 3166-1-alpha-2 country codes) value; otherwise NOT_COMPLIANT 
         //
+        
+        // TODO: Implement a parameterized version with sources for country codes.
+        
+        if (GEOUtil.isEmpty(countryCode)) { 
+        	result.addComment("dwc:countryCode is empty");
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        } else if (countryCode.length() != 2) { 
+        	result.addComment("the value provided for dwc:countryCode does not consist of exactly two letters");
+        	result.setResultState(ResultState.RUN_HAS_RESULT);
+        	result.setValue(ComplianceValue.NOT_COMPLIANT);
+        } else if (!countryCode.toUpperCase().equals(countryCode)) { 
+        	result.addComment("the value provided for dwc:countryCode does not consist of two upper case letters");
+        	result.setResultState(ResultState.RUN_HAS_RESULT);
+        	result.setValue(ComplianceValue.NOT_COMPLIANT);
+        } else if (GEOUtil.isISOTwoLetterCountryCode(countryCode)) { 
+        	result.addComment("the value provided for dwc:countryCode is a case sensitive exact match to a two letter country code");
+        	result.setResultState(ResultState.RUN_HAS_RESULT);
+        	result.setValue(ComplianceValue.COMPLIANT);
+        } else { 
+        	result.addComment("the value provided for dwc:countryCode is not a case sensitive exact match to a two letter country code");
+        	result.setResultState(ResultState.RUN_HAS_RESULT);
+        	result.setValue(ComplianceValue.NOT_COMPLIANT);
+        }
+        
 
         return result;
     }
