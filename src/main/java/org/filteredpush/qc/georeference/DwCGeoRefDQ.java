@@ -188,37 +188,87 @@ public class DwCGeoRefDQ{
      *
      * Provides: VALIDATION_LOCATION_EMPTY
      *
+     * @param higherGeography the provided dwc:higherGeography to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
      * @param continent the provided dwc:continent to evaluate
-     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
-     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @param waterBody the provided dwc:waterBody to evaluate
      * @param islandGroup the provided dwc:islandGroup to evaluate
-     * @param verbatimLocality the provided dwc:verbatimLocality to evaluate
-     * @param higherGeography the provided dwc:higherGeography to evaluate
+     * @param island the provided dwc:island to evaluate
      * @param country the provided dwc:country to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param stateProvince the provided dwc:stateProvince to evaluate
+     * @param county the provided dwc:county to evaluate
      * @param municipality the provided dwc:municipality to evaluate
-     * @param verbatimLatitude the provided dwc:verbatimLatitude to evaluate
      * @param locality the provided dwc:locality to evaluate
      * @param locationID the provided dwc:locationID to evaluate
-     * @param island the provided dwc:island to evaluate
-     * @param county the provided dwc:county to evaluate
+     * @param verbatimLocality the provided dwc:verbatimLocality to evaluate
      * @param verbatimCoordinates the provided dwc:verbatimCoordinates to evaluate
+     * @param verbatimLatitude the provided dwc:verbatimLatitude to evaluate
      * @param verbatimLongitude the provided dwc:verbatimLongitude to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
-     * @param stateProvince the provided dwc:stateProvince to evaluate
+     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
+     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @param footprintWKT the provided dwc:footprintWKT to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("58486cb6-1114-4a8a-ba1e-bd89cfe887e9")
-    public DQResponse<ComplianceValue> validationLocationEmpty(@ActedUpon("dwc:continent") String continent, @ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude, @ActedUpon("dwc:waterBody") String waterBody, @ActedUpon("dwc:islandGroup") String islandGroup, @ActedUpon("dwc:verbatimLocality") String verbatimLocality, @ActedUpon("dwc:higherGeography") String higherGeography, @ActedUpon("dwc:country") String country, @ActedUpon("dwc:municipality") String municipality, @ActedUpon("dwc:verbatimLatitude") String verbatimLatitude, @ActedUpon("dwc:locality") String locality, @ActedUpon("dwc:locationID") String locationID, @ActedUpon("dwc:island") String island, @ActedUpon("dwc:county") String county, @ActedUpon("dwc:verbatimCoordinates") String verbatimCoordinates, @ActedUpon("dwc:verbatimLongitude") String verbatimLongitude, @ActedUpon("dwc:countryCode") String countryCode, @ActedUpon("dwc:higherGeographyID") String higherGeographyID, @ActedUpon("dwc:stateProvince") String stateProvince, @ActedUpon("dwc:footprintWKT") String footprintWKT) {
+    public static DQResponse<ComplianceValue> validationLocationEmpty(
+    		@ActedUpon("dwc:higherGeography") String higherGeography, 
+    		@ActedUpon("dwc:higherGeographyID") String higherGeographyID, 
+    		@ActedUpon("dwc:continent") String continent, 
+    		@ActedUpon("dwc:waterBody") String waterBody, 
+    		@ActedUpon("dwc:islandGroup") String islandGroup, 
+    		@ActedUpon("dwc:island") String island, 
+    		@ActedUpon("dwc:country") String country, 
+    		@ActedUpon("dwc:countryCode") String countryCode, 
+    		@ActedUpon("dwc:stateProvince") String stateProvince, 
+    		@ActedUpon("dwc:county") String county, 
+    		@ActedUpon("dwc:municipality") String municipality, 
+    		@ActedUpon("dwc:locality") String locality, 
+    		@ActedUpon("dwc:locationID") String locationID, 
+    		@ActedUpon("dwc:verbatimLocality") String verbatimLocality, 
+    		@ActedUpon("dwc:verbatimCoordinates") String verbatimCoordinates, 
+    		@ActedUpon("dwc:verbatimLatitude") String verbatimLatitude, 
+    		@ActedUpon("dwc:verbatimLongitude") String verbatimLongitude, 
+    		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
+    		@ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
+    		@ActedUpon("dwc:footprintWKT") String footprintWKT) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // COMPLIANT if at least one term needed to determine the location 
         // of the entity exists and is not EMPTY; otherwise NOT_COMPLIANT 
         //
-
+        
+        result.setResultState(ResultState.RUN_HAS_RESULT);
+        if (
+        		GEOUtil.isEmpty(higherGeography) && 
+        		GEOUtil.isEmpty(higherGeographyID) && 
+        		GEOUtil.isEmpty(continent) && 
+        		GEOUtil.isEmpty(waterBody) && 
+        		GEOUtil.isEmpty(islandGroup) && 
+        		GEOUtil.isEmpty(island) && 
+        		GEOUtil.isEmpty(country) && 
+        		GEOUtil.isEmpty(countryCode) && 
+        		GEOUtil.isEmpty(stateProvince) && 
+        		GEOUtil.isEmpty(county) && 
+        		GEOUtil.isEmpty(municipality) && 
+        		GEOUtil.isEmpty(locality) && 
+        		GEOUtil.isEmpty(locationID) && 
+        		GEOUtil.isEmpty(verbatimLocality) && 
+        		GEOUtil.isEmpty(verbatimCoordinates) && 
+        		GEOUtil.isEmpty(verbatimLatitude) && 
+        		GEOUtil.isEmpty(verbatimLongitude) && 
+        		GEOUtil.isEmpty(decimalLatitude) && 
+        		GEOUtil.isEmpty(decimalLongitude) && 
+        		GEOUtil.isEmpty(footprintWKT)
+        	)
+		{ 
+			result.setValue(ComplianceValue.NOT_COMPLIANT);
+			result.addComment("All terms needed to determine the location are empty");
+		} else { 
+			result.setValue(ComplianceValue.COMPLIANT);
+			result.addComment("At least one location term contains a value.");
+		}
         return result;
     }
 
@@ -231,13 +281,23 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("6ce2b2b4-6afe-4d13-82a0-390d31ade01c")
-    public DQResponse<ComplianceValue> validationCountryEmpty(@ActedUpon("dwc:country") String country) {
+    public static DQResponse<ComplianceValue> validationCountryEmpty(@ActedUpon("dwc:country") String country) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // COMPLIANT if dwc:country is not EMPTY; otherwise NOT_COMPLIANT 
         //
 
+        result.setResultState(ResultState.RUN_HAS_RESULT);
+        if (GEOUtil.isEmpty(country))
+		{ 
+			result.setValue(ComplianceValue.NOT_COMPLIANT);
+			result.addComment("The value provided for dwc:country is empty");
+		} else { 
+			result.setValue(ComplianceValue.COMPLIANT);
+			result.addComment("dwc:country contains a value.");
+		}
+        
         return result;
     }
 
@@ -579,12 +639,22 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("239ec40e-a729-4a8e-ba69-e0bf03ac1c44")
-    public DQResponse<ComplianceValue> validationGeodeticdatumEmpty(@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
+    public static DQResponse<ComplianceValue> validationGeodeticdatumEmpty(@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // COMPLIANT if dwc:geodeticDatum is not EMPTY; otherwise NOT_COMPLIANT 
         //
+        
+        result.setResultState(ResultState.RUN_HAS_RESULT);
+        if (GEOUtil.isEmpty(geodeticDatum))
+		{ 
+			result.setValue(ComplianceValue.NOT_COMPLIANT);
+			result.addComment("The value provided for dwc:geodeticDatum is empty");
+		} else { 
+			result.setValue(ComplianceValue.COMPLIANT);
+			result.addComment("dwc:geodeticDatum contains a value.");
+		}
 
         return result;
     }
@@ -676,12 +746,22 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("9beb9442-d942-4f42-8b6a-fcea01ee086a")
-    public DQResponse<ComplianceValue> validationDecimallongitudeEmpty(@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
+    public static DQResponse<ComplianceValue> validationDecimallongitudeEmpty(@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // COMPLIANT if dwc:decimalLongitude is not EMPTY; otherwise 
-        //NOT_COMPLIANT 
+        // NOT_COMPLIANT 
+        
+        result.setResultState(ResultState.RUN_HAS_RESULT);
+        if (GEOUtil.isEmpty(decimalLongitude))
+		{ 
+			result.setValue(ComplianceValue.NOT_COMPLIANT);
+			result.addComment("The value provided for dwc:decimalLongitude is empty");
+		} else { 
+			result.setValue(ComplianceValue.COMPLIANT);
+			result.addComment("dwc:decimalLongitude contains a value.");
+		}
 
         return result;
     }
@@ -695,12 +775,22 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("853b79a2-b314-44a2-ae46-34a1e7ed85e4")
-    public DQResponse<ComplianceValue> validationCountrycodeEmpty(@ActedUpon("dwc:countryCode") String countryCode) {
+    public static DQResponse<ComplianceValue> validationCountrycodeEmpty(@ActedUpon("dwc:countryCode") String countryCode) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // COMPLIANT if dwc:countryCode is not EMPTY; otherwise NOT_COMPLIANT 
         //
+        
+        result.setResultState(ResultState.RUN_HAS_RESULT);
+        if (GEOUtil.isEmpty(countryCode))
+		{ 
+			result.setValue(ComplianceValue.NOT_COMPLIANT);
+			result.addComment("The value provided for dwc:countryCode is empty");
+		} else { 
+			result.setValue(ComplianceValue.COMPLIANT);
+			result.addComment("dwc:countryCode contains a value.");
+		}
 
         return result;
     }
@@ -864,13 +954,23 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("7d2485d5-1ba7-4f25-90cb-f4480ff1a275")
-    public DQResponse<ComplianceValue> validationDecimallatitudeEmpty(@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
+    public static DQResponse<ComplianceValue> validationDecimallatitudeEmpty(@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // COMPLIANT if dwc:decimalLatitude is not EMPTY; otherwise 
-        //NOT_COMPLIANT 
+        // NOT_COMPLIANT 
 
+        result.setResultState(ResultState.RUN_HAS_RESULT);
+        if (GEOUtil.isEmpty(decimalLatitude))
+		{ 
+			result.setValue(ComplianceValue.NOT_COMPLIANT);
+			result.addComment("The value provided for dwc:decimalLatitude is empty");
+		} else { 
+			result.setValue(ComplianceValue.COMPLIANT);
+			result.addComment("dwc:decimalLatitude contains a value.");
+		}
+        
         return result;
     }
 

@@ -97,7 +97,117 @@ public class DwCGeoRefDQTestDefinitions {
 	 */
 	@Test
 	public void testValidationLocationEmpty() {
-		fail("Not yet implemented");
+		
+        // Specification
+        // COMPLIANT if at least one term needed to determine the location 
+        // of the entity exists and is not EMPTY; otherwise NOT_COMPLIANT 
+        //
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty("foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
 	}
 
 	/**
@@ -105,7 +215,21 @@ public class DwCGeoRefDQTestDefinitions {
 	 */
 	@Test
 	public void testValidationCountryEmpty() {
-		fail("Not yet implemented");
+		
+        // Specification
+        // COMPLIANT if dwc:country is not EMPTY; otherwise NOT_COMPLIANT 
+        //
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountryEmpty(null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationCountryEmpty("foo");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
 	}
 
 	/**
@@ -209,7 +333,20 @@ public class DwCGeoRefDQTestDefinitions {
 	 */
 	@Test
 	public void testValidationGeodeticdatumEmpty() {
-		fail("Not yet implemented");
+		
+        // Specification
+        // COMPLIANT if dwc:geodeticDatum is not EMPTY; otherwise NOT_COMPLIANT 
+        //
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationGeodeticdatumEmpty(null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationGeodeticdatumEmpty("foo");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 	}
 
 	/**
@@ -241,7 +378,21 @@ public class DwCGeoRefDQTestDefinitions {
 	 */
 	@Test
 	public void testValidationDecimallongitudeEmpty() {
-		fail("Not yet implemented");
+		
+        // Specification
+        // COMPLIANT if dwc:decimalLongitude is not EMPTY; otherwise 
+        // NOT_COMPLIANT 
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationDecimallongitudeEmpty(null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationDecimallongitudeEmpty("foo");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
 	}
 
 	/**
@@ -249,7 +400,21 @@ public class DwCGeoRefDQTestDefinitions {
 	 */
 	@Test
 	public void testValidationCountrycodeEmpty() {
-		fail("Not yet implemented");
+		
+        // Specification
+        // COMPLIANT if dwc:countryCode is not EMPTY; otherwise NOT_COMPLIANT 
+        //
+	
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountrycodeEmpty(null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationCountrycodeEmpty("foo");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
 	}
 
 	/**
@@ -305,7 +470,21 @@ public class DwCGeoRefDQTestDefinitions {
 	 */
 	@Test
 	public void testValidationDecimallatitudeEmpty() {
-		fail("Not yet implemented");
+		
+        // Specification
+        // COMPLIANT if dwc:decimalLatitude is not EMPTY; otherwise 
+        // NOT_COMPLIANT 
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationDecimallatitudeEmpty(null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationDecimallatitudeEmpty("foo");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
 	}
 
 	/**
@@ -321,102 +500,6 @@ public class DwCGeoRefDQTestDefinitions {
 	 */
 	@Test
 	public void testValidationMaxdepthOutofrange() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#Object()}.
-	 */
-	@Test
-	public void testObject() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#getClass()}.
-	 */
-	@Test
-	public void testGetClass() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#hashCode()}.
-	 */
-	@Test
-	public void testHashCode() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#equals(java.lang.Object)}.
-	 */
-	@Test
-	public void testEquals() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#clone()}.
-	 */
-	@Test
-	public void testClone() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#toString()}.
-	 */
-	@Test
-	public void testToString() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#notify()}.
-	 */
-	@Test
-	public void testNotify() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#notifyAll()}.
-	 */
-	@Test
-	public void testNotifyAll() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#wait()}.
-	 */
-	@Test
-	public void testWait() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#wait(long)}.
-	 */
-	@Test
-	public void testWaitLong() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#wait(long, int)}.
-	 */
-	@Test
-	public void testWaitLongInt() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#finalize()}.
-	 */
-	@Test
-	public void testFinalize() {
 		fail("Not yet implemented");
 	}
 
