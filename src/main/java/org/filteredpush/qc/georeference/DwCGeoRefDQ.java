@@ -115,15 +115,38 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("0949110d-c06b-450e-9649-7c1374d940d1")
-    public DQResponse<ComplianceValue> validationDecimallongitudeOutofrange(@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
+    public static DQResponse<ComplianceValue> validationDecimallongitudeOutofrange(@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
 
-        //TODO:  Implement specification
+    	DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
+
+        // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLongitude is 
         // EMPTY or the value is not a number; COMPLIANT if the value 
         // of dwc:decimalLongitude is between -180 and 180 degrees, 
-        //inclusive; otherwise NOT_COMPLIANT 
+        // inclusive; otherwise NOT_COMPLIANT 
+        
+    	if (GEOUtil.isEmpty(decimalLongitude)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:decimalLongitude is empty.");
+    	} else { 
+    		try {
+    			Double longitudeNumber = Double.parseDouble(decimalLongitude);
+    			if (longitudeNumber <= 180d && longitudeNumber >= -180d) { 
+    				result.setResultState(ResultState.RUN_HAS_RESULT);
+    				result.setValue(ComplianceValue.COMPLIANT);
+    				result.addComment("the provided value for dwc:decimalLongitude is a number between -180 and 180 inclusive.");
+    			} else { 
+    				result.setResultState(ResultState.RUN_HAS_RESULT);
+    				result.setValue(ComplianceValue.NOT_COMPLIANT);
+    				result.addComment("the provided value for dwc:decimalLongitude is a number outside the range -180 to 180.");
+    			}
+    		} catch (NumberFormatException e) { 
+    			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    			result.addComment("provided value for dwc:decimalLongitude cannot be parsed as a number.");
 
+    		}
+    	}
+        
         return result;
     }
 
@@ -668,15 +691,38 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("b6ecda2a-ce36-437a-b515-3ae94948fe83")
-    public DQResponse<ComplianceValue> validationDecimallatitudeOutofrange(@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
+    public static DQResponse<ComplianceValue> validationDecimallatitudeOutofrange(@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
+        
+    	DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is 
         // EMPTY or the value is not a number; COMPLIANT if the value 
         // of dwc:decimalLatitude is between -90 and 90 degrees, inclusive; 
-        //otherwise NOT_COMPLIANT 
+        // otherwise NOT_COMPLIANT 
 
+    	if (GEOUtil.isEmpty(decimalLatitude)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:decimalLatitude is empty.");
+    	} else { 
+    		try {
+    			Double longitudeNumber = Double.parseDouble(decimalLatitude);
+    			if (longitudeNumber <= 90d && longitudeNumber >= -90d) { 
+    				result.setResultState(ResultState.RUN_HAS_RESULT);
+    				result.setValue(ComplianceValue.COMPLIANT);
+    				result.addComment("the provided value for dwc:decimalLatitude is a number between -90 and 90 inclusive.");
+    			} else { 
+    				result.setResultState(ResultState.RUN_HAS_RESULT);
+    				result.setValue(ComplianceValue.NOT_COMPLIANT);
+    				result.addComment("the provided value for dwc:decimalLatitude is a number outside the range -90 to 90.");
+    			}
+    		} catch (NumberFormatException e) { 
+    			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    			result.addComment("provided value for dwc:decimalLatitude cannot be parsed as a number.");
+
+    		}
+    	}
+        
         return result;
     }
 

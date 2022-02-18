@@ -73,7 +73,33 @@ public class DwCGeoRefDQTestDefinitions {
 	 */
 	@Test
 	public void testValidationDecimallongitudeOutofrange() {
-		fail("Not yet implemented");
+		
+        // Specification
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLongitude is 
+        // EMPTY or the value is not a number; COMPLIANT if the value 
+        // of dwc:decimalLongitude is between -180 and 180 degrees, 
+        // inclusive; otherwise NOT_COMPLIANT 
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationDecimallongitudeOutofrange(null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationDecimallongitudeOutofrange("a");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationDecimallongitudeOutofrange("10");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationDecimallongitudeOutofrange("190");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
 	}
 
 	/**
@@ -354,7 +380,32 @@ public class DwCGeoRefDQTestDefinitions {
 	 */
 	@Test
 	public void testValidationDecimallatitudeOutofrange() {
-		fail("Not yet implemented");
+		
+        // Specification
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is 
+        // EMPTY or the value is not a number; COMPLIANT if the value 
+        // of dwc:decimalLatitude is between -90 and 90 degrees, inclusive; 
+        // otherwise NOT_COMPLIANT 
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationDecimallatitudeOutofrange(null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationDecimallatitudeOutofrange("a");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationDecimallatitudeOutofrange("10");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationDecimallatitudeOutofrange("90.01");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 	}
 
 	/**
