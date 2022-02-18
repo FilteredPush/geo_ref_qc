@@ -21,7 +21,8 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("0493bcfb-652e-4d17-815b-b0cce0742fbe")
-    public static DQResponse<ComplianceValue> validationCountrycodeNotstandard(@ActedUpon("dwc:countryCode") String countryCode) {
+    public static DQResponse<ComplianceValue> validationCountrycodeNotstandard(
+    		@ActedUpon("dwc:countryCode") String countryCode) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
@@ -31,7 +32,13 @@ public class DwCGeoRefDQ{
         // 3166-1-alpha-2 country codes) value; otherwise NOT_COMPLIANT 
         //
         
-        // TODO: Implement a parameterized version with sources for country codes.
+        // TODO: Implement lookup of current country codes values
+        // https://restcountries.eu/#api-endpoints-list-of-codes mentioned in list, but is currently timing out.
+        // wikidata is a possible source for country codes.
+        // test is defined as not parameterized, so this would be internal implementation, 
+        // and can fall back on hardcoded list.
+        // list in json is available from https://pkgstore.datahub.io/core/country-list/data_json/data/8c458f2d15d9f2119654b29ede6e45b8/data_json.json
+        // see metadata at: https://datahub.io/core/country-list
         
         if (GEOUtil.isEmpty(countryCode)) { 
         	result.addComment("dwc:countryCode is empty");
@@ -93,16 +100,59 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("8f1e6e58-544b-4365-a569-fb781341644e")
-    public DQResponse<ComplianceValue> validationMindepthGreaterthanMaxdepth(@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters, @ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters) {
+    public static DQResponse<ComplianceValue> validationMindepthGreaterthanMaxdepth(
+    		@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters,
+    		@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters 
         // or dwc:maximumDepthInMeters is EMPTY, or the values are 
         // not zero or a positive number; COMPLIANT if the value of 
         // dwc:minimumDepthInMeters is less than or equal to the value 
-        //of dwc:maximumDepthInMeters; otherwise NOT_COMPLIANT 
+        // of dwc:maximumDepthInMeters; otherwise NOT_COMPLIANT 
 
+        if (GEOUtil.isEmpty(maximumDepthInMeters)) { 
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("the provided value for dwc:maximumDepthInMeters is empty");
+        	if (GEOUtil.isEmpty(minimumDepthInMeters)) {
+        		result.addComment("the provided value for dwc:minimumDepthInMeters is empty");
+        	}
+        } else if (GEOUtil.isEmpty(minimumDepthInMeters)) { 
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("the provided value for dwc:maximumDepthInMeters is empty");
+        } else { 
+        	try { 
+        		Double maxDepthVal = Double.parseDouble(maximumDepthInMeters);
+        		try { 
+        			Double minDepthVal = Double.parseDouble(minimumDepthInMeters);
+            		if (maxDepthVal < 0d) { 
+            			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+            			result.addComment("The value provided for dwc:maximumDepthInMeters is less than zero");
+            		} else if (minDepthVal < 0d ) { 
+            			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+            			result.addComment("The value provided for dwc:minimumDepthInMeters is less than zero");
+            		} else  {
+            			result.setResultState(ResultState.RUN_HAS_RESULT);
+            			if (minDepthVal <= maxDepthVal) {
+            				result.setValue(ComplianceValue.COMPLIANT);
+            				result.addComment("The value provided for dwc:minimumDepthInMeters is less than or equal to that provided for dwc:maximumDepthInMeters");
+            			} else {  
+            				result.setValue(ComplianceValue.NOT_COMPLIANT);
+            				result.addComment("The value provided for dwc:minimumDepthInMeters is greater than that provided for dwc:maximumDepthInMeters");
+            			}
+            		}        			
+        		} catch (NumberFormatException e) { 
+        			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        			result.addComment("the provided value for dwc:minimumDepthInMeters is not a number");
+        		}
+
+        	} catch (NumberFormatException e) { 
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        		result.addComment("the provided value for dwc:maximumDepthInMeters is not a number");
+        	}
+		}
+        
         return result;
     }
 
@@ -417,7 +467,9 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("b9c184ce-a859-410c-9d12-71a338200380")
-    public DQResponse<ComplianceValue> validationCoordinatesTerrestrialmarine(@ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
+    public DQResponse<ComplianceValue> validationCoordinatesTerrestrialmarine(
+    		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
+    		@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         //TODO:  Implement specification
@@ -451,7 +503,10 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type AmendmentValue to return
      */
     @Provides("f2b4a50a-6b2f-4930-b9df-da87b6a21082")
-    public DQResponse<AmendmentValue> amendmentCoordinatesTransposed(@ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude, @ActedUpon("dwc:countryCode") String countryCode) {
+    public DQResponse<AmendmentValue> amendmentCoordinatesTransposed(
+    		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
+    		@ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
+    		@Consulted("dwc:countryCode") String countryCode) {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
         //TODO:  Implement specification
@@ -691,7 +746,8 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("b6ecda2a-ce36-437a-b515-3ae94948fe83")
-    public static DQResponse<ComplianceValue> validationDecimallatitudeOutofrange(@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
+    public static DQResponse<ComplianceValue> validationDecimallatitudeOutofrange(
+    		@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
         
     	DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
@@ -792,7 +848,8 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("9beb9442-d942-4f42-8b6a-fcea01ee086a")
-    public static DQResponse<ComplianceValue> validationDecimallongitudeEmpty(@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
+    public static DQResponse<ComplianceValue> validationDecimallongitudeEmpty(
+    		@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
@@ -821,7 +878,8 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("853b79a2-b314-44a2-ae46-34a1e7ed85e4")
-    public static DQResponse<ComplianceValue> validationCountrycodeEmpty(@ActedUpon("dwc:countryCode") String countryCode) {
+    public static DQResponse<ComplianceValue> validationCountrycodeEmpty(
+    		@ActedUpon("dwc:countryCode") String countryCode) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
@@ -874,19 +932,60 @@ public class DwCGeoRefDQ{
      * @param minimumDepthInMeters the provided dwc:minimumDepthInMeters to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    public static DQResponse<ComplianceValue> validationMindepthOutofrange(
+    		@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters) { 
+    	return DwCGeoRefDQ.validationMindepthOutofrange(minimumDepthInMeters, 0d, 11000d);
+    }
     @Provides("04b2c8f3-c71b-4e95-8e43-f70374c5fb92")
-    public DQResponse<ComplianceValue> validationMindepthOutofrange(@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters) {
+    public static DQResponse<ComplianceValue> validationMindepthOutofrange(
+    		@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters,
+    		@Parameter(name="bdq:minimumValidDepthInMeters") Double minimumValidDepthInMeters,
+    		@Parameter(name="bdq:maximumValidDepthInMeters") Double maximumValidDepthInMeters
+    		) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters 
         // is EMPTY, or the value is not zero or a positive number; 
         // COMPLIANT if the value of dwc:minimumDepthInMeters is within 
         //the Parameter range; otherwise NOT_COMPLIANT 
 
-        //TODO: Parameters. This test is defined as parameterized.
+        // Parameters. This test is defined as parameterized.
         // Default values: bdq:minimumValidDepthInMeters="0" ; bdq:maximumValidDepthInMeters="11000"
-
+        
+        if (minimumValidDepthInMeters==null) { 
+        	minimumValidDepthInMeters = 0d;
+        }
+        if (maximumValidDepthInMeters==null) { 
+        	maximumValidDepthInMeters = 11000d;
+        }
+        String rangeString = minimumValidDepthInMeters.toString() + " to " + maximumValidDepthInMeters.toString();
+        
+        if (GEOUtil.isEmpty(minimumDepthInMeters)) { 
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("the provided value for dwc:minimumDepthInMeters is empty");
+        } else { 
+        	try { 
+        		Double depthVal = Double.parseDouble(minimumDepthInMeters);
+        		if (depthVal < minimumValidDepthInMeters) { 
+        			result.setResultState(ResultState.RUN_HAS_RESULT);
+        			result.setValue(ComplianceValue.NOT_COMPLIANT);
+        			result.addComment("The value provided for dwc:minimumDepthInMeters is outside (below the minimum of) the range " + rangeString);
+        		} else if (depthVal > maximumValidDepthInMeters ) { 
+        			result.setResultState(ResultState.RUN_HAS_RESULT);
+        			result.setValue(ComplianceValue.NOT_COMPLIANT);
+        			result.addComment("The value provided for dwc:minimumDepthInMeters is outside (above the maximum of) the range " + rangeString);
+        		} else  {
+        			result.setResultState(ResultState.RUN_HAS_RESULT);
+        			result.setValue(ComplianceValue.COMPLIANT);
+        			result.addComment("The value provided for dwc:minimumDepthInMeters is within the range " + rangeString);
+        		}
+        	} catch (NumberFormatException e) { 
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        		result.addComment("the provided value for dwc:minimumDepthInMeters is not a number");
+        	}
+		}
+        
         return result;
     }
 
@@ -900,7 +999,9 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("d708526b-6561-438e-aa1a-82cd80b06396")
-    public DQResponse<ComplianceValue> validationMinelevationGreaterthanMaxelevation(@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters, @ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters) {
+    public DQResponse<ComplianceValue> validationMinelevationGreaterthanMaxelevation(
+    		@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters, 
+    		@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         //TODO:  Implement specification
@@ -922,7 +1023,8 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("c6adf2ea-3051-4498-97f4-4b2f8a105f57")
-    public DQResponse<ComplianceValue> validationCoordinateuncertaintyOutofrange(@ActedUpon("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters) {
+    public DQResponse<ComplianceValue> validationCoordinateuncertaintyOutofrange(
+    		@ActedUpon("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         //TODO:  Implement specification
@@ -972,7 +1074,13 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type AmendmentValue to return
      */
     @Provides("78640f09-8353-411a-800e-9b6d498fb1c9")
-    public DQResponse<AmendmentValue> amendmentGeographyStandardized(@ActedUpon("dwc:continent") String continent, @ActedUpon("dwc:county") String county, @ActedUpon("dwc:country") String country, @ActedUpon("dwc:countryCode") String countryCode, @ActedUpon("dwc:municipality") String municipality, @ActedUpon("dwc:stateProvince") String stateProvince) {
+    public DQResponse<AmendmentValue> amendmentGeographyStandardized(
+    		@ActedUpon("dwc:continent") String continent, 
+    		@ActedUpon("dwc:county") String county, 
+    		@ActedUpon("dwc:country") String country, 
+    		@ActedUpon("dwc:countryCode") String countryCode, 
+    		@ActedUpon("dwc:municipality") String municipality, 
+    		@ActedUpon("dwc:stateProvince") String stateProvince) {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
         //TODO:  Implement specification
@@ -1000,7 +1108,8 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("7d2485d5-1ba7-4f25-90cb-f4480ff1a275")
-    public static DQResponse<ComplianceValue> validationDecimallatitudeEmpty(@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
+    public static DQResponse<ComplianceValue> validationDecimallatitudeEmpty(
+    		@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
@@ -1034,7 +1143,14 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("9d6f53c0-775b-4579-b7a4-5e5f093aa512")
-    public DQResponse<ComplianceValue> validationGeographyNotstandard(@ActedUpon("dwc:continent") String continent, @ActedUpon("dwc:county") String county, @ActedUpon("dwc:country") String country, @ActedUpon("dwc:countryCode") String countryCode, @ActedUpon("dwc:municipality") String municipality, @ActedUpon("dwc:stateProvince") String stateProvince) {
+    public DQResponse<ComplianceValue> validationGeographyNotstandard(
+    		@ActedUpon("dwc:continent") String continent, 
+    		@ActedUpon("dwc:country") String country, 
+    		@ActedUpon("dwc:countryCode") String countryCode, 
+    		@ActedUpon("dwc:stateProvince") String stateProvince,
+    		@ActedUpon("dwc:county") String county, 
+    		@ActedUpon("dwc:municipality") String municipality
+    		) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         //TODO:  Implement specification
@@ -1061,20 +1177,61 @@ public class DwCGeoRefDQ{
      * @param maximumDepthInMeters the provided dwc:maximumDepthInMeters to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    public static DQResponse<ComplianceValue> validationMaxdepthOutofrange(
+    		@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters) { 
+    	return (DwCGeoRefDQ.validationMaxdepthOutofrange(maximumDepthInMeters, 0d, 11000d));
+    }
     @Provides("3f1db29a-bfa5-40db-9fd1-fde020d81939")
-    public DQResponse<ComplianceValue> validationMaxdepthOutofrange(@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters) {
+    public static DQResponse<ComplianceValue> validationMaxdepthOutofrange(
+    		@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters, 
+    		@Parameter(name="bdq:minimumValidDepthInMeters") Double minimumValidDepthInMeters,
+    		@Parameter(name="bdq:maximumValidDepthInMeters") Double maximumValidDepthInMeters
+    		) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumDepthInMeters 
         // is EMPTY or is not a number; COMPLIANT if the value of dwc:maximumDepthInMeters 
         // is within the Parameter range of bdq:minimumValidDepthInMeters 
         // to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT 
         //
 
-        //TODO: Parameters. This test is defined as parameterized.
+        // Parameters. This test is defined as parameterized.
         // Default values: bdq:minimumValidDepthInMeters="0"; bdq:maximumValidDepthInMeters="11000"
 
+        if (minimumValidDepthInMeters==null) { 
+        	minimumValidDepthInMeters = 0d;
+        }
+        if (maximumValidDepthInMeters==null) { 
+        	maximumValidDepthInMeters = 11000d;
+        }
+        String rangeString = minimumValidDepthInMeters.toString() + " to " + maximumValidDepthInMeters.toString();
+        
+        if (GEOUtil.isEmpty(maximumDepthInMeters)) { 
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("the provided value for dwc:maximumDepthInMeters is empty");
+        } else { 
+        	try { 
+        		Double depthVal = Double.parseDouble(maximumDepthInMeters);
+        		if (depthVal < minimumValidDepthInMeters) { 
+        			result.setResultState(ResultState.RUN_HAS_RESULT);
+        			result.setValue(ComplianceValue.NOT_COMPLIANT);
+        			result.addComment("The value provided for dwc:maximumDepthInMeters is outside (below the minimum of) the range " + rangeString);
+        		} else if (depthVal > maximumValidDepthInMeters ) { 
+        			result.setResultState(ResultState.RUN_HAS_RESULT);
+        			result.setValue(ComplianceValue.NOT_COMPLIANT);
+        			result.addComment("The value provided for dwc:maximumDepthInMeters is outside (above the maximum of) the range " + rangeString);
+        		} else  {
+        			result.setResultState(ResultState.RUN_HAS_RESULT);
+        			result.setValue(ComplianceValue.COMPLIANT);
+        			result.addComment("The value provided for dwc:maximumDepthInMeters is within the range " + rangeString);
+        		}
+        	} catch (NumberFormatException e) { 
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        		result.addComment("the provided value for dwc:maximumDepthInMeters is not a number");
+        	}
+		}
+        
         return result;
     }
 
