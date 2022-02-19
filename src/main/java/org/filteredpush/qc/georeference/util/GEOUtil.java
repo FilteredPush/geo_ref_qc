@@ -505,5 +505,21 @@ public class GEOUtil {
     	return result;
     }
     
+    
+    /**
+     * Test to see if a string contains only numeric characters.
+     * 
+     * @param aString to test
+     * @return true if the string, ignoring leading and trailing whitespace,
+     *  contains at least one digit 0-9 and no other characters except for - and .
+     */
+    public static boolean isNumericCharacters(String aString)  {
+    	boolean result = false;
+    	if (aString != null && aString.trim().matches("^[0-9.-]+$") && aString.matches(".*[0-9]+.*") ) { 
+    	   result = true;
+    	}
+    	return result;
+    }
+    
 }
 

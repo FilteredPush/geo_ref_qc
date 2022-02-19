@@ -121,6 +121,9 @@ public class DwCGeoRefDQ{
         } else if (GEOUtil.isEmpty(minimumDepthInMeters)) { 
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         	result.addComment("the provided value for dwc:maximumDepthInMeters is empty");
+    	} else if (!GEOUtil.isNumericCharacters(minimumDepthInMeters)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:minimumDepthInMeters contains non-numeric characters.");
         } else { 
         	try { 
         		Double maxDepthVal = Double.parseDouble(maximumDepthInMeters);
@@ -165,7 +168,8 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("0949110d-c06b-450e-9649-7c1374d940d1")
-    public static DQResponse<ComplianceValue> validationDecimallongitudeOutofrange(@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
+    public static DQResponse<ComplianceValue> validationDecimallongitudeOutofrange(
+    		@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
 
     	DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
@@ -178,6 +182,9 @@ public class DwCGeoRefDQ{
     	if (GEOUtil.isEmpty(decimalLongitude)) { 
     		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
     		result.addComment("provided value for dwc:decimalLongitude is empty.");
+    	} else if (!GEOUtil.isNumericCharacters(decimalLongitude)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:decimalLongitude contains non-numeric characters.");
     	} else { 
     		try {
     			Double longitudeNumber = Double.parseDouble(decimalLongitude);
@@ -232,6 +239,10 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+    public static DQResponse<ComplianceValue> validationMinelevationOutofrange(
+    		@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters) {
+    	return DwCGeoRefDQ.validationMinelevationOutofrange(minimumElevationInMeters, -430d, 8850d);
+    }
     /**
      * #39 Validation SingleRecord Conformance: minelevation outofrange
      *
@@ -241,18 +252,54 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("0bb8297d-8f8a-42d2-80c1-558f29efe798")
-    public DQResponse<ComplianceValue> validationMinelevationOutofrange(@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters) {
+    public static DQResponse<ComplianceValue> validationMinelevationOutofrange(
+    		@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters,
+    		@Parameter(name="bdq:minimumValidElevationInMeters") Double minimumValidElevationInMeters,
+    		@Parameter(name="bdq:maximumValidElevationInMeters") Double maximumValidElevationInMeters
+    		) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumElevationInMeters 
         // is EMPTY or the value is not a number; COMPLIANT if the 
         // value of dwc:minimumElevationInMeters is within the Parameter 
         //range; otherwise NOT_COMPLIANT 
 
-        //TODO: Parameters. This test is defined as parameterized.
+        // Parameters. This test is defined as parameterized.
         // Default values: bdq:minimumValidElevationInMeters="-430"; bdq:maximumValidElevationInMeters="8850"
 
+        if (minimumValidElevationInMeters==null) { 
+        	minimumValidElevationInMeters = -430d;
+        }
+        if (maximumValidElevationInMeters==null) { 
+        	maximumValidElevationInMeters = 8850d;
+        }
+        String range = Double.toString(minimumValidElevationInMeters) + " to " + Double.toString(maximumValidElevationInMeters);
+        
+    	if (GEOUtil.isEmpty(minimumElevationInMeters)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:minimumElevationInMeters is empty.");
+    	} else if (!GEOUtil.isNumericCharacters(minimumElevationInMeters)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:minimumElevationInMeters contains non-numeric characters.");
+    	} else { 
+    		try {
+    			Double longitudeNumber = Double.parseDouble(minimumElevationInMeters);
+    			if (longitudeNumber <= maximumValidElevationInMeters && longitudeNumber >= minimumValidElevationInMeters) { 
+    				result.setResultState(ResultState.RUN_HAS_RESULT);
+    				result.setValue(ComplianceValue.COMPLIANT);
+    				result.addComment("the provided value for dwc:minimumElevationInMeters is a number between " + range + "  inclusive.");
+    			} else { 
+    				result.setResultState(ResultState.RUN_HAS_RESULT);
+    				result.setValue(ComplianceValue.NOT_COMPLIANT);
+    				result.addComment("the provided value for dwc:minimumElevationInMeters is a number outside the range " + range + ".");
+    			}
+    		} catch (NumberFormatException e) { 
+    			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    			result.addComment("provided value for dwc:minimumElevationInMeters cannot be parsed as a number.");
+    		}
+    	}
+        
         return result;
     }
 
@@ -760,6 +807,9 @@ public class DwCGeoRefDQ{
     	if (GEOUtil.isEmpty(decimalLatitude)) { 
     		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
     		result.addComment("provided value for dwc:decimalLatitude is empty.");
+    	} else if (!GEOUtil.isNumericCharacters(decimalLatitude)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:decimalLatitude contains non-numeric characters.");
     	} else { 
     		try {
     			Double longitudeNumber = Double.parseDouble(decimalLatitude);
@@ -964,6 +1014,9 @@ public class DwCGeoRefDQ{
         if (GEOUtil.isEmpty(minimumDepthInMeters)) { 
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         	result.addComment("the provided value for dwc:minimumDepthInMeters is empty");
+    	} else if (!GEOUtil.isNumericCharacters(minimumDepthInMeters)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:minimumDepthInMeters contains non-numeric characters.");
         } else { 
         	try { 
         		Double depthVal = Double.parseDouble(minimumDepthInMeters);
@@ -999,17 +1052,58 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("d708526b-6561-438e-aa1a-82cd80b06396")
-    public DQResponse<ComplianceValue> validationMinelevationGreaterthanMaxelevation(
+    public static DQResponse<ComplianceValue> validationMinelevationGreaterthanMaxelevation(
     		@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters, 
     		@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
+        
+        // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumlevationInMeters 
         // or dwc:minimumElevationInMeters is EMPTY; COMPLIANT if the 
         // value of dwc:minimumElevationInMeters is a number less than 
         // or equal to the value of the number dwc:maximumElevationInMeters, 
-        //otherwise NOT_COMPLIANT 
+        // otherwise NOT_COMPLIANT
+        
+        // TODO: Implementation follows change proposed in issue as of 2022Feb19, internal prerequsites not met if 
+        // either of the provided values is not a number rather than not compliant, consistent with other
+        // elevation/depth validations.
+        
+        if (GEOUtil.isEmpty(maximumElevationInMeters)) { 
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("the provided value for dwc:maximumElevationInMeters is empty");
+        	if (GEOUtil.isEmpty(minimumElevationInMeters)) {
+        		result.addComment("the provided value for dwc:minimumElevationInMeters is empty");
+        	}
+        } else if (GEOUtil.isEmpty(minimumElevationInMeters)) { 
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("the provided value for dwc:maximumElevationInMeters is empty");
+    	} else if (!GEOUtil.isNumericCharacters(minimumElevationInMeters)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:minimumElevationInMeters contains non-numeric characters.");
+        } else { 
+        	try { 
+        		Double maxDepthVal = Double.parseDouble(maximumElevationInMeters);
+        		try { 
+        			Double minDepthVal = Double.parseDouble(minimumElevationInMeters);
+           			result.setResultState(ResultState.RUN_HAS_RESULT);
+           			if (minDepthVal <= maxDepthVal) {
+           				result.setValue(ComplianceValue.COMPLIANT);
+           				result.addComment("The value provided for dwc:minimumElevationInMeters is less than or equal to that provided for dwc:maximumElevationInMeters");
+           			} else {  
+           				result.setValue(ComplianceValue.NOT_COMPLIANT);
+           				result.addComment("The value provided for dwc:minimumElevationInMeters is greater than that provided for dwc:maximumElevationInMeters");
+           			}
+        		} catch (NumberFormatException e) { 
+        			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        			result.addComment("the provided value for dwc:minimumElevationInMeters is not a number");
+        		}
+
+        	} catch (NumberFormatException e) { 
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        		result.addComment("the provided value for dwc:maximumElevationInMeters is not a number");
+        	}
+		}
+        
 
         return result;
     }
@@ -1023,19 +1117,56 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("c6adf2ea-3051-4498-97f4-4b2f8a105f57")
-    public DQResponse<ComplianceValue> validationCoordinateuncertaintyOutofrange(
+    public static DQResponse<ComplianceValue> validationCoordinateuncertaintyOutofrange(
     		@ActedUpon("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:coordinateUncertaintyInMeters 
         // is EMPTY; COMPLIANT if the value of dwc:coordinateUncertaintyInMeters 
         // is number between 1 and 20037509 inclusive; otherwise NOT_COMPLIANT 
         //
 
+    	if (GEOUtil.isEmpty(coordinateUncertaintyInMeters)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:coordinateUncertaintyInMeters is empty.");
+    	} else if (!GEOUtil.isNumericCharacters(coordinateUncertaintyInMeters)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:decimalLatitude contains non-numeric characters.");
+    	} else { 
+    		try {
+    			Double uncertaintyNumber = Double.parseDouble(coordinateUncertaintyInMeters);
+    			if (uncertaintyNumber >= 1d && uncertaintyNumber <= 20037509d) { 
+    				result.setResultState(ResultState.RUN_HAS_RESULT);
+    				result.setValue(ComplianceValue.COMPLIANT);
+    				result.addComment("the provided value for dwc:coordinateUncertaintyInMeters is a number between 1 and 20037509 inclusive.");
+    				if (coordinateUncertaintyInMeters.equals(301d)) { 
+    					result.addComment("the provided value for dwc:coordinateUncertaintyInMeters of 301 may be suspect, the value of 301 was used by BioGeomancer to mean unable to determine uncertainty.");
+    				}
+    			} else if (uncertaintyNumber.equals(0d)) { 
+    				result.setResultState(ResultState.RUN_HAS_RESULT);
+    				result.setValue(ComplianceValue.NOT_COMPLIANT);
+    				result.addComment("the provided value for dwc:coordinateUncertaintyInMeters is zero, but it must be the range 1 to 20037509.");
+    			} else { 
+    				result.setResultState(ResultState.RUN_HAS_RESULT);
+    				result.setValue(ComplianceValue.NOT_COMPLIANT);
+    				result.addComment("the provided value for dwc:coordinateUncertaintyInMeters is a number outside the range 1 to 20037509.");
+    			}
+    		} catch (NumberFormatException e) { 
+    			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    			result.addComment("provided value for dwc:coordinateUncertaintyInMeters cannot be parsed as a number.");
+
+    		}
+    	}
+        
         return result;
     }
 
+    public static DQResponse<ComplianceValue> validationMaxelevationOutofrange(
+    		@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters) {
+    	return DwCGeoRefDQ.validationMaxelevationOutofrange(maximumElevationInMeters,-430d, 8850d);
+    }
+    
     /**
      * #112 Validation SingleRecord Invalid: maxelevation outofrange
      *
@@ -1045,18 +1176,55 @@ public class DwCGeoRefDQ{
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Provides("c971fe3f-84c1-4636-9f44-b1ec31fd63c7")
-    public DQResponse<ComplianceValue> validationMaxelevationOutofrange(@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters) {
+    public static DQResponse<ComplianceValue> validationMaxelevationOutofrange(
+    		@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters,
+    		@Parameter(name="bdq:minimumValidElevationInMeters") Double minimumValidElevationInMeters,
+    		@Parameter(name="bdq:maximumValidElevationInMeters") Double maximumValidElevationInMeters
+    		) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumElevationInMeters 
         // is EMPTY or the value is not a number; COMPLIANT if the 
         // value of dwc:maximumElevationInMeters is within the Parameter 
-        //range; otherwise NOT_COMPLIANT 
+        // range; otherwise NOT_COMPLIANT 
 
-        //TODO: Parameters. This test is defined as parameterized.
+        // Parameters. This test is defined as parameterized.
         // Default values: bdq:minimumValidElevationInMeters="-430"; bdq:maximumValidElevationInMeters="8850"
 
+        if (minimumValidElevationInMeters==null) { 
+        	minimumValidElevationInMeters = -430d;
+        }
+        if (maximumValidElevationInMeters==null) { 
+        	maximumValidElevationInMeters = 8850d;
+        }
+        String range = Double.toString(minimumValidElevationInMeters) + " to " + Double.toString(maximumValidElevationInMeters);
+        
+    	if (GEOUtil.isEmpty(maximumElevationInMeters)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:maximumElevationInMeters is empty.");
+    	} else if (!GEOUtil.isNumericCharacters(maximumElevationInMeters)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:maximumElevationInMeters contains non-numeric characters.");
+    	} else { 
+    		try {
+    			Double longitudeNumber = Double.parseDouble(maximumElevationInMeters);
+    			if (longitudeNumber <= maximumValidElevationInMeters && longitudeNumber >= minimumValidElevationInMeters) { 
+    				result.setResultState(ResultState.RUN_HAS_RESULT);
+    				result.setValue(ComplianceValue.COMPLIANT);
+    				result.addComment("the provided value for dwc:maximumElevationInMeters is a number between " + range + "  inclusive.");
+    			} else { 
+    				result.setResultState(ResultState.RUN_HAS_RESULT);
+    				result.setValue(ComplianceValue.NOT_COMPLIANT);
+    				result.addComment("the provided value for dwc:maximumElevationInMeters is a number outside the range " + range + ".");
+    			}
+    		} catch (NumberFormatException e) { 
+    			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    			result.addComment("provided value for dwc:maximumElevationInMeters cannot be parsed as a number.");
+    		}
+    	}
+        
+        
         return result;
     }
 
@@ -1210,6 +1378,9 @@ public class DwCGeoRefDQ{
         if (GEOUtil.isEmpty(maximumDepthInMeters)) { 
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         	result.addComment("the provided value for dwc:maximumDepthInMeters is empty");
+    	} else if (!GEOUtil.isNumericCharacters(maximumDepthInMeters)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:maximumDepthInMeters contains non-numeric characters.");
         } else { 
         	try { 
         		Double depthVal = Double.parseDouble(maximumDepthInMeters);

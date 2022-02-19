@@ -155,6 +155,28 @@ public class GeoUtiltsTest {
         assertFalse(GEOUtil.isPointNearCountry("United States", originalLat, originalLng, thresholdDistanceKmFromLand));
         
 	}
+	
+	@Test 
+	public void testisNumericCharacters() { 
+		assertTrue(GEOUtil.isNumericCharacters("1"));
+		assertTrue(GEOUtil.isNumericCharacters("11"));
+		assertTrue(GEOUtil.isNumericCharacters(" 1 "));
+		assertTrue(GEOUtil.isNumericCharacters("-1"));
+		assertTrue(GEOUtil.isNumericCharacters("-11"));
+		assertTrue(GEOUtil.isNumericCharacters("-11.1"));
+		assertTrue(GEOUtil.isNumericCharacters("-11."));
+		
+		assertFalse(GEOUtil.isNumericCharacters(""));
+		assertFalse(GEOUtil.isNumericCharacters(" "));
+		assertFalse(GEOUtil.isNumericCharacters(null));
+		assertFalse(GEOUtil.isNumericCharacters("a"));
+		assertFalse(GEOUtil.isNumericCharacters("10a"));
+		assertFalse(GEOUtil.isNumericCharacters("10d"));
+		
+		assertFalse(GEOUtil.isNumericCharacters("0x1"));
+		assertFalse(GEOUtil.isNumericCharacters("F1"));
+		assertFalse(GEOUtil.isNumericCharacters("0F8H"));
+	}
 
 }
 

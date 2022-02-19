@@ -147,7 +147,52 @@ public class DwCGeoRefDQTestDefinitions {
 	 */
 	@Test
 	public void testValidationMinelevationOutofrange() {
-		fail("Not yet implemented");
+		
+        // Specification
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumElevationInMeters 
+        // is EMPTY or the value is not a number; COMPLIANT if the 
+        // value of dwc:minimumElevationInMeters is within the Parameter 
+        //range; otherwise NOT_COMPLIANT 
+
+        // Parameters. This test is defined as parameterized.
+        // Default values: bdq:minimumValidElevationInMeters="-430"; bdq:maximumValidElevationInMeters="8850"
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationMinelevationOutofrange(null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationOutofrange("a");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationOutofrange("10m");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationOutofrange("8000");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationOutofrange("-400");
+		logger.debug(result.getComment());
+		System.out.println(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		result = DwCGeoRefDQ.validationMinelevationOutofrange("9000");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationOutofrange("-500");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
 	}
 
 	/**
@@ -552,7 +597,43 @@ public class DwCGeoRefDQTestDefinitions {
 	 */
 	@Test
 	public void testValidationMinelevationGreaterthanMaxelevation() {
-		fail("Not yet implemented");
+		
+        // Specification
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumlevationInMeters 
+        // or dwc:minimumElevationInMeters is EMPTY; COMPLIANT if the 
+        // value of dwc:minimumElevationInMeters is a number less than 
+        // or equal to the value of the number dwc:maximumElevationInMeters, 
+        //otherwise NOT_COMPLIANT
+		
+        // TODO: Implementation follows change proposed in issue as of 2022Feb19, internal prerequsites not met if 
+        // either of the provided values is not a number rather than not compliant, consistent with other
+        // elevation/depth validations.
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationMinelevationGreaterthanMaxelevation(null,null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationGreaterthanMaxelevation("a","10");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationGreaterthanMaxelevation("-1","10");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationGreaterthanMaxelevation("10","100");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationGreaterthanMaxelevation("100","10");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
 	}
 
 	/**
@@ -560,7 +641,38 @@ public class DwCGeoRefDQTestDefinitions {
 	 */
 	@Test
 	public void testValidationCoordinateuncertaintyOutofrange() {
-		fail("Not yet implemented");
+		
+        // Specification
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:coordinateUncertaintyInMeters 
+        // is EMPTY; COMPLIANT if the value of dwc:coordinateUncertaintyInMeters 
+        // is number between 1 and 20037509 inclusive; otherwise NOT_COMPLIANT 
+        //
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCoordinateuncertaintyOutofrange(null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationCoordinateuncertaintyOutofrange("a");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationCoordinateuncertaintyOutofrange("100");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationCoordinateuncertaintyOutofrange("0");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationCoordinateuncertaintyOutofrange("20037510");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
 	}
 
 	/**
@@ -568,7 +680,51 @@ public class DwCGeoRefDQTestDefinitions {
 	 */
 	@Test
 	public void testValidationMaxelevationOutofrange() {
-		fail("Not yet implemented");
+        // Specification
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumElevationInMeters 
+        // is EMPTY or the value is not a number; COMPLIANT if the 
+        // value of dwc:maximumElevationInMeters is within the Parameter 
+        // range; otherwise NOT_COMPLIANT 
+
+        // Parameters. This test is defined as parameterized.
+        // Default values: bdq:minimumValidElevationInMeters="-430"; bdq:maximumValidElevationInMeters="8850"
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationMaxelevationOutofrange(null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationMaxelevationOutofrange("a");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationMaxelevationOutofrange("10m");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationMaxelevationOutofrange("8000");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationMaxelevationOutofrange("-400");
+		logger.debug(result.getComment());
+		System.out.println(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		result = DwCGeoRefDQ.validationMaxelevationOutofrange("9000");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationMaxelevationOutofrange("-500");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
 	}
 
 	/**
