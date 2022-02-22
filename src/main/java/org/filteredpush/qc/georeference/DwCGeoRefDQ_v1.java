@@ -19,7 +19,7 @@ import java.util.*;
 
 /**
  * Created by lowery on 2/24/17.
- * @depricated
+ * @deprecated
  * @see org.filteredpush.qc.georeference.DwCGeoRefDQ
  */
 public class DwCGeoRefDQ_v1 {
