@@ -2,6 +2,8 @@
 
 package org.filteredpush.qc.georeference;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.datakurator.ffdq.annotations.*;
 import org.datakurator.ffdq.api.DQResponse;
 import org.datakurator.ffdq.model.ResultState;
@@ -11,6 +13,7 @@ import org.datakurator.ffdq.api.result.*;
 @Mechanism(value="71fa3762-0dfa-43c7-a113-d59797af02e8",label="Kurator: Date Validator - DwCGeoRefDQ:v2.0.0")
 public class DwCGeoRefDQ{
 	
+    private static final Log logger = LogFactory.getLog(DwCGeoRefDQ.class);
 	
     /**
      * #20 Validation SingleRecord Conformance: countrycode notstandard
