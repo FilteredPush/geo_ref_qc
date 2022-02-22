@@ -1,7 +1,18 @@
 package org.filteredpush.qc.georeference.util;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.NavigableSet;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimaps;
@@ -9,14 +20,133 @@ import com.google.common.collect.TreeMultimap;
 
 public class CountryLookup {
 
+    private static final Log logger = LogFactory.getLog(CountryLookup.class);
+
 	private static TreeMultimap<String,String> countries;
 	private static CountryLookup cl; 
 
+	protected class DataHubCountryCode { 
+		// data structure for reading https://datahub.io/core/country-list json data
+		// License: https://opendatacommons.org/licenses/pddl/
+			
+		private String name;
+		private String code;
+		
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public String getCode() {
+			return code;
+		}
+		public void setCode(String code) {
+			this.code = code;
+		}
+		
+	}
+	
+	// TODO data structure for:
+	// https://datahub.io/core/country-codes
+	// https://datahub.io/core/country-codes/r/country-codes.json
+	// License: https://opendatacommons.org/licenses/pddl/
+	
+
+	/*
+	Field Name 	Order 	Type (Format) 	Description
+	FIFA 	1 	string 	Codes assigned by the Fédération Internationale de Football Association
+	Dial 	2 	string 	Country code from ITU-T recommendation E.164, sometimes followed by area code
+	ISO3166-1-Alpha-3 	3 	string 	Alpha-3 codes from ISO 3166-1 (synonymous with World Bank Codes)
+	MARC 	4 	string 	MAchine-Readable Cataloging codes from the Library of Congress
+	is_independent 	5 	string 	Country status, based on the CIA World Factbook
+	ISO3166-1-numeric 	6 	string 	Numeric codes from ISO 3166-1
+	GAUL 	7 	string 	Global Administrative Unit Layers from the Food and Agriculture Organization
+	FIPS 	8 	string 	Codes from the U.S. standard FIPS PUB 10-4
+	WMO 	9 	string 	Country abbreviations by the World Meteorological Organization
+	ISO3166-1-Alpha-2 	10 	string 	Alpha-2 codes from ISO 3166-1
+	ITU 	11 	string 	Codes assigned by the International Telecommunications Union
+	IOC 	12 	string 	Codes assigned by the International Olympics Committee
+	DS 	13 	string 	Distinguishing signs of vehicles in international traffic
+	UNTERM Spanish Formal 	14 	string 	Country's formal Spanish name from UN Protocol and Liaison Service
+	Global Code 	15 	string 	Country classification from United Nations Statistics Division
+	Intermediate Region Code 	16 	string 	Country classification from United Nations Statistics Division
+	official_name_fr 	17 	string 	Country or Area official French short name from UN Statistics Divsion
+	UNTERM French Short 	18 	string 	Country's short French name from UN Protocol and Liaison Service
+	ISO4217-currency_name 	19 	string 	ISO 4217 currency name
+	Developed / Developing Countries 	20 	string 	Country classification from United Nations Statistics Division
+	UNTERM Russian Formal 	21 	string 	Country's formal Russian name from UN Protocol and Liaison Service
+	UNTERM English Short 	22 	string 	Country's short English name from UN Protocol and Liaison Service
+	ISO4217-currency_alphabetic_code 	23 	string 	ISO 4217 currency alphabetic code
+	Small Island Developing States (SIDS) 	24 	string 	Country classification from United Nations Statistics Division
+	UNTERM Spanish Short 	25 	string 	Country's short Spanish name from UN Protocol and Liaison Service
+	ISO4217-currency_numeric_code 	26 	string 	ISO 4217 currency numeric code
+	UNTERM Chinese Formal 	27 	string 	Country's formal Chinese name from UN Protocol and Liaison Service
+	UNTERM French Formal 	28 	string 	Country's formal French name from UN Protocol and Liaison Service
+	UNTERM Russian Short 	29 	string 	Country's short Russian name from UN Protocol and Liaison Service
+	M49 	30 	number 	UN Statistics M49 numeric codes (nearly synonymous with ISO 3166-1 numeric codes, which are based on UN M49. ISO 3166-1 does not include Channel Islands or Sark, for example)
+	Sub-region Code 	31 	string 	Country classification from United Nations Statistics Division
+	Region Code 	32 	string 	Country classification from United Nations Statistics Division
+	official_name_ar 	33 	string 	Country or Area official Arabic short name from UN Statistics Divsion
+	ISO4217-currency_minor_unit 	34 	string 	ISO 4217 currency number of minor units
+	UNTERM Arabic Formal 	35 	string 	Country's formal Arabic name from UN Protocol and Liaison Service
+	UNTERM Chinese Short 	36 	string 	Country's short Chinese name from UN Protocol and Liaison Service
+	Land Locked Developing Countries (LLDC) 	37 	string 	Country classification from United Nations Statistics Division
+	Intermediate Region Name 	38 	string 	Country classification from United Nations Statistics Division
+	official_name_es 	39 	string 	Country or Area official Spanish short name from UN Statistics Divsion
+	UNTERM English Formal 	40 	string 	Country's formal English name from UN Protocol and Liaison Service
+	official_name_cn 	41 	string 	Country or Area official Chinese short name from UN Statistics Divsion
+	official_name_en 	42 	string 	Country or Area official English short name from UN Statistics Divsion
+	ISO4217-currency_country_name 	43 	string 	ISO 4217 country name
+	Least Developed Countries (LDC) 	44 	string 	Country classification from United Nations Statistics Division
+	Region Name 	45 	string 	Country classification from United Nations Statistics Division
+	UNTERM Arabic Short 	46 	string 	Country's short Arabic name from UN Protocol and Liaison Service
+	Sub-region Name 	47 	string 	Country classification from United Nations Statistics Division
+	official_name_ru 	48 	string 	Country or Area official Russian short name from UN Statistics Divsion
+	Global Name 	49 	string 	Country classification from United Nations Statistics Division
+	Capital 	50 	string 	Capital city from Geonames
+	Continent 	51 	string 	Continent from Geonames
+	TLD 	52 	string 	Top level domain from Geonames
+	Languages 	53 	string 	Languages from Geonames
+	Geoname ID 	54 	number 	Geoname ID
+	CLDR display name 	55 	string 	Country's customary English short name (CLDR)
+	EDGAR 	56 	string 	EDGAR country code from SEC
+	*/
+	
 	private CountryLookup() {
-		// Country names along with two letter, three letter, and numeric codes from 
+		// Country names along with two letter, three letter, and numeric codes from datahub, or fallback hardcoded list.
+		ArrayListMultimap<String, String> multimap = ArrayListMultimap.create();
+		
+//		ObjectMapper mapper = new ObjectMapper();
+//		
+//		try {
+//			URL datahubcountryurl = new URL("https://datahub.io/core/country-list/r/data.json");
+//			BufferedReader is =  new BufferedReader(new InputStreamReader(datahubcountryurl.openStream()));
+//			ObjectReader reader = mapper.readerForArrayOf(DataHubCountryCode.class);
+//			
+//			MappingIterator<DataHubCountryCode> values = reader.readValues(is);
+//			
+//			while (values.hasNext()) { 
+//				DataHubCountryCode value = values.next();
+//				multimap.putAll(value.getName(), ImmutableSet.of(value.getCode()));
+//			}
+//		} catch (MalformedURLException e) {
+//			logger.error(e.getMessage(), e);
+//		} catch (IOException e) {
+//			logger.error(e.getMessage(), e);
+//		}
+		
+		// TODO: Separate out short list of country name/country code from 
+		// country matching against name variants and country code variants for
+		// lookup of official country name from code purposes from 
+		// other purposes (including lookup of name used in natural earth
+		// GIS data set, and separate out various lookup functions for different purposes.
+		
+		// TODO: Manage caching of lookup and fallbacks.
+		
+		if (multimap.size() == 0) { 
 		
 		// Create a multivalue map with the country names as keys and the country codes as values.
-		ArrayListMultimap<String, String> multimap = ArrayListMultimap.create();
 		multimap.putAll("Andorra", ImmutableSet.of("AD","AND","20"));
 		multimap.putAll("United Arab Emirates", ImmutableSet.of("AE","ARE","784"));
 		multimap.putAll("Afghanistan", ImmutableSet.of("AF","AFG","4"));
@@ -253,6 +383,8 @@ public class CountryLookup {
 		multimap.putAll("South Africa", ImmutableSet.of("ZA","ZAF","710"));
 		multimap.putAll("Zambia", ImmutableSet.of("ZM","ZMB","894"));
 		multimap.putAll("Zimbabwe", ImmutableSet.of("ZW","ZWE","716"));
+		
+		} 
 		
 		// Invert the map so that a match on any code (now multiple keys) returns the country name (value)
 		countries = Multimaps.invertFrom(multimap, TreeMultimap.<String,String>create());
