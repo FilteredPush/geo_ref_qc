@@ -161,6 +161,7 @@
 							<directory>${project.basedir}</directory>
 							<includes>
 								<include>${project.artifactId}-*-executable.jar</include>
+								<include>${project.artifactId}-*-cfweblib.jar</include>
 							</includes>
 							<followSymlinks>false</followSymlinks>
 						</fileset>
