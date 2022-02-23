@@ -1,5 +1,6 @@
 /target
 geo_ref_qc-*-executable.jar
+geo_ref_qc-*-cfweblib.jar
 .classpath
 .project
 .settings/

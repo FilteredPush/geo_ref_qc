@@ -79,16 +79,27 @@
 		</dependency>
 		<dependency>
 			<groupId>org.geotools</groupId>
+			<artifactId>gt-referencing</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-cql</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+<!--
+		<dependency>
+			<groupId>org.geotools</groupId>
 			<artifactId>gt-swing</artifactId>
 			<version>${geotools.version}</version>
 		</dependency>
-
+-->
 		<dependency>
 			<groupId>org.dom4j</groupId>
 			<artifactId>dom4j</artifactId>
 			<version>2.1.3</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
@@ -226,6 +237,7 @@
 				<version>3.1.0</version>
 				<executions>
 					<execution>
+						<id>executable</id>
 						<phase>package</phase>
 						<goals>
 							<goal>shade</goal>
@@ -243,6 +255,47 @@
 									</excludes>
 								</filter>
 							</filters>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<manifestEntries>
+										<Main-Class>org.filteredpush.qc.georeference.Runner</Main-Class>
+										<Class-Path>org/filteredpush/qc/georeference</Class-Path>
+										<Multi-Release>true</Multi-Release>
+									</manifestEntries>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+					<execution>
+						<id>cflibs</id>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.basedir}</outputDirectory>
+							<outputFile>${project.artifactId}-${project.version}-${git.commit.id.abbrev}-cfweblib.jar</outputFile>
+							<filters>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>META-INF/*.SF</exclude>
+										<exclude>META-INF/*.DSA</exclude>
+										<exclude>META-INF/*.RSA</exclude>
+									</excludes>
+								</filter>
+							</filters>
+							<artifactSet>
+								<excludes>
+									<exclude>javax.media:jai_core</exclude>
+									<exclude>javax.media:jai_imageio*</exclude>
+									<exclude>com.sun.xml.bind:jaxb-impl</exclude>
+									<exclude>com.sun.mail:jakarta.mail</exclude>
+								</excludes>
+							</artifactSet>
 							<transformers>
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
