@@ -360,7 +360,7 @@ public class DwCGeoRefDQ_v1 {
                 result.setResultState(EnumDQResultState.INTERNAL_PREREQUISITES_NOT_MET);
             } else if (GEOUtil.validateCoordinates(country, stateProvince, originalLat, originalLong, isMarine)) {
                 result.addComment("latitude and longitude provided are within range and coordinates are consistent with locality data, not changing.");
-                result.setResultState(EnumDQAmendmentResultState.NO_CHANGE);
+                result.setResultState(EnumDQAmendmentResultState.NOT_AMENDED);
             } else {
                 // Look up locality in Tulane's GeoLocate service or cache
                 List<GeolocationResult> potentialMatches = service.queryGeoLocateMulti(country, stateProvince, county, locality, latitude, longitude);
@@ -369,7 +369,7 @@ public class DwCGeoRefDQ_v1 {
                 boolean localityIsNearResult = GeolocationResult.isLocationNearAResult(originalLat, originalLong, potentialMatches, (int) Math.round(thresholdDistanceKm * 1000));
                 if (potentialMatches != null && potentialMatches.size() > 0 && localityIsNearResult) {
                     result.addComment("Original coordinates are near (within georeference error radius or " + thresholdDistanceKm + " km) the georeference for the locality text from the Geolocate service. Accepting the original coordinates. ");
-                    result.setResultState(EnumDQAmendmentResultState.NO_CHANGE);
+                    result.setResultState(EnumDQAmendmentResultState.NOT_AMENDED);
                 } else {
                     // some error condition was found, see if any transposition returns a plausible locality
                     boolean matchFound = false;

@@ -242,6 +242,7 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+    @Provides("0bb8297d-8f8a-42d2-80c1-558f29efe798")
     public static DQResponse<ComplianceValue> validationMinelevationOutofrange(
     		@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters) {
     	return DwCGeoRefDQ.validationMinelevationOutofrange(minimumElevationInMeters, -430d, 8850d);
@@ -472,6 +473,16 @@ public class DwCGeoRefDQ{
 
         //TODO: Parameters. This test is defined as parameterized.
         // bdq:sourceAuthority
+        
+        if (GEOUtil.isEmpty(countryCode)) {
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:countryCode is empty.");
+        } else { 
+        	// TODO 2 letter code, capitalized matches?
+        	// TODO 3 letter code matches?
+        	// TODO string matches?
+        }
+        
 
         return result;
     }
@@ -590,7 +601,7 @@ public class DwCGeoRefDQ{
         // and dwc:maximumDepthInMeters are not EMPTY; AMENDED if the 
         // value of dwc:minimumDepthInMeters and/or dwc:maximumDepthInMeters 
         // were unambiguously determined from dwc:verbatimDepth; otherwise 
-        //NOT_CHANGED 
+        // NOT_CHANGED 
 
         return result;
     }
@@ -854,6 +865,33 @@ public class DwCGeoRefDQ{
         // not interpretable as numbers; COMPLIANT if either the value 
         // of dwc:decimalLatitude is not = 0 or the value of dwc:decimalLongitude 
         //is not = 0; otherwise NOT_COMPLIANT 
+        
+    	if (GEOUtil.isEmpty(decimalLatitude)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:decimalLatitude is empty.");
+    		if (GEOUtil.isEmpty(decimalLongitude)) { 
+    			result.addComment("provided value for dwc:decimalLongitude is empty.");
+    		}
+    	} else if (GEOUtil.isEmpty(decimalLongitude)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:decimalLongitude is empty.");
+    	} else if (!GEOUtil.isNumericCharacters(decimalLatitude)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:decimalLatitude contains non-numeric characters.");
+    	} else { 
+    		try {
+    			Double decimalLatitudeNumber = Double.parseDouble(decimalLatitude);
+    			try {
+    				Double decimalLongitudeNumber = Double.parseDouble(decimalLongitude);
+    			} catch (NumberFormatException e) { 
+    				result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    				result.addComment("provided value for dwc:decimalLongitude is not parsable as a number.");
+    			}
+    		} catch (NumberFormatException e) { 
+    			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    			result.addComment("provided value for dwc:decimalLatitude is not parsable as a number.");
+    		}
+    	}
 
         return result;
     }
@@ -1135,7 +1173,7 @@ public class DwCGeoRefDQ{
     		result.addComment("provided value for dwc:coordinateUncertaintyInMeters is empty.");
     	} else if (!GEOUtil.isNumericCharacters(coordinateUncertaintyInMeters)) { 
     		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
-    		result.addComment("provided value for dwc:decimalLatitude contains non-numeric characters.");
+    		result.addComment("provided value for dwc:coordinateUncertaintyInMeters contains non-numeric characters.");
     	} else { 
     		try {
     			Double uncertaintyNumber = Double.parseDouble(coordinateUncertaintyInMeters);
