@@ -237,7 +237,7 @@ public class DwCGeoRefDQ{
         // were populated from information in verbatim coordinate information 
         // (dwc:verbatimCoordinates or dwc:verbatimLatitude and dwc:verbatimLongitude, 
         // plus dwc:verbatimCoordinateSystem and dwc:verbatimSRS); 
-        //otherwise NOT_CHANGED 
+        //otherwise NOT_AMENDED 
 
         return result;
     }
@@ -447,7 +447,7 @@ public class DwCGeoRefDQ{
         // was not interpretable; AMENDED if the values of dwc:decimalLatitude, 
         // dwc:decimalLongitude, and dwc:geodeticDatum were changed 
         // based on a conversion between spatial reference systems; 
-        //otherwise NOT_CHANGED 
+        //otherwise NOT_AMENDED 
 
         return result;
     }
@@ -469,7 +469,7 @@ public class DwCGeoRefDQ{
         // not available; INTERNAL_PREREQUISTITES_NOT_MET if the value 
         // of dwc:countryCode is EMPTY; AMENDED if a valid ISO 3166-1-alpha-2 
         // country code could be unambiguously interpreted from the 
-        //value of dwc:countryCode; otherwise NOT_CHANGED 
+        //value of dwc:countryCode; otherwise NOT_AMENDED 
 
         //TODO: Parameters. This test is defined as parameterized.
         // bdq:sourceAuthority
@@ -576,7 +576,7 @@ public class DwCGeoRefDQ{
         // if the geographic coordinates were transposed or one or 
         // more of the signs of the coordinates were reversed to place 
         // the record in the region defined by the supplied dwc:countryCode; 
-        //otherwise NOT_CHANGED 
+        //otherwise NOT_AMENDED 
 
         return result;
     }
@@ -601,7 +601,7 @@ public class DwCGeoRefDQ{
         // and dwc:maximumDepthInMeters are not EMPTY; AMENDED if the 
         // value of dwc:minimumDepthInMeters and/or dwc:maximumDepthInMeters 
         // were unambiguously determined from dwc:verbatimDepth; otherwise 
-        // NOT_CHANGED 
+        // NOT_AMENDED 
 
         return result;
     }
@@ -677,7 +677,7 @@ public class DwCGeoRefDQ{
         // service was not available; INTERNAL_PREREQUISITES_NOT_MET 
         // if dwc:geodeticDatum is EMPTY; AMENDED if the value of dwc:geodeticDatum 
         // has been standardized using the bdq:sourceAuthority service; 
-        //otherwise NOT_CHANGED 
+        //otherwise NOT_AMENDED 
 
         //TODO: Parameters. This test is defined as parameterized.
         // bdq:sourceAuthority
@@ -733,7 +733,7 @@ public class DwCGeoRefDQ{
         // or dwc:minimumElevationInMeters and/or dwc:maximumElevationInMeters 
         // are not EMPTY; AMENDED if the values of dwc:minimumElevationInMeters 
         // and/or dwc:maximumElevationInMeters were unambiguously interpreted 
-        //from dwc:verbatimElevation; otherwise NOT_CHANGED 
+        //from dwc:verbatimElevation; otherwise NOT_AMENDED 
 
         return result;
     }
@@ -761,7 +761,7 @@ public class DwCGeoRefDQ{
         // uninterpretable, or if dwc:countryCode is NOT_EMPTY; AMENDED 
         // if dwc:decimalLatitude and dwc:decimalLongitude fall within 
         // a boundary from the bdq:sourceAuthority that is attributable 
-        //to a single valid country code; otherwise NOT_CHANGED. 
+        //to a single valid country code; otherwise NOT_AMENDED. 
 
         //TODO: Parameters. This test is defined as parameterized.
         // bdq:sourceAuthority; bdq:spatialBufferInMeters
@@ -1007,7 +1007,7 @@ public class DwCGeoRefDQ{
         // INTERNAL_PREREQUISITES_NOT_MET if the value of dwc:geodeticDatum 
         // was interpretable or the Parameter is not set; AMENDED to 
         // the Parameter value if dwc:geodeticDatum was EMPTY; otherwise 
-        //NOT_CHANGED 
+        //NOT_AMENDED 
 
         //TODO: Parameters. This test is defined as parameterized.
         // dwc:geodeticDatum default
@@ -1300,7 +1300,7 @@ public class DwCGeoRefDQ{
         // of the administrative geographic terms (dwc:continent, dwc:country, 
         // dwc:countryCode, dwc:stateProvince, dwc:county, dwc:municipality) 
         // was changed to comply with standard values from the bdq:sourceAuthority 
-        //service; otherwise NOT_CHANGED 
+        //service; otherwise NOT_AMENDED 
 
         //TODO: Parameters. This test is defined as parameterized.
         // bdq:sourceAuthority
