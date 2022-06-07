@@ -14,6 +14,37 @@ import org.datakurator.ffdq.api.result.*;
 public class DwCGeoRefDQ{
 	
     private static final Log logger = LogFactory.getLog(DwCGeoRefDQ.class);
+    
+    /**
+     * Is there a value in dwc:dataGeneralizations?
+     *
+     * Provides: ISSUE_DATAGENERALIZATIONS_NOTEMPTY
+     *
+     * @param dataGeneralizations the provided dwc:dataGeneralizations to evaluate
+     * @return DQResponse the response of type IssueValue to return
+     */
+    @Issue(label="ISSUE_DATAGENERALIZATIONS_NOTEMPTY", description="Is there a value in dwc:dataGeneralizations?")
+    @Provides("13d5a10e-188e-40fd-a22c-dbaa87b91df2")
+    public static DQResponse<IssueValue> issueDatageneralizationsNotempty(@ActedUpon("dwc:dataGeneralizations") String dataGeneralizations) {
+        DQResponse<IssueValue> result = new DQResponse<IssueValue>();
+
+        // Specification
+        // POTENTIAL_ISSUE if dwc:dataGeneralizations is not EMPTY; 
+        // otherwise NOT_ISSUE 
+        
+        if (GEOUtil.isEmpty(dataGeneralizations)) {
+        	result.addComment("No value present in dwc:dataGeneralizations");
+        	result.setResultState(ResultState.RUN_HAS_RESULT);
+        	result.setValue(IssueValue.NOT_PROBLEM);
+        } else { 
+        	result.addComment("A value is present in dwc:dataGeneralizations, these data may or may not be fit for your use, you will need to examine the data generalizations and the data to determine fittness.");
+        	result.addComment("dwc:dataGeneralizations=[" + dataGeneralizations + "].");
+        	result.setResultState(ResultState.RUN_HAS_RESULT);
+        	result.setValue(IssueValue.POTENTIAL_PROBLEM);
+        }
+
+        return result;
+    }
 	
     /**
      * #20 Validation SingleRecord Conformance: countrycode notstandard

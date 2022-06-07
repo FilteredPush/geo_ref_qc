@@ -7,8 +7,12 @@ import static org.junit.Assert.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.datakurator.ffdq.annotations.ActedUpon;
+import org.datakurator.ffdq.annotations.Issue;
+import org.datakurator.ffdq.annotations.Provides;
 import org.datakurator.ffdq.api.DQResponse;
 import org.datakurator.ffdq.api.result.ComplianceValue;
+import org.datakurator.ffdq.api.result.IssueValue;
 import org.datakurator.ffdq.model.ResultState;
 import org.junit.Test;
 
@@ -21,6 +25,28 @@ import org.junit.Test;
 public class DwCGeoRefDQTestDefinitions {
 
 	private static final Log logger = LogFactory.getLog(DwCGeoRefDQTestDefinitions.class);
+
+	@Test
+    public void testIssueDatageneralizationsNotEmpty() { 
+        // Specification
+        // POTENTIAL_ISSUE if dwc:dataGeneralizations is not EMPTY; 
+        // otherwise NOT_ISSUE 
+    	
+    	String dataGeneralizations = "";
+    	DQResponse<IssueValue> response = DwCGeoRefDQ.issueDatageneralizationsNotempty(dataGeneralizations);
+    	assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), response.getResultState().getLabel());
+    	assertEquals(IssueValue.NOT_PROBLEM.getLabel(), response.getValue().getLabel());
+
+    	dataGeneralizations = null;
+    	response = DwCGeoRefDQ.issueDatageneralizationsNotempty(dataGeneralizations);
+    	assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), response.getResultState().getLabel());
+    	assertEquals(IssueValue.NOT_PROBLEM.getLabel(), response.getValue().getLabel());
+
+    	dataGeneralizations = "Some generalization";
+    	response = DwCGeoRefDQ.issueDatageneralizationsNotempty(dataGeneralizations);
+    	assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), response.getResultState().getLabel());
+    	assertEquals(IssueValue.POTENTIAL_PROBLEM.getLabel(), response.getValue().getLabel());
+    }
 
 	/**
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountrycodeNotstandard(java.lang.String)}.
