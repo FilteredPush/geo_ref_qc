@@ -1313,7 +1313,7 @@ public class DwCGeoRefDQ{
      * @param stateProvince the provided dwc:stateProvince to evaluate
      * @return DQResponse the response of type AmendmentValue to return
      */
-    @Provides("78640f09-8353-411a-800e-9b6d498fb1c9")
+    @Provides("ba2d868c-afa3-409a-836b-fdcea9f75945")
     public DQResponse<AmendmentValue> amendmentGeographyStandardized(
     		@ActedUpon("dwc:continent") String continent, 
     		@ActedUpon("dwc:county") String county, 
