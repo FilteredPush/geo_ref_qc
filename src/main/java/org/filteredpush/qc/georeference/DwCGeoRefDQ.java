@@ -10,6 +10,17 @@ import org.datakurator.ffdq.model.ResultState;
 import org.filteredpush.qc.georeference.util.GEOUtil;
 import org.datakurator.ffdq.api.result.*;
 
+/**
+ *
+ * Implementations of TDWG BDQ SPACE related tests.
+ * 
+ * Provides:
+ * 
+ * #20 VALIDATION_COUNTRYCODE_STANDARD 0493bcfb-652e-4d17-815b-b0cce0742fbe
+ * 
+ * @author mole
+ *
+ */
 @Mechanism(value="71fa3762-0dfa-43c7-a113-d59797af02e8",label="Kurator: Date Validator - DwCGeoRefDQ:v2.0.0")
 public class DwCGeoRefDQ{
 	
@@ -46,28 +57,34 @@ public class DwCGeoRefDQ{
         return result;
     }
 	
+    
     /**
-     * #20 Validation SingleRecord Conformance: countrycode notstandard
+     * Is the value of dwc:countryCode a valid ISO 3166-1-alpha-2 country code?
      *
-     * Provides: VALIDATION_COUNTRYCODE_NOTSTANDARD
+     * Provides: #20 VALIDATION_COUNTRYCODE_STANDARD
      *
      * @param countryCode the provided dwc:countryCode to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_COUNTRYCODE_STANDARD", description="Is the value of dwc:countryCode a valid ISO 3166-1-alpha-2 country code?")
     @Provides("0493bcfb-652e-4d17-815b-b0cce0742fbe")
-    public static DQResponse<ComplianceValue> validationCountrycodeNotstandard(
+    public static DQResponse<ComplianceValue> validationCountrycodeStandard(
     		@ActedUpon("dwc:countryCode") String countryCode) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the ISO 3166 service was 
-        // not available; INTERNAL_PREREQUISITES_NOT_MET if the dwc:countryCode 
-        // was EMPTY; COMPLIANT if dwc:countryCode is a valid ISO (ISO 
-        // 3166-1-alpha-2 country codes) value; otherwise NOT_COMPLIANT 
-        //
+        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:SourceAuthority 
+        // is not available; INTERNAL_PREREQUISITES_NOT_MET if the 
+        // dwc:countryCode was EMPTY; COMPLIANT if the value of dwc:countryCode 
+        // is found in bdq:sourceAuthority; otherwise NOT_COMPLIANT 
+        
+        // bdq:sourceAuthority is "ISO 3166-1-alpha-2" [https://restcountries.eu/#api-endpoints-list-of-codes, 
+        // https://www.iso.org/obp/ui/#search] 
         
         // TODO: Implement lookup of current country codes values
         // https://restcountries.eu/#api-endpoints-list-of-codes mentioned in list, but is currently timing out.
+        // appears to be available at, api for one item at once.
+        // https://restcountries.com/#api-endpoints-list-of-codes mentioned in list, but is currently timing out.
         // wikidata is a possible source for country codes.
         // test is defined as not parameterized, so this would be internal implementation, 
         // and can fall back on hardcoded list.

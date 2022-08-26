@@ -21,6 +21,9 @@ import org.junit.Test;
  * 
  * @author mole
  *
+ * TODO: Split out any tests that invoke remote services into an integration test ...IT.java class.
+ * TODO: Rename to follow expected maven surefire pattern of Test.java to verify in build
+ *
  */
 public class DwCGeoRefDQTestDefinitions {
 
@@ -48,35 +51,6 @@ public class DwCGeoRefDQTestDefinitions {
     	assertEquals(IssueValue.POTENTIAL_PROBLEM.getLabel(), response.getValue().getLabel());
     }
 
-	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountrycodeNotstandard(java.lang.String)}.
-	 */
-	@Test
-	public void testValidationCountrycodeNotstandard() {
-		
-        // Specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the ISO 3166 service was 
-        // not available; INTERNAL_PREREQUISITES_NOT_MET if the dwc:countryCode 
-        // was EMPTY; COMPLIANT if dwc:countryCode is a valid ISO (ISO 
-        // 3166-1-alpha-2 country codes) value; otherwise NOT_COMPLIANT 
-        //
-		
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountrycodeNotstandard(null);
-		logger.debug(result.getComment());
-		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
-		assertNull(result.getValue());
-		
-		result = DwCGeoRefDQ.validationCountrycodeNotstandard("a");
-		logger.debug(result.getComment());
-		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
-		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
-		
-		result = DwCGeoRefDQ.validationCountrycodeNotstandard("UG");
-		logger.debug(result.getComment());
-		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
-		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
-		
-	}
 
 	/**
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountryNotstandard(java.lang.String)}.
