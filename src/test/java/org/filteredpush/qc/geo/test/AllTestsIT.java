@@ -7,9 +7,9 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ CountryLookupTest.class, GeoTesterTest.class, GeoUtiltsTest.class })
-public class AllTests {
+@SuiteClasses({ GeoLocateServiceTestIT.class })
+public class AllTestsIT {
 
-	private static final Log logger = LogFactory.getLog(AllTests.class);
+	private static final Log logger = LogFactory.getLog(AllTestsIT.class);
 
 }

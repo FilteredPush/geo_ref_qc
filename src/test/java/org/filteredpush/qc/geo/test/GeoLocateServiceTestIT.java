@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
  * @author lowery
  *
  */
-public class GeoLocateServiceTest {
+public class GeoLocateServiceTestIT {
     private static GeoLocateService service = new GeoLocateService();
 
     @Test

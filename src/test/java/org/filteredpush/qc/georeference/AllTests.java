@@ -1,4 +1,4 @@
-package org.filteredpush.qc.geo.test;
+package org.filteredpush.qc.georeference;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -7,7 +7,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ CountryLookupTest.class, GeoTesterTest.class, GeoUtiltsTest.class })
+@SuiteClasses({ DwCGeoRefDQTestDefinitions.class })
 public class AllTests {
 
 	private static final Log logger = LogFactory.getLog(AllTests.class);
