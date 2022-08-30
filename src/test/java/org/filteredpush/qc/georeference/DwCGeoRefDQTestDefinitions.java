@@ -29,27 +29,7 @@ public class DwCGeoRefDQTestDefinitions {
 
 	private static final Log logger = LogFactory.getLog(DwCGeoRefDQTestDefinitions.class);
 
-	@Test
-    public void testIssueDatageneralizationsNotEmpty() { 
-        // Specification
-        // POTENTIAL_ISSUE if dwc:dataGeneralizations is not EMPTY; 
-        // otherwise NOT_ISSUE 
-    	
-    	String dataGeneralizations = "";
-    	DQResponse<IssueValue> response = DwCGeoRefDQ.issueDatageneralizationsNotempty(dataGeneralizations);
-    	assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), response.getResultState().getLabel());
-    	assertEquals(IssueValue.NOT_PROBLEM.getLabel(), response.getValue().getLabel());
 
-    	dataGeneralizations = null;
-    	response = DwCGeoRefDQ.issueDatageneralizationsNotempty(dataGeneralizations);
-    	assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), response.getResultState().getLabel());
-    	assertEquals(IssueValue.NOT_PROBLEM.getLabel(), response.getValue().getLabel());
-
-    	dataGeneralizations = "Some generalization";
-    	response = DwCGeoRefDQ.issueDatageneralizationsNotempty(dataGeneralizations);
-    	assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), response.getResultState().getLabel());
-    	assertEquals(IssueValue.POTENTIAL_PROBLEM.getLabel(), response.getValue().getLabel());
-    }
 
 
 	/**
@@ -565,27 +545,27 @@ public class DwCGeoRefDQTestDefinitions {
         // COMPLIANT if the value of dwc:minimumDepthInMeters is within 
         //the Parameter range; otherwise NOT_COMPLIANT 
 		
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationMaxdepthOutofrange(null);
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationMindepthOutofrange(null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
 		
-		result = DwCGeoRefDQ.validationMaxdepthOutofrange("a");
+		result = DwCGeoRefDQ.validationMindepthOutofrange("a");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
 		
-		result = DwCGeoRefDQ.validationMaxdepthOutofrange("10");
+		result = DwCGeoRefDQ.validationMindepthOutofrange("10");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationMaxdepthOutofrange("-1");
+		result = DwCGeoRefDQ.validationMindepthOutofrange("-1");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationMaxdepthOutofrange("11001");
+		result = DwCGeoRefDQ.validationMindepthOutofrange("11001");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
@@ -765,43 +745,6 @@ public class DwCGeoRefDQTestDefinitions {
 		fail("Not yet implemented");
 	}
 
-	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationMaxdepthOutofrange(java.lang.String)}.
-	 */
-	@Test
-	public void testValidationMaxdepthOutofrange() {
-		
-        // Specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumDepthInMeters 
-        // is EMPTY or is not a number; COMPLIANT if the value of dwc:maximumDepthInMeters 
-        // is within the Parameter range of bdq:minimumValidDepthInMeters 
-        // to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT 
-        //
-		
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationMaxdepthOutofrange(null);
-		logger.debug(result.getComment());
-		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
-		assertNull(result.getValue());
-		
-		result = DwCGeoRefDQ.validationMaxdepthOutofrange("a");
-		logger.debug(result.getComment());
-		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
-		assertNull(result.getValue());
-		
-		result = DwCGeoRefDQ.validationMaxdepthOutofrange("10");
-		logger.debug(result.getComment());
-		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
-		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
-		
-		result = DwCGeoRefDQ.validationMaxdepthOutofrange("-1");
-		logger.debug(result.getComment());
-		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
-		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
-		
-		result = DwCGeoRefDQ.validationMaxdepthOutofrange("11001");
-		logger.debug(result.getComment());
-		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
-		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
-	}
+
 
 }

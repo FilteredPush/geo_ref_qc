@@ -17,6 +17,8 @@ import org.datakurator.ffdq.api.result.*;
  * Provides:
  * 
  * #20 VALIDATION_COUNTRYCODE_STANDARD 0493bcfb-652e-4d17-815b-b0cce0742fbe
+ * #72 ISSUE_DATAGENERALIZATIONS_NOTEMPTY 13d5a10e-188e-40fd-a22c-dbaa87b91df2
+ * #187 VALIDATION_MAXDEPTH_INRANGE 3f1db29a-bfa5-40db-9fd1-fde020d81939
  * 
  * @author mole
  *
@@ -24,7 +26,8 @@ import org.datakurator.ffdq.api.result.*;
 @Mechanism(value="71fa3762-0dfa-43c7-a113-d59797af02e8",label="Kurator: Date Validator - DwCGeoRefDQ:v2.0.0")
 public class DwCGeoRefDQ{
 	
-    private static final Log logger = LogFactory.getLog(DwCGeoRefDQ.class);
+	private static final Log logger = LogFactory.getLog(DwCGeoRefDQ.class);
+    
     
     /**
      * Is there a value in dwc:dataGeneralizations?
@@ -1426,18 +1429,19 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+    
+    
     /**
-     * #187 Validation SingleRecord Conformance: maxdepth outofrange
+     * Is the value of dwc:maximumDepthInMeters within the specified Parameter range? 
      *
-     * Provides: VALIDATION_MAXDEPTH_OUTOFRANGE
+     * Provides: VALIDATION_MAXDEPTH_INRANGE
      *
      * @param maximumDepthInMeters the provided dwc:maximumDepthInMeters to evaluate
+     * @param minimumValidDepthInMeters the minimum valid depth, defaults to 0 if null.
+     * @param maximumValidDepthInMeters the maximum valid depth, defaults to 110000 if null.
      * @return DQResponse the response of type ComplianceValue  to return
      */
-    public static DQResponse<ComplianceValue> validationMaxdepthOutofrange(
-    		@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters) { 
-    	return (DwCGeoRefDQ.validationMaxdepthOutofrange(maximumDepthInMeters, 0d, 11000d));
-    }
+    @Validation(label="VALIDATION_MAXDEPTH_INRANGE", description="Is the value of dwc:maximumDepthInMeters within the Parameter range?")
     @Provides("3f1db29a-bfa5-40db-9fd1-fde020d81939")
     public static DQResponse<ComplianceValue> validationMaxdepthOutofrange(
     		@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters, 
@@ -1448,10 +1452,10 @@ public class DwCGeoRefDQ{
 
         // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumDepthInMeters 
-        // is EMPTY or is not a number; COMPLIANT if the value of dwc:maximumDepthInMeters 
-        // is within the Parameter range of bdq:minimumValidDepthInMeters 
-        // to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT 
-        //
+        // is EMPTY or is not interpretable as a number; COMPLIANT 
+        // if the value of dwc:maximumDepthInMeters is within the range 
+        // of bdq:minimumValidDepthInMeters to bdq:maximumValidDepthInMeters 
+        // inclusive; otherwise NOT_COMPLIANT 
 
         // Parameters. This test is defined as parameterized.
         // Default values: bdq:minimumValidDepthInMeters="0"; bdq:maximumValidDepthInMeters="11000"

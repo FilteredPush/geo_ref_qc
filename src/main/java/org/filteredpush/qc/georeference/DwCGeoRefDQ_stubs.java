@@ -527,25 +527,6 @@ public class DwCGeoRefDQ_stubs {
         return result;
     }
 
-    /**
-     * Is there a value in dwc:dataGeneralizations?
-     *
-     * Provides: ISSUE_DATAGENERALIZATIONS_NOTEMPTY
-     *
-     * @param dataGeneralizations the provided dwc:dataGeneralizations to evaluate
-     * @return DQResponse the response of type IssueValue to return
-     */
-    @Issue(label="ISSUE_DATAGENERALIZATIONS_NOTEMPTY", description="Is there a value in dwc:dataGeneralizations?")
-    @Provides("13d5a10e-188e-40fd-a22c-dbaa87b91df2")
-    public DQResponse<IssueValue> issueDatageneralizationsNotempty(@ActedUpon("dwc:dataGeneralizations") String dataGeneralizations) {
-        DQResponse<IssueValue> result = new DQResponse<IssueValue>();
-
-        //TODO:  Implement specification
-        // POTENTIAL_ISSUE if dwc:dataGeneralizations is not EMPTY; 
-        // otherwise NOT_ISSUE 
-
-        return result;
-    }
 
     /**
      * Propose amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority that is attributable to a single valid country code.
@@ -941,32 +922,6 @@ public class DwCGeoRefDQ_stubs {
 
         //TODO: Parameters. This test is defined as parameterized.
         // bdq:sourceAuthority
-
-        return result;
-    }
-
-    /**
-     * Is the value of dwc:maximumDepthInMeters within the Parameter range?
-     *
-     * Provides: VALIDATION_MAXDEPTH_INRANGE
-     *
-     * @param maximumDepthInMeters the provided dwc:maximumDepthInMeters to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_MAXDEPTH_INRANGE", description="Is the value of dwc:maximumDepthInMeters within the Parameter range?")
-    @Provides("3f1db29a-bfa5-40db-9fd1-fde020d81939")
-    public DQResponse<ComplianceValue> validationMaxdepthInrange(@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumDepthInMeters 
-        // is EMPTY or is not interpretable as a number; COMPLIANT 
-        // if the value of dwc:maximumDepthInMeters is within the range 
-        // of bdq:minimumValidDepthInMeters to bdq:maximumValidDepthInMeters 
-        // inclusive; otherwise NOT_COMPLIANT 
-
-        //TODO: Parameters. This test is defined as parameterized.
-        // bdq:minimumValidDepthInMeters default="0",bdq:maximumValidDepthInMeters default="11000"
 
         return result;
     }
