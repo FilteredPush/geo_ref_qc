@@ -466,7 +466,7 @@ public class DwCGeoRefDQTestDefinitions {
 	}
 
 	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCoordinatesZero(java.lang.String, java.lang.String)}.
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCoordinatesNotzero(java.lang.String, java.lang.String)}.
 	 */
 	@Test
 	public void testValidationCoordinatesZero() {

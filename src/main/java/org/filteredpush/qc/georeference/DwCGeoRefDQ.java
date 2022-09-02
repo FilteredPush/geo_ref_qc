@@ -17,10 +17,12 @@ import org.datakurator.ffdq.api.result.*;
  * Provides:
  * 
  * #20 VALIDATION_COUNTRYCODE_STANDARD 0493bcfb-652e-4d17-815b-b0cce0742fbe
- * #72 ISSUE_DATAGENERALIZATIONS_NOTEMPTY 13d5a10e-188e-40fd-a22c-dbaa87b91df2
  * #187 VALIDATION_MAXDEPTH_INRANGE 3f1db29a-bfa5-40db-9fd1-fde020d81939
  * #42 VALIDATION_COUNTRY_NOTEMPTY 6ce2b2b4-6afe-4d13-82a0-390d31ade01c 
  * #98 VALIDATION_COUNTRYCODE_NOTEMPTY 853b79a2-b314-44a2-ae46-34a1e7ed85e4 
+ * #87 VALIDATION_COORDINATES_NOTZERO 1bf0e210-6792-4128-b8cc-ab6828aa4871
+ * 
+ * #72 ISSUE_DATAGENERALIZATIONS_NOTEMPTY 13d5a10e-188e-40fd-a22c-dbaa87b91df2
  * 
  * @author mole
  *
@@ -902,24 +904,25 @@ public class DwCGeoRefDQ{
     }
 
     /**
-     * #87 Validation SingleRecord Likelihood: coordinates zero
+     * Are the values of either dwc:decimalLatitude or dwc:decimalLongitude numbers that are not equal to 0?
      *
-     * Provides: VALIDATION_COORDINATES_ZERO
+     * Provides: #87 VALIDATION_COORDINATES_NOTZERO
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_COORDINATES_NOTZERO", description="Are the values of either dwc:decimalLatitude or dwc:decimalLongitude numbers that are not equal to 0?")
     @Provides("1bf0e210-6792-4128-b8cc-ab6828aa4871")
-    public DQResponse<ComplianceValue> validationCoordinatesZero(@ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
+    public DQResponse<ComplianceValue> validationCoordinatesNotzero(@ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude and/or 
         // dwc:decimalLongitude are EMPTY or both of the values are 
         // not interpretable as numbers; COMPLIANT if either the value 
         // of dwc:decimalLatitude is not = 0 or the value of dwc:decimalLongitude 
-        //is not = 0; otherwise NOT_COMPLIANT 
+        // is not = 0; otherwise NOT_COMPLIANT 
         
     	if (GEOUtil.isEmpty(decimalLatitude)) { 
     		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
@@ -932,7 +935,10 @@ public class DwCGeoRefDQ{
     		result.addComment("provided value for dwc:decimalLongitude is empty.");
     	} else if (!GEOUtil.isNumericCharacters(decimalLatitude)) { 
     		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
-    		result.addComment("provided value for dwc:decimalLatitude contains non-numeric characters.");
+    		result.addComment("provided value for dwc:decimalLatitude ["+decimalLatitude+"] contains non-numeric characters.");
+    	} else if (!GEOUtil.isNumericCharacters(decimalLongitude)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:decimalLongitude ["+decimalLongitude+"] contains non-numeric characters.");
     	} else { 
     		try {
     			Double decimalLatitudeNumber = Double.parseDouble(decimalLatitude);
@@ -940,11 +946,11 @@ public class DwCGeoRefDQ{
     				Double decimalLongitudeNumber = Double.parseDouble(decimalLongitude);
     			} catch (NumberFormatException e) { 
     				result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
-    				result.addComment("provided value for dwc:decimalLongitude is not parsable as a number.");
+    				result.addComment("provided value for dwc:decimalLongitude ["+decimalLongitude+"] is not parsable as a number.");
     			}
     		} catch (NumberFormatException e) { 
     			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
-    			result.addComment("provided value for dwc:decimalLatitude is not parsable as a number.");
+    			result.addComment("provided value for dwc:decimalLatitude ["+decimalLatitude+"] is not parsable as a number.");
     		}
     	}
 

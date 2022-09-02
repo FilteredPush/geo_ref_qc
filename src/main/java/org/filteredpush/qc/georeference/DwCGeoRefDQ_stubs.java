@@ -587,29 +587,6 @@ public class DwCGeoRefDQ_stubs {
         return result;
     }
 
-    /**
-     * Are the values of either dwc:decimalLatitude or dwc:decimalLongitude numbers that are not equal to 0?
-     *
-     * Provides: VALIDATION_COORDINATES_NOTZERO
-     *
-     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
-     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_COORDINATES_NOTZERO", description="Are the values of either dwc:decimalLatitude or dwc:decimalLongitude numbers that are not equal to 0?")
-    @Provides("1bf0e210-6792-4128-b8cc-ab6828aa4871")
-    public DQResponse<ComplianceValue> validationCoordinatesNotzero(@ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude and/or 
-        // dwc:decimalLongitude are EMPTY or both of the values are 
-        // not interpretable as numbers; COMPLIANT if either the value 
-        // of dwc:decimalLatitude is not = 0 or the value of dwc:decimalLongitude 
-        // is not = 0; otherwise NOT_COMPLIANT 
-
-        return result;
-    }
 
     /**
      * Is the combination of the values of the terms dwc:continent, dwc:country, dwc:countryCode, dwc:stateProvince, dwc:county, dwc:municipality consistent with the bdq:sourceAuthority?
