@@ -21,6 +21,40 @@ public class DwCGeoRefDQDefinitionsTest {
 
 	private static final Log logger = LogFactory.getLog(DwCGeoRefDQDefinitionsTest.class);
 
+	@Test
+	public void testValidationCoordinatesNotzero() { 
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude and/or 
+        // dwc:decimalLongitude are EMPTY or both of the values are 
+        // not interpretable as numbers; COMPLIANT if either the value 
+        // of dwc:decimalLatitude is not = 0 or the value of dwc:decimalLongitude 
+        // is not = 0; otherwise NOT_COMPLIANT 
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCoordinatesNotzero(null,null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationCoordinatesNotzero("1.4","3.6");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		result = DwCGeoRefDQ.validationCoordinatesNotzero("0","0");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		result = DwCGeoRefDQ.validationCoordinatesNotzero("0","3.6");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		result = DwCGeoRefDQ.validationCoordinatesNotzero("1.4","0");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+	}
+	
 	/**
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountrycodeStandard(java.lang.String)}.
 	 */

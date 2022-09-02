@@ -914,7 +914,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_COORDINATES_NOTZERO", description="Are the values of either dwc:decimalLatitude or dwc:decimalLongitude numbers that are not equal to 0?")
     @Provides("1bf0e210-6792-4128-b8cc-ab6828aa4871")
-    public DQResponse<ComplianceValue> validationCoordinatesNotzero(@ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
+    public static DQResponse<ComplianceValue> validationCoordinatesNotzero(@ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
@@ -944,6 +944,17 @@ public class DwCGeoRefDQ{
     			Double decimalLatitudeNumber = Double.parseDouble(decimalLatitude);
     			try {
     				Double decimalLongitudeNumber = Double.parseDouble(decimalLongitude);
+    				if ((decimalLatitudeNumber.compareTo(0d)==0 | decimalLatitudeNumber.compareTo(-0d)==0) && 
+    					(decimalLongitudeNumber.compareTo(0d)==0 | decimalLongitudeNumber.compareTo(-0d)==0)) 
+    				{ 
+    					result.setResultState(ResultState.RUN_HAS_RESULT);
+    					result.setValue(ComplianceValue.NOT_COMPLIANT);
+    					result.addComment("Both dwc:decimalLatitude and dwc:decimalLongitude are zero.");
+    				} else {
+    					result.setResultState(ResultState.RUN_HAS_RESULT);
+    					result.setValue(ComplianceValue.COMPLIANT);
+    					result.addComment("Both dwc:decimalLatitude and dwc:decimalLongitude are not both zero.");
+    				}
     			} catch (NumberFormatException e) { 
     				result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
     				result.addComment("provided value for dwc:decimalLongitude ["+decimalLongitude+"] is not parsable as a number.");
