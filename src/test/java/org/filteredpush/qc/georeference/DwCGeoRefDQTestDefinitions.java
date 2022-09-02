@@ -294,7 +294,7 @@ public class DwCGeoRefDQTestDefinitions {
 	}
 
 	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountryEmpty(java.lang.String)}.
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountryNotEmpty(java.lang.String)}.
 	 */
 	@Test
 	public void testValidationCountryEmpty() {
@@ -303,12 +303,12 @@ public class DwCGeoRefDQTestDefinitions {
         // COMPLIANT if dwc:country is not EMPTY; otherwise NOT_COMPLIANT 
         //
 		
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountryEmpty(null);
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountryNotEmpty(null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationCountryEmpty("foo");
+		result = DwCGeoRefDQ.validationCountryNotEmpty("foo");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
@@ -504,7 +504,7 @@ public class DwCGeoRefDQTestDefinitions {
 	}
 
 	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountrycodeEmpty(java.lang.String)}.
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountrycodeNotempty(java.lang.String)}.
 	 */
 	@Test
 	public void testValidationCountrycodeEmpty() {
@@ -513,12 +513,12 @@ public class DwCGeoRefDQTestDefinitions {
         // COMPLIANT if dwc:countryCode is not EMPTY; otherwise NOT_COMPLIANT 
         //
 	
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountrycodeEmpty(null);
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountrycodeNotempty(null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationCountrycodeEmpty("foo");
+		result = DwCGeoRefDQ.validationCountrycodeNotempty("foo");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());

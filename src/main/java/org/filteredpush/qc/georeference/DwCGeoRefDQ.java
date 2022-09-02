@@ -19,6 +19,8 @@ import org.datakurator.ffdq.api.result.*;
  * #20 VALIDATION_COUNTRYCODE_STANDARD 0493bcfb-652e-4d17-815b-b0cce0742fbe
  * #72 ISSUE_DATAGENERALIZATIONS_NOTEMPTY 13d5a10e-188e-40fd-a22c-dbaa87b91df2
  * #187 VALIDATION_MAXDEPTH_INRANGE 3f1db29a-bfa5-40db-9fd1-fde020d81939
+ * #42 VALIDATION_COUNTRY_NOTEMPTY 6ce2b2b4-6afe-4d13-82a0-390d31ade01c 
+ * #98 VALIDATION_COUNTRYCODE_NOTEMPTY 853b79a2-b314-44a2-ae46-34a1e7ed85e4 
  * 
  * @author mole
  *
@@ -447,16 +449,18 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+    
     /**
-     * #42 Validation SingleRecord Completeness: country empty
+     * Is there a value in dwc:country?
      *
-     * Provides: VALIDATION_COUNTRY_EMPTY
+     * Provides: #42 VALIDATION_COUNTRY_NOTEMPTY
      *
      * @param country the provided dwc:country to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_COUNTRY_NOTEMPTY", description="Is there a value in dwc:country?")
     @Provides("6ce2b2b4-6afe-4d13-82a0-390d31ade01c")
-    public static DQResponse<ComplianceValue> validationCountryEmpty(@ActedUpon("dwc:country") String country) {
+    public static DQResponse<ComplianceValue> validationCountryNotEmpty(@ActedUpon("dwc:country") String country) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
@@ -1011,16 +1015,18 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+    
     /**
-     * #98 Validation SingleRecord Completeness: countrycode empty
+     * Is there a value in dwc:countryCode?
      *
-     * Provides: VALIDATION_COUNTRYCODE_EMPTY
+     * Provides: VALIDATION_COUNTRYCODE_NOTEMPTY
      *
      * @param countryCode the provided dwc:countryCode to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_COUNTRYCODE_NOTEMPTY", description="Is there a value in dwc:countryCode?")
     @Provides("853b79a2-b314-44a2-ae46-34a1e7ed85e4")
-    public static DQResponse<ComplianceValue> validationCountrycodeEmpty(
+    public static DQResponse<ComplianceValue> validationCountrycodeNotempty(
     		@ActedUpon("dwc:countryCode") String countryCode) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 

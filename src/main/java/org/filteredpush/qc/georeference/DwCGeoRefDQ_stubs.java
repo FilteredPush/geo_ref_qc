@@ -185,26 +185,6 @@ public class DwCGeoRefDQ_stubs {
     }
 
     /**
-     * Is there a value in dwc:country?
-     *
-     * Provides: VALIDATION_COUNTRY_NOTEMPTY
-     *
-     * @param country the provided dwc:country to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_COUNTRY_NOTEMPTY", description="Is there a value in dwc:country?")
-    @Provides("6ce2b2b4-6afe-4d13-82a0-390d31ade01c")
-    public DQResponse<ComplianceValue> validationCountryNotempty(@ActedUpon("dwc:country") String country) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // COMPLIANT if dwc:country is not EMPTY; otherwise NOT_COMPLIANT 
-        // 
-
-        return result;
-    }
-
-    /**
      * Propose amendment to the value of dwc:geodeticDatum and potentially to dwc:decimalLatitude and/or dwc:decimalLongitude based on a conversion between spatial reference systems.
      *
      * Provides: AMENDMENT_COORDINATES_CONVERTED
@@ -687,25 +667,6 @@ public class DwCGeoRefDQ_stubs {
         return result;
     }
 
-    /**
-     * Is there a value in dwc:countryCode?
-     *
-     * Provides: VALIDATION_COUNTRYCODE_NOTEMPTY
-     *
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_COUNTRYCODE_NOTEMPTY", description="Is there a value in dwc:countryCode?")
-    @Provides("853b79a2-b314-44a2-ae46-34a1e7ed85e4")
-    public DQResponse<ComplianceValue> validationCountrycodeNotempty(@ActedUpon("dwc:countryCode") String countryCode) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // COMPLIANT if dwc:countryCode is not EMPTY; otherwise NOT_COMPLIANT 
-        // 
-
-        return result;
-    }
 
     /**
      * Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty.
