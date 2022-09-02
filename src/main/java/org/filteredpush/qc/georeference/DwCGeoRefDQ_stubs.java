@@ -624,26 +624,6 @@ public class DwCGeoRefDQ_stubs {
         return result;
     }
 
-    /**
-     * Is there a value in dwc:decimalLongitude?
-     *
-     * Provides: VALIDATION_DECIMALLONGITUDE_NOTEMPTY
-     *
-     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_DECIMALLONGITUDE_NOTEMPTY", description="Is there a value in dwc:decimalLongitude?")
-    @Provides("9beb9442-d942-4f42-8b6a-fcea01ee086a")
-    public DQResponse<ComplianceValue> validationDecimallongitudeNotempty(@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // COMPLIANT if dwc:decimalLongitude is not EMPTY; otherwise 
-        // NOT_COMPLIANT 
-
-        return result;
-    }
-
 
     /**
      * Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty.
@@ -804,26 +784,6 @@ public class DwCGeoRefDQ_stubs {
 
         //TODO: Parameters. This test is defined as parameterized.
         // bdq:sourceAuthority
-
-        return result;
-    }
-
-    /**
-     * Is there a value in dwc:decimalLatitude?
-     *
-     * Provides: VALIDATION_DECIMALLATITUDE_NOTEMPTY
-     *
-     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_DECIMALLATITUDE_NOTEMPTY", description="Is there a value in dwc:decimalLatitude?")
-    @Provides("7d2485d5-1ba7-4f25-90cb-f4480ff1a275")
-    public DQResponse<ComplianceValue> validationDecimallatitudeNotempty(@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // COMPLIANT if dwc:decimalLatitude is not EMPTY; otherwise 
-        // NOT_COMPLIANT 
 
         return result;
     }

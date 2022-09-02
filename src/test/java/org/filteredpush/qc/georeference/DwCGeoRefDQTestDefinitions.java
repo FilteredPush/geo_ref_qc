@@ -482,7 +482,7 @@ public class DwCGeoRefDQTestDefinitions {
 	}
 
 	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationDecimallongitudeEmpty(java.lang.String)}.
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationDecimallongitudeNotempty(java.lang.String)}.
 	 */
 	@Test
 	public void testValidationDecimallongitudeEmpty() {
@@ -491,12 +491,12 @@ public class DwCGeoRefDQTestDefinitions {
         // COMPLIANT if dwc:decimalLongitude is not EMPTY; otherwise 
         // NOT_COMPLIANT 
 		
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationDecimallongitudeEmpty(null);
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationDecimallongitudeNotempty(null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationDecimallongitudeEmpty("foo");
+		result = DwCGeoRefDQ.validationDecimallongitudeNotempty("foo");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
@@ -716,7 +716,7 @@ public class DwCGeoRefDQTestDefinitions {
 	}
 
 	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationDecimallatitudeEmpty(java.lang.String)}.
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationDecimallatitudeNotEmpty(java.lang.String)}.
 	 */
 	@Test
 	public void testValidationDecimallatitudeEmpty() {
@@ -725,12 +725,12 @@ public class DwCGeoRefDQTestDefinitions {
         // COMPLIANT if dwc:decimalLatitude is not EMPTY; otherwise 
         // NOT_COMPLIANT 
 		
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationDecimallatitudeEmpty(null);
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationDecimallatitudeNotEmpty(null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationDecimallatitudeEmpty("foo");
+		result = DwCGeoRefDQ.validationDecimallatitudeNotEmpty("foo");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());

@@ -20,6 +20,8 @@ import org.datakurator.ffdq.api.result.*;
  * #187 VALIDATION_MAXDEPTH_INRANGE 3f1db29a-bfa5-40db-9fd1-fde020d81939
  * #42 VALIDATION_COUNTRY_NOTEMPTY 6ce2b2b4-6afe-4d13-82a0-390d31ade01c 
  * #98 VALIDATION_COUNTRYCODE_NOTEMPTY 853b79a2-b314-44a2-ae46-34a1e7ed85e4 
+ * #119 VALIDATION_DECIMALLATITUDE_EMPTY 7d2485d5-1ba7-4f25-90cb-f4480ff1a275
+ * #96 VALIDATION_DECIMALLONGITUDE_EMPTY 9beb9442-d942-4f42-8b6a-fcea01ee086a
  * #87 VALIDATION_COORDINATES_NOTZERO 1bf0e210-6792-4128-b8cc-ab6828aa4871
  * 
  * #72 ISSUE_DATAGENERALIZATIONS_NOTEMPTY 13d5a10e-188e-40fd-a22c-dbaa87b91df2
@@ -1003,15 +1005,16 @@ public class DwCGeoRefDQ{
     }
 
     /**
-     * #96 Validation SingleRecord Completeness: decimallongitude empty
+     * Is there a value in dwc:decimalLongitude?
      *
-     * Provides: VALIDATION_DECIMALLONGITUDE_EMPTY
+     * Provides: #96 VALIDATION_DECIMALLONGITUDE_NOTEMPTY
      *
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_DECIMALLONGITUDE_NOTEMPTY", description="Is there a value in dwc:decimalLongitude?")
     @Provides("9beb9442-d942-4f42-8b6a-fcea01ee086a")
-    public static DQResponse<ComplianceValue> validationDecimallongitudeEmpty(
+    public static DQResponse<ComplianceValue> validationDecimallongitudeNotempty(
     		@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
@@ -1383,15 +1386,16 @@ public class DwCGeoRefDQ{
     }
 
     /**
-     * #119 Validation SingleRecord Completeness: decimallatitude empty
+     * Is there a value in dwc:decimalLatitude?
      *
-     * Provides: VALIDATION_DECIMALLATITUDE_EMPTY
+     * Provides: #119 VALIDATION_DECIMALLATITUDE_NOTEMPTY
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_DECIMALLATITUDE_NOTEMPTY", description="Is there a value in dwc:decimalLatitude?")
     @Provides("7d2485d5-1ba7-4f25-90cb-f4480ff1a275")
-    public static DQResponse<ComplianceValue> validationDecimallatitudeEmpty(
+    public static DQResponse<ComplianceValue> validationDecimallatitudeNotEmpty(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
