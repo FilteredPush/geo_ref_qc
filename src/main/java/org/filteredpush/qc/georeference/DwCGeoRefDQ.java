@@ -2,9 +2,13 @@
 
 package org.filteredpush.qc.georeference;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.datakurator.ffdq.annotations.*;
+import org.datakurator.ffdq.api.DQAmendmentResponse;
 import org.datakurator.ffdq.api.DQResponse;
 import org.datakurator.ffdq.model.ResultState;
 import org.filteredpush.qc.georeference.util.GEOUtil;
@@ -25,6 +29,8 @@ import org.datakurator.ffdq.api.result.*;
  * #87 VALIDATION_COORDINATES_NOTZERO 1bf0e210-6792-4128-b8cc-ab6828aa4871
  * 
  * #72 ISSUE_DATAGENERALIZATIONS_NOTEMPTY 13d5a10e-188e-40fd-a22c-dbaa87b91df2
+ * 
+ * #102 AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT 7498ca76-c4d4-42e2-8103-acacccbdffa7
  * 
  * @author mole
  *
@@ -1067,28 +1073,60 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-    /**
-     * #102 Amendment SingleRecord Completeness: geodeticdatum assumeddefault
+     /**
+     * Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty.
      *
-     * Provides: AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT
+     * Provides: 102 AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT
      *
      * @param coordinateUncertantyInMeters the provided dwc:coordinateUncertantyInMeters to evaluate
      * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
+     * @param defaultGeodeticDatum to use as default, if not specified, uses EPSG:4326
      * @return DQResponse the response of type AmendmentValue to return
      */
+    @Amendment(label="AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT", description="Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty.")
     @Provides("7498ca76-c4d4-42e2-8103-acacccbdffa7")
-    public DQResponse<AmendmentValue> amendmentGeodeticdatumAssumeddefault(@ActedUpon("dwc:coordinateUncertantyInMeters") String coordinateUncertantyInMeters, @ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
+    public static DQResponse<AmendmentValue> amendmentGeodeticdatumAssumeddefault(
+    		@ActedUpon("dwc:coordinateUncertantyInMeters") String coordinateUncertantyInMeters, 
+    		@ActedUpon("dwc:geodeticDatum") String geodeticDatum,
+    		@Parameter(name="bdq:defaultGeodeticDatum") String defaultGeodeticDatum) {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if the value of dwc:geodeticDatum 
-        // was interpretable or the Parameter is not set; AMENDED to 
-        // the Parameter value if dwc:geodeticDatum was EMPTY; otherwise 
-        //NOT_AMENDED 
+        // Specification
+        // FILLED_IN the value of dwc:geodeticDatum to the value of 
+        // bdq:defaultGeodeticDatum if dwc:geodeticDatum is EMPTY; 
+        // otherwise NOT_AMENDED Source Authority is "epsg" [https://epsg.io] 
+        // 
 
-        //TODO: Parameters. This test is defined as parameterized.
-        // dwc:geodeticDatum default
-
+        // Parameters. This test is defined as parameterized.
+        // bdq:defaultGeodeticDatum default value="EPSG:4326"
+        
+        // TODO:  Notes discuss potential amendment to an existing coordinateUncertaintyInMeters value 
+        // If the dwc:coordinateUncertaintyInMeters is EMPTY or
+        // is not interpretable, this amendment should not provide a
+        // dwc:coordinateUncertaintyInMeters. If the 
+        // dwc:coordinateUncertaintyInMeters is not EMPTY and is valid, 
+        // this amendment should add to the dwc:coordinateUncertaintyInMeters 
+        // the uncertainty contributed by the conversion. Since different 
+        // systems have differing requirements for what the default datum 
+        // should be, it is left unspecified, but should match whatever 
+        // the target datum is in #43 . After the amendment is performed, 
+        // the dwc:geodeticDatum field should be the assumed default datum as parameterized.
+        
+        if (GEOUtil.isEmpty(defaultGeodeticDatum)) {
+        	defaultGeodeticDatum = "EPSG:4326";
+        }
+        
+        if (GEOUtil.isEmpty(geodeticDatum)) { 
+        	result.addComment("Propose filling in empty geodepticDatum with the default value EPSG:4326 (2D Lat/Long Unit=degrees, CRS=WGS84)");
+        	result.setResultState(ResultState.FILLED_IN);
+    		Map<String, String> values = new HashMap<>();
+    		values.put("dwc:geodeticDatum", defaultGeodeticDatum) ;
+    		result.setValue(new AmendmentValue(values));
+        } else { 
+        	result.addComment("The provided geodeticDatum contains a value, not proposing a change");
+        	result.setResultState(ResultState.NOT_AMENDED);
+        }
+        
         return result;
     }
 

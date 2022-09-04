@@ -525,13 +525,6 @@ public class DwCGeoRefDQTestDefinitions {
 		
 	}
 
-	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#amendmentGeodeticdatumAssumeddefault(java.lang.String, java.lang.String)}.
-	 */
-	@Test
-	public void testAmendmentGeodeticdatumAssumeddefault() {
-		fail("Not yet implemented");
-	}
 
 	/**
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationMindepthOutofrange(java.lang.String)}.

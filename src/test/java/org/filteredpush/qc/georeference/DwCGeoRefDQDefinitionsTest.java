@@ -7,7 +7,10 @@ import static org.junit.Assert.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.datakurator.ffdq.annotations.ActedUpon;
+import org.datakurator.ffdq.annotations.Parameter;
 import org.datakurator.ffdq.api.DQResponse;
+import org.datakurator.ffdq.api.result.AmendmentValue;
 import org.datakurator.ffdq.api.result.ComplianceValue;
 import org.datakurator.ffdq.api.result.IssueValue;
 import org.datakurator.ffdq.model.ResultState;
@@ -166,5 +169,33 @@ public class DwCGeoRefDQDefinitionsTest {
 		
 	}
 	
+	/**
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#amendmentGeodeticdatumAssumeddefault(java.lang.String, java.lang.String)}.
+	 */
+	@Test
+	public void testAmendmentGeodeticdatumAssumeddefault() {
+		
+        // Specification
+        // FILLED_IN the value of dwc:geodeticDatum to the value of 
+        // bdq:defaultGeodeticDatum if dwc:geodeticDatum is EMPTY; 
+        // otherwise NOT_AMENDED Source Authority is "epsg" [https://epsg.io] 
+        // 
+		
+	    String coordinateUncertantyInMeters = "";
+		String geodeticDatum = "foo";
+	    DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentGeodeticdatumAssumeddefault(coordinateUncertantyInMeters, geodeticDatum, null);
+	    logger.debug(result.getComment());
+	    assertEquals(ResultState.NOT_AMENDED.getLabel(), result.getResultState().getLabel());
+	    
+	    coordinateUncertantyInMeters = "";
+		geodeticDatum = "";
+	    result = DwCGeoRefDQ.amendmentGeodeticdatumAssumeddefault(coordinateUncertantyInMeters, geodeticDatum, null);
+	    logger.debug(result.getComment());
+	    assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+		assertEquals(1, result.getValue().getObject().size());
+		assertEquals("EPSG:4326", result.getValue().getObject().get("dwc:geodeticDatum"));
+	    
+	}
+
 
 }

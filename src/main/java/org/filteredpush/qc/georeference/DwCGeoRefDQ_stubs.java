@@ -626,32 +626,6 @@ public class DwCGeoRefDQ_stubs {
 
 
     /**
-     * Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty.
-     *
-     * Provides: AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT
-     *
-     * @param coordinateUncertantyInMeters the provided dwc:coordinateUncertantyInMeters to evaluate
-     * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
-     * @return DQResponse the response of type AmendmentValue to return
-     */
-    @Amendment(label="AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT", description="Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty.")
-    @Provides("7498ca76-c4d4-42e2-8103-acacccbdffa7")
-    public DQResponse<AmendmentValue> amendmentGeodeticdatumAssumeddefault(@ActedUpon("dwc:coordinateUncertantyInMeters") String coordinateUncertantyInMeters, @ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
-        DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
-
-        //TODO:  Implement specification
-        // FILLED_IN the value of dwc:geodeticDatum to the value of 
-        // bdq:defaultGeodeticDatum if dwc:geodeticDatum is EMPTY; 
-        // otherwise NOT_AMENDED Source Authority is "epsg" [https://epsg.io] 
-        // 
-
-        //TODO: Parameters. This test is defined as parameterized.
-        // bdq:defaultGeodeticDatum default value="EPSG:4326"
-
-        return result;
-    }
-
-    /**
      * Is the value of dwc:minimumDepthInMeters within the Parameter range?
      *
      * Provides: VALIDATION_MINDEPTH_INRANGE
