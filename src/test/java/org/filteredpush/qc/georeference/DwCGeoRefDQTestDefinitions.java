@@ -538,27 +538,42 @@ public class DwCGeoRefDQTestDefinitions {
         // COMPLIANT if the value of dwc:minimumDepthInMeters is within 
         //the Parameter range; otherwise NOT_COMPLIANT 
 		
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationMindepthOutofrange(null);
+		DQResponse<ComplianceValue> result = DwCGeoRefDQDefaults.validationMindepthOutofrange(null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
 		
-		result = DwCGeoRefDQ.validationMindepthOutofrange("a");
+		result = DwCGeoRefDQDefaults.validationMindepthOutofrange("a");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
 		
-		result = DwCGeoRefDQ.validationMindepthOutofrange("10");
+		result = DwCGeoRefDQDefaults.validationMindepthOutofrange("10");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationMindepthOutofrange("-1");
+		result = DwCGeoRefDQDefaults.validationMindepthOutofrange("-1");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationMindepthOutofrange("11001");
+		result = DwCGeoRefDQDefaults.validationMindepthOutofrange("11001");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMindepthOutofrange("10",1d,100d);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMindepthOutofrange("-1",1d,100d);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationMindepthOutofrange("110",10d,100d);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());

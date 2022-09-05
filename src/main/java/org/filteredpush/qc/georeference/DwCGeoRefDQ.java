@@ -27,6 +27,7 @@ import org.datakurator.ffdq.api.result.*;
  * #119 VALIDATION_DECIMALLATITUDE_EMPTY 7d2485d5-1ba7-4f25-90cb-f4480ff1a275
  * #96 VALIDATION_DECIMALLONGITUDE_EMPTY 9beb9442-d942-4f42-8b6a-fcea01ee086a
  * #87 VALIDATION_COORDINATES_NOTZERO 1bf0e210-6792-4128-b8cc-ab6828aa4871
+ * #107 VALIDATION_MINDEPTH_INRANGE 04b2c8f3-c71b-4e95-8e43-f70374c5fb92
  * 
  * #72 ISSUE_DATAGENERALIZATIONS_NOTEMPTY 13d5a10e-188e-40fd-a22c-dbaa87b91df2
  * 
@@ -1130,18 +1131,16 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+    
     /**
-     * #107 Validation SingleRecord Conformance: mindepth outofrange
+     * Is the value of dwc:minimumDepthInMeters within the Parameter range?
      *
-     * Provides: VALIDATION_MINDEPTH_OUTOFRANGE
+     * Provides: #107 VALIDATION_MINDEPTH_INRANGE
      *
      * @param minimumDepthInMeters the provided dwc:minimumDepthInMeters to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
-    public static DQResponse<ComplianceValue> validationMindepthOutofrange(
-    		@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters) { 
-    	return DwCGeoRefDQ.validationMindepthOutofrange(minimumDepthInMeters, 0d, 11000d);
-    }
+    @Validation(label="VALIDATION_MINDEPTH_INRANGE", description="Is the value of dwc:minimumDepthInMeters within the Parameter range?")
     @Provides("04b2c8f3-c71b-4e95-8e43-f70374c5fb92")
     public static DQResponse<ComplianceValue> validationMindepthOutofrange(
     		@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters,
@@ -1152,9 +1151,11 @@ public class DwCGeoRefDQ{
 
         // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters 
-        // is EMPTY, or the value is not zero or a positive number; 
-        // COMPLIANT if the value of dwc:minimumDepthInMeters is within 
-        //the Parameter range; otherwise NOT_COMPLIANT 
+        // is EMPTY, or the value is not interpretable as zero or a 
+        // positive number; COMPLIANT if the value of dwc:minimumDepthInMeters 
+        // is within the range of bdq:minimumValidDepthInMeters to 
+        // bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT 
+        // 
 
         // Parameters. This test is defined as parameterized.
         // Default values: bdq:minimumValidDepthInMeters="0" ; bdq:maximumValidDepthInMeters="11000"

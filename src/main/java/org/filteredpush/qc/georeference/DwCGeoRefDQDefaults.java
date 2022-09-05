@@ -55,5 +55,20 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
    {
 	   return DwCGeoRefDQ.amendmentGeodeticdatumAssumeddefault(coordinateUncertaintyInMeters, geodeticDatum, null);
    }
-    
+   
+    /**
+     * Is the value of dwc:minimumDepthInMeters within the Parameter range?
+     * uses the default minimum and maximum depth values.
+     *
+     * Provides: #107 VALIDATION_MINDEPTH_INRANGE
+     *
+     * @param minimumDepthInMeters the provided dwc:minimumDepthInMeters to evaluate
+     * @return DQResponse the response of type ComplianceValue  to return
+     */
+    @Validation(label="VALIDATION_MINDEPTH_INRANGE", description="Is the value of dwc:minimumDepthInMeters within the Parameter range?")
+    @Provides("04b2c8f3-c71b-4e95-8e43-f70374c5fb92")
+    public static DQResponse<ComplianceValue> validationMindepthOutofrange(
+    		@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters) { 
+    	return DwCGeoRefDQ.validationMindepthOutofrange(minimumDepthInMeters, 0d, 11000d);
+    }
 }
