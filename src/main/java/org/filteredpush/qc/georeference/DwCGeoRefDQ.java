@@ -1179,7 +1179,10 @@ public class DwCGeoRefDQ{
         } else { 
         	try { 
         		Double depthVal = Double.parseDouble(minimumDepthInMeters);
-        		if (depthVal < minimumValidDepthInMeters) { 
+        		if (depthVal < -0d) { 
+        			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        			result.addComment("the provided value for dwc:minimumDepthInMeters is negative, depth must be a positive number.");
+        		} else if (depthVal < minimumValidDepthInMeters) { 
         			result.setResultState(ResultState.RUN_HAS_RESULT);
         			result.setValue(ComplianceValue.NOT_COMPLIANT);
         			result.addComment("The value provided for dwc:minimumDepthInMeters is outside (below the minimum of) the range " + rangeString);
@@ -1547,7 +1550,10 @@ public class DwCGeoRefDQ{
         } else { 
         	try { 
         		Double depthVal = Double.parseDouble(maximumDepthInMeters);
-        		if (depthVal < minimumValidDepthInMeters) { 
+        		if (depthVal < -0d) { 
+        			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        			result.addComment("the provided value for dwc:maximumDepthInMeters is negative, depth must be a positive number.");
+        		} else if (depthVal < minimumValidDepthInMeters) { 
         			result.setResultState(ResultState.RUN_HAS_RESULT);
         			result.setValue(ComplianceValue.NOT_COMPLIANT);
         			result.addComment("The value provided for dwc:maximumDepthInMeters is outside (below the minimum of) the range " + rangeString);

@@ -140,10 +140,11 @@ public class DwCGeoRefDQDefinitionsTest {
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
+		// negative depth values not allowed
 		result = DwCGeoRefDQDefaults.validationMaxdepthOutofrange("-1");
 		logger.debug(result.getComment());
-		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
-		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
 		
 		result = DwCGeoRefDQDefaults.validationMaxdepthOutofrange("11001");
 		logger.debug(result.getComment());
@@ -162,10 +163,11 @@ public class DwCGeoRefDQDefinitionsTest {
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 		
+		// specifying a negative minimum will still result in internal prerequisites not met`
 		result = DwCGeoRefDQ.validationMaxdepthOutofrange("-10", -100d, 200d);
 		logger.debug(result.getComment());
-		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
-		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
 		
 	}
 	
@@ -224,10 +226,16 @@ public class DwCGeoRefDQDefinitionsTest {
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
+		// negative depth values not allowed
 		result = DwCGeoRefDQDefaults.validationMindepthInrange("-1");
 		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		// test -0d
+		result = DwCGeoRefDQDefaults.validationMindepthInrange("-0");
+		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
-		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
 		result = DwCGeoRefDQDefaults.validationMindepthInrange("11001");
 		logger.debug(result.getComment());
@@ -239,7 +247,13 @@ public class DwCGeoRefDQDefinitionsTest {
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQDefaults.validationMindepthInrange("-1",1d,100d);
+		// negative depth values not allowed, even if specified range goes into negative
+		result = DwCGeoRefDQDefaults.validationMindepthInrange("-1",-10d,100d);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMindepthInrange("1",2d,100d);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
@@ -299,7 +313,7 @@ public class DwCGeoRefDQDefinitionsTest {
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCoordinateuncertaintyInrange(java.lang.String)}.
 	 */
 	@Test
-	public void testValidationCoordinateuncertaintyInrange() {
+	public void testValidationConcertaintyInrange() {
 		
         // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:coordinateUncertaintyInMeters 
