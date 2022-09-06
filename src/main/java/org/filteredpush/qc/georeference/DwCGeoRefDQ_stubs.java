@@ -626,28 +626,6 @@ public class DwCGeoRefDQ_stubs {
 
 
     /**
-     * Is the value of dwc:coordinateUncertaintyInMeters a number between 1 and 20,037,509?
-     *
-     * Provides: VALIDATION_COORDINATEUNCERTAINTY_INRANGE
-     *
-     * @param coordinateUncertaintyInMeters the provided dwc:coordinateUncertaintyInMeters to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_COORDINATEUNCERTAINTY_INRANGE", description="Is the value of dwc:coordinateUncertaintyInMeters a number between 1 and 20,037,509?")
-    @Provides("c6adf2ea-3051-4498-97f4-4b2f8a105f57")
-    public DQResponse<ComplianceValue> validationCoordinateuncertaintyInrange(@ActedUpon("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:coordinateUncertaintyInMeters 
-        // is EMPTY; COMPLIANT if the value of dwc:coordinateUncertaintyInMeters 
-        // can be interpreted as a number between 1 and 20037509 inclusive; 
-        // otherwise NOT_COMPLIANT 
-
-        return result;
-    }
-
-    /**
      * Is the value of dwc:maximumElevationInMeters within the Parameter range?
      *
      * Provides: VALIDATION_MAXELEVATION_INRANGE

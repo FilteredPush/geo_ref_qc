@@ -295,4 +295,43 @@ public class DwCGeoRefDQDefinitionsTest {
 		
 	}
 
+	/**
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCoordinateuncertaintyInrange(java.lang.String)}.
+	 */
+	@Test
+	public void testValidationCoordinateuncertaintyInrange() {
+		
+        // Specification
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:coordinateUncertaintyInMeters 
+        // is EMPTY; COMPLIANT if the value of dwc:coordinateUncertaintyInMeters 
+        // can be interpreted as a number between 1 and 20037509 inclusive; 
+        // otherwise NOT_COMPLIANT 
+        //
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCoordinateuncertaintyInrange(null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationCoordinateuncertaintyInrange("a");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationCoordinateuncertaintyInrange("100");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationCoordinateuncertaintyInrange("0");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationCoordinateuncertaintyInrange("20037510");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+	}
 }

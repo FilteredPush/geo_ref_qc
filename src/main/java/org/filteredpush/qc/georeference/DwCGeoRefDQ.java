@@ -29,6 +29,7 @@ import org.datakurator.ffdq.api.result.*;
  * #87 VALIDATION_COORDINATES_NOTZERO 1bf0e210-6792-4128-b8cc-ab6828aa4871
  * #107 VALIDATION_MINDEPTH_INRANGE 04b2c8f3-c71b-4e95-8e43-f70374c5fb92
  * #108 VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION d708526b-6561-438e-aa1a-82cd80b06396
+ * #109 VALIDATION_COORDINATEUNCERTAINTY_INRANGE c6adf2ea-3051-4498-97f4-4b2f8a105f57
  * 
  * #72 ISSUE_DATAGENERALIZATIONS_NOTEMPTY 13d5a10e-188e-40fd-a22c-dbaa87b91df2
  * 
@@ -1266,24 +1267,26 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+
     /**
-     * #109 Validation SingleRecord Conformance: coordinateuncertainty outofrange
+     * Is the value of dwc:coordinateUncertaintyInMeters a number between 1 and 20,037,509?
      *
-     * Provides: VALIDATION_COORDINATEUNCERTAINTY_OUTOFRANGE
+     * Provides: #109 VALIDATION_COORDINATEUNCERTAINTY_INRANGE
      *
      * @param coordinateUncertaintyInMeters the provided dwc:coordinateUncertaintyInMeters to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_COORDINATEUNCERTAINTY_INRANGE", description="Is the value of dwc:coordinateUncertaintyInMeters a number between 1 and 20,037,509?")
     @Provides("c6adf2ea-3051-4498-97f4-4b2f8a105f57")
-    public static DQResponse<ComplianceValue> validationCoordinateuncertaintyOutofrange(
+    public static DQResponse<ComplianceValue> validationCoordinateuncertaintyInrange(
     		@ActedUpon("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:coordinateUncertaintyInMeters 
         // is EMPTY; COMPLIANT if the value of dwc:coordinateUncertaintyInMeters 
-        // is number between 1 and 20037509 inclusive; otherwise NOT_COMPLIANT 
-        //
+        // can be interpreted as a number between 1 and 20037509 inclusive; 
+        // otherwise NOT_COMPLIANT 
 
     	if (GEOUtil.isEmpty(coordinateUncertaintyInMeters)) { 
     		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);

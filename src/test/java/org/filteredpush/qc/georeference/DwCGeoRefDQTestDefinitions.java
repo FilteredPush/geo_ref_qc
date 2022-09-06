@@ -529,45 +529,6 @@ public class DwCGeoRefDQTestDefinitions {
 
 
 	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCoordinateuncertaintyOutofrange(java.lang.String)}.
-	 */
-	@Test
-	public void testValidationCoordinateuncertaintyOutofrange() {
-		
-        // Specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:coordinateUncertaintyInMeters 
-        // is EMPTY; COMPLIANT if the value of dwc:coordinateUncertaintyInMeters 
-        // is number between 1 and 20037509 inclusive; otherwise NOT_COMPLIANT 
-        //
-		
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCoordinateuncertaintyOutofrange(null);
-		logger.debug(result.getComment());
-		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
-		assertNull(result.getValue());
-		
-		result = DwCGeoRefDQ.validationCoordinateuncertaintyOutofrange("a");
-		logger.debug(result.getComment());
-		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
-		assertNull(result.getValue());
-		
-		result = DwCGeoRefDQ.validationCoordinateuncertaintyOutofrange("100");
-		logger.debug(result.getComment());
-		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
-		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
-		
-		result = DwCGeoRefDQ.validationCoordinateuncertaintyOutofrange("0");
-		logger.debug(result.getComment());
-		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
-		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
-		
-		result = DwCGeoRefDQ.validationCoordinateuncertaintyOutofrange("20037510");
-		logger.debug(result.getComment());
-		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
-		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
-		
-	}
-
-	/**
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationMaxelevationOutofrange(java.lang.String)}.
 	 */
 	@Test
