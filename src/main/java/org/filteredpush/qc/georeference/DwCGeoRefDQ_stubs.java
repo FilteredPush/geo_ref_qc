@@ -118,31 +118,6 @@ public class DwCGeoRefDQ_stubs {
         return result;
     }
 
-    /**
-     * Is the value of dwc:minimumElevationInMeters within the Parameter range?
-     *
-     * Provides: VALIDATION_MINELEVATION_INRANGE
-     *
-     * @param minimumElevationInMeters the provided dwc:minimumElevationInMeters to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_MINELEVATION_INRANGE", description="Is the value of dwc:minimumElevationInMeters within the Parameter range?")
-    @Provides("0bb8297d-8f8a-42d2-80c1-558f29efe798")
-    public DQResponse<ComplianceValue> validationMinelevationInrange(@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumElevationInMeters 
-        // is EMPTY or the value is not a number; COMPLIANT if the 
-        // value of dwc:minimumElevationInMeters is within the range 
-        // of bdq:minimumValidElevationInMeters to bdq:maximumValidElevationInMeters 
-        // inclusive; otherwise NOT_COMPLIANT 
-
-        //TODO: Parameters. This test is defined as parameterized.
-        // Default values: bdq:minimumValidElevationInMeters="-430"; bdq:maximumValidElevationInMeters="8850"
-
-        return result;
-    }
 
     /**
      * Is there a value in any of the Darwin Core spatial terms that could specify a location?

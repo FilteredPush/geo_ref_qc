@@ -123,10 +123,10 @@ public class DwCGeoRefDQTestDefinitions {
 	}
 
 	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationMinelevationOutofrange(java.lang.String)}.
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationMinelevationInrange(java.lang.String)}.
 	 */
 	@Test
-	public void testValidationMinelevationOutofrange() {
+	public void testValidationMinelevationInrange() {
 		
         // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumElevationInMeters 
@@ -137,42 +137,56 @@ public class DwCGeoRefDQTestDefinitions {
         // Parameters. This test is defined as parameterized.
         // Default values: bdq:minimumValidElevationInMeters="-430"; bdq:maximumValidElevationInMeters="8850"
 		
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationMinelevationOutofrange(null);
+		DQResponse<ComplianceValue> result = DwCGeoRefDQDefaults.validationMinelevationInrange(null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
 		
-		result = DwCGeoRefDQ.validationMinelevationOutofrange("a");
+		result = DwCGeoRefDQDefaults.validationMinelevationInrange("a");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
 		
-		result = DwCGeoRefDQ.validationMinelevationOutofrange("10m");
+		result = DwCGeoRefDQDefaults.validationMinelevationInrange("10m");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
 		
-		result = DwCGeoRefDQ.validationMinelevationOutofrange("8000");
+		result = DwCGeoRefDQDefaults.validationMinelevationInrange("8000");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationMinelevationOutofrange("-400");
+		result = DwCGeoRefDQDefaults.validationMinelevationInrange("-400");
 		logger.debug(result.getComment());
 		System.out.println(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
 		
-		result = DwCGeoRefDQ.validationMinelevationOutofrange("9000");
+		result = DwCGeoRefDQDefaults.validationMinelevationInrange("9000");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationMinelevationOutofrange("-500");
+		result = DwCGeoRefDQDefaults.validationMinelevationInrange("-500");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 		
+		result = DwCGeoRefDQ.validationMinelevationInrange("100",10d,50d);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationInrange("-500",-600d, 100d);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationInrange("500",-600d, 100d);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 	}
 
 	/**

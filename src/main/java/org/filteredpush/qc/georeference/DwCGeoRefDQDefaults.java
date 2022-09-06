@@ -87,4 +87,20 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     	return DwCGeoRefDQ.validationMaxelevationInrange(maximumElevationInMeters,-430d, 8850d);
     }
     
+    
+    /**
+     * Is the value of dwc:minimumElevationInMeters within the Parameter range?
+     *
+     * Provides: #39 VALIDATION_MINELEVATION_INRANGE
+     *
+     * @param minimumElevationInMeters the provided dwc:minimumElevationInMeters to evaluate
+     * @return DQResponse the response of type ComplianceValue  to return
+     */
+    @Validation(label="VALIDATION_MINELEVATION_INRANGE", description="Is the value of dwc:minimumElevationInMeters within the Parameter range?")
+    @Provides("0bb8297d-8f8a-42d2-80c1-558f29efe798")
+    public static DQResponse<ComplianceValue> validationMinelevationInrange(
+    		@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters) {
+    	return DwCGeoRefDQ.validationMinelevationInrange(minimumElevationInMeters, -430d, 8850d);
+    }
+    
 }
