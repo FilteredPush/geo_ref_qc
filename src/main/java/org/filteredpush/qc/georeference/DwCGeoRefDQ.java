@@ -28,6 +28,7 @@ import org.datakurator.ffdq.api.result.*;
  * #96 VALIDATION_DECIMALLONGITUDE_EMPTY 9beb9442-d942-4f42-8b6a-fcea01ee086a
  * #87 VALIDATION_COORDINATES_NOTZERO 1bf0e210-6792-4128-b8cc-ab6828aa4871
  * #107 VALIDATION_MINDEPTH_INRANGE 04b2c8f3-c71b-4e95-8e43-f70374c5fb92
+ * #108 VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION d708526b-6561-438e-aa1a-82cd80b06396
  * 
  * #72 ISSUE_DATAGENERALIZATIONS_NOTEMPTY 13d5a10e-188e-40fd-a22c-dbaa87b91df2
  * 
@@ -1142,7 +1143,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_MINDEPTH_INRANGE", description="Is the value of dwc:minimumDepthInMeters within the Parameter range?")
     @Provides("04b2c8f3-c71b-4e95-8e43-f70374c5fb92")
-    public static DQResponse<ComplianceValue> validationMindepthOutofrange(
+    public static DQResponse<ComplianceValue> validationMindepthInrange(
     		@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters,
     		@Parameter(name="bdq:minimumValidDepthInMeters") Double minimumValidDepthInMeters,
     		@Parameter(name="bdq:maximumValidDepthInMeters") Double maximumValidDepthInMeters
@@ -1199,31 +1200,31 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+
+        //TODO:  Implement specification
+    
     /**
-     * #108 Validation SingleRecord Conformance: minelevation greaterthan maxelevation
+     * Is the value of dwc:minimumElevationInMeters a number less than or equal to the value of dwc:maximumElevationInMeters?
      *
-     * Provides: VALIDATION_MINELEVATION_GREATERTHAN_MAXELEVATION
+     * Provides: #108 VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION
      *
      * @param minimumElevationInMeters the provided dwc:minimumElevationInMeters to evaluate
      * @param maximumElevationInMeters the provided dwc:maximumElevationInMeters to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION", description="Is the value of dwc:minimumElevationInMeters a number less than or equal to the value of dwc:maximumElevationInMeters?")
     @Provides("d708526b-6561-438e-aa1a-82cd80b06396")
-    public static DQResponse<ComplianceValue> validationMinelevationGreaterthanMaxelevation(
+    public static DQResponse<ComplianceValue> validationMinelevationLessthanMaxelevation(
     		@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters, 
     		@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
         
         // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumlevationInMeters 
-        // or dwc:minimumElevationInMeters is EMPTY; COMPLIANT if the 
-        // value of dwc:minimumElevationInMeters is a number less than 
-        // or equal to the value of the number dwc:maximumElevationInMeters, 
-        // otherwise NOT_COMPLIANT
-        
-        // TODO: Implementation follows change proposed in issue as of 2022Feb19, internal prerequsites not met if 
-        // either of the provided values is not a number rather than not compliant, consistent with other
-        // elevation/depth validations.
+        // or dwc:minimumElevationInMeters is EMPTY, or if either is 
+        // not a number; COMPLIANT if the value of dwc:minimumElevationInMeters 
+        // is a number less than or equal to the value of the number 
+        // dwc:maximumElevationInMeters, otherwise NOT_COMPLIANT 
         
         if (GEOUtil.isEmpty(maximumElevationInMeters)) { 
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);

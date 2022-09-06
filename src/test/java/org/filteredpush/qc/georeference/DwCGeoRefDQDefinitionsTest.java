@@ -196,6 +196,103 @@ public class DwCGeoRefDQDefinitionsTest {
 		assertEquals("EPSG:4326", result.getValue().getObject().get("dwc:geodeticDatum"));
 	    
 	}
+	
+	/**
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationMindepthInrange(java.lang.String)}.
+	 */
+	@Test
+	public void testValidationMindepthInrange() {
+		
+        // Specification
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters 
+        // is EMPTY, or the value is not zero or a positive number; 
+        // COMPLIANT if the value of dwc:minimumDepthInMeters is within 
+        //the Parameter range; otherwise NOT_COMPLIANT 
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQDefaults.validationMindepthInrange(null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMindepthInrange("a");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMindepthInrange("10");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMindepthInrange("-1");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMindepthInrange("11001");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMindepthInrange("10",1d,100d);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMindepthInrange("-1",1d,100d);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationMindepthInrange("110",10d,100d);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+	}
 
+	/**
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationMinelevationLessthanMaxelevation(java.lang.String, java.lang.String)}.
+	 */
+	@Test
+	public void testValidationMinelevationGreaterthanMaxelevation() {
+		
+        // Specification
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumlevationInMeters 
+        // or dwc:minimumElevationInMeters is EMPTY; COMPLIANT if the 
+        // value of dwc:minimumElevationInMeters is a number less than 
+        // or equal to the value of the number dwc:maximumElevationInMeters, 
+        //otherwise NOT_COMPLIANT
+		
+        // TODO: Implementation follows change proposed in issue as of 2022Feb19, internal prerequsites not met if 
+        // either of the provided values is not a number rather than not compliant, consistent with other
+        // elevation/depth validations.
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation(null,null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation("a","10");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation("-1","10");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation("10","100");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation("100","10");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+	}
 
 }

@@ -67,8 +67,8 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
      */
     @Validation(label="VALIDATION_MINDEPTH_INRANGE", description="Is the value of dwc:minimumDepthInMeters within the Parameter range?")
     @Provides("04b2c8f3-c71b-4e95-8e43-f70374c5fb92")
-    public static DQResponse<ComplianceValue> validationMindepthOutofrange(
+    public static DQResponse<ComplianceValue> validationMindepthInrange(
     		@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters) { 
-    	return DwCGeoRefDQ.validationMindepthOutofrange(minimumDepthInMeters, 0d, 11000d);
+    	return DwCGeoRefDQ.validationMindepthInrange(minimumDepthInMeters, 0d, 11000d);
     }
 }
