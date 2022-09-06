@@ -28,6 +28,7 @@ import org.datakurator.ffdq.api.result.*;
  * #96 VALIDATION_DECIMALLONGITUDE_EMPTY 9beb9442-d942-4f42-8b6a-fcea01ee086a
  * #87 VALIDATION_COORDINATES_NOTZERO 1bf0e210-6792-4128-b8cc-ab6828aa4871
  * #107 VALIDATION_MINDEPTH_INRANGE 04b2c8f3-c71b-4e95-8e43-f70374c5fb92
+ * #112 VALIDATION_MAXELEVATION_INRANGE c971fe3f-84c1-4636-9f44-b1ec31fd63c7
  * #108 VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION d708526b-6561-438e-aa1a-82cd80b06396
  * #109 VALIDATION_COORDINATEUNCERTAINTY_INRANGE c6adf2ea-3051-4498-97f4-4b2f8a105f57
  * 
@@ -1326,21 +1327,21 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-    public static DQResponse<ComplianceValue> validationMaxelevationOutofrange(
-    		@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters) {
-    	return DwCGeoRefDQ.validationMaxelevationOutofrange(maximumElevationInMeters,-430d, 8850d);
-    }
     
     /**
-     * #112 Validation SingleRecord Invalid: maxelevation outofrange
+     * Is the value of dwc:maximumElevationInMeters within the Parameter range?
      *
-     * Provides: VALIDATION_MAXELEVATION_OUTOFRANGE
+     * Provides: #112 VALIDATION_MAXELEVATION_INRANGE
      *
      * @param maximumElevationInMeters the provided dwc:maximumElevationInMeters to evaluate
+     * @param minimumValidElevationInMeters minimum valid value to test against, if null, defaults to -430
+     * @param maximumValidElevationInMeters maximum valid value to test against, if null, defaults to 8550
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_MAXELEVATION_INRANGE", description="Is the value of dwc:maximumElevationInMeters within the Parameter range?")
     @Provides("c971fe3f-84c1-4636-9f44-b1ec31fd63c7")
-    public static DQResponse<ComplianceValue> validationMaxelevationOutofrange(
+    //public DQResponse<ComplianceValue> validationMaxelevationInrange(@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters) {
+    public static DQResponse<ComplianceValue> validationMaxelevationInrange(
     		@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters,
     		@Parameter(name="bdq:minimumValidElevationInMeters") Double minimumValidElevationInMeters,
     		@Parameter(name="bdq:maximumValidElevationInMeters") Double maximumValidElevationInMeters
@@ -1349,12 +1350,15 @@ public class DwCGeoRefDQ{
 
         // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumElevationInMeters 
-        // is EMPTY or the value is not a number; COMPLIANT if the 
-        // value of dwc:maximumElevationInMeters is within the Parameter 
-        // range; otherwise NOT_COMPLIANT 
+        // is EMPTY or the value cannot be interpreted as a number; 
+        // COMPLIANT if the value of dwc:maximumElevationInMeters is 
+        // within the range of bdq:minimumValidElevationInMeters to 
+        // bdq:maximumValidElevationInMeters inclusive; otherwise NOT_COMPLIANT 
+        // 
 
         // Parameters. This test is defined as parameterized.
         // Default values: bdq:minimumValidElevationInMeters="-430"; bdq:maximumValidElevationInMeters="8850"
+
 
         if (minimumValidElevationInMeters==null) { 
         	minimumValidElevationInMeters = -430d;
@@ -1387,7 +1391,6 @@ public class DwCGeoRefDQ{
     			result.addComment("provided value for dwc:maximumElevationInMeters cannot be parsed as a number.");
     		}
     	}
-        
         
         return result;
     }
@@ -1516,7 +1519,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_MAXDEPTH_INRANGE", description="Is the value of dwc:maximumDepthInMeters within the Parameter range?")
     @Provides("3f1db29a-bfa5-40db-9fd1-fde020d81939")
-    public static DQResponse<ComplianceValue> validationMaxdepthOutofrange(
+    public static DQResponse<ComplianceValue> validationMaxdepthInrange(
     		@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters, 
     		@Parameter(name="bdq:minimumValidDepthInMeters") Double minimumValidDepthInMeters,
     		@Parameter(name="bdq:maximumValidDepthInMeters") Double maximumValidDepthInMeters

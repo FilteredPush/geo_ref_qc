@@ -34,7 +34,7 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     @Provides("3f1db29a-bfa5-40db-9fd1-fde020d81939")
     public static DQResponse<ComplianceValue> validationMaxdepthOutofrange(
     		@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters) { 
-    	return (DwCGeoRefDQ.validationMaxdepthOutofrange(maximumDepthInMeters, 0d, 11000d));
+    	return (DwCGeoRefDQ.validationMaxdepthInrange(maximumDepthInMeters, 0d, 11000d));
     }
 	
     /**
@@ -71,4 +71,20 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     		@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters) { 
     	return DwCGeoRefDQ.validationMindepthInrange(minimumDepthInMeters, 0d, 11000d);
     }
+    
+    /**
+     * Is the value of dwc:maximumElevationInMeters within the Parameter range?
+     *
+     * Provides: #112 VALIDATION_MAXELEVATION_INRANGE
+     *
+     * @param maximumElevationInMeters the provided dwc:maximumElevationInMeters to evaluate
+     * @return DQResponse the response of type ComplianceValue  to return
+     */
+    @Validation(label="VALIDATION_MAXELEVATION_INRANGE", description="Is the value of dwc:maximumElevationInMeters within the Parameter range?")
+    @Provides("c971fe3f-84c1-4636-9f44-b1ec31fd63c7")
+    public static DQResponse<ComplianceValue> validationMaxelevationInrange(
+    		@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters) {
+    	return DwCGeoRefDQ.validationMaxelevationInrange(maximumElevationInMeters,-430d, 8850d);
+    }
+    
 }

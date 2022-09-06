@@ -626,33 +626,6 @@ public class DwCGeoRefDQ_stubs {
 
 
     /**
-     * Is the value of dwc:maximumElevationInMeters within the Parameter range?
-     *
-     * Provides: VALIDATION_MAXELEVATION_INRANGE
-     *
-     * @param maximumElevationInMeters the provided dwc:maximumElevationInMeters to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_MAXELEVATION_INRANGE", description="Is the value of dwc:maximumElevationInMeters within the Parameter range?")
-    @Provides("c971fe3f-84c1-4636-9f44-b1ec31fd63c7")
-    public DQResponse<ComplianceValue> validationMaxelevationInrange(@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumElevationInMeters 
-        // is EMPTY or the value cannot be interpreted as a number; 
-        // COMPLIANT if the value of dwc:maximumElevationInMeters is 
-        // within the range of bdq:minimumValidElevationInMeters to 
-        // bdq:maximumValidElevationInMeters inclusive; otherwise NOT_COMPLIANT 
-        // 
-
-        //TODO: Parameters. This test is defined as parameterized.
-        // Default values: bdq:minimumValidElevationInMeters="-430"; bdq:maximumValidElevationInMeters="8850"
-
-        return result;
-    }
-
-    /**
      * Propose amendment to one or more of the values dwc:continent, dwc:country, dwc:countryCode, dwc:stateProvince, dwc:county, dwc:municipality using bdq:sourceAuthority.
      *
      * Provides: AMENDMENT_GEOGRAPHY_STANDARDIZED

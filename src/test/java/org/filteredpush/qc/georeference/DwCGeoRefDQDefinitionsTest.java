@@ -153,18 +153,18 @@ public class DwCGeoRefDQDefinitionsTest {
 		
 		// Testing parameters 
 		
-		result = DwCGeoRefDQ.validationMaxdepthOutofrange("11001", 0d, 12000d);
+		result = DwCGeoRefDQ.validationMaxdepthInrange("11001", 0d, 12000d);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationMaxdepthOutofrange("10", 100d, null);
+		result = DwCGeoRefDQ.validationMaxdepthInrange("10", 100d, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 		
 		// specifying a negative minimum will still result in internal prerequisites not met`
-		result = DwCGeoRefDQ.validationMaxdepthOutofrange("-10", -100d, 200d);
+		result = DwCGeoRefDQ.validationMaxdepthInrange("-10", -100d, 200d);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
