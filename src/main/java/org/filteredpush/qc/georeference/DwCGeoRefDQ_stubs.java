@@ -770,29 +770,6 @@ public class DwCGeoRefDQ_stubs {
     }
 
     /**
-     * Is there a value in dwc:countryCode?
-     *
-     * Provides: VALIDATION_COUNTRYCODE_NOTEMPTY
-     * Version: 2022-03-22
-     *
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_COUNTRYCODE_NOTEMPTY", description="Is there a value in dwc:countryCode?")
-    @Provides("853b79a2-b314-44a2-ae46-34a1e7ed85e4")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/853b79a2-b314-44a2-ae46-34a1e7ed85e4/2022-03-22")
-    @Specification("COMPLIANT if dwc:countryCode is not EMPTY; otherwise NOT_COMPLIANT ")
-    public DQResponse<ComplianceValue> validationCountrycodeNotempty(@ActedUpon("dwc:countryCode") String countryCode) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // COMPLIANT if dwc:countryCode is not EMPTY; otherwise NOT_COMPLIANT 
-        // 
-
-        return result;
-    }
-
-    /**
      * Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty. If dwc:coordinateUncertaintyInMeters is not empty and there are not empty values for dwc:latitude and dwc:longitude, amend dwc:coordinateUncertaintyInMeters by adding a maximum datum shift.
      *
      * Provides: AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT
