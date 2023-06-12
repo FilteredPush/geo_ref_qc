@@ -469,12 +469,15 @@ public class DwCGeoRefDQ{
      * Is there a value in dwc:country?
      *
      * Provides: #42 VALIDATION_COUNTRY_NOTEMPTY
+     * Version: 2022-03-22
      *
      * @param country the provided dwc:country to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_COUNTRY_NOTEMPTY", description="Is there a value in dwc:country?")
     @Provides("6ce2b2b4-6afe-4d13-82a0-390d31ade01c")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/6ce2b2b4-6afe-4d13-82a0-390d31ade01c/2022-03-22")
+    @Specification("COMPLIANT if dwc:country is not EMPTY; otherwise NOT_COMPLIANT ")
     public static DQResponse<ComplianceValue> validationCountryNotEmpty(@ActedUpon("dwc:country") String country) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
@@ -1050,7 +1053,7 @@ public class DwCGeoRefDQ{
     /**
      * Is there a value in dwc:countryCode?
      *
-     * Provides: VALIDATION_COUNTRYCODE_NOTEMPTY
+     * Provides: #98 VALIDATION_COUNTRYCODE_NOTEMPTY
      * Version: 2022-03-22
      *
      * @param countryCode the provided dwc:countryCode to evaluate

@@ -230,29 +230,6 @@ public class DwCGeoRefDQ_stubs {
     }
 
     /**
-     * Is there a value in dwc:country?
-     *
-     * Provides: VALIDATION_COUNTRY_NOTEMPTY
-     * Version: 2022-03-22
-     *
-     * @param country the provided dwc:country to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_COUNTRY_NOTEMPTY", description="Is there a value in dwc:country?")
-    @Provides("6ce2b2b4-6afe-4d13-82a0-390d31ade01c")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/6ce2b2b4-6afe-4d13-82a0-390d31ade01c/2022-03-22")
-    @Specification("COMPLIANT if dwc:country is not EMPTY; otherwise NOT_COMPLIANT ")
-    public DQResponse<ComplianceValue> validationCountryNotempty(@ActedUpon("dwc:country") String country) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // COMPLIANT if dwc:country is not EMPTY; otherwise NOT_COMPLIANT 
-        // 
-
-        return result;
-    }
-
-    /**
      * Propose amendment to the value of dwc:geodeticDatum and potentially to dwc:decimalLatitude and/or dwc:decimalLongitude based on a conversion between spatial reference systems.
      *
      * Provides: AMENDMENT_COORDINATES_CONVERTED
