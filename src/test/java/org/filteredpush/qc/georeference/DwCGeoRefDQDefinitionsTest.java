@@ -96,17 +96,17 @@ public class DwCGeoRefDQDefinitionsTest {
     	String dataGeneralizations = "";
     	DQResponse<IssueValue> response = DwCGeoRefDQ.issueDatageneralizationsNotempty(dataGeneralizations);
     	assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), response.getResultState().getLabel());
-    	assertEquals(IssueValue.NOT_PROBLEM.getLabel(), response.getValue().getLabel());
+    	assertEquals(IssueValue.NOT_ISSUE.getLabel(), response.getValue().getLabel());
 
     	dataGeneralizations = null;
     	response = DwCGeoRefDQ.issueDatageneralizationsNotempty(dataGeneralizations);
     	assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), response.getResultState().getLabel());
-    	assertEquals(IssueValue.NOT_PROBLEM.getLabel(), response.getValue().getLabel());
+    	assertEquals(IssueValue.NOT_ISSUE.getLabel(), response.getValue().getLabel());
 
     	dataGeneralizations = "Some generalization";
     	response = DwCGeoRefDQ.issueDatageneralizationsNotempty(dataGeneralizations);
     	assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), response.getResultState().getLabel());
-    	assertEquals(IssueValue.POTENTIAL_PROBLEM.getLabel(), response.getValue().getLabel());
+    	assertEquals(IssueValue.POTENTIAL_ISSUE.getLabel(), response.getValue().getLabel());
     }
 	
 	/**

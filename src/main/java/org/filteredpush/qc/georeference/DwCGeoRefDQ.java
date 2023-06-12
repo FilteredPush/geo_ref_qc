@@ -66,12 +66,12 @@ public class DwCGeoRefDQ{
         if (GEOUtil.isEmpty(dataGeneralizations)) {
         	result.addComment("No value present in dwc:dataGeneralizations");
         	result.setResultState(ResultState.RUN_HAS_RESULT);
-        	result.setValue(IssueValue.NOT_PROBLEM);
+        	result.setValue(IssueValue.NOT_ISSUE);
         } else { 
         	result.addComment("A value is present in dwc:dataGeneralizations, these data may or may not be fit for your use, you will need to examine the data generalizations and the data to determine fittness.");
         	result.addComment("dwc:dataGeneralizations=[" + dataGeneralizations + "].");
         	result.setResultState(ResultState.RUN_HAS_RESULT);
-        	result.setValue(IssueValue.POTENTIAL_PROBLEM);
+        	result.setValue(IssueValue.POTENTIAL_ISSUE);
         }
 
         return result;
