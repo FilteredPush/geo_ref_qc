@@ -97,31 +97,6 @@ public class DwCGeoRefDQ_stubs {
     }
 
     /**
-     * Is the value of dwc:decimalLongitude a number between -180 and 180 inclusive?
-     *
-     * Provides: VALIDATION_DECIMALLONGITUDE_INRANGE
-     * Version: 2022-03-22
-     *
-     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_DECIMALLONGITUDE_INRANGE", description="Is the value of dwc:decimalLongitude a number between -180 and 180 inclusive?")
-    @Provides("0949110d-c06b-450e-9649-7c1374d940d1")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/0949110d-c06b-450e-9649-7c1374d940d1/2022-03-22")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLongitude is EMPTY or the value is not a number; COMPLIANT if the value of dwc:decimalLongitude is between -180 and 180 degrees, inclusive; otherwise NOT_COMPLIANT ")
-    public DQResponse<ComplianceValue> validationDecimallongitudeInrange(@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLongitude is 
-        // EMPTY or the value is not a number; COMPLIANT if the value 
-        // of dwc:decimalLongitude is between -180 and 180 degrees, 
-        // inclusive; otherwise NOT_COMPLIANT 
-
-        return result;
-    }
-
-    /**
      * Propose amendment to the values of dwc:decimalLatitude and dwc:decimalLongitude from information in the verbatim coordinates terms.
      *
      * Provides: AMENDMENT_COORDINATES_FROM_VERBATIM
@@ -644,54 +619,6 @@ public class DwCGeoRefDQ_stubs {
 
         //TODO: Parameters. This test is defined as parameterized.
         // bdq:sourceAuthority
-
-        return result;
-    }
-
-    /**
-     * Is there a value in dwc:geodeticDatum?
-     *
-     * Provides: VALIDATION_GEODETICDATUM_NOTEMPTY
-     * Version: 2022-03-22
-     *
-     * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_GEODETICDATUM_NOTEMPTY", description="Is there a value in dwc:geodeticDatum?")
-    @Provides("239ec40e-a729-4a8e-ba69-e0bf03ac1c44")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/239ec40e-a729-4a8e-ba69-e0bf03ac1c44/2022-03-22")
-    @Specification("COMPLIANT if dwc:geodeticDatum is not EMPTY; otherwise NOT_COMPLIANT ")
-    public DQResponse<ComplianceValue> validationGeodeticdatumNotempty(@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // COMPLIANT if dwc:geodeticDatum is not EMPTY; otherwise NOT_COMPLIANT 
-        // 
-
-        return result;
-    }
-
-    /**
-     * Is the value of dwc:decimalLatitude a number between -90 and 90 inclusive?
-     *
-     * Provides: VALIDATION_DECIMALLATITUDE_INRANGE
-     * Version: 2022-03-26
-     *
-     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_DECIMALLATITUDE_INRANGE", description="Is the value of dwc:decimalLatitude a number between -90 and 90 inclusive?")
-    @Provides("b6ecda2a-ce36-437a-b515-3ae94948fe83")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/b6ecda2a-ce36-437a-b515-3ae94948fe83/2022-03-26")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is EMPTY or the value is not interpretable as a number; COMPLIANT if the value of dwc:decimalLatitude is between -90 and 90, inclusive; otherwise NOT_COMPLIANT ")
-    public DQResponse<ComplianceValue> validationDecimallatitudeInrange(@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is 
-        // EMPTY or the value is not interpretable as a number; COMPLIANT 
-        // if the value of dwc:decimalLatitude is between -90 and 90, 
-        // inclusive; otherwise NOT_COMPLIANT 
 
         return result;
     }

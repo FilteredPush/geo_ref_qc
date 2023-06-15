@@ -35,6 +35,28 @@ public class GeoUtiltsTest {
 	
 	}
 
+	@Test
+	public void testIsGeodeticDatumKnown() { 
+		String geodeticDatum = "";
+		assertEquals(false, GEOUtil.isDatumKnown(geodeticDatum));
+		
+		geodeticDatum = "EPSG:4326";
+		assertEquals(true, GEOUtil.isDatumKnown(geodeticDatum));
+		
+		geodeticDatum = "epsg:4326";
+		assertEquals(true, GEOUtil.isDatumKnown(geodeticDatum));
+		
+		geodeticDatum = "epsg:4267";
+		assertEquals(true, GEOUtil.isDatumKnown(geodeticDatum));
+		
+		geodeticDatum = "NAD 1927";
+		assertEquals(true, GEOUtil.isDatumKnown(geodeticDatum));
+		
+		geodeticDatum = "WGS 1984";
+		assertEquals(true, GEOUtil.isDatumKnown(geodeticDatum));
+		
+	}
+	
 	/**
 	 * Test method for {@link org.filteredpush.kuration.util.GEOUtil#calcDistanceHaversineMeters(double, double, double, double)}.
 	 */

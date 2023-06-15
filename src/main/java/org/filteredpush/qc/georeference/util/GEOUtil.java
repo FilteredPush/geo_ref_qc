@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
@@ -18,7 +20,19 @@ import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.filter.text.cql2.CQLException;
 import org.geotools.filter.text.ecql.ECQL;
+import org.geotools.geometry.DirectPosition2D;
+import org.geotools.referencing.CRS;
+import org.geotools.referencing.GeodeticCalculator;
+import org.geotools.referencing.operation.DefaultCoordinateOperationFactory;
 import org.opengis.filter.Filter;
+import org.opengis.geometry.DirectPosition;
+import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.NoSuchAuthorityCodeException;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
+import org.opengis.referencing.operation.CoordinateOperation;
+import org.opengis.referencing.operation.CoordinateOperationFactory;
+import org.opengis.referencing.operation.MathTransform;
+import org.opengis.referencing.operation.TransformException;
 
 public class GEOUtil {
     private static final Log logger = LogFactory.getLog(GEOUtil.class);
@@ -521,6 +535,104 @@ public class GEOUtil {
     	}
     	return result;
     }
+
+    /** is the provided geodeticDatum on a known list of datums that this software
+     * can work with.
+     * 
+     * @param geodeticDatum string containing a representation of a geodetic datum 
+     *    as an EPSG code or as member of a short set of other alternatives.
+     * @return true if the geodetic datum is recognized, false otherwise
+     */
+	public static boolean isDatumKnown(String geodeticDatum) {
+		
+		boolean retval = false;
+		
+		AssumeCRS lookupEPSG = new AssumeCRS();
+		
+		String lookup = geodeticDatum;
+		if (lookupEPSG.isTransformable(geodeticDatum)) { 
+			lookup = lookupEPSG.getEpsgForDatumAndGCRS(geodeticDatum);
+		}
+		if (lookup!=null) { 
+			CoordinateOperationFactory factory = new DefaultCoordinateOperationFactory();
+			try {
+				CoordinateReferenceSystem crsFrom = CRS.decode(lookup);
+				retval = true;
+			} catch (FactoryException e) {
+				retval = false;
+				logger.debug(e.getMessage());
+			}
+		} 
+		return retval;
+	}
+	
+	/**
+	 * is the provided geodeticDatum a known EPSG code.
+	 * 
+	 * @param geodeticDatum string containing a representation of a geodetic datum 
+     *    as an EPSG code
+	 * @return true if the geodetic datum is recognized, false otherwise
+	 * @throws FactoryException 
+	 */
+	public static boolean isCooridnateSystemCodeKnown(String geodeticDatum) throws FactoryException {
+		
+		boolean retval = false;
+		
+		CoordinateOperationFactory factory = new DefaultCoordinateOperationFactory();
+		try {
+			CoordinateReferenceSystem crsFrom = CRS.decode(geodeticDatum);
+			retval = true;
+		} catch (NoSuchAuthorityCodeException e) {
+			retval = false;
+			logger.debug(e.getMessage());
+		} catch (FactoryException ex) { 
+			if (ex.getMessage().startsWith("No transform for classification")) { 
+				retval = true;
+			} else if (ex.getMessage().startsWith("Can't set a value to the parameter")) { 
+				retval = true;
+			} else { 
+				throw(ex);
+			}
+		}
+		return retval;
+	}
+
+	public static TransformationStruct datumTransform(
+			String decimalLatitude, String decimalLongitude,
+			String geodeticDatum, String targetGeodeticDatum) throws FactoryException, TransformException
+	{
+		
+		TransformationStruct retval = null;
+		
+		CoordinateOperationFactory factory = new DefaultCoordinateOperationFactory();
+		
+		CoordinateReferenceSystem crsFrom = CRS.decode(geodeticDatum);
+		CoordinateReferenceSystem crsTarget = CRS.decode(targetGeodeticDatum);
+		
+		CoordinateOperation transform = factory.createOperation(crsFrom, crsTarget);
+	 	logger.debug(transform.getName());
+		
+	    DirectPosition fromPosition = new DirectPosition2D(Double.parseDouble(decimalLongitude), Double.parseDouble(decimalLatitude));
+	    DirectPosition toPosition = new DirectPosition2D(Double.parseDouble(decimalLongitude), Double.parseDouble(decimalLatitude));
+	    MathTransform mathTransform = transform.getMathTransform();
+		DirectPosition transformedPosition = mathTransform.transform(fromPosition, toPosition);
+		
+		 final int dimensions = transformedPosition.getDimension();
+		 for (int i=0; i<dimensions; i++) {
+			 logger.debug(transformedPosition.getOrdinate(i));
+		 }
+		if (dimensions==2) { 
+			double lon = transformedPosition.getOrdinate(0);
+			double lat = transformedPosition.getOrdinate(1);
+			retval = new TransformationStruct();
+			retval.setDecimalLatitude(lat);
+			retval.setDecimalLongitude(lon);
+			retval.setGeodeticDatum(targetGeodeticDatum);
+			retval.setSuccess(true);
+		}
+		
+		return retval;
+	}
     
 }
 

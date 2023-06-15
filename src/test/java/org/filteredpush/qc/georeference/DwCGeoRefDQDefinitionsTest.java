@@ -87,28 +87,6 @@ public class DwCGeoRefDQDefinitionsTest {
 		
 	}
 
-	@Test
-    public void testIssueDatageneralizationsNotEmpty() { 
-        // Specification
-        // POTENTIAL_ISSUE if dwc:dataGeneralizations is not EMPTY; 
-        // otherwise NOT_ISSUE 
-    	
-    	String dataGeneralizations = "";
-    	DQResponse<IssueValue> response = DwCGeoRefDQ.issueDatageneralizationsNotempty(dataGeneralizations);
-    	assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), response.getResultState().getLabel());
-    	assertEquals(IssueValue.NOT_ISSUE.getLabel(), response.getValue().getLabel());
-
-    	dataGeneralizations = null;
-    	response = DwCGeoRefDQ.issueDatageneralizationsNotempty(dataGeneralizations);
-    	assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), response.getResultState().getLabel());
-    	assertEquals(IssueValue.NOT_ISSUE.getLabel(), response.getValue().getLabel());
-
-    	dataGeneralizations = "Some generalization";
-    	response = DwCGeoRefDQ.issueDatageneralizationsNotempty(dataGeneralizations);
-    	assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), response.getResultState().getLabel());
-    	assertEquals(IssueValue.POTENTIAL_ISSUE.getLabel(), response.getValue().getLabel());
-    }
-	
 	/**
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationMaxdepthOutofrange(java.lang.String)}.
 	 */

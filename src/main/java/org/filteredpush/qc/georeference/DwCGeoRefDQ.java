@@ -8,10 +8,12 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.datakurator.ffdq.annotations.*;
-import org.datakurator.ffdq.api.DQAmendmentResponse;
 import org.datakurator.ffdq.api.DQResponse;
 import org.datakurator.ffdq.model.ResultState;
 import org.filteredpush.qc.georeference.util.GEOUtil;
+import org.filteredpush.qc.georeference.util.TransformationStruct;
+import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.operation.TransformException;
 import org.datakurator.ffdq.api.result.*;
 
 /**
@@ -25,17 +27,23 @@ import org.datakurator.ffdq.api.result.*;
  * #42 VALIDATION_COUNTRY_NOTEMPTY 6ce2b2b4-6afe-4d13-82a0-390d31ade01c 
  * #98 VALIDATION_COUNTRYCODE_NOTEMPTY 853b79a2-b314-44a2-ae46-34a1e7ed85e4 
  * #119 VALIDATION_DECIMALLATITUDE_EMPTY 7d2485d5-1ba7-4f25-90cb-f4480ff1a275
+ * #79 VALIDATION_DECIMALLATITUDE_INRANGE b6ecda2a-ce36-437a-b515-3ae94948fe83
  * #96 VALIDATION_DECIMALLONGITUDE_EMPTY 9beb9442-d942-4f42-8b6a-fcea01ee086a
+ * #30 VALIDATION_DECIMALLONGITUDE_INRANGE 0949110d-c06b-450e-9649-7c1374d940d1
  * #87 VALIDATION_COORDINATES_NOTZERO 1bf0e210-6792-4128-b8cc-ab6828aa4871
  * #107 VALIDATION_MINDEPTH_INRANGE 04b2c8f3-c71b-4e95-8e43-f70374c5fb92
  * #112 VALIDATION_MAXELEVATION_INRANGE c971fe3f-84c1-4636-9f44-b1ec31fd63c7
  * #39 VALIDATION_MINELEVATION_INRANGE 0bb8297d-8f8a-42d2-80c1-558f29efe798
  * #108 VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION d708526b-6561-438e-aa1a-82cd80b06396
  * #109 VALIDATION_COORDINATEUNCERTAINTY_INRANGE c6adf2ea-3051-4498-97f4-4b2f8a105f57
+ * #78	VALIDATION_GEODETICDATUM_NOTEMPTY 239ec40e-a729-4a8e-ba69-e0bf03ac1c44
+ * #59	VALIDATION_GEODETICDATUM_STANDARD 7e0c0418-fe16-4a39-98bd-80e19d95b9d1
  * 
- * #72 ISSUE_DATAGENERALIZATIONS_NOTEMPTY 13d5a10e-188e-40fd-a22c-dbaa87b91df2
  * 
  * #102 AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT 7498ca76-c4d4-42e2-8103-acacccbdffa7
+ * 
+ * For #72, see rec_occur_qc DwCMetadataDQ
+ * #72 ISSUE_DATAGENERALIZATIONS_NOTEMPTY 13d5a10e-188e-40fd-a22c-dbaa87b91df2
  * 
  * @author mole
  *
@@ -46,37 +54,6 @@ public class DwCGeoRefDQ{
 	private static final Log logger = LogFactory.getLog(DwCGeoRefDQ.class);
     
     
-    /**
-     * Is there a value in dwc:dataGeneralizations?
-     *
-     * Provides: ISSUE_DATAGENERALIZATIONS_NOTEMPTY
-     *
-     * @param dataGeneralizations the provided dwc:dataGeneralizations to evaluate
-     * @return DQResponse the response of type IssueValue to return
-     */
-    @Issue(label="ISSUE_DATAGENERALIZATIONS_NOTEMPTY", description="Is there a value in dwc:dataGeneralizations?")
-    @Provides("13d5a10e-188e-40fd-a22c-dbaa87b91df2")
-    public static DQResponse<IssueValue> issueDatageneralizationsNotempty(@ActedUpon("dwc:dataGeneralizations") String dataGeneralizations) {
-        DQResponse<IssueValue> result = new DQResponse<IssueValue>();
-
-        // Specification
-        // POTENTIAL_ISSUE if dwc:dataGeneralizations is not EMPTY; 
-        // otherwise NOT_ISSUE 
-        
-        if (GEOUtil.isEmpty(dataGeneralizations)) {
-        	result.addComment("No value present in dwc:dataGeneralizations");
-        	result.setResultState(ResultState.RUN_HAS_RESULT);
-        	result.setValue(IssueValue.NOT_ISSUE);
-        } else { 
-        	result.addComment("A value is present in dwc:dataGeneralizations, these data may or may not be fit for your use, you will need to examine the data generalizations and the data to determine fittness.");
-        	result.addComment("dwc:dataGeneralizations=[" + dataGeneralizations + "].");
-        	result.setResultState(ResultState.RUN_HAS_RESULT);
-        	result.setValue(IssueValue.POTENTIAL_ISSUE);
-        }
-
-        return result;
-    }
-	
     
     /**
      * Is the value of dwc:countryCode a valid ISO 3166-1-alpha-2 country code?
@@ -231,15 +208,21 @@ public class DwCGeoRefDQ{
     }
 
     /**
+     * Is the value of dwc:decimalLongitude a number between -180 and 180 inclusive?
+     *
      * #30 Validation SingleRecord Conformance: decimallongitude outofrange
      *
-     * Provides: VALIDATION_DECIMALLONGITUDE_OUTOFRANGE
+     * Provides: VALIDATION_DECIMALLONGITUDE_INRANGE
+     * Version: 2022-03-22
      *
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_DECIMALLONGITUDE_INRANGE", description="Is the value of dwc:decimalLongitude a number between -180 and 180 inclusive?")
     @Provides("0949110d-c06b-450e-9649-7c1374d940d1")
-    public static DQResponse<ComplianceValue> validationDecimallongitudeOutofrange(
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/0949110d-c06b-450e-9649-7c1374d940d1/2022-03-22")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLongitude is EMPTY or the value is not a number; COMPLIANT if the value of dwc:decimalLongitude is between -180 and 180 degrees, inclusive; otherwise NOT_COMPLIANT ")
+    public static DQResponse<ComplianceValue> validationDecimallongitudeInrange(
     		@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
 
     	DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
@@ -498,10 +481,15 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+
+    
     /**
+     * Propose amendment to the value of dwc:geodeticDatum and potentially to dwc:decimalLatitude and/or dwc:decimalLongitude based on a conversion between spatial reference systems.
+     *
      * #43 Amendment SingleRecord Conformance: coordinates converted
      *
      * Provides: AMENDMENT_COORDINATES_CONVERTED
+     * Version: 2023-01-16
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
@@ -510,18 +498,81 @@ public class DwCGeoRefDQ{
      * @param coordinatePrecision the provided dwc:coordinatePrecision to evaluate
      * @return DQResponse the response of type AmendmentValue to return
      */
+    @Amendment(label="AMENDMENT_COORDINATES_CONVERTED", description="Propose amendment to the value of dwc:geodeticDatum and potentially to dwc:decimalLatitude and/or dwc:decimalLongitude based on a conversion between spatial reference systems.")
     @Provides("620749b9-7d9c-4890-97d2-be3d1cde6da8")
-    public DQResponse<AmendmentValue> amendmentCoordinatesConverted(@ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude, @ActedUpon("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters, @ActedUpon("dwc:geodeticDatum") String geodeticDatum, @ActedUpon("dwc:coordinatePrecision") String coordinatePrecision) {
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/620749b9-7d9c-4890-97d2-be3d1cde6da8/2023-01-16")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude or dwc:decimalLongitude or dwc:geodeticDatum are EMPTY or not interpretable as a value decimal number; AMENDED the values of dwc:decimalLatitude, dwc:decimalLongitude and  dwc:geodeticDatum by a conversion between spatial reference systems; otherwise NOT_AMENDED ")
+    public static DQResponse<AmendmentValue> amendmentCoordinatesConverted(
+    		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
+    		@ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
+    		@ActedUpon("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters, 
+    		@ActedUpon("dwc:geodeticDatum") String geodeticDatum, 
+    		@ActedUpon("dwc:coordinatePrecision") String coordinatePrecision) {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
         //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude and 
-        // dwc:decimalLongitude were EMPTY or the value of dwc:geodeticDatum 
-        // was not interpretable; AMENDED if the values of dwc:decimalLatitude, 
-        // dwc:decimalLongitude, and dwc:geodeticDatum were changed 
-        // based on a conversion between spatial reference systems; 
-        //otherwise NOT_AMENDED 
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude or 
+        // dwc:decimalLongitude or dwc:geodeticDatum are EMPTY or not 
+        // interpretable as a value decimal number; AMENDED the values 
+        // of dwc:decimalLatitude, dwc:decimalLongitude and dwc:geodeticDatum 
+        // by a conversion between spatial reference systems; otherwise 
+        // NOT_AMENDED 
 
+        // TODO: Obtain effect of coordinate transformation on accuracy, 
+        // TODO: Specification needs to include addition to coordinatePrecisionInMeters, this is in notes.
+        // TODO: Notes refer to non-existent NOTIFICATION_COORDINATES_CONVERSIONFAILED
+        
+        // NOTES: These amendments have implications for dwc:coordinateUncertaintyInMeters and 
+        // dwc:coordinatePrecision. If the dwc:coordinateUncertaintyInMeters is EMPTY or is not interpretable, 
+        // this amendment should not provide a dwc:coordinateUncertaintyInMeters. 
+        // If the dwc:coordinateUncertaintyInMeters is not EMPTY and is valid, this 
+        // amendment should add the uncertainty contributed by the conversion to the value of 
+        // dwc:CoordinateUncertaintyInMeters. The amended dwc:coordinatePrecision should be the 
+        // precision of coordinates as provided after the conversion, ideally this should be 0.0000001, 
+        // reflecting the seven digits of precision required to reverse a coordinate transformation without 
+        // loss of information at the scale of one meter.  A result status for a failure condition in 
+        // attempting a conversion is NOTIFICATION_COORDINATES_CONVERSIONFAILED
+        
+        String targetGeodeticDatum = "EPSG:4326";
+        
+        logger.debug("From: " + geodeticDatum);
+        logger.debug("To: " + targetGeodeticDatum);
+        
+        if (GEOUtil.isEmpty(geodeticDatum)) { 
+        	result.addComment("Unable to convert coordinates to EPSG:4326, no value provided for dwc:geodeticDatum.");
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        } else if (GEOUtil.isEmpty(decimalLongitude) || GEOUtil.isEmpty(decimalLatitude)) { 
+        	result.addComment("Unable to convert coordinates to EPSG:4326, provided coordinates are not complete, dwc:decimalLatitude=["+ decimalLatitude+"], decimalLongitude=["+decimalLongitude+"].");
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET); 
+        } else if (geodeticDatum.toUpperCase().equals(targetGeodeticDatum)) { 
+        	result.addComment("Coordinates unchanged, dwc:geodeticDatum is already the desired " + targetGeodeticDatum);
+        	result.setResultState(ResultState.NOT_AMENDED); 
+        } else { 
+        	if (GEOUtil.isDatumKnown(geodeticDatum)) {
+        		TransformationStruct transform = new TransformationStruct();
+        		try { 
+        			transform = GEOUtil.datumTransform(decimalLatitude, decimalLongitude, geodeticDatum, targetGeodeticDatum);
+        			if (transform.isSuccess()) { 
+        				Map<String, String> values = new HashMap<>();
+        				values.put("dwc:geodeticDatum", targetGeodeticDatum);
+        				values.put("dwc:decimalLatitude", transform.getDecimalLatitudeString());
+        				values.put("dwc:decimalLongitude", transform.getDecimalLongitudeString());
+        				result.setValue(new AmendmentValue(values));
+        				result.setResultState(ResultState.AMENDED); 
+        } else { 
+        			} 
+        		} catch (FactoryException e) { 
+        			result.addComment("Coordinates unchanged, unable to create a coordinate transform for specified Datum. " + e.getMessage());
+        			result.setResultState(ResultState.NOT_AMENDED); 
+        		} catch (TransformException e) {
+        			result.addComment("Coordinates unchanged, error transforming to the specified Datum. " + e.getMessage());
+        			result.setResultState(ResultState.NOT_AMENDED); 
+				}
+        	} else { 
+        		result.addComment("Coordinates unchanged, not able to convert from (unrecognzied) provided dwc:geodeticDatum " + geodeticDatum + " to " + targetGeodeticDatum);
+        		result.setResultState(ResultState.NOT_AMENDED); 
+        	}
+        } 
         return result;
     }
 
@@ -710,25 +761,61 @@ public class DwCGeoRefDQ{
     }
 
     /**
+     * Does the value of dwc:geodeticDatum occur in bdq:sourceAuthority?
+     *
      * #59 Validation SingleRecord Conformance: geodeticdatum notstandard
      *
-     * Provides: VALIDATION_GEODETICDATUM_NOTSTANDARD
+     * Provides: VALIDATION_GEODETICDATUM_STANDARD
+     * Version: 2022-03-22
      *
      * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_GEODETICDATUM_STANDARD", description="Does the value of dwc:geodeticDatum occur in bdq:sourceAuthority?")
     @Provides("7e0c0418-fe16-4a39-98bd-80e19d95b9d1")
-    public DQResponse<ComplianceValue> validationGeodeticdatumNotstandard(@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/7e0c0418-fe16-4a39-98bd-80e19d95b9d1/2022-03-22")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available, INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is EMPTY; COMPLIANT if the value of dwc:geodeticDatum is a valid EPSG CRS Code (with or without the 'epsg' namespace prepended), or an unambiguous alphanumeric CRS or datum code; otherwise NOT_COMPLIANT bdq:sourceAuthority is 'epsg' [https://epsg.io]")
+    public static DQResponse<ComplianceValue> validationGeodeticdatumStandard(@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // service used to look up the EPSG vocabulary is not available, 
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is EMPTY; 
-        // COMPLIANT if the value of dwc:geodeticDatum is a valid EPSG 
-        // CRS Code (with or without the "epsg" namespace prepended), 
-        // or an unambiguous alphanumeric CRS or datum code; otherwise 
-        //NOT_COMPLIANT 
+        // is not available, INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum 
+        // is EMPTY; COMPLIANT if the value of dwc:geodeticDatum is 
+        // a valid EPSG CRS Code (with or without the "epsg" namespace 
+        // prepended), or an unambiguous alphanumeric CRS or datum 
+        // code; otherwise NOT_COMPLIANT 
+        // bdq:sourceAuthority is "epsg" [https://epsg.io] 
+        
+        if (GEOUtil.isEmpty(geodeticDatum)) { 
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+			result.addComment("The value provided for dwc:geodeticDatum is empty");
+		} else { 
+			try { 
+				boolean matched = false;
+				result.setResultState(ResultState.RUN_HAS_RESULT);
+				if (geodeticDatum.matches("^[0-9]+$")) { 
+					// just a number, prepend EPSG: pseudo-namespace
+					matched = GEOUtil.isCooridnateSystemCodeKnown("EPSG:"+geodeticDatum);
+				} else { 
+					matched = GEOUtil.isCooridnateSystemCodeKnown(geodeticDatum);
+				} 
+				if (matched) { 
+					result.setValue(ComplianceValue.COMPLIANT);
+					result.addComment("The value of dwc:geodeticDatum is a known EPSG code.");
+				} else { 
+					result.setValue(ComplianceValue.NOT_COMPLIANT);
+					result.addComment("The value of dwc:geodeticDatum [" + geodeticDatum + "] is not a known EPSG code");
+				} 
+			} catch (FactoryException e) { 
+				logger.debug(e.getClass());
+				logger.debug(e.getMessage());
+				// unmatched code exception is caught internally in is CoordinateSystemKnown, 
+				// other failures are likely to be database problems.
+				result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+				result.addComment(e.getMessage());
+			}
+		}
 
         return result;
     }
@@ -843,20 +930,25 @@ public class DwCGeoRefDQ{
     }
 
     /**
+     * Is there a value in dwc:geodeticDatum?
+     * 
      * #78 Validation SingleRecord Completeness: geodeticdatum empty
      *
-     * Provides: VALIDATION_GEODETICDATUM_EMPTY
+     * Provides: VALIDATION_GEODETICDATUM_NOTEMPTY
+     * Version: 2022-03-22
      *
      * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_GEODETICDATUM_NOTEMPTY", description="Is there a value in dwc:geodeticDatum?")
     @Provides("239ec40e-a729-4a8e-ba69-e0bf03ac1c44")
-    public static DQResponse<ComplianceValue> validationGeodeticdatumEmpty(@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/239ec40e-a729-4a8e-ba69-e0bf03ac1c44/2022-03-22")
+    @Specification("COMPLIANT if dwc:geodeticDatum is not EMPTY; otherwise NOT_COMPLIANT ")
+    public static DQResponse<ComplianceValue> validationGeodeticdatumNotempty(@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
         // COMPLIANT if dwc:geodeticDatum is not EMPTY; otherwise NOT_COMPLIANT 
-        //
         
         result.setResultState(ResultState.RUN_HAS_RESULT);
         if (GEOUtil.isEmpty(geodeticDatum))
@@ -871,25 +963,32 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+    
     /**
+     * Is the value of dwc:decimalLatitude a number between -90 and 90 inclusive?
+     * 
      * #79 Validation SingleRecord Conformance: decimallatitude outofrange
      *
-     * Provides: VALIDATION_DECIMALLATITUDE_OUTOFRANGE
+     * Provides: VALIDATION_DECIMALLATITUDE_INRANGE
+     * Version: 2022-03-26
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_DECIMALLATITUDE_INRANGE", description="Is the value of dwc:decimalLatitude a number between -90 and 90 inclusive?")
     @Provides("b6ecda2a-ce36-437a-b515-3ae94948fe83")
-    public static DQResponse<ComplianceValue> validationDecimallatitudeOutofrange(
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/b6ecda2a-ce36-437a-b515-3ae94948fe83/2022-03-26")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is EMPTY or the value is not interpretable as a number; COMPLIANT if the value of dwc:decimalLatitude is between -90 and 90, inclusive; otherwise NOT_COMPLIANT ")
+    public static DQResponse<ComplianceValue> validationDecimallatitudeInrange(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
         
     	DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is 
-        // EMPTY or the value is not a number; COMPLIANT if the value 
-        // of dwc:decimalLatitude is between -90 and 90 degrees, inclusive; 
-        // otherwise NOT_COMPLIANT 
+        // EMPTY or the value is not interpretable as a number; COMPLIANT 
+        // if the value of dwc:decimalLatitude is between -90 and 90, 
+        // inclusive; otherwise NOT_COMPLIANT 
 
     	if (GEOUtil.isEmpty(decimalLatitude)) { 
     		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);

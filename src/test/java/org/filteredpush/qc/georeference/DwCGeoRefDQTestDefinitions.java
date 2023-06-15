@@ -5,15 +5,20 @@ package org.filteredpush.qc.georeference;
 
 import static org.junit.Assert.*;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.datakurator.ffdq.annotations.ActedUpon;
 import org.datakurator.ffdq.annotations.Issue;
 import org.datakurator.ffdq.annotations.Provides;
 import org.datakurator.ffdq.api.DQResponse;
+import org.datakurator.ffdq.api.result.AmendmentValue;
 import org.datakurator.ffdq.api.result.ComplianceValue;
 import org.datakurator.ffdq.api.result.IssueValue;
 import org.datakurator.ffdq.model.ResultState;
+import org.geotools.referencing.ReferencingFactoryFinder;
 import org.junit.Test;
 
 /**
@@ -81,7 +86,7 @@ public class DwCGeoRefDQTestDefinitions {
 	}
 
 	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationDecimallongitudeOutofrange(java.lang.String)}.
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationDecimallongitudeInrange(java.lang.String)}.
 	 */
 	@Test
 	public void testValidationDecimallongitudeOutofrange() {
@@ -92,22 +97,22 @@ public class DwCGeoRefDQTestDefinitions {
         // of dwc:decimalLongitude is between -180 and 180 degrees, 
         // inclusive; otherwise NOT_COMPLIANT 
 		
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationDecimallongitudeOutofrange(null);
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationDecimallongitudeInrange(null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
 		
-		result = DwCGeoRefDQ.validationDecimallongitudeOutofrange("a");
+		result = DwCGeoRefDQ.validationDecimallongitudeInrange("a");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
 		
-		result = DwCGeoRefDQ.validationDecimallongitudeOutofrange("10");
+		result = DwCGeoRefDQ.validationDecimallongitudeInrange("10");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationDecimallongitudeOutofrange("190");
+		result = DwCGeoRefDQ.validationDecimallongitudeInrange("190");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
@@ -334,6 +339,13 @@ public class DwCGeoRefDQTestDefinitions {
 	 */
 	@Test
 	public void testAmendmentCoordinatesConverted() {
+		
+		 DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentCoordinatesConverted("42.3836864972", "-71.1474180222", "100", "EPSG:4267", "0.000001");
+		 assertEquals(ResultState.AMENDED.getLabel(), result.getResultState().getLabel());
+		 assertEquals(result.getValue().getObject().get("dwc:geodeticDatum"), "EPSG:4326");
+		 assertEquals("42.3837831", result.getValue().getObject().get("dwc:decimalLatitude"));
+		 assertEquals("-71.1469160", result.getValue().getObject().get("dwc:decimalLongitude"));
+		 
 		fail("Not yet implemented");
 	}
 
@@ -386,11 +398,68 @@ public class DwCGeoRefDQTestDefinitions {
 	}
 
 	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationGeodeticdatumNotstandard(java.lang.String)}.
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationGeodeticdatumStandard(java.lang.String)}.
 	 */
 	@Test
-	public void testValidationGeodeticdatumNotstandard() {
-		fail("Not yet implemented");
+	public void testValidationGeodeticdatumStandard() {
+		
+		// NOT Tested, implementation uses library not lookup.
+        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
+        // is not available, 
+		
+		// INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum 
+        // is EMPTY; 
+		// COMPLIANT if the value of dwc:geodeticDatum is 
+        // a valid EPSG CRS Code (with or without the "epsg" namespace 
+        // prepended), or an unambiguous alphanumeric CRS or datum 
+        // code; otherwise NOT_COMPLIANT 
+		
+		String geodeticDatum = null;
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationGeodeticdatumStandard(geodeticDatum);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		
+		geodeticDatum = "WGS84";
+		result = DwCGeoRefDQ.validationGeodeticdatumStandard(geodeticDatum);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		geodeticDatum = "WGS 84";
+		result = DwCGeoRefDQ.validationGeodeticdatumStandard(geodeticDatum);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		geodeticDatum = "WGS 1984";
+		result = DwCGeoRefDQ.validationGeodeticdatumStandard(geodeticDatum);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		geodeticDatum = "EPSG:4326";
+		result = DwCGeoRefDQ.validationGeodeticdatumStandard(geodeticDatum);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		try { 
+			Set<String> codes = ReferencingFactoryFinder.getCRSAuthorityFactory("EPSG", null).getAuthorityCodes(org.opengis.referencing.crs.ProjectedCRS.class);
+			logger.debug(codes.size());
+			Iterator<String> i = codes.iterator();
+			while (i.hasNext()) { 
+				String code = i.next();
+				logger.debug(code);
+				if (!code.equals("5820")) {
+					result = DwCGeoRefDQ.validationGeodeticdatumStandard(code);
+					logger.debug(result.getComment());
+					assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+					assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+				} 
+			}
+		} catch (Exception e) { 
+			fail(e.getMessage());
+		}
 	}
 
 	/**
@@ -426,7 +495,7 @@ public class DwCGeoRefDQTestDefinitions {
 	}
 
 	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationGeodeticdatumEmpty(java.lang.String)}.
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationGeodeticdatumNotempty(java.lang.String)}.
 	 */
 	@Test
 	public void testValidationGeodeticdatumEmpty() {
@@ -435,19 +504,30 @@ public class DwCGeoRefDQTestDefinitions {
         // COMPLIANT if dwc:geodeticDatum is not EMPTY; otherwise NOT_COMPLIANT 
         //
 		
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationGeodeticdatumEmpty(null);
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationGeodeticdatumNotempty(null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationGeodeticdatumEmpty("foo");
+		result = DwCGeoRefDQ.validationGeodeticdatumNotempty(" ");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationGeodeticdatumNotempty("foo");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationGeodeticdatumNotempty("EPSG:4326");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
 	}
 
 	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationDecimallatitudeOutofrange(java.lang.String)}.
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationDecimallatitudeInrange(java.lang.String)}.
 	 */
 	@Test
 	public void testValidationDecimallatitudeOutofrange() {
@@ -458,22 +538,22 @@ public class DwCGeoRefDQTestDefinitions {
         // of dwc:decimalLatitude is between -90 and 90 degrees, inclusive; 
         // otherwise NOT_COMPLIANT 
 		
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationDecimallatitudeOutofrange(null);
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationDecimallatitudeInrange(null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
 		
-		result = DwCGeoRefDQ.validationDecimallatitudeOutofrange("a");
+		result = DwCGeoRefDQ.validationDecimallatitudeInrange("a");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
 		
-		result = DwCGeoRefDQ.validationDecimallatitudeOutofrange("10");
+		result = DwCGeoRefDQ.validationDecimallatitudeInrange("10");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationDecimallatitudeOutofrange("90.01");
+		result = DwCGeoRefDQ.validationDecimallatitudeInrange("90.01");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
