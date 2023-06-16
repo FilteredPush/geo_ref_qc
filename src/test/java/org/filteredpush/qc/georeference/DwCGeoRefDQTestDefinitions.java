@@ -731,6 +731,81 @@ public class DwCGeoRefDQTestDefinitions {
 		fail("Not yet implemented");
 	}
 
+	/**
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationMaxdepthInrange(java.lang.String)}.
+	 */
+	@Test
+	public void testValidationMaxdepthOutofrange() {
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQDefaults.validationMaxdepthInrange(null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMaxdepthInrange("a");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMaxdepthInrange("10");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMaxdepthInrange("0");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		// negative depth values not allowed
+		result = DwCGeoRefDQDefaults.validationMaxdepthInrange("-1");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMaxdepthInrange("11001");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		if (Integer.MAX_VALUE>11000) {
+			result = DwCGeoRefDQDefaults.validationMaxdepthInrange(Integer.toString(Integer.MAX_VALUE));
+			logger.debug(result.getComment());
+			assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+			assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		}
+		if (Integer.MIN_VALUE<0) {
+			result = DwCGeoRefDQDefaults.validationMaxdepthInrange(Integer.toString(Integer.MIN_VALUE));
+			logger.debug(result.getComment());
+			assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+			assertNull(result.getValue());
+		}
+		
+		for (int i=0; i<11001; i++) { 
+			result = DwCGeoRefDQDefaults.validationMaxdepthInrange(Integer.toString(i));
+			assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+			assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		}
+		
+		// Testing parameters 
+		
+		result = DwCGeoRefDQ.validationMaxdepthInrange("11001", 0d, 12000d);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationMaxdepthInrange("10", 100d, null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		// specifying a negative minimum will still result in internal prerequisites not met`
+		result = DwCGeoRefDQ.validationMaxdepthInrange("-10", -100d, 200d);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+	}
 
 
 }

@@ -845,36 +845,6 @@ public class DwCGeoRefDQ_stubs {
     }
 
     /**
-     * Is the value of dwc:maximumDepthInMeters within the Parameter range?
-     *
-     * Provides: VALIDATION_MAXDEPTH_INRANGE
-     * Version: 2022-09-08
-     *
-     * @param maximumDepthInMeters the provided dwc:maximumDepthInMeters to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_MAXDEPTH_INRANGE", description="Is the value of dwc:maximumDepthInMeters within the Parameter range?")
-    @Provides("3f1db29a-bfa5-40db-9fd1-fde020d81939")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/3f1db29a-bfa5-40db-9fd1-fde020d81939/2022-09-08")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumDepthInMeters is EMPTY or is not interpretable as a number greater than or equal to zero; COMPLIANT if the value of dwc:maximumDepthInMeters is within the range of bdq:minimumValidDepthInMeters to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT ")
-    public DQResponse<ComplianceValue> validationMaxdepthInrange(@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumDepthInMeters 
-        // is EMPTY or is not interpretable as a number greater than 
-        // or equal to zero; COMPLIANT if the value of dwc:maximumDepthInMeters 
-        // is within the range of bdq:minimumValidDepthInMeters to 
-        // bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT 
-        // 
-
-        //TODO: Parameters. This test is defined as parameterized.
-        // bdq:minimumValidDepthInMeters default="0",bdq:maximumValidDepthInMeters default="11000"
-
-        return result;
-    }
-
-    /**
      * Does the value of dwc:stateProvince occur in bdq:sourceAuthority?
      *
      * Provides: VALIDATION_STATEPROVINCE_FOUND

@@ -8,6 +8,8 @@ import org.apache.commons.logging.LogFactory;
 import org.datakurator.ffdq.annotations.ActedUpon;
 import org.datakurator.ffdq.annotations.Amendment;
 import org.datakurator.ffdq.annotations.Provides;
+import org.datakurator.ffdq.annotations.ProvidesVersion;
+import org.datakurator.ffdq.annotations.Specification;
 import org.datakurator.ffdq.annotations.Validation;
 import org.datakurator.ffdq.api.DQResponse;
 import org.datakurator.ffdq.api.result.AmendmentValue;
@@ -32,7 +34,9 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
      */
     @Validation(label="VALIDATION_MAXDEPTH_INRANGE", description="Is the value of dwc:maximumDepthInMeters within the Parameter range?")
     @Provides("3f1db29a-bfa5-40db-9fd1-fde020d81939")
-    public static DQResponse<ComplianceValue> validationMaxdepthOutofrange(
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/3f1db29a-bfa5-40db-9fd1-fde020d81939/2022-09-08")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumDepthInMeters is EMPTY or is not interpretable as a number greater than or equal to zero; COMPLIANT if the value of dwc:maximumDepthInMeters is within the range of bdq:minimumValidDepthInMeters to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT ")
+    public static DQResponse<ComplianceValue> validationMaxdepthInrange(
     		@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters) { 
     	return (DwCGeoRefDQ.validationMaxdepthInrange(maximumDepthInMeters, 0d, 11000d));
     }
