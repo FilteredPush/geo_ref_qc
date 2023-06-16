@@ -740,33 +740,6 @@ public class DwCGeoRefDQ_stubs {
     }
 
     /**
-     * Is the value of dwc:minimumElevationInMeters a number less than or equal to the value of dwc:maximumElevationInMeters?
-     *
-     * Provides: VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION
-     * Version: 2022-03-22
-     *
-     * @param minimumElevationInMeters the provided dwc:minimumElevationInMeters to evaluate
-     * @param maximumElevationInMeters the provided dwc:maximumElevationInMeters to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION", description="Is the value of dwc:minimumElevationInMeters a number less than or equal to the value of dwc:maximumElevationInMeters?")
-    @Provides("d708526b-6561-438e-aa1a-82cd80b06396")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/d708526b-6561-438e-aa1a-82cd80b06396/2022-03-22")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumlevationInMeters or dwc:minimumElevationInMeters is EMPTY, or if either is not a number; COMPLIANT if the value of dwc:minimumElevationInMeters is a number less than or equal to the value of the number dwc:maximumElevationInMeters, otherwise NOT_COMPLIANT ")
-    public DQResponse<ComplianceValue> validationMinelevationLessthanMaxelevation(@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters, @ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumlevationInMeters 
-        // or dwc:minimumElevationInMeters is EMPTY, or if either is 
-        // not a number; COMPLIANT if the value of dwc:minimumElevationInMeters 
-        // is a number less than or equal to the value of the number 
-        // dwc:maximumElevationInMeters, otherwise NOT_COMPLIANT 
-
-        return result;
-    }
-
-    /**
      * Is the value of dwc:coordinateUncertaintyInMeters a number between 1 and 20,037,509?
      *
      * Provides: VALIDATION_COORDINATEUNCERTAINTY_INRANGE

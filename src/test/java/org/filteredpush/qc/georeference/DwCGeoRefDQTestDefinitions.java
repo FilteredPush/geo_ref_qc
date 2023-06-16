@@ -807,5 +807,83 @@ public class DwCGeoRefDQTestDefinitions {
 		
 	}
 
+	/**
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationMinelevationLessthanMaxelevation(java.lang.String, java.lang.String)}.
+	 */
+	@Test
+	public void testValidationMinelevationGreaterthanMaxelevation() {
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation(null,null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation("a","10");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation("10","XX");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation(null,null);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation("-1","10");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation("10","100");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation("100","10");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		String minElevation = Integer.toString(Integer.MIN_VALUE);
+		String maxElevation = Integer.toString(Integer.MAX_VALUE);
+		result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation(minElevation,maxElevation);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		minElevation = Integer.toString(Integer.MAX_VALUE);
+		maxElevation = Integer.toString(Integer.MIN_VALUE);
+		result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation(minElevation,maxElevation);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		minElevation = "10m";
+		maxElevation = "15m";
+		result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation(minElevation,maxElevation);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+	
+		minElevation = " 10 ";
+		maxElevation = " 15 ";
+		result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation(minElevation,maxElevation);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		assertNotNull(result.getComment());
+		
+		minElevation = " 15 ";
+		maxElevation = " 10 ";
+		result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation(minElevation,maxElevation);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		assertNotNull(result.getComment());
+	}
 
 }

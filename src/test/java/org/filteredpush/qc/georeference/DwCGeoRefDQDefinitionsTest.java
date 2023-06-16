@@ -244,17 +244,6 @@ public class DwCGeoRefDQDefinitionsTest {
 	@Test
 	public void testValidationMinelevationGreaterthanMaxelevation() {
 		
-        // Specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumlevationInMeters 
-        // or dwc:minimumElevationInMeters is EMPTY; COMPLIANT if the 
-        // value of dwc:minimumElevationInMeters is a number less than 
-        // or equal to the value of the number dwc:maximumElevationInMeters, 
-        //otherwise NOT_COMPLIANT
-		
-        // TODO: Implementation follows change proposed in issue as of 2022Feb19, internal prerequsites not met if 
-        // either of the provided values is not a number rather than not compliant, consistent with other
-        // elevation/depth validations.
-		
 		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationMinelevationLessthanMaxelevation(null,null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
