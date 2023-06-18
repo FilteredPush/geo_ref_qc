@@ -188,6 +188,7 @@ public class DwCGeoRefDQDefinitionsTest {
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
+		assertNotNull(result.getComment());
 		
 		result = DwCGeoRefDQDefaults.validationMindepthInrange("a");
 		logger.debug(result.getComment());
@@ -195,6 +196,11 @@ public class DwCGeoRefDQDefinitionsTest {
 		assertNull(result.getValue());
 		
 		result = DwCGeoRefDQDefaults.validationMindepthInrange("10");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMindepthInrange("10.5");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
@@ -209,6 +215,18 @@ public class DwCGeoRefDQDefinitionsTest {
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		// negative depth values not allowed, min integer is negative.
+		result = DwCGeoRefDQDefaults.validationMindepthInrange(Integer.toString(Integer.MIN_VALUE));
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		
+		// similarly negative infinity
+		result = DwCGeoRefDQDefaults.validationMindepthInrange(Double.toString(Double.NEGATIVE_INFINITY));
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
 		
 		result = DwCGeoRefDQDefaults.validationMindepthInrange("11001");
 		logger.debug(result.getComment());

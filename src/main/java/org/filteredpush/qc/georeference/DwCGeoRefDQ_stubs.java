@@ -709,35 +709,6 @@ public class DwCGeoRefDQ_stubs {
         return result;
     }
 
-    /**
-     * Is the value of dwc:minimumDepthInMeters within the Parameter range?
-     *
-     * Provides: VALIDATION_MINDEPTH_INRANGE
-     * Version: 2022-03-26
-     *
-     * @param minimumDepthInMeters the provided dwc:minimumDepthInMeters to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_MINDEPTH_INRANGE", description="Is the value of dwc:minimumDepthInMeters within the Parameter range?")
-    @Provides("04b2c8f3-c71b-4e95-8e43-f70374c5fb92")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/04b2c8f3-c71b-4e95-8e43-f70374c5fb92/2022-03-26")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters is EMPTY, or the value is not interpretable as number greater than or equal to zero; COMPLIANT if the value of dwc:minimumDepthInMeters is within the range of bdq:minimumValidDepthInMeters to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT ")
-    public DQResponse<ComplianceValue> validationMindepthInrange(@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters 
-        // is EMPTY, or the value is not interpretable as number greater 
-        // than or equal to zero; COMPLIANT if the value of dwc:minimumDepthInMeters 
-        // is within the range of bdq:minimumValidDepthInMeters to 
-        // bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT 
-        // 
-
-        //TODO: Parameters. This test is defined as parameterized.
-        // Default values: bdq:minimumValidDepthInMeters="0",bdq:maximumValidDepthInMeters="11000"
-
-        return result;
-    }
 
     /**
      * Is the value of dwc:coordinateUncertaintyInMeters a number between 1 and 20,037,509?
