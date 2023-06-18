@@ -1022,6 +1022,7 @@ public class DwCGeoRefDQ{
      * Are the values of either dwc:decimalLatitude or dwc:decimalLongitude numbers that are not equal to 0?
      *
      * Provides: #87 VALIDATION_COORDINATES_NOTZERO
+     * Version: 2022-05-22
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
@@ -1029,6 +1030,8 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_COORDINATES_NOTZERO", description="Are the values of either dwc:decimalLatitude or dwc:decimalLongitude numbers that are not equal to 0?")
     @Provides("1bf0e210-6792-4128-b8cc-ab6828aa4871")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/1bf0e210-6792-4128-b8cc-ab6828aa4871/2022-05-22")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude and/or dwc:decimalLongitude are EMPTY or both of the values are not interpretable as numbers; COMPLIANT if either the value of dwc:decimalLatitude is not = 0 or the value of dwc:decimalLongitude is not = 0; otherwise NOT_COMPLIANT ")
     public static DQResponse<ComplianceValue> validationCoordinatesNotzero(@ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
@@ -1048,13 +1051,20 @@ public class DwCGeoRefDQ{
     	} else if (GEOUtil.isEmpty(decimalLongitude)) { 
     		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
     		result.addComment("provided value for dwc:decimalLongitude is empty.");
-    	} else if (!GEOUtil.isNumericCharacters(decimalLatitude)) { 
+    	} else if (!GEOUtil.isNumericCharacters(decimalLatitude) && !GEOUtil.isNumericCharacters(decimalLongitude)) { 
+    		// internal prerequisites not met only if both are not numbers
     		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
-    		result.addComment("provided value for dwc:decimalLatitude ["+decimalLatitude+"] contains non-numeric characters.");
-    	} else if (!GEOUtil.isNumericCharacters(decimalLongitude)) { 
-    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
-    		result.addComment("provided value for dwc:decimalLongitude ["+decimalLongitude+"] contains non-numeric characters.");
-    	} else { 
+    		result.addComment("provided value for dwc:decimalLatitude ["+decimalLatitude+"] and dwc:decimalLongitude ["+decimalLatitude+"] both contain non-numeric characters.");
+    	} else {
+    		// internal prerequisites not met only if both are not numbers, if one is, set it to 1 and test the other for zero.
+    		if (!GEOUtil.isNumericCharacters(decimalLongitude)) { 
+    			result.addComment("provided value for dwc:decimalLongitude ["+decimalLongitude+"] contains non-numeric characters.");
+    			decimalLongitude="1";
+    		}
+    		if (!GEOUtil.isNumericCharacters(decimalLatitude)) { 
+    			result.addComment("provided value for dwc:decimalLatitude ["+decimalLatitude+"] contains non-numeric characters.");
+    			decimalLatitude="1";
+    		}
     		try {
     			Double decimalLatitudeNumber = Double.parseDouble(decimalLatitude);
     			try {

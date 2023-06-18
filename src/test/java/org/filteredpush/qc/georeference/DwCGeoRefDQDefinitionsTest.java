@@ -36,11 +36,19 @@ public class DwCGeoRefDQDefinitionsTest {
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
+		assertNotNull(result.getComment());
+		
+		result = DwCGeoRefDQ.validationCoordinatesNotzero("A","B");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		assertNotNull(result.getComment());
 		
 		result = DwCGeoRefDQ.validationCoordinatesNotzero("1.4","3.6");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		assertNotNull(result.getComment());
 		
 		result = DwCGeoRefDQ.validationCoordinatesNotzero("0","0");
 		logger.debug(result.getComment());
@@ -56,6 +64,41 @@ public class DwCGeoRefDQDefinitionsTest {
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		result = DwCGeoRefDQ.validationCoordinatesNotzero("1.4","B");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		result = DwCGeoRefDQ.validationCoordinatesNotzero("A","-26.42552");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+	
+		// test does not evaluate sanity of numbers
+		result = DwCGeoRefDQ.validationCoordinatesNotzero("1000.00002","-5000.00133");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		result = DwCGeoRefDQ.validationCoordinatesNotzero(Integer.toString(Integer.MAX_VALUE), Integer.toString(Integer.MAX_VALUE));
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		// given note: "A record with 0.0 is interpreted as the string "0""
+		
+		// treat -0 as the same as 0
+		result = DwCGeoRefDQ.validationCoordinatesNotzero("-0","-0");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		result = DwCGeoRefDQ.validationCoordinatesNotzero("0.0","0.0");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		
 	}
 	
 	/**
@@ -85,7 +128,7 @@ public class DwCGeoRefDQDefinitionsTest {
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-	}
+	}	
 
 	/**
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationMaxdepthInrange(java.lang.String)}.
