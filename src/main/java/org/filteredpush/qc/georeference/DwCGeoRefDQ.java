@@ -1131,12 +1131,15 @@ public class DwCGeoRefDQ{
      * Is there a value in dwc:decimalLongitude?
      *
      * Provides: #96 VALIDATION_DECIMALLONGITUDE_NOTEMPTY
+     * Version: 2022-03-22
      *
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_DECIMALLONGITUDE_NOTEMPTY", description="Is there a value in dwc:decimalLongitude?")
     @Provides("9beb9442-d942-4f42-8b6a-fcea01ee086a")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/9beb9442-d942-4f42-8b6a-fcea01ee086a/2022-03-22")
+    @Specification("COMPLIANT if dwc:decimalLongitude is not EMPTY; otherwise NOT_COMPLIANT ")
     public static DQResponse<ComplianceValue> validationDecimallongitudeNotempty(
     		@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
@@ -1555,12 +1558,15 @@ public class DwCGeoRefDQ{
      * Is there a value in dwc:decimalLatitude?
      *
      * Provides: #119 VALIDATION_DECIMALLATITUDE_NOTEMPTY
+     * Version: 2020-04-09
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_DECIMALLATITUDE_NOTEMPTY", description="Is there a value in dwc:decimalLatitude?")
     @Provides("7d2485d5-1ba7-4f25-90cb-f4480ff1a275")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/7d2485d5-1ba7-4f25-90cb-f4480ff1a275/2020-04-09")
+    @Specification("COMPLIANT if dwc:decimalLatitude is not EMPTY; otherwise NOT_COMPLIANT ")
     public static DQResponse<ComplianceValue> validationDecimallatitudeNotEmpty(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
