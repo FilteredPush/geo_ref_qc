@@ -53,18 +53,19 @@ public class DwCGeoRefDQ{
 	
 	private static final Log logger = LogFactory.getLog(DwCGeoRefDQ.class);
     
-    
-    
     /**
      * Is the value of dwc:countryCode a valid ISO 3166-1-alpha-2 country code?
      *
      * Provides: #20 VALIDATION_COUNTRYCODE_STANDARD
+     * Version: 2022-05-02
      *
      * @param countryCode the provided dwc:countryCode to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_COUNTRYCODE_STANDARD", description="Is the value of dwc:countryCode a valid ISO 3166-1-alpha-2 country code?")
     @Provides("0493bcfb-652e-4d17-815b-b0cce0742fbe")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/0493bcfb-652e-4d17-815b-b0cce0742fbe/2022-05-02")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:SourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the dwc:countryCode was EMPTY; COMPLIANT if the value of dwc:countryCode is found in bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority is 'ISO 3166-1-alpha-2' [https://restcountries.eu/#api-endpoints-list-of-codes, https://www.iso.org/obp/ui/#search]")
     public static DQResponse<ComplianceValue> validationCountrycodeStandard(
     		@ActedUpon("dwc:countryCode") String countryCode) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
@@ -77,21 +78,15 @@ public class DwCGeoRefDQ{
         
         // bdq:sourceAuthority is "ISO 3166-1-alpha-2" [https://restcountries.eu/#api-endpoints-list-of-codes, 
         // https://www.iso.org/obp/ui/#search] 
+        // https://restcountries.eu/#api-endpoints-list-of-codes is currently timing out.
+        // https://www.iso.org/obp/ui/#search appears to be an api for one item at once.
         
-        // TODO: Implement lookup of current country codes values
-        // https://restcountries.eu/#api-endpoints-list-of-codes mentioned in list, but is currently timing out.
-        // appears to be available at, api for one item at once.
-        // https://restcountries.com/#api-endpoints-list-of-codes mentioned in list, but is currently timing out.
-        // wikidata is a possible source for country codes.
-        // test is defined as not parameterized, so this would be internal implementation, 
-        // and can fall back on hardcoded list.
-        // list in json is available from https://pkgstore.datahub.io/core/country-list/data_json/data/8c458f2d15d9f2119654b29ede6e45b8/data_json.json
-        // see metadata at: https://datahub.io/core/country-list
         
         if (GEOUtil.isEmpty(countryCode)) { 
         	result.addComment("dwc:countryCode is empty");
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         } else if (countryCode.length() != 2) { 
+        	// From notes: "This test will fail if there is leading or trailing whitespace or there are leading or trailing non-printing characters."
         	result.addComment("the value provided for dwc:countryCode does not consist of exactly two letters");
         	result.setResultState(ResultState.RUN_HAS_RESULT);
         	result.setValue(ComplianceValue.NOT_COMPLIANT);
@@ -108,7 +103,6 @@ public class DwCGeoRefDQ{
         	result.setResultState(ResultState.RUN_HAS_RESULT);
         	result.setValue(ComplianceValue.NOT_COMPLIANT);
         }
-        
 
         return result;
     }

@@ -11,33 +11,6 @@ import org.datakurator.ffdq.api.result.*;
 public class DwCGeoRefDQ_stubs {
 
     /**
-     * Is the value of dwc:countryCode a valid ISO 3166-1-alpha-2 country code?
-     *
-     * Provides: VALIDATION_COUNTRYCODE_STANDARD
-     * Version: 2022-05-02
-     *
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_COUNTRYCODE_STANDARD", description="Is the value of dwc:countryCode a valid ISO 3166-1-alpha-2 country code?")
-    @Provides("0493bcfb-652e-4d17-815b-b0cce0742fbe")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/0493bcfb-652e-4d17-815b-b0cce0742fbe/2022-05-02")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:SourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the dwc:countryCode was EMPTY; COMPLIANT if the value of dwc:countryCode is found in bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority is 'ISO 3166-1-alpha-2' [https://restcountries.eu/#api-endpoints-list-of-codes, https://www.iso.org/obp/ui/#search]")
-    public DQResponse<ComplianceValue> validationCountrycodeStandard(@ActedUpon("dwc:countryCode") String countryCode) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:SourceAuthority 
-        // is not available; INTERNAL_PREREQUISITES_NOT_MET if the 
-        // dwc:countryCode was EMPTY; COMPLIANT if the value of dwc:countryCode 
-        // is found in bdq:sourceAuthority; otherwise NOT_COMPLIANT 
-        // bdq:sourceAuthority is "ISO 3166-1-alpha-2" [https://restcountries.eu/#api-endpoints-list-of-codes, 
-        // https://www.iso.org/obp/ui/#search] 
-
-        return result;
-    }
-
-    /**
      * Does the value of dwc:country occur in bdq:sourceAuthority?
      *
      * Provides: VALIDATION_COUNTRY_FOUND
