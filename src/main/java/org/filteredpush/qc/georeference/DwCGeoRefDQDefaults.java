@@ -80,15 +80,20 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     }
     
     /**
-     * Is the value of dwc:maximumElevationInMeters within the Parameter range?
+     * Is the value of dwc:maximumElevationInMeters within the default range of -430 to 8850.
      *
      * Provides: #112 VALIDATION_MAXELEVATION_INRANGE
+     * Version: 2022-03-26
+     * 
+     * Uses Default values: bdq:minimumValidElevationInMeters="-430", bdq:maximumValidElevationInMeters="8850"
      *
      * @param maximumElevationInMeters the provided dwc:maximumElevationInMeters to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
-    @Validation(label="VALIDATION_MAXELEVATION_INRANGE", description="Is the value of dwc:maximumElevationInMeters within the Parameter range?")
+    @Validation(label="VALIDATION_MAXELEVATION_INRANGE", description="Is the value of dwc:maximumElevationInMeters of a single record within a valid range")
     @Provides("c971fe3f-84c1-4636-9f44-b1ec31fd63c7")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/c971fe3f-84c1-4636-9f44-b1ec31fd63c7/2022-03-26")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumElevationInMeters is EMPTY or the value cannot be interpreted as a number; COMPLIANT if the value of dwc:maximumElevationInMeters is within the range of bdq:minimumValidElevationInMeters to bdq:maximumValidElevationInMeters inclusive; otherwise NOT_COMPLIANT ")
     public static DQResponse<ComplianceValue> validationMaxelevationInrange(
     		@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters) {
     	return DwCGeoRefDQ.validationMaxelevationInrange(maximumElevationInMeters,-430d, 8850d);

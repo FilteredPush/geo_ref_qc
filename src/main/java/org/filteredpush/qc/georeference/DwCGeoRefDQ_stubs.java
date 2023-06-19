@@ -655,7 +655,7 @@ public class DwCGeoRefDQ_stubs {
 
         //TODO: Parameters. This test is defined as parameterized.
         // bdq:defaultGeodeticDatum default value="EPSG:4326"
-
+        
         return result;
     }
 
@@ -681,36 +681,6 @@ public class DwCGeoRefDQ_stubs {
         // is EMPTY; COMPLIANT if the value of dwc:coordinateUncertaintyInMeters 
         // can be interpreted as a number between 1 and 20037509 inclusive; 
         // otherwise NOT_COMPLIANT 
-
-        return result;
-    }
-
-    /**
-     * Is the value of dwc:maximumElevationInMeters of a single record within a valid range
-     *
-     * Provides: VALIDATION_MAXELEVATION_INRANGE
-     * Version: 2022-03-26
-     *
-     * @param maximumElevationInMeters the provided dwc:maximumElevationInMeters to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_MAXELEVATION_INRANGE", description="Is the value of dwc:maximumElevationInMeters of a single record within a valid range")
-    @Provides("c971fe3f-84c1-4636-9f44-b1ec31fd63c7")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/c971fe3f-84c1-4636-9f44-b1ec31fd63c7/2022-03-26")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumElevationInMeters is EMPTY or the value cannot be interpreted as a number; COMPLIANT if the value of dwc:maximumElevationInMeters is within the range of bdq:minimumValidElevationInMeters to bdq:maximumValidElevationInMeters inclusive; otherwise NOT_COMPLIANT ")
-    public DQResponse<ComplianceValue> validationMaxelevationInrange(@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumElevationInMeters 
-        // is EMPTY or the value cannot be interpreted as a number; 
-        // COMPLIANT if the value of dwc:maximumElevationInMeters is 
-        // within the range of bdq:minimumValidElevationInMeters to 
-        // bdq:maximumValidElevationInMeters inclusive; otherwise NOT_COMPLIANT 
-        // 
-
-        //TODO: Parameters. This test is defined as parameterized.
-        // Default values: bdq:minimumValidElevationInMeters="-430",bdq:maximumValidElevationInMeters="8850"
 
         return result;
     }

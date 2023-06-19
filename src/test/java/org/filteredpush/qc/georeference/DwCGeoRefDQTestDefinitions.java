@@ -587,7 +587,7 @@ public class DwCGeoRefDQTestDefinitions {
 		
 		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationDecimallongitudeNotempty(null);
 		logger.debug(result.getComment());
-		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 		
 		result = DwCGeoRefDQ.validationDecimallongitudeNotempty("foo");
@@ -657,13 +657,43 @@ public class DwCGeoRefDQTestDefinitions {
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
+		result = DwCGeoRefDQDefaults.validationMaxelevationInrange("0");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
 		result = DwCGeoRefDQDefaults.validationMaxelevationInrange("-400");
 		logger.debug(result.getComment());
 		System.out.println(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
 		
+		result = DwCGeoRefDQDefaults.validationMaxelevationInrange("8850");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMaxelevationInrange("23.456");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());		
+		
+		result = DwCGeoRefDQDefaults.validationMaxelevationInrange("-430");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
 		result = DwCGeoRefDQDefaults.validationMaxelevationInrange("9000");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMaxelevationInrange("8851");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMaxelevationInrange("-431");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
@@ -691,6 +721,15 @@ public class DwCGeoRefDQTestDefinitions {
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
 		
+		result = DwCGeoRefDQDefaults.validationMaxelevationInrange(Integer.toString(Integer.MAX_VALUE));
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMaxelevationInrange(Integer.toString(Integer.MIN_VALUE));
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 	}
 
 	/**
