@@ -16,6 +16,11 @@ import org.datakurator.ffdq.api.result.AmendmentValue;
 import org.datakurator.ffdq.api.result.ComplianceValue;
 
 /**
+ * Provides methods for parameterized SPACE tests without the bdq:parameters as method parameters, 
+ * with the method signatures only providing the information elements under test as method parameters.
+ * Each method here is just a wrapper for the parameterized method in DwCGeoRefDQ, specifying the 
+ * default values for each bdq:parameter. 
+ * 
  * @author mole
  *
  */
@@ -104,12 +109,15 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
      * Is the value of dwc:minimumElevationInMeters within the Parameter range?
      *
      * Provides: #39 VALIDATION_MINELEVATION_INRANGE
+     * Version: 2022-03-26
      *
      * @param minimumElevationInMeters the provided dwc:minimumElevationInMeters to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_MINELEVATION_INRANGE", description="Is the value of dwc:minimumElevationInMeters within the Parameter range?")
     @Provides("0bb8297d-8f8a-42d2-80c1-558f29efe798")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/0bb8297d-8f8a-42d2-80c1-558f29efe798/2022-03-26")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumElevationInMeters is EMPTY or the value is not a number; COMPLIANT if the value of dwc:minimumElevationInMeters is within the range of bdq:minimumValidElevationInMeters to bdq:maximumValidElevationInMeters inclusive; otherwise NOT_COMPLIANT ")
     public static DQResponse<ComplianceValue> validationMinelevationInrange(
     		@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters) {
     	return DwCGeoRefDQ.validationMinelevationInrange(minimumElevationInMeters, -430d, 8850d);

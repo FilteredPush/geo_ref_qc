@@ -192,6 +192,32 @@ public class DwCGeoRefDQTestDefinitions {
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+        // Default values: bdq:minimumValidElevationInMeters="-430"; bdq:maximumValidElevationInMeters="8850"
+		result = DwCGeoRefDQDefaults.validationMinelevationInrange("8850");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		assertNotNull(result.getComment());
+		
+		result = DwCGeoRefDQDefaults.validationMinelevationInrange("-430");
+		logger.debug(result.getComment());
+		System.out.println(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		result = DwCGeoRefDQDefaults.validationMinelevationInrange("8851");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQDefaults.validationMinelevationInrange("-431");
+		logger.debug(result.getComment());
+		System.out.println(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		assertNotNull(result.getComment());
+		
 	}
 
 	/**
