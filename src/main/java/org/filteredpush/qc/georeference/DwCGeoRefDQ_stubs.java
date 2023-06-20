@@ -409,29 +409,6 @@ public class DwCGeoRefDQ_stubs {
     }
 
     /**
-     * Is there a value in dwc:dataGeneralizations?
-     *
-     * Provides: ISSUE_DATAGENERALIZATIONS_NOTEMPTY
-     * Version: 2022-05-16
-     *
-     * @param dataGeneralizations the provided dwc:dataGeneralizations to evaluate
-     * @return DQResponse the response of type IssueValue to return
-     */
-    @Issue(label="ISSUE_DATAGENERALIZATIONS_NOTEMPTY", description="Is there a value in dwc:dataGeneralizations?")
-    @Provides("13d5a10e-188e-40fd-a22c-dbaa87b91df2")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/13d5a10e-188e-40fd-a22c-dbaa87b91df2/2022-05-16")
-    @Specification("POTENTIAL_ISSUE if dwc:dataGeneralizations is not EMPTY; otherwise NOT_ISSUE ")
-    public DQResponse<IssueValue> issueDatageneralizationsNotempty(@ActedUpon("dwc:dataGeneralizations") String dataGeneralizations) {
-        DQResponse<IssueValue> result = new DQResponse<IssueValue>();
-
-        //TODO:  Implement specification
-        // POTENTIAL_ISSUE if dwc:dataGeneralizations is not EMPTY; 
-        // otherwise NOT_ISSUE 
-
-        return result;
-    }
-
-    /**
      * Propose amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority that is attributable to a single valid country code.
      *
      * Provides: AMENDMENT_COUNTRYCODE_FROM_COORDINATES
@@ -504,32 +481,6 @@ public class DwCGeoRefDQ_stubs {
         //TODO: Parameters. This test is defined as parameterized.
         // bdq:defaultGeodeticDatum default value="EPSG:4326"
         
-        return result;
-    }
-
-
-    /**
-     * Is the value of dwc:coordinateUncertaintyInMeters a number between 1 and 20,037,509?
-     *
-     * Provides: VALIDATION_COORDINATEUNCERTAINTY_INRANGE
-     * Version: 2022-03-22
-     *
-     * @param coordinateUncertaintyInMeters the provided dwc:coordinateUncertaintyInMeters to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_COORDINATEUNCERTAINTY_INRANGE", description="Is the value of dwc:coordinateUncertaintyInMeters a number between 1 and 20,037,509?")
-    @Provides("c6adf2ea-3051-4498-97f4-4b2f8a105f57")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/c6adf2ea-3051-4498-97f4-4b2f8a105f57/2022-03-22")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:coordinateUncertaintyInMeters is EMPTY; COMPLIANT if the value of  dwc:coordinateUncertaintyInMeters can be interpreted as a number between 1 and 20037509 inclusive; otherwise NOT_COMPLIANT ")
-    public DQResponse<ComplianceValue> validationCoordinateuncertaintyInrange(@ActedUpon("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:coordinateUncertaintyInMeters 
-        // is EMPTY; COMPLIANT if the value of dwc:coordinateUncertaintyInMeters 
-        // can be interpreted as a number between 1 and 20037509 inclusive; 
-        // otherwise NOT_COMPLIANT 
-
         return result;
     }
 

@@ -360,6 +360,7 @@ public class DwCGeoRefDQDefinitionsTest {
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
+		assertNotNull(result.getComment());
 		
 		result = DwCGeoRefDQ.validationCoordinateuncertaintyInrange("a");
 		logger.debug(result.getComment());
@@ -370,13 +371,37 @@ public class DwCGeoRefDQDefinitionsTest {
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		assertNotNull(result.getComment());
+		
+		result = DwCGeoRefDQ.validationCoordinateuncertaintyInrange("1");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		assertNotNull(result.getComment());
+		
+		result = DwCGeoRefDQ.validationCoordinateuncertaintyInrange("20037509");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		assertNotNull(result.getComment());
 		
 		result = DwCGeoRefDQ.validationCoordinateuncertaintyInrange("0");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		assertNotNull(result.getComment());
 		
 		result = DwCGeoRefDQ.validationCoordinateuncertaintyInrange("20037510");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationCoordinateuncertaintyInrange("-1");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationCoordinateuncertaintyInrange(Integer.toString(Integer.MIN_VALUE));
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
