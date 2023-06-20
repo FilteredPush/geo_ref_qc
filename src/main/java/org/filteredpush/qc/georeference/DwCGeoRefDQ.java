@@ -22,20 +22,21 @@ import org.datakurator.ffdq.api.result.*;
  * 
  * Provides:
  * 
- * #20 VALIDATION_COUNTRYCODE_STANDARD 0493bcfb-652e-4d17-815b-b0cce0742fbe
+ * #20 	VALIDATION_COUNTRYCODE_STANDARD 0493bcfb-652e-4d17-815b-b0cce0742fbe
  * #187 VALIDATION_MAXDEPTH_INRANGE 3f1db29a-bfa5-40db-9fd1-fde020d81939
- * #42 VALIDATION_COUNTRY_NOTEMPTY 6ce2b2b4-6afe-4d13-82a0-390d31ade01c 
- * #98 VALIDATION_COUNTRYCODE_NOTEMPTY 853b79a2-b314-44a2-ae46-34a1e7ed85e4 
- * #119 VALIDATION_DECIMALLATITUDE_EMPTY 7d2485d5-1ba7-4f25-90cb-f4480ff1a275
- * #79 VALIDATION_DECIMALLATITUDE_INRANGE b6ecda2a-ce36-437a-b515-3ae94948fe83
- * #96 VALIDATION_DECIMALLONGITUDE_EMPTY 9beb9442-d942-4f42-8b6a-fcea01ee086a
- * #30 VALIDATION_DECIMALLONGITUDE_INRANGE 0949110d-c06b-450e-9649-7c1374d940d1
- * #87 VALIDATION_COORDINATES_NOTZERO 1bf0e210-6792-4128-b8cc-ab6828aa4871
- * #107 VALIDATION_MINDEPTH_INRANGE 04b2c8f3-c71b-4e95-8e43-f70374c5fb92
- * #112 VALIDATION_MAXELEVATION_INRANGE c971fe3f-84c1-4636-9f44-b1ec31fd63c7
- * #39 VALIDATION_MINELEVATION_INRANGE 0bb8297d-8f8a-42d2-80c1-558f29efe798
- * #108 VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION d708526b-6561-438e-aa1a-82cd80b06396
- * #109 VALIDATION_COORDINATEUNCERTAINTY_INRANGE c6adf2ea-3051-4498-97f4-4b2f8a105f57
+ * #24	VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH 8f1e6e58-544b-4365-a569-fb781341644e
+ * #42 	VALIDATION_COUNTRY_NOTEMPTY 6ce2b2b4-6afe-4d13-82a0-390d31ade01c 
+ * #98	VALIDATION_COUNTRYCODE_NOTEMPTY 853b79a2-b314-44a2-ae46-34a1e7ed85e4 
+ * #119	VALIDATION_DECIMALLATITUDE_EMPTY 7d2485d5-1ba7-4f25-90cb-f4480ff1a275
+ * #79	VALIDATION_DECIMALLATITUDE_INRANGE b6ecda2a-ce36-437a-b515-3ae94948fe83
+ * #96	VALIDATION_DECIMALLONGITUDE_EMPTY 9beb9442-d942-4f42-8b6a-fcea01ee086a
+ * #30	VALIDATION_DECIMALLONGITUDE_INRANGE 0949110d-c06b-450e-9649-7c1374d940d1
+ * #87	VALIDATION_COORDINATES_NOTZERO 1bf0e210-6792-4128-b8cc-ab6828aa4871
+ * #107	VALIDATION_MINDEPTH_INRANGE 04b2c8f3-c71b-4e95-8e43-f70374c5fb92
+ * #112	VALIDATION_MAXELEVATION_INRANGE c971fe3f-84c1-4636-9f44-b1ec31fd63c7
+ * #39	VALIDATION_MINELEVATION_INRANGE 0bb8297d-8f8a-42d2-80c1-558f29efe798
+ * #108	VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION d708526b-6561-438e-aa1a-82cd80b06396
+ * #109	VALIDATION_COORDINATEUNCERTAINTY_INRANGE c6adf2ea-3051-4498-97f4-4b2f8a105f57
  * #78	VALIDATION_GEODETICDATUM_NOTEMPTY 239ec40e-a729-4a8e-ba69-e0bf03ac1c44
  * #59	VALIDATION_GEODETICDATUM_STANDARD 7e0c0418-fe16-4a39-98bd-80e19d95b9d1
  * #40	VALIDATION_LOCATION_NOTEMPTY 58486cb6-1114-4a8a-ba1e-bd89cfe887e9
@@ -133,27 +134,34 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+    
     /**
+     * Is the value of dwc:minimumDepthInMeters a number that is less than or equal to the value of dwc:maximumDepthInMeters?
+     * 
      * #24 Validation SingleRecord Conformance: mindepth greaterthan maxdepth
      *
-     * Provides: VALIDATION_MINDEPTH_GREATERTHAN_MAXDEPTH
+     * Provides: VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH
+     * Version: 2022-03-22
      *
      * @param maximumDepthInMeters the provided dwc:maximumDepthInMeters to evaluate
      * @param minimumDepthInMeters the provided dwc:minimumDepthInMeters to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH", description="Is the value of dwc:minimumDepthInMeters a number that is less than or equal to the value of dwc:maximumDepthInMeters?")
     @Provides("8f1e6e58-544b-4365-a569-fb781341644e")
-    public static DQResponse<ComplianceValue> validationMindepthGreaterthanMaxdepth(
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/8f1e6e58-544b-4365-a569-fb781341644e/2022-03-22")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters or dwc:maximumDepthInMeters is EMPTY, or if either are interpretable as not zero or a positive number; COMPLIANT if the value of dwc:minimumDepthInMeters is less than or equal to the value of dwc:maximumDepthInMeters; otherwise NOT_COMPLIANT ")
+    public static DQResponse<ComplianceValue> validationMindepthLessthanMaxdepth(
     		@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters,
     		@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters 
-        // or dwc:maximumDepthInMeters is EMPTY, or the values are 
-        // not zero or a positive number; COMPLIANT if the value of 
-        // dwc:minimumDepthInMeters is less than or equal to the value 
-        // of dwc:maximumDepthInMeters; otherwise NOT_COMPLIANT 
+        // or dwc:maximumDepthInMeters is EMPTY, or if either are interpretable 
+        // as not zero or a positive number; COMPLIANT if the value 
+        // of dwc:minimumDepthInMeters is less than or equal to the 
+        // value of dwc:maximumDepthInMeters; otherwise NOT_COMPLIANT 
 
         if (GEOUtil.isEmpty(maximumDepthInMeters)) { 
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);

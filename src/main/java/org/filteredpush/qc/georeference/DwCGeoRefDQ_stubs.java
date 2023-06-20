@@ -41,33 +41,6 @@ public class DwCGeoRefDQ_stubs {
         return result;
     }
 
-    /**
-     * Is the value of dwc:minimumDepthInMeters a number that is less than or equal to the value of dwc:maximumDepthInMeters?
-     *
-     * Provides: VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH
-     * Version: 2022-03-22
-     *
-     * @param maximumDepthInMeters the provided dwc:maximumDepthInMeters to evaluate
-     * @param minimumDepthInMeters the provided dwc:minimumDepthInMeters to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH", description="Is the value of dwc:minimumDepthInMeters a number that is less than or equal to the value of dwc:maximumDepthInMeters?")
-    @Provides("8f1e6e58-544b-4365-a569-fb781341644e")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/8f1e6e58-544b-4365-a569-fb781341644e/2022-03-22")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters or dwc:maximumDepthInMeters is EMPTY, or if either are interpretable as not zero or a positive number; COMPLIANT if the value of dwc:minimumDepthInMeters is less than or equal to the value of dwc:maximumDepthInMeters; otherwise NOT_COMPLIANT ")
-    public DQResponse<ComplianceValue> validationMindepthLessthanMaxdepth(@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters, @ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters 
-        // or dwc:maximumDepthInMeters is EMPTY, or if either are interpretable 
-        // as not zero or a positive number; COMPLIANT if the value 
-        // of dwc:minimumDepthInMeters is less than or equal to the 
-        // value of dwc:maximumDepthInMeters; otherwise NOT_COMPLIANT 
-        // 
-
-        return result;
-    }
 
     /**
      * Propose amendment to the values of dwc:decimalLatitude and dwc:decimalLongitude from information in the verbatim coordinates terms.

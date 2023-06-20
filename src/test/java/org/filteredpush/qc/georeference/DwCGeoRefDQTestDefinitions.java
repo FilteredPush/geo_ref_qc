@@ -46,7 +46,7 @@ public class DwCGeoRefDQTestDefinitions {
 	}
 
 	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationMindepthGreaterthanMaxdepth(java.lang.String, java.lang.String)}.
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationMindepthLessthanMaxdepth(java.lang.String, java.lang.String)}.
 	 */
 	@Test
 	public void testValidationMindepthGreaterthanMaxdepth() {
@@ -58,27 +58,27 @@ public class DwCGeoRefDQTestDefinitions {
         // dwc:minimumDepthInMeters is less than or equal to the value 
         // of dwc:maximumDepthInMeters; otherwise NOT_COMPLIANT 
 		
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationMindepthGreaterthanMaxdepth(null,null);
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationMindepthLessthanMaxdepth(null,null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
 		
-		result = DwCGeoRefDQ.validationMindepthGreaterthanMaxdepth("a","10");
+		result = DwCGeoRefDQ.validationMindepthLessthanMaxdepth("a","10");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
 		
-		result = DwCGeoRefDQ.validationMindepthGreaterthanMaxdepth("-1","10");
+		result = DwCGeoRefDQ.validationMindepthLessthanMaxdepth("-1","10");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());		
 		
-		result = DwCGeoRefDQ.validationMindepthGreaterthanMaxdepth("10","100");
+		result = DwCGeoRefDQ.validationMindepthLessthanMaxdepth("10","100");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationMindepthGreaterthanMaxdepth("100","10");
+		result = DwCGeoRefDQ.validationMindepthLessthanMaxdepth("100","10");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
