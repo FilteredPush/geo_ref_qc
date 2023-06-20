@@ -195,117 +195,122 @@ public class DwCGeoRefDQTestDefinitions {
 	}
 
 	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationLocationEmpty(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationLocationNotempty(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 */
 	@Test
-	public void testValidationLocationEmpty() {
+	public void testValidationLocationNotempty() {
 		
         // Specification
         // COMPLIANT if at least one term needed to determine the location 
         // of the entity exists and is not EMPTY; otherwise NOT_COMPLIANT 
         //
 		
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty("foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty("foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null, null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null);
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo", null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationLocationEmpty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo");
+		result = DwCGeoRefDQ.validationLocationNotempty(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "foo");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationLocationNotempty("A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "foo");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());

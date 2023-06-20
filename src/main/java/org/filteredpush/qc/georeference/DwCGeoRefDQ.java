@@ -38,6 +38,7 @@ import org.datakurator.ffdq.api.result.*;
  * #109 VALIDATION_COORDINATEUNCERTAINTY_INRANGE c6adf2ea-3051-4498-97f4-4b2f8a105f57
  * #78	VALIDATION_GEODETICDATUM_NOTEMPTY 239ec40e-a729-4a8e-ba69-e0bf03ac1c44
  * #59	VALIDATION_GEODETICDATUM_STANDARD 7e0c0418-fe16-4a39-98bd-80e19d95b9d1
+ * #40	VALIDATION_LOCATION_NOTEMPTY 58486cb6-1114-4a8a-ba1e-bd89cfe887e9
  * 
  * 
  * #102 AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT 7498ca76-c4d4-42e2-8103-acacccbdffa7
@@ -353,8 +354,13 @@ public class DwCGeoRefDQ{
     }
 
     /**
+     * Is there a value in any of the Darwin Core spatial terms that could specify a location?
+     * 
      * #40 Validation SingleRecord Completeness: location empty
      *
+     * Provides: VALIDATION_LOCATION_NOTEMPTY
+     * Version: 2022-03-22
+     * 
      * Provides: VALIDATION_LOCATION_EMPTY
      *
      * @param higherGeography the provided dwc:higherGeography to evaluate
@@ -379,8 +385,11 @@ public class DwCGeoRefDQ{
      * @param footprintWKT the provided dwc:footprintWKT to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_LOCATION_NOTEMPTY", description="Is there a value in any of the Darwin Core spatial terms that could specify a location?")
     @Provides("58486cb6-1114-4a8a-ba1e-bd89cfe887e9")
-    public static DQResponse<ComplianceValue> validationLocationEmpty(
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/58486cb6-1114-4a8a-ba1e-bd89cfe887e9/2022-03-22")
+    @Specification("COMPLIANT if at least one term needed to determine the location of the entity exists and is not EMPTY; otherwise NOT_COMPLIANT ")
+    public static DQResponse<ComplianceValue> validationLocationNotempty(
     		@ActedUpon("dwc:higherGeography") String higherGeography, 
     		@ActedUpon("dwc:higherGeographyID") String higherGeographyID, 
     		@ActedUpon("dwc:continent") String continent, 

@@ -134,48 +134,6 @@ public class DwCGeoRefDQ_stubs {
         return result;
     }
 
-    /**
-     * Is there a value in any of the Darwin Core spatial terms that could specify a location?
-     *
-     * Provides: VALIDATION_LOCATION_NOTEMPTY
-     * Version: 2022-03-22
-     *
-     * @param continent the provided dwc:continent to evaluate
-     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
-     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
-     * @param waterBody the provided dwc:waterBody to evaluate
-     * @param islandGroup the provided dwc:islandGroup to evaluate
-     * @param verbatimLocality the provided dwc:verbatimLocality to evaluate
-     * @param higherGeography the provided dwc:higherGeography to evaluate
-     * @param country the provided dwc:country to evaluate
-     * @param municipality the provided dwc:municipality to evaluate
-     * @param verbatimLatitude the provided dwc:verbatimLatitude to evaluate
-     * @param locality the provided dwc:locality to evaluate
-     * @param locationID the provided dwc:locationID to evaluate
-     * @param island the provided dwc:island to evaluate
-     * @param county the provided dwc:county to evaluate
-     * @param verbatimCoordinates the provided dwc:verbatimCoordinates to evaluate
-     * @param verbatimLongitude the provided dwc:verbatimLongitude to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
-     * @param stateProvince the provided dwc:stateProvince to evaluate
-     * @param footprintWKT the provided dwc:footprintWKT to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_LOCATION_NOTEMPTY", description="Is there a value in any of the Darwin Core spatial terms that could specify a location?")
-    @Provides("58486cb6-1114-4a8a-ba1e-bd89cfe887e9")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/58486cb6-1114-4a8a-ba1e-bd89cfe887e9/2022-03-22")
-    @Specification("COMPLIANT if at least one term needed to determine the location of the entity exists and is not EMPTY; otherwise NOT_COMPLIANT ")
-    public DQResponse<ComplianceValue> validationLocationNotempty(@ActedUpon("dwc:continent") String continent, @ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude, @ActedUpon("dwc:waterBody") String waterBody, @ActedUpon("dwc:islandGroup") String islandGroup, @ActedUpon("dwc:verbatimLocality") String verbatimLocality, @ActedUpon("dwc:higherGeography") String higherGeography, @ActedUpon("dwc:country") String country, @ActedUpon("dwc:municipality") String municipality, @ActedUpon("dwc:verbatimLatitude") String verbatimLatitude, @ActedUpon("dwc:locality") String locality, @ActedUpon("dwc:locationID") String locationID, @ActedUpon("dwc:island") String island, @ActedUpon("dwc:county") String county, @ActedUpon("dwc:verbatimCoordinates") String verbatimCoordinates, @ActedUpon("dwc:verbatimLongitude") String verbatimLongitude, @ActedUpon("dwc:countryCode") String countryCode, @ActedUpon("dwc:higherGeographyID") String higherGeographyID, @ActedUpon("dwc:stateProvince") String stateProvince, @ActedUpon("dwc:footprintWKT") String footprintWKT) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // COMPLIANT if at least one term needed to determine the location 
-        // of the entity exists and is not EMPTY; otherwise NOT_COMPLIANT 
-        // 
-
-        return result;
-    }
 
     /**
      * Propose amendment to the value of dwc:geodeticDatum and potentially to dwc:decimalLatitude and/or dwc:decimalLongitude based on a conversion between spatial reference systems.
@@ -416,33 +374,6 @@ public class DwCGeoRefDQ_stubs {
         return result;
     }
 
-    /**
-     * Does the value of dwc:geodeticDatum occur in bdq:sourceAuthority?
-     *
-     * Provides: VALIDATION_GEODETICDATUM_STANDARD
-     * Version: 2022-03-22
-     *
-     * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_GEODETICDATUM_STANDARD", description="Does the value of dwc:geodeticDatum occur in bdq:sourceAuthority?")
-    @Provides("7e0c0418-fe16-4a39-98bd-80e19d95b9d1")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/7e0c0418-fe16-4a39-98bd-80e19d95b9d1/2022-03-22")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available, INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is EMPTY; COMPLIANT if the value of dwc:geodeticDatum is a valid EPSG CRS Code (with or without the 'epsg' namespace prepended), or an unambiguous alphanumeric CRS or datum code; otherwise NOT_COMPLIANT bdq:sourceAuthority is 'epsg' [https://epsg.io]")
-    public DQResponse<ComplianceValue> validationGeodeticdatumStandard(@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // is not available, INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum 
-        // is EMPTY; COMPLIANT if the value of dwc:geodeticDatum is 
-        // a valid EPSG CRS Code (with or without the "epsg" namespace 
-        // prepended), or an unambiguous alphanumeric CRS or datum 
-        // code; otherwise NOT_COMPLIANT bdq:sourceAuthority is "epsg" 
-        // [https://epsg.io] 
-
-        return result;
-    }
 
     /**
      * Propose amendment to the value of dwc:geodeticDatum using bdq:sourceAuthority.
