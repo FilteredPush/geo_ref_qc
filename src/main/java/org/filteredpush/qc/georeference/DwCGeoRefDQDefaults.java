@@ -123,4 +123,23 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     	return DwCGeoRefDQ.validationMinelevationInrange(minimumElevationInMeters, -430d, 8850d);
     }
     
+    /**
+     * Does the value of dwc:country occur in bdq:sourceAuthority?  Using the default source authority "The Getty Thesaurus of Geographic Names (TGN)"
+     * 
+     * #21 Validation SingleRecord Conformance: country notstandard
+     *
+     * Provides: VALIDATION_COUNTRY_FOUND
+     * Version: 2022-08-29
+     *
+     * @param country the provided dwc:country to evaluate
+     * @return DQResponse the response of type ComplianceValue  to return
+     */
+    @Validation(label="VALIDATION_COUNTRY_FOUND", description="Does the value of dwc:country occur in bdq:sourceAuthority?")
+    @Provides("69b2efdc-6269-45a4-aecb-4cb99c2yyae134")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2022-08-29")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:country was EMPTY; COMPLIANT if value of dwc:country is a place type equivalent to 'nation' by the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]")
+    public static DQResponse<ComplianceValue> validationCountryFound(@ActedUpon("dwc:country") String country) { 
+    	return DwCGeoRefDQ.validationCountryFound(country, "The Getty Thesaurus of Geographic Names (TGN)");
+    }
+    
 }

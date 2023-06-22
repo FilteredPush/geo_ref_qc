@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.NavigableSet;
 
 import org.apache.commons.logging.Log;
@@ -398,7 +399,7 @@ public class CountryLookup {
 	 * @param countryCode for which to look up the country name
 	 * @return country name or null if no match was found
 	 */
-	public static String lookupCountry(String countryCode) {
+	public static String lookupCountryFromCode(String countryCode) {
 		if (countries==null) { 
 			cl = new CountryLookup();
 		}
@@ -412,4 +413,14 @@ public class CountryLookup {
 		return result;
 	}
 	
+	public static boolean countryExists(String countryName) { 
+		boolean retval = false;
+		if (countries==null) { 
+			cl = new CountryLookup();
+		}
+		if (countries.containsValue(countryName)) { 
+			retval = true;
+		}
+		return retval;
+	}
 }

@@ -41,8 +41,38 @@ public class DwCGeoRefDQTestDefinitions {
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountryNotstandard(java.lang.String)}.
 	 */
 	@Test
-	public void testValidationCountryNotstandard() {
-		fail("Not yet implemented");
+	public void testValidationCountryFound() {
+		
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountryFound(null,"datahub.io");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertNull(result.getValue());
+		assertNotNull(result.getComment());
+		
+		result = DwCGeoRefDQ.validationCountryFound("Uganda","datahub.io");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		assertNotNull(result.getComment());
+		
+		result = DwCGeoRefDQ.validationCountryFound("dwc:country","datahub.io");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		assertNotNull(result.getComment());
+		
+		result = DwCGeoRefDQ.validationCountryFound("Uganda","NaturalEarth");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		assertNotNull(result.getComment());
+		
+		result = DwCGeoRefDQ.validationCountryFound("dwc:country","NaturalEarth");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		assertNotNull(result.getComment());
+		
 	}
 
 	/**

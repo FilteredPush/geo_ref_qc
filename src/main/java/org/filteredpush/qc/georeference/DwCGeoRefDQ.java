@@ -10,7 +10,11 @@ import org.apache.commons.logging.LogFactory;
 import org.datakurator.ffdq.annotations.*;
 import org.datakurator.ffdq.api.DQResponse;
 import org.datakurator.ffdq.model.ResultState;
+import org.filteredpush.qc.georeference.util.CountryLookup;
 import org.filteredpush.qc.georeference.util.GEOUtil;
+import org.filteredpush.qc.georeference.util.GeoRefCacheValue;
+import org.filteredpush.qc.georeference.util.GeoUtilSingleton;
+import org.filteredpush.qc.georeference.util.GettyCountryLookup;
 import org.filteredpush.qc.georeference.util.TransformationStruct;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.operation.TransformException;
@@ -26,6 +30,7 @@ import org.datakurator.ffdq.api.result.*;
  * #187 VALIDATION_MAXDEPTH_INRANGE 3f1db29a-bfa5-40db-9fd1-fde020d81939
  * #24	VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH 8f1e6e58-544b-4365-a569-fb781341644e
  * #42 	VALIDATION_COUNTRY_NOTEMPTY 6ce2b2b4-6afe-4d13-82a0-390d31ade01c 
+ * #21	VALIDATION_COUNTRY_FOUND 69b2efdc-6269-45a4-aecb-4cb99c2yyae134
  * #98	VALIDATION_COUNTRYCODE_NOTEMPTY 853b79a2-b314-44a2-ae46-34a1e7ed85e4 
  * #119	VALIDATION_DECIMALLATITUDE_EMPTY 7d2485d5-1ba7-4f25-90cb-f4480ff1a275
  * #79	VALIDATION_DECIMALLATITUDE_INRANGE b6ecda2a-ce36-437a-b515-3ae94948fe83
@@ -108,29 +113,102 @@ public class DwCGeoRefDQ{
 
         return result;
     }
-
+    
     /**
+     * Does the value of dwc:country occur in bdq:sourceAuthority?
+     * 
      * #21 Validation SingleRecord Conformance: country notstandard
      *
-     * Provides: VALIDATION_COUNTRY_NOTSTANDARD
+     * Provides: VALIDATION_COUNTRY_FOUND
+     * Version: 2022-08-29
      *
      * @param country the provided dwc:country to evaluate
+     * @param sourceAuthority the source authority to consult, if null uses ""The Getty Thesaurus of Geographic Names (TGN)", 
+     * 	additional supported values for sourceAuthority are "NaturalEarth" and "datahub.io".
      * @return DQResponse the response of type ComplianceValue  to return
      */
-    @Provides("69b2efdc-6269-45a4-aecb-4cb99c2ae134")
-    public DQResponse<ComplianceValue> validationCountryNotstandard(@ActedUpon("dwc:country") String country) {
+    @Validation(label="VALIDATION_COUNTRY_FOUND", description="Does the value of dwc:country occur in bdq:sourceAuthority?")
+    @Provides("69b2efdc-6269-45a4-aecb-4cb99c2yyae134")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2022-08-29")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:country was EMPTY; COMPLIANT if value of dwc:country is a place type equivalent to 'nation' by the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]")
+    public static DQResponse<ComplianceValue> validationCountryFound(@ActedUpon("dwc:country") String country,
+    		@Parameter(name="bdq:sourceAuthority") String sourceAuthority
+    		) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // service was not available; INTERNAL_PREREQUISITES_NOT_MET 
-        // if dwc:country was EMPTY; COMPLIANT if value of dwc:country 
-        // is a place type equivalent to "nation" by the bdq:sourceAuthority 
-        //service; otherwise NOT_COMPLIANT 
+        // is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:country 
+        // was EMPTY; COMPLIANT if value of dwc:country is a place 
+        // type equivalent to "nation" by the bdq:sourceAuthority; 
+        // otherwise NOT_COMPLIANT 
+        // 
 
-        //TODO: Parameters. This test is defined as parameterized.
+        // Parameters; This test is defined as parameterized.
         // bdq:sourceAuthority
+        // default = "The Getty Thesaurus of Geographic Names (TGN)" [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]
+        
+        if (sourceAuthority==null) { 
+        	sourceAuthority = "The Getty Thesaurus of Geographic Names (TGN)";
+        }
 
+        if (GEOUtil.isEmpty(country)) { 
+        	result.addComment("dwc:country is empty");
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        } else { 
+        	if (sourceAuthority.equalsIgnoreCase("The Getty Thesaurus of Geographic Names (TGN)")) {
+        		Boolean cached = GeoUtilSingleton.getInstance().getTgnCountriesEntry(country);
+        		if (cached!=null) { 
+        			if (cached) {
+        				result.addComment("the value provided for dwc:country [" + country + "] exists as a nation in the Getty Thesaurus of Geographic Names (TGN).");
+        				result.setResultState(ResultState.RUN_HAS_RESULT);
+        				result.setValue(ComplianceValue.COMPLIANT);
+        			} else { 
+        				result.addComment("the value provided for dwc:country [" + country + "] is not a nation in the Getty Thesaurus of Geographic Names (TGN).");
+        				result.setResultState(ResultState.RUN_HAS_RESULT);
+        				result.setValue(ComplianceValue.NOT_COMPLIANT);
+        			}
+        		}
+        		GettyCountryLookup lookup = new GettyCountryLookup();
+        		if (lookup.lookupCountryExact(country)==null) { 
+        			result.addComment("Error looking up country in " + sourceAuthority);
+        			result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        		} else if (lookup.lookupCountry(country)) { 
+        			result.addComment("the value provided for dwc:country [" + country + "] exists as a nation in the Getty Thesaurus of Geographic Names (TGN).");
+        			result.setResultState(ResultState.RUN_HAS_RESULT);
+        			result.setValue(ComplianceValue.COMPLIANT);
+        			GeoUtilSingleton.getInstance().addTgnCountry(country, true);
+        		} else { 
+        			result.addComment("the value provided for dwc:country [" + country + "] is not a nation in the Getty Thesaurus of Geographic Names (TGN).");
+        			result.setResultState(ResultState.RUN_HAS_RESULT);
+        			result.setValue(ComplianceValue.NOT_COMPLIANT);
+        			GeoUtilSingleton.getInstance().addTgnCountry(country, false);
+        		}
+        	} else if (sourceAuthority.equalsIgnoreCase("NaturalEarth")) {
+        		if (GEOUtil.isCountryKnown(country)) {
+        			result.addComment("the value provided for dwc:country [" + country + "] exists as a country name in the NaturalEarth admin regions.");
+        			result.setResultState(ResultState.RUN_HAS_RESULT);
+        			result.setValue(ComplianceValue.COMPLIANT);
+        		} else { 
+        			result.addComment("the value provided for dwc:country [" + country + "] is not a country name in the NaturalEarth admin regions.");
+        			result.setResultState(ResultState.RUN_HAS_RESULT);
+        			result.setValue(ComplianceValue.NOT_COMPLIANT);
+        		}
+        	} else if (sourceAuthority.equalsIgnoreCase("datahub.io")) {
+        		if (CountryLookup.countryExists(country)) { 
+        			result.addComment("the value provided for dwc:country [" + country + "] exists as a country name in the datahub.io list of countries.");
+        			result.setResultState(ResultState.RUN_HAS_RESULT);
+        			result.setValue(ComplianceValue.COMPLIANT);
+        		} else { 
+        			result.addComment("the value provided for dwc:country [" + country + "] is not a country name in the datahub.io list of countries.");
+        			result.setResultState(ResultState.RUN_HAS_RESULT);
+        			result.setValue(ComplianceValue.NOT_COMPLIANT);
+        		}
+        	} else { 
+        		result.addComment("Unknown bdq:sourceAuthority");
+        		result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        	}
+        }
         return result;
     }
 

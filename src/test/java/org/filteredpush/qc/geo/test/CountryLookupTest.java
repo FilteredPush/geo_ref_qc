@@ -16,14 +16,21 @@ public class CountryLookupTest {
 
 	@Test
 	public void test() {
-		assertEquals("Afghanistan", CountryLookup.lookupCountry("AF"));
-		assertEquals("Falkland Islands", CountryLookup.lookupCountry("FK"));
-		assertEquals("Falkland Islands", CountryLookup.lookupCountry("FLK"));
-		assertEquals("Falkland Islands", CountryLookup.lookupCountry("238"));
-		assertEquals("Vietnam", CountryLookup.lookupCountry("VN"));
-		assertNull(CountryLookup.lookupCountry(null));
-		assertNull(CountryLookup.lookupCountry("United States"));
-		assertNull(CountryLookup.lookupCountry("ZZZZ"));
+		assertEquals("Afghanistan", CountryLookup.lookupCountryFromCode("AF"));
+		assertEquals("Falkland Islands", CountryLookup.lookupCountryFromCode("FK"));
+		assertEquals("Falkland Islands", CountryLookup.lookupCountryFromCode("FLK"));
+		assertEquals("Falkland Islands", CountryLookup.lookupCountryFromCode("238"));
+		assertEquals("Vietnam", CountryLookup.lookupCountryFromCode("VN"));
+		assertNull(CountryLookup.lookupCountryFromCode(null));
+		assertNull(CountryLookup.lookupCountryFromCode("United States"));
+		assertNull(CountryLookup.lookupCountryFromCode("ZZZZ"));
+	}
+	
+	@Test
+	public void testCountryName() { 
+		assertTrue(CountryLookup.countryExists("Uganda"));
+		assertFalse(CountryLookup.countryExists("UG"));
+		assertFalse(CountryLookup.countryExists("dwc:country"));
 	}
 
 }
