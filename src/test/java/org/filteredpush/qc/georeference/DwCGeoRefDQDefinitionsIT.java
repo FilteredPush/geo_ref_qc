@@ -59,6 +59,12 @@ public class DwCGeoRefDQDefinitionsIT {
 		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
 		assertNotNull(result.getComment());
 		
+		// check name with spaces
+		result = DwCGeoRefDQ.validationCountryFound("Central African Republic","The Getty Thesaurus of Geographic Names (TGN)");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		assertNotNull(result.getComment());
 		
 	}
 	

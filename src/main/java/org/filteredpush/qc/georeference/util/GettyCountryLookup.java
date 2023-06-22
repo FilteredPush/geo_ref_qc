@@ -12,6 +12,7 @@ import java.net.URL;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.emf.common.util.URI;
 
 import edu.getty.tgn.objects.Vocabulary;
 import jakarta.xml.bind.JAXBContext;
@@ -44,7 +45,8 @@ public class GettyCountryLookup {
 
 		StringBuilder request = new StringBuilder();
 		request.append(baseURI);
-		request.append("name=").append(country);
+		String countryEncoded = URI.encodeFragment(country, false);
+		request.append("name=").append(countryEncoded);
 		request.append("&placetypeid=").append(sovereignNationPlaceTypeID);
 		request.append("&nationid=").append("");
 		logger.debug(request.toString());
@@ -92,7 +94,8 @@ public class GettyCountryLookup {
 
 		StringBuilder request = new StringBuilder();
 		request.append(baseURI);
-		request.append("name=").append(country);
+		String countryEncoded = URI.encodeFragment(country, false);
+		request.append("name=").append(countryEncoded);
 		request.append("&placetypeid=").append(sovereignNationPlaceTypeID);
 		request.append("&nationid=").append("");
 		logger.debug(request.toString());
