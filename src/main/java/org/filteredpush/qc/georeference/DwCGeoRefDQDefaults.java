@@ -135,7 +135,7 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_COUNTRY_FOUND", description="Does the value of dwc:country occur in bdq:sourceAuthority?")
-    @Provides("69b2efdc-6269-45a4-aecb-4cb99c2yyae134")
+    @Provides("69b2efdc-6269-45a4-aecb-4cb99c2ae134")
     @ProvidesVersion("https://rs.tdwg.org/bdq/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2022-08-29")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:country was EMPTY; COMPLIANT if value of dwc:country is a place type equivalent to 'nation' by the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]")
     public static DQResponse<ComplianceValue> validationCountryFound(@ActedUpon("dwc:country") String country) { 
