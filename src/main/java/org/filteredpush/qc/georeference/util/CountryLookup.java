@@ -424,6 +424,11 @@ public class CountryLookup {
 		return retval;
 	}
 	
+	/**
+	 * 
+	 * @param countryName
+	 * @return
+	 */
 	public static Boolean countryExistsGettyNation(String countryName) { 
 		Boolean retval = false;
 		
