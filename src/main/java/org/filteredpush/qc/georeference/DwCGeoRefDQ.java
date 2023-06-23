@@ -173,7 +173,7 @@ public class DwCGeoRefDQ{
         		if (lookup.lookupCountryExact(country)==null) { 
         			result.addComment("Error looking up country in " + sourceAuthority);
         			result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
-        		} else if (lookup.lookupCountry(country)) { 
+        		} else if (lookup.lookupCountryExact(country)) { 
         			result.addComment("the value provided for dwc:country [" + country + "] exists as a nation in the Getty Thesaurus of Geographic Names (TGN).");
         			result.setResultState(ResultState.RUN_HAS_RESULT);
         			result.setValue(ComplianceValue.COMPLIANT);
@@ -195,7 +195,7 @@ public class DwCGeoRefDQ{
         			result.setValue(ComplianceValue.NOT_COMPLIANT);
         		}
         	} else if (sourceAuthority.equalsIgnoreCase("datahub.io")) {
-        		if (CountryLookup.countryExists(country)) { 
+        		if (CountryLookup.countryExistsHasCode(country)) { 
         			result.addComment("the value provided for dwc:country [" + country + "] exists as a country name in the datahub.io list of countries.");
         			result.setResultState(ResultState.RUN_HAS_RESULT);
         			result.setValue(ComplianceValue.COMPLIANT);

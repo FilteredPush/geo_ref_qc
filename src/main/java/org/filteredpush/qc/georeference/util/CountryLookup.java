@@ -413,7 +413,7 @@ public class CountryLookup {
 		return result;
 	}
 	
-	public static boolean countryExists(String countryName) { 
+	public static boolean countryExistsHasCode(String countryName) { 
 		boolean retval = false;
 		if (countries==null) { 
 			cl = new CountryLookup();
@@ -423,4 +423,13 @@ public class CountryLookup {
 		}
 		return retval;
 	}
+	
+	public static Boolean countryExistsGettyNation(String countryName) { 
+		Boolean retval = false;
+		
+		GeoUtilSingleton.getInstance().isTgnNation(countryName);
+		
+		return retval;
+	}
+	
 }

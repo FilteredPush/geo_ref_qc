@@ -3,11 +3,17 @@
  */
 package org.filteredpush.qc.georeference.util;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import edu.getty.tgn.service.TGNWebServices;
 
 /**
  * @author mole
@@ -20,6 +26,8 @@ public class GeoUtilSingleton {
 	private static final GeoUtilSingleton instance = new GeoUtilSingleton();
 	private Map<String,Boolean> tgnCountries;
 	
+	private Map<String,String> tgnNations;
+	
 	
 	private GeoUtilSingleton() { 
 		init();
@@ -27,6 +35,7 @@ public class GeoUtilSingleton {
 	
 	private void init() { 
 		tgnCountries = new HashMap<String,Boolean>();
+		tgnNations = new HashMap<String,String>();
 	}
 	
 	public static synchronized GeoUtilSingleton getInstance() {
@@ -62,6 +71,38 @@ public class GeoUtilSingleton {
 		if (match!=null) { 
 			tgnCountries.put(country, match);
 		}
+	}
+	
+	/** 
+	 * Check provided country against the TGN list of nations, obtained and cached from the TGNGetNations service.
+	 * 
+	 * @param country to check
+	 * 
+	 * @return true if country is an exact match to a value in the TGNGetNations list, false if not, null if 
+	 *   obtaining the list results in an exception.
+	 */
+	public Boolean isTgnNation(String country) { 
+		Boolean retval = false;
+		if (tgnNations.size()==0) { 
+	    	TGNWebServices tgn = new TGNWebServices();
+	    	try {
+				edu.getty.tgn.service.ArrayOfListResults serviceReturn = tgn.getTGNWebServicesSoap().tgnGetNations("", "");
+				List<edu.getty.tgn.service.ListResults> retList =  serviceReturn.getListResults();
+				Iterator<edu.getty.tgn.service.ListResults> i = retList.iterator();
+				while (i.hasNext()) { 
+					edu.getty.tgn.service.ListResults row = i.next();
+					tgnNations.put(row.getListValue(), row.getListId());
+				}
+			} catch (Exception e) {
+				retval = null;
+				logger.debug(e.getMessage(),e);
+			}
+		} 
+		if (retval!=null) { 
+			retval = tgnNations.containsKey(country);
+		}
+		
+		return retval;
 	}
 	
 }

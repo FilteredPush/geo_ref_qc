@@ -28,9 +28,9 @@ public class CountryLookupTest {
 	
 	@Test
 	public void testCountryName() { 
-		assertTrue(CountryLookup.countryExists("Uganda"));
-		assertFalse(CountryLookup.countryExists("UG"));
-		assertFalse(CountryLookup.countryExists("dwc:country"));
+		assertTrue(CountryLookup.countryExistsHasCode("Uganda"));
+		assertFalse(CountryLookup.countryExistsHasCode("UG"));
+		assertFalse(CountryLookup.countryExistsHasCode("dwc:country"));
 	}
 
 }

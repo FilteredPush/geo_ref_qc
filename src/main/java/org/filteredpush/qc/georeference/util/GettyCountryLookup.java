@@ -110,10 +110,12 @@ public class GettyCountryLookup {
 			System.out.println(response.getCount());
 			if (response.getCount().compareTo(BigInteger.ONE)==0) { 
 				String preferredTerm = response.getSubject().get(0).getPreferredTerm().getValue();
-				if (country.equals(preferredTerm.replaceAll("\\([A-Za-z ]+\\)$", "").trim())) { 
-					retval = false;
-				} else {
+				String cleanedPreferredTerm = preferredTerm.replaceAll("\\([A-Za-z ]+\\)$", "").trim();
+				System.out.println(cleanedPreferredTerm);
+				if (country.equals(cleanedPreferredTerm)) { 
 					retval = true;
+				} else {
+					retval = false;
 				}
 			} else { 
 				retval = false;
