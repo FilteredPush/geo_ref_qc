@@ -1113,7 +1113,7 @@ public class DwCGeoRefDQ{
      * Are the values of either dwc:decimalLatitude or dwc:decimalLongitude numbers that are not equal to 0?
      *
      * Provides: #87 VALIDATION_COORDINATES_NOTZERO
-     * Version: 2022-05-22
+     * Version: 2023-06-20
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
@@ -1121,17 +1121,18 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_COORDINATES_NOTZERO", description="Are the values of either dwc:decimalLatitude or dwc:decimalLongitude numbers that are not equal to 0?")
     @Provides("1bf0e210-6792-4128-b8cc-ab6828aa4871")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/1bf0e210-6792-4128-b8cc-ab6828aa4871/2022-05-22")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude and/or dwc:decimalLongitude are EMPTY or both of the values are not interpretable as numbers; COMPLIANT if either the value of dwc:decimalLatitude is not = 0 or the value of dwc:decimalLongitude is not = 0; otherwise NOT_COMPLIANT ")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/1bf0e210-6792-4128-b8cc-ab6828aa4871/2023-06-20")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is EMPTY or is not interpretable as a number, or dwc:decimalLongitude is EMPTY or is not interpretable as a number; COMPLIANT if either the value of dwc:decimalLatitude is not = 0 or the value of dwc:decimalLongitude is not = 0; otherwise NOT_COMPLIANT ")
     public static DQResponse<ComplianceValue> validationCoordinatesNotzero(@ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude and/or 
-        // dwc:decimalLongitude are EMPTY or both of the values are 
-        // not interpretable as numbers; COMPLIANT if either the value 
-        // of dwc:decimalLatitude is not = 0 or the value of dwc:decimalLongitude 
-        // is not = 0; otherwise NOT_COMPLIANT 
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is 
+        // EMPTY or is not interpretable as a number, or dwc:decimalLongitude 
+        // is EMPTY or is not interpretable as a number; COMPLIANT 
+        // if either the value of dwc:decimalLatitude is not = 0 or 
+        // the value of dwc:decimalLongitude is not = 0; otherwise 
+        // NOT_COMPLIANT 
         
     	if (GEOUtil.isEmpty(decimalLatitude)) { 
     		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
@@ -1142,10 +1143,12 @@ public class DwCGeoRefDQ{
     	} else if (GEOUtil.isEmpty(decimalLongitude)) { 
     		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
     		result.addComment("provided value for dwc:decimalLongitude is empty.");
-    	} else if (!GEOUtil.isNumericCharacters(decimalLatitude) && !GEOUtil.isNumericCharacters(decimalLongitude)) { 
-    		// internal prerequisites not met only if both are not numbers
+    	} else if (!GEOUtil.isNumericCharacters(decimalLatitude)) { 
     		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
-    		result.addComment("provided value for dwc:decimalLatitude ["+decimalLatitude+"] and dwc:decimalLongitude ["+decimalLatitude+"] both contain non-numeric characters.");
+    		result.addComment("provided value for dwc:decimalLatitude ["+decimalLatitude+"] contains non-numeric characters.");
+    	} else if (!GEOUtil.isNumericCharacters(decimalLongitude)) { 
+    		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+    		result.addComment("provided value for dwc:decimalLongitude ["+decimalLongitude+"] contains non-numeric characters.");
     	} else {
     		// internal prerequisites not met only if both are not numbers, if one is, set it to 1 and test the other for zero.
     		if (!GEOUtil.isNumericCharacters(decimalLongitude)) { 
@@ -1949,6 +1952,5 @@ public class DwCGeoRefDQ{
 // TODO: Implementation of VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdq/terms/b23110e7-1be7-444a-a677-cdee0cf4330c/2022-05-02 see line: 948
 // TODO: Implementation of AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2023-02-27 see line: 977
 // TODO: Implementation of AMENDMENT_COUNTRYCODE_FROM_COORDINATES is not up to date with current version: https://rs.tdwg.org/bdq/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2022-05-02 see line: 1004
-// TODO: Implementation of VALIDATION_COORDINATES_NOTZERO is not up to date with current version: https://rs.tdwg.org/bdq/terms/1bf0e210-6792-4128-b8cc-ab6828aa4871/2023-06-20 see line: 1123
 // TODO: Implementation of AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT is not up to date with current version: https://rs.tdwg.org/bdq/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2023-06-23 see line: 1301
 }

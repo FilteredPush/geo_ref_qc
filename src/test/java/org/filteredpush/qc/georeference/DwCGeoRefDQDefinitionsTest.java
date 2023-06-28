@@ -26,11 +26,12 @@ public class DwCGeoRefDQDefinitionsTest {
 
 	@Test
 	public void testValidationCoordinatesNotzero() { 
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude and/or 
-        // dwc:decimalLongitude are EMPTY or both of the values are 
-        // not interpretable as numbers; COMPLIANT if either the value 
-        // of dwc:decimalLatitude is not = 0 or the value of dwc:decimalLongitude 
-        // is not = 0; otherwise NOT_COMPLIANT 
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is 
+        // EMPTY or is not interpretable as a number, or dwc:decimalLongitude 
+        // is EMPTY or is not interpretable as a number; COMPLIANT 
+        // if either the value of dwc:decimalLatitude is not = 0 or 
+        // the value of dwc:decimalLongitude is not = 0; otherwise 
+        // NOT_COMPLIANT 
 		
 		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCoordinatesNotzero(null,null);
 		logger.debug(result.getComment());
@@ -54,6 +55,7 @@ public class DwCGeoRefDQDefinitionsTest {
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		assertNotNull(result.getComment());
 		
 		result = DwCGeoRefDQ.validationCoordinatesNotzero("0","3.6");
 		logger.debug(result.getComment());
@@ -67,10 +69,22 @@ public class DwCGeoRefDQDefinitionsTest {
 		
 		result = DwCGeoRefDQ.validationCoordinatesNotzero("1.4","B");
 		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+		
+		result = DwCGeoRefDQ.validationCoordinatesNotzero("A","-26.42552");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+	
+		result = DwCGeoRefDQ.validationCoordinatesNotzero("A","B");
+		logger.debug(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+	
+		result = DwCGeoRefDQ.validationCoordinatesNotzero("1.4","0");
+		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
 		
-		result = DwCGeoRefDQ.validationCoordinatesNotzero("A","-26.42552");
+		result = DwCGeoRefDQ.validationCoordinatesNotzero("0","-26.42552");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());

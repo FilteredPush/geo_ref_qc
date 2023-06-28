@@ -729,34 +729,6 @@ public class DwCGeoRefDQ_stubs {
     }
 
     /**
-     * Are the values of either dwc:decimalLatitude or dwc:decimalLongitude numbers that are not equal to 0?
-     *
-     * Provides: VALIDATION_COORDINATES_NOTZERO
-     * Version: 2023-06-20
-     *
-     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
-     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_COORDINATES_NOTZERO", description="Are the values of either dwc:decimalLatitude or dwc:decimalLongitude numbers that are not equal to 0?")
-    @Provides("1bf0e210-6792-4128-b8cc-ab6828aa4871")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/1bf0e210-6792-4128-b8cc-ab6828aa4871/2023-06-20")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is EMPTY or is not interpretable as a number, or dwc:decimalLongitude is EMPTY or is not interpretable as a number; COMPLIANT if either the value of dwc:decimalLatitude is not = 0 or the value of dwc:decimalLongitude is not = 0; otherwise NOT_COMPLIANT ")
-    public DQResponse<ComplianceValue> validationCoordinatesNotzero(@ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is 
-        // EMPTY or is not interpretable as a number, or dwc:decimalLongitude 
-        // is EMPTY or is not interpretable as a number; COMPLIANT 
-        // if either the value of dwc:decimalLatitude is not = 0 or 
-        // the value of dwc:decimalLongitude is not = 0; otherwise 
-        // NOT_COMPLIANT 
-
-        return result;
-    }
-
-    /**
      * Is there a value in dwc:decimalLongitude?
      *
      * Provides: VALIDATION_DECIMALLONGITUDE_NOTEMPTY
