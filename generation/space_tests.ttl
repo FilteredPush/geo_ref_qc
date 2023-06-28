@@ -19,7 +19,7 @@
 <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> a <http://rs.tdwg.org/bdq/ffdq/Mechanism> ;
 	rdfs:label "Kurator: Date Validator - DwCGeoRefDQ:v2.0.0" .
 
-<urn:uuid:c9a49e46-ed96-4af8-bc0c-0a5e4ffb1f83> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:0493bcfb-652e-4d17-815b-b0cce0742fbe> ;
+<urn:uuid:a17bf597-a629-445f-a821-f04a2eb31b16> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:0493bcfb-652e-4d17-815b-b0cce0742fbe> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
@@ -36,103 +36,103 @@
 <rt:SingleRecord> a <http://rs.tdwg.org/bdq/ffdq/ResourceType> ;
 	rdfs:label "SingleRecord" .
 
-<urn:uuid:7b4718b7-2a71-43c4-b257-68c69f8fc27e> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:9709f181-33a8-453f-a66a-276454c6c567> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:f6f6c1f8-0e09-487a-a7cf-ddd54bd6199f> ;
+<urn:uuid:49c54577-c325-44ca-92a2-a29a661b45a2> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:4accb900-7e39-4077-b061-3beb1a41628d> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:91ba10b8-6027-4f55-b5e9-8bd7a69c2eb5> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Is the value of dwc:countryCode a valid ISO 3166-1-alpha-2 country code?" ;
 	rdfs:label "Is the value of dwc:countryCode a valid ISO 3166-1-alpha-2 country code? Validation for SingleRecord" .
 
-<urn:uuid:9709f181-33a8-453f-a66a-276454c6c567> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+<urn:uuid:4accb900-7e39-4077-b061-3beb1a41628d> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
 	rdfs:label "Conformance: standard" .
 
-<urn:uuid:f6f6c1f8-0e09-487a-a7cf-ddd54bd6199f> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/countryCode> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:f894d649-6a0e-40c2-9c50-0077d16075d3> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:7b4718b7-2a71-43c4-b257-68c69f8fc27e> ;
+<urn:uuid:8ff17147-54ab-4b7a-9ac1-e53444bfec2a> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:49c54577-c325-44ca-92a2-a29a661b45a2> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:0493bcfb-652e-4d17-815b-b0cce0742fbe> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
+
+<urn:uuid:91ba10b8-6027-4f55-b5e9-8bd7a69c2eb5> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/countryCode> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
 <urn:uuid:69b2efdc-6269-45a4-aecb-4cb99c2ae134> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
 	rdfs:comment "EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:country was EMPTY; COMPLIANT if value of dwc:country is a place type equivalent to \"nation\" by the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = \"The Getty Thesaurus of Geographic Names (TGN)\" [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]" ;
 	rdfs:label "VALIDATION_COUNTRY_FOUND" .
 
-<urn:uuid:74626e70-e71e-414f-8a1d-5da775405106> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:69b2efdc-6269-45a4-aecb-4cb99c2ae134> ;
+<urn:uuid:99613e4f-e3bc-49da-b683-8cb4b5ace083> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:69b2efdc-6269-45a4-aecb-4cb99c2ae134> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
-<urn:uuid:41c18b95-d679-461c-847b-1a93039d9d89> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:a094412c-950d-4f67-9e1f-2e9ece7682b9> ;
+<urn:uuid:0a68a317-6e8f-42c6-ac52-431c65a431ca> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:2ce705bf-92a4-459b-b9ba-1c691b9f599a> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:69b2efdc-6269-45a4-aecb-4cb99c2ae134> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
 
-<urn:uuid:a094412c-950d-4f67-9e1f-2e9ece7682b9> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:fe976b4d-e49c-4a5e-a141-9c37c6f7deaa> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:adec6b40-c704-40eb-92bc-27f858fa2fc6> ;
+<urn:uuid:2ce705bf-92a4-459b-b9ba-1c691b9f599a> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:b5b81eba-4ea7-440c-9f46-b529754e2fb5> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:d72fdd59-ff44-48b6-a67f-e842f98463bf> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Does the value of dwc:country occur in bdq:sourceAuthority?" ;
 	rdfs:label "Does the value of dwc:country occur in bdq:sourceAuthority? Validation for SingleRecord" .
 
-<urn:uuid:adec6b40-c704-40eb-92bc-27f858fa2fc6> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/country> ;
+<urn:uuid:b5b81eba-4ea7-440c-9f46-b529754e2fb5> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Conformance: found" .
+
+<urn:uuid:d72fdd59-ff44-48b6-a67f-e842f98463bf> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/country> ;
 	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
-<urn:uuid:fe976b4d-e49c-4a5e-a141-9c37c6f7deaa> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Conformance: found" .
+<urn:uuid:0e3f0fa1-78c6-461e-ad12-4abbd5a1c1ca> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:8f1e6e58-544b-4365-a569-fb781341644e> ;
+	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
+	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
 <urn:uuid:8f1e6e58-544b-4365-a569-fb781341644e> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
 	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters or dwc:maximumDepthInMeters is EMPTY, or if either are interpretable as not zero or a positive number; COMPLIANT if the value of dwc:minimumDepthInMeters is less than or equal to the value of dwc:maximumDepthInMeters; otherwise NOT_COMPLIANT " ;
 	rdfs:label "VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH" .
 
-<urn:uuid:99919bd2-8e44-4a4b-aa1d-25af61f5e5c1> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:8f1e6e58-544b-4365-a569-fb781341644e> ;
-	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
-	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
-
-<urn:uuid:6478db2c-f820-48ed-b607-b14f68f74fe6> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:f129002e-582a-4531-a285-a88c2e8e4b28> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:a19f0050-4fd6-401d-977e-03d985d823f4> ;
+<urn:uuid:9617a623-53a9-4af0-9ea8-4712469ebf9a> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:a33ffc11-b78f-4019-a2dd-f93a829f7da0> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:b17daf02-e29f-480c-86cf-ed9f5e3ea354> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Is the value of dwc:minimumDepthInMeters a number that is less than or equal to the value of dwc:maximumDepthInMeters?" ;
 	rdfs:label "Is the value of dwc:minimumDepthInMeters a number that is less than or equal to the value of dwc:maximumDepthInMeters? Validation for SingleRecord" .
 
-<urn:uuid:a19f0050-4fd6-401d-977e-03d985d823f4> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/maximumDepthInMeters> , <http://rs.tdwg.org/dwc/terms/minimumDepthInMeters> ;
+<urn:uuid:a33ffc11-b78f-4019-a2dd-f93a829f7da0> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Conformance: maxdepth" .
+
+<urn:uuid:b17daf02-e29f-480c-86cf-ed9f5e3ea354> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/maximumDepthInMeters> , <http://rs.tdwg.org/dwc/terms/minimumDepthInMeters> ;
 	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
-<urn:uuid:cc7b0868-8dc6-4c4e-bbd1-a8363c796554> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:6478db2c-f820-48ed-b607-b14f68f74fe6> ;
+<urn:uuid:b18d025c-7944-4f12-b18b-51eb3aa09bf0> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:9617a623-53a9-4af0-9ea8-4712469ebf9a> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:8f1e6e58-544b-4365-a569-fb781341644e> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
-
-<urn:uuid:f129002e-582a-4531-a285-a88c2e8e4b28> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Conformance: maxdepth" .
 
 <urn:uuid:0949110d-c06b-450e-9649-7c1374d940d1> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
 	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLongitude is EMPTY or the value is not a number; COMPLIANT if the value of dwc:decimalLongitude is between -180 and 180 degrees, inclusive; otherwise NOT_COMPLIANT " ;
 	rdfs:label "VALIDATION_DECIMALLONGITUDE_INRANGE" .
 
-<urn:uuid:2a20a67b-f382-4318-b0de-6bb825f115dd> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:0949110d-c06b-450e-9649-7c1374d940d1> ;
+<urn:uuid:229a1083-a4d9-4b84-bd70-6306172f2237> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:0949110d-c06b-450e-9649-7c1374d940d1> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
-<urn:uuid:0eb490c2-89d1-41a5-aa16-abd8dc0ead3e> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/decimalLongitude> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+<urn:uuid:3f568941-ea5b-4fd5-9425-6a6948333db8> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Conformance: inrange" .
 
-<urn:uuid:2340f6fd-0e21-40df-8498-039b0c08e781> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:a80d8887-569e-4b1c-a1ed-ebc0e4d3d76e> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:0949110d-c06b-450e-9649-7c1374d940d1> ;
-	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
-
-<urn:uuid:a80d8887-569e-4b1c-a1ed-ebc0e4d3d76e> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:e25e2d33-ccb0-4a49-913d-ab8f0b174234> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:0eb490c2-89d1-41a5-aa16-abd8dc0ead3e> ;
+<urn:uuid:63a898bd-d2ec-417d-a083-6fe778fdea3a> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:3f568941-ea5b-4fd5-9425-6a6948333db8> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:911fa372-a4df-4c48-b0c9-f8883f0efb43> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Is the value of dwc:decimalLongitude a number between -180 and 180 inclusive?" ;
 	rdfs:label "Is the value of dwc:decimalLongitude a number between -180 and 180 inclusive? Validation for SingleRecord" .
 
-<urn:uuid:e25e2d33-ccb0-4a49-913d-ab8f0b174234> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Conformance: inrange" .
+<urn:uuid:6e853e65-298e-43ab-af13-ba22f3c82fa8> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:63a898bd-d2ec-417d-a083-6fe778fdea3a> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:0949110d-c06b-450e-9649-7c1374d940d1> ;
+	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
+
+<urn:uuid:911fa372-a4df-4c48-b0c9-f8883f0efb43> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/decimalLongitude> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
 <urn:uuid:3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
 	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if either dwc:decimalLatitude or dwc:decimalLongitude were not EMPTY, or either dwc:verbatimLatitude and dwc:verbatimLongitude, or dwc:verbatimCoordinates were not unambiguously interpretable into valid coordinates; FILLED_IN the values of dwc:decimalLatitude and dwc:decimalLongitude if unambiguous values can be interpreted from  dwc:verbatimCoordinates or dwc:verbatimLatitude and dwc:verbatimLongitude, plus dwc:verbatimCoordinateSystem and dwc:verbatimSRS; otherwise NOT_AMENDED " ;
 	rdfs:label "AMENDMENT_COORDINATES_FROM_VERBATIM" .
 
-<urn:uuid:68e09f5e-15dc-47b5-bbe3-22d25b72682e> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e> ;
+<urn:uuid:9021f0f9-3115-486b-951d-98bfb3d5449e> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
@@ -142,124 +142,124 @@
 
 <http://rs.tdwg.org/bdq/ffdq/Enhancement> rdfbeans:bindingClass "org.datakurator.ffdq.model.Enhancement" .
 
-<urn:uuid:0cc6c514-3546-4bfd-84d4-6e4f17bd15a2> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:2fbb869c-5b75-4e42-9027-ef3bfc229394> ;
+<urn:uuid:817f7b87-121e-4431-890c-cc7923c3b901> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:88478ace-425b-459f-a3b5-241513c921a9> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e> ;
 	a <http://rs.tdwg.org/bdq/ffdq/AmendmentMethod> .
 
-<urn:uuid:2fbb869c-5b75-4e42-9027-ef3bfc229394> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:44188d8a-97eb-4a30-9cc1-d45c862af08a> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:5172abb1-e5da-4fd3-a133-a6779598fa47> ;
+<urn:uuid:88478ace-425b-459f-a3b5-241513c921a9> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:acb8a750-5e70-4051-8a13-1fb6ba87e43c> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:be3aa40e-8e8c-4b90-9584-530e8fe81b91> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedEnhancement> ;
 	rdfs:comment "Propose amendment to the values of dwc:decimalLatitude and dwc:decimalLongitude from information in the verbatim coordinates terms." ;
 	rdfs:label "Propose amendment to the values of dwc:decimalLatitude and dwc:decimalLongitude from information in the verbatim coordinates terms.Amedment for SingleRecord" .
 
-<urn:uuid:44188d8a-97eb-4a30-9cc1-d45c862af08a> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
+<urn:uuid:acb8a750-5e70-4051-8a13-1fb6ba87e43c> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
 	rdfs:label "Completeness: verbatim" .
 
-<urn:uuid:5172abb1-e5da-4fd3-a133-a6779598fa47> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> , <http://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem> , <http://rs.tdwg.org/dwc/terms/verbatimCoordinates> , <http://rs.tdwg.org/dwc/terms/verbatimLatitude> , <http://rs.tdwg.org/dwc/terms/verbatimLongitude> , <http://rs.tdwg.org/dwc/terms/verbatimSRS> ;
+<urn:uuid:be3aa40e-8e8c-4b90-9584-530e8fe81b91> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> , <http://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem> , <http://rs.tdwg.org/dwc/terms/verbatimCoordinates> , <http://rs.tdwg.org/dwc/terms/verbatimLatitude> , <http://rs.tdwg.org/dwc/terms/verbatimLongitude> , <http://rs.tdwg.org/dwc/terms/verbatimSRS> ;
 	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
 <urn:uuid:0bb8297d-8f8a-42d2-80c1-558f29efe798> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
-	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumElevationInMeters is EMPTY or the value is not a number; COMPLIANT if the value of dwc:minimumElevationInMeters is within the range of bdq:minimumValidElevationInMeters to bdq:maximumValidElevationInMeters inclusive; otherwise NOT_COMPLIANT " ;
+	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumElevationInMeters is EMPTY or the value is not a number; COMPLIANT if the value of dwc:minimumElevationInMeters is within the range of bdq:minimumValidElevationInMeters to bdq:maximumValidElevationInMeters inclusive; otherwise NOT_COMPLIANT bdq:minimumValidElevationInMeters default =\"-430\",bdq:maximumValidElevationInMeters =\"8850\"" ;
 	rdfs:label "VALIDATION_MINELEVATION_INRANGE" .
 
-<urn:uuid:aa3157c3-7128-41ce-9ad2-3bee2c9c20fd> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:0bb8297d-8f8a-42d2-80c1-558f29efe798> ;
+<urn:uuid:12ef60d1-caf9-4a82-ae68-b75d04e63a99> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:0bb8297d-8f8a-42d2-80c1-558f29efe798> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
-<urn:uuid:25498453-63d8-4bdb-9bd7-570d5512c031> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:674edc6d-2ff8-4ce2-a1a2-2416e1c9d1d2> ;
+<urn:uuid:7a600638-b3b6-4fb2-b07a-ae3c424dd333> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:8e5f791e-3041-4ef9-b13d-b9d3dba4f434> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:0bb8297d-8f8a-42d2-80c1-558f29efe798> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
 
-<urn:uuid:5fe34dcd-8571-4a69-b89a-64f64e20d050> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/minimumElevationInMeters> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:674edc6d-2ff8-4ce2-a1a2-2416e1c9d1d2> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:ab18bcf3-5b5e-4767-b22a-4eb3d3f540b4> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:5fe34dcd-8571-4a69-b89a-64f64e20d050> ;
+<urn:uuid:8e5f791e-3041-4ef9-b13d-b9d3dba4f434> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:966a76bb-5b39-4d0d-8ee6-c1c1835b52ea> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:af12aabc-6969-415f-95b9-090d10fe4a54> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Is the value of dwc:minimumElevationInMeters within the Parameter range?" ;
 	rdfs:label "Is the value of dwc:minimumElevationInMeters within the Parameter range? Validation for SingleRecord" .
 
-<urn:uuid:ab18bcf3-5b5e-4767-b22a-4eb3d3f540b4> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+<urn:uuid:966a76bb-5b39-4d0d-8ee6-c1c1835b52ea> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
 	rdfs:label "Conformance: inrange" .
+
+<urn:uuid:af12aabc-6969-415f-95b9-090d10fe4a54> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/minimumElevationInMeters> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
 <urn:uuid:58486cb6-1114-4a8a-ba1e-bd89cfe887e9> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
 	rdfs:comment "COMPLIANT if at least one term needed to determine the location of the entity exists and is not EMPTY; otherwise NOT_COMPLIANT " ;
 	rdfs:label "VALIDATION_LOCATION_NOTEMPTY" .
 
-<urn:uuid:81728095-df94-4270-93cb-c1414c1015f8> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:58486cb6-1114-4a8a-ba1e-bd89cfe887e9> ;
+<urn:uuid:dfa1a027-d6a9-49cd-8238-7b7577c92d8b> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:58486cb6-1114-4a8a-ba1e-bd89cfe887e9> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
-<urn:uuid:2c147837-a461-42e7-a29d-326f68f74033> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+<urn:uuid:5a04fa88-81f4-43af-af68-eb64692288c2> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
 	rdfs:label "Completeness: notempty" .
 
-<urn:uuid:314a693b-a3fa-495e-ab65-309fa0159dbd> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:cccdd52a-604a-42a8-a611-b88374e18844> ;
+<urn:uuid:6a83bebe-fb32-4a28-b8d0-ae80bce63dda> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:8db9b15f-92fd-4cb0-91bd-d2119d9c0bd8> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:58486cb6-1114-4a8a-ba1e-bd89cfe887e9> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
 
-<urn:uuid:64bbf3cc-5984-4db6-980f-a3cfdc4d7f66> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/continent> , <http://rs.tdwg.org/dwc/terms/country> , <http://rs.tdwg.org/dwc/terms/countryCode> , <http://rs.tdwg.org/dwc/terms/county> , <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> , <http://rs.tdwg.org/dwc/terms/footprintWKT> , <http://rs.tdwg.org/dwc/terms/higherGeography> , <http://rs.tdwg.org/dwc/terms/higherGeographyID> , <http://rs.tdwg.org/dwc/terms/island> , <http://rs.tdwg.org/dwc/terms/islandGroup> , <http://rs.tdwg.org/dwc/terms/locality> , <http://rs.tdwg.org/dwc/terms/locationID> , <http://rs.tdwg.org/dwc/terms/municipality> , <http://rs.tdwg.org/dwc/terms/stateProvince> , <http://rs.tdwg.org/dwc/terms/verbatimCoordinates> , <http://rs.tdwg.org/dwc/terms/verbatimLatitude> , <http://rs.tdwg.org/dwc/terms/verbatimLocality> , <http://rs.tdwg.org/dwc/terms/verbatimLongitude> , <http://rs.tdwg.org/dwc/terms/waterBody> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:cccdd52a-604a-42a8-a611-b88374e18844> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:2c147837-a461-42e7-a29d-326f68f74033> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:64bbf3cc-5984-4db6-980f-a3cfdc4d7f66> ;
+<urn:uuid:8db9b15f-92fd-4cb0-91bd-d2119d9c0bd8> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:5a04fa88-81f4-43af-af68-eb64692288c2> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:8ea5f6d8-7ad5-40dd-b255-b04e3762b4b7> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Is there a value in any of the Darwin Core spatial terms that could specify a location?" ;
 	rdfs:label "Is there a value in any of the Darwin Core spatial terms that could specify a location? Validation for SingleRecord" .
 
-<urn:uuid:1a989db5-6941-4371-be1a-0a649d21ce97> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:6ce2b2b4-6afe-4d13-82a0-390d31ade01c> ;
-	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
-	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
+<urn:uuid:8ea5f6d8-7ad5-40dd-b255-b04e3762b4b7> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/continent> , <http://rs.tdwg.org/dwc/terms/country> , <http://rs.tdwg.org/dwc/terms/countryCode> , <http://rs.tdwg.org/dwc/terms/county> , <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> , <http://rs.tdwg.org/dwc/terms/footprintWKT> , <http://rs.tdwg.org/dwc/terms/higherGeography> , <http://rs.tdwg.org/dwc/terms/higherGeographyID> , <http://rs.tdwg.org/dwc/terms/island> , <http://rs.tdwg.org/dwc/terms/islandGroup> , <http://rs.tdwg.org/dwc/terms/locality> , <http://rs.tdwg.org/dwc/terms/locationID> , <http://rs.tdwg.org/dwc/terms/municipality> , <http://rs.tdwg.org/dwc/terms/stateProvince> , <http://rs.tdwg.org/dwc/terms/verbatimCoordinates> , <http://rs.tdwg.org/dwc/terms/verbatimLatitude> , <http://rs.tdwg.org/dwc/terms/verbatimLocality> , <http://rs.tdwg.org/dwc/terms/verbatimLongitude> , <http://rs.tdwg.org/dwc/terms/waterBody> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
 <urn:uuid:6ce2b2b4-6afe-4d13-82a0-390d31ade01c> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
 	rdfs:comment "COMPLIANT if dwc:country is not EMPTY; otherwise NOT_COMPLIANT " ;
 	rdfs:label "VALIDATION_COUNTRY_NOTEMPTY" .
 
-<urn:uuid:37431516-37ea-4346-a3cc-5594302c3fb8> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/country> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+<urn:uuid:a7417b91-48e2-4385-bf30-ce885001df6e> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:6ce2b2b4-6afe-4d13-82a0-390d31ade01c> ;
+	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
+	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
-<urn:uuid:80ab79d2-73ce-47c7-ac8d-fdcce363bdaf> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Completeness: notempty" .
-
-<urn:uuid:a78a422a-41d1-4865-bee1-0cf93235cdde> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:80ab79d2-73ce-47c7-ac8d-fdcce363bdaf> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:37431516-37ea-4346-a3cc-5594302c3fb8> ;
+<urn:uuid:5f41a157-9a15-4c4b-9579-b20b5d07cd50> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:a49b3c11-168a-4416-b244-56dc2b8d656d> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:f5caa706-996a-410f-9941-5a67dedc80c1> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Is there a value in dwc:country?" ;
 	rdfs:label "Is there a value in dwc:country? Validation for SingleRecord" .
 
-<urn:uuid:ee8f9134-9fd8-4743-bff0-ab98015d01d9> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:a78a422a-41d1-4865-bee1-0cf93235cdde> ;
+<urn:uuid:a49b3c11-168a-4416-b244-56dc2b8d656d> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Completeness: notempty" .
+
+<urn:uuid:b4be07b1-be17-43cd-af02-0b056cc963a5> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:5f41a157-9a15-4c4b-9579-b20b5d07cd50> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:6ce2b2b4-6afe-4d13-82a0-390d31ade01c> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
 
+<urn:uuid:f5caa706-996a-410f-9941-5a67dedc80c1> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/country> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
 <urn:uuid:620749b9-7d9c-4890-97d2-be3d1cde6da8> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
-	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude or dwc:decimalLongitude or dwc:geodeticDatum are EMPTY or not interpretable as a value decimal number; AMENDED the values of dwc:decimalLatitude, dwc:decimalLongitude and  dwc:geodeticDatum by a conversion between spatial reference systems; otherwise NOT_AMENDED " ;
+	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is EMPTY or does not have a valid value, or dwc:decimalLongitude is EMPTY or does not have a valid value, or dwc:geodeticDatum is EMPTY or does not contain an interpretable value; AMENDED if the values of dwc:decimalLatitude, dwc:decimalLongitude and dwc:geodeticDatum are changed based on a conversion between the coordinate reference systems as specified by dwc:geodeticDatum and bdq:targetCRS, and, if dwc:coordinateUncertaintyInMeters was an interpretable value, the uncertainty from the conversion is added to it, and the value of dwc:coordinatePrecision is provided from the conversion result; otherwise NOT_AMENDED. bdq:targetCRS = \"EPSG:4326\"" ;
 	rdfs:label "AMENDMENT_COORDINATES_CONVERTED" .
 
-<urn:uuid:841ff13c-7333-49f0-a7b1-9bf39f165514> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:620749b9-7d9c-4890-97d2-be3d1cde6da8> ;
+<urn:uuid:c892c584-cee2-4c9c-a4d3-e386469c6b5e> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:620749b9-7d9c-4890-97d2-be3d1cde6da8> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
-<urn:uuid:439915d8-1a63-43e8-b2d6-0230906448fa> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
-	rdfs:label "Conformance: converted" .
-
-<urn:uuid:7181226c-74ca-40fc-a33c-27871c4e081e> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:c21dac4b-c4fe-4b3d-b6a6-757aa32f2dae> ;
+<urn:uuid:13fde7bb-9286-4eb3-ac01-d2a49e610e62> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:2ce32df7-5087-4db4-a984-e59564b92495> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:620749b9-7d9c-4890-97d2-be3d1cde6da8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/AmendmentMethod> .
 
-<urn:uuid:8a781027-2fdb-4df9-b5b1-7d301f5dd782> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/coordinatePrecision> , <http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters> , <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> , <http://rs.tdwg.org/dwc/terms/geodeticDatum> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:c21dac4b-c4fe-4b3d-b6a6-757aa32f2dae> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:439915d8-1a63-43e8-b2d6-0230906448fa> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:8a781027-2fdb-4df9-b5b1-7d301f5dd782> ;
+<urn:uuid:2ce32df7-5087-4db4-a984-e59564b92495> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:fe60ae84-3df1-417b-befc-47bc48894378> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:e67dd906-6dec-417c-a0b5-d22b1623870d> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedEnhancement> ;
 	rdfs:comment "Propose amendment to the value of dwc:geodeticDatum and potentially to dwc:decimalLatitude and/or dwc:decimalLongitude based on a conversion between spatial reference systems." ;
 	rdfs:label "Propose amendment to the value of dwc:geodeticDatum and potentially to dwc:decimalLatitude and/or dwc:decimalLongitude based on a conversion between spatial reference systems.Amedment for SingleRecord" .
 
-<urn:uuid:c5b8a427-e7b4-4a23-ab0c-cdadade81c15> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:fec5ffe6-3958-4312-82d9-ebcca0efb350> ;
+<urn:uuid:e67dd906-6dec-417c-a0b5-d22b1623870d> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/coordinatePrecision> , <http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters> , <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> , <http://rs.tdwg.org/dwc/terms/geodeticDatum> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
+<urn:uuid:fe60ae84-3df1-417b-befc-47bc48894378> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
+	rdfs:label "Conformance: converted" .
+
+<urn:uuid:9912a2f6-b2c2-4fdb-984b-4698fbc6776b> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:fec5ffe6-3958-4312-82d9-ebcca0efb350> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
@@ -267,74 +267,74 @@
 	rdfs:comment "EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISTITES_NOT_MET if the value of dwc:countryCode is EMPTY; AMENDED the value of dwc:countryCode if it can be unambiguously interpreted from bdq:sourceAuthority; otherwise NOT_AMENDED bdq:sourceAuthority is \"ISO 3166-1-alpha-2\" [https://restcountries.eu/#api-endpoints-list-of-codes, https://www.iso.org/obp/ui/#search]" ;
 	rdfs:label "AMENDMENT_COUNTRYCODE_STANDARDIZED" .
 
-<urn:uuid:22e73155-015d-4745-a7cf-81c8fed6f727> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:66396d93-0005-4c50-bcd6-b14f6f034c18> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:412c31ba-323b-4c66-866c-bd6f2d2a280a> ;
+<urn:uuid:0b52afde-7f3a-4e56-98b2-5e9184109975> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:6e0ee0e8-20e7-4234-b03c-48125e8f1f5c> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:fec5ffe6-3958-4312-82d9-ebcca0efb350> ;
+	a <http://rs.tdwg.org/bdq/ffdq/AmendmentMethod> .
+
+<urn:uuid:38280123-f3e5-46e3-a5c1-e3d44a7b9f57> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
+	rdfs:label "Conformance: standardized" .
+
+<urn:uuid:6e0ee0e8-20e7-4234-b03c-48125e8f1f5c> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:38280123-f3e5-46e3-a5c1-e3d44a7b9f57> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:b9fe1d2d-3f68-48c0-85c8-44d1c6bad419> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedEnhancement> ;
 	rdfs:comment "Propose amendment to the value of dwc:countryCode if it can be interpreted as an ISO country code." ;
 	rdfs:label "Propose amendment to the value of dwc:countryCode if it can be interpreted as an ISO country code.Amedment for SingleRecord" .
 
-<urn:uuid:412c31ba-323b-4c66-866c-bd6f2d2a280a> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/countryCode> ;
+<urn:uuid:b9fe1d2d-3f68-48c0-85c8-44d1c6bad419> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/countryCode> ;
 	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
-<urn:uuid:66396d93-0005-4c50-bcd6-b14f6f034c18> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
-	rdfs:label "Conformance: standardized" .
-
-<urn:uuid:d44ec747-4c41-4447-a4ce-b173f7d7457f> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:22e73155-015d-4745-a7cf-81c8fed6f727> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:fec5ffe6-3958-4312-82d9-ebcca0efb350> ;
-	a <http://rs.tdwg.org/bdq/ffdq/AmendmentMethod> .
-
-<urn:uuid:3e5b6ae2-cd58-4060-ab2c-f42360cb60a6> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:adb27d29-9f0d-4d52-b760-a77ba57a69c9> ;
+<urn:uuid:8a038b5e-f3f1-4c3f-9f6b-5f5e12f8ad19> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:adb27d29-9f0d-4d52-b760-a77ba57a69c9> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
 <urn:uuid:adb27d29-9f0d-4d52-b760-a77ba57a69c9> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
-	rdfs:comment "EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if one or more of dwc:decimalLatitude, dwc:decimalLongitude, or dwc:countryCode are EMPTY or invalid; COMPLIANT if the geographic coordinates fall on or within the boundary defined by the union of the boundary of the country from dwc:countryCode plus it's Exclusive Economic Zone, if any, plus an exterior buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT <ul><li>bdq:sourceAuthority default = \"ADM1 boundaries\" [https://gadm.org] UNION with \"EEZs\" [https://marineregions.org] </li><li>bdq:spatialBufferInMeters default = \"3000\"</li></ul>" ;
+	rdfs:comment "EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if one or more of dwc:decimalLatitude, dwc:decimalLongitude, or dwc:countryCode are EMPTY or invalid; COMPLIANT if the geographic coordinates fall on or within the boundary defined by the union of the boundary of the country from dwc:countryCode plus it's Exclusive Economic Zone, if any, plus an exterior buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT bdq:sourceAuthority default = \"ADM1 boundaries\" [https://gadm.org] UNION with \"EEZs\" [https://marineregions.org],bdq:spatialBufferInMeters default = \"3000\"" ;
 	rdfs:label "VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT" .
 
-<urn:uuid:74045fdd-7510-4a0b-a599-eb0cf54ba234> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/countryCode> , <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+<urn:uuid:2b99c845-825d-49df-a513-e447319101f3> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Consistency: consistent" .
 
-<urn:uuid:8edab8cc-4d6a-4497-80bb-7d850a6e307d> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:dd14621d-9563-46f7-802c-38ce42bcab7b> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:74045fdd-7510-4a0b-a599-eb0cf54ba234> ;
+<urn:uuid:32d14b78-1fee-4447-a673-0a28023612f4> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:2b99c845-825d-49df-a513-e447319101f3> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:f7ba5e60-f732-475e-9353-e2401202d7b9> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?" ;
 	rdfs:label "Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone? Validation for SingleRecord" .
 
-<urn:uuid:d5d0a0e0-3f02-41bd-b879-00ff770ca4bc> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:8edab8cc-4d6a-4497-80bb-7d850a6e307d> ;
+<urn:uuid:6bfce977-c752-422b-91f2-8f947e15d1ed> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:32d14b78-1fee-4447-a673-0a28023612f4> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:adb27d29-9f0d-4d52-b760-a77ba57a69c9> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
 
-<urn:uuid:dd14621d-9563-46f7-802c-38ce42bcab7b> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Consistency: consistent" .
+<urn:uuid:f7ba5e60-f732-475e-9353-e2401202d7b9> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/countryCode> , <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
-<urn:uuid:65a513c9-61fe-4ae0-ab16-eb4e8f599e7e> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:b9c184ce-a859-410c-9d12-71a338200380> ;
+<urn:uuid:b9c184ce-a859-410c-9d12-71a338200380> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
+	rdfs:comment "EXTERNAL_PREREQUISITES_NOT_MET if either bdq:sourceAuthority[taxonomyismarine] or bdq:sourceAuthority[geospatialland] are not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:dcientificName was EMPTY or the marine/non-marine status of the taxon is not interpretable from bdq:sourceAuthority[taxonomyismarine] or the values of dwc:decimalLatitude or dwc:decimalLongitude are EMPTY; COMPLIANT if the taxon marine/non-marine status from bdq:sourceAuthority[taxonomyismarine] matches the marine/non-marine status of dwc:decimalLatitude and dwc:decimalLongitude on the boundaries given by bdq:sourceAuthority[geospatialland] plus an exterior buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT bdq:sourceAuthority[taxonismarine] default = \"WORMS\" [https://www.marinespecies.org/aphia.php?p=webservice],bdq:sourceAuthority[geospatialland] default = the union of \"NaturalEarth 10m-physical-vectors for Land\" [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip] and \"NaturalEarth Minor Islands\"  [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_minor_islands.zip],bdq:spatialBufferInMeters default = \"3000\"" ;
+	rdfs:label "VALIDATION_COORDINATES_TERRESTRIALMARINE" .
+
+<urn:uuid:dd7b9bcc-1944-4df8-8586-35047dba531b> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:b9c184ce-a859-410c-9d12-71a338200380> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
-<urn:uuid:b9c184ce-a859-410c-9d12-71a338200380> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
-	rdfs:comment "EXTERNAL_PREREQUISITES_NOT_MET if either bdq:sourceAuthority[taxonomyismarine] or bdq:sourceAuthority[geospatialland] are not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:dcientificName was EMPTY or the marine/non-marine status of the taxon is not interpretable from bdq:sourceAuthority[taxonomyismarine] or the values of dwc:decimalLatitude or dwc:decimalLongitude are EMPTY; COMPLIANT if the taxon marine/non-marine status from bdq:sourceAuthority[taxonomyismarine] matches the marine/non-marine status of dwc:decimalLatitude and dwc:decimalLongitude on the boundaries given by bdq:sourceAuthority[geospatialland] plus an exterior buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT <ul><li>bdq:sourceAuthority[taxonismarine] default = \"WORMS\" [https://www.marinespecies.org/aphia.php?p=webservice] </li><li>bdq:sourceAuthority[geospatialland] default = the union of \"NaturalEarth 10m-physical-vectors for Land\" [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip] and \"NaturalEarth Minor Islands\" [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_minor_islands.zip]</li><li>bdq:spatialBufferInMeters default = \"3000\" </li></ul>" ;
-	rdfs:label "VALIDATION_COORDINATES_TERRESTRIALMARINE" .
-
-<urn:uuid:0edcdbf1-29b9-4ab0-b3f1-075243cc0ff8> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> , <http://rs.tdwg.org/dwc/terms/scientificName> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:645a9bb2-0c0f-40b5-98c2-7778e5696676> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Conformance: terrestrialmarine" .
-
-<urn:uuid:e1650e87-2ba8-49bd-aa91-b7e946478b3d> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:e1ec778f-8f7f-438f-a043-ebbc84796998> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:b9c184ce-a859-410c-9d12-71a338200380> ;
-	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
-
-<urn:uuid:e1ec778f-8f7f-438f-a043-ebbc84796998> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:645a9bb2-0c0f-40b5-98c2-7778e5696676> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:0edcdbf1-29b9-4ab0-b3f1-075243cc0ff8> ;
+<urn:uuid:88c08645-c4df-4227-96f8-7df03b43f9d2> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:da55a0e2-d394-467c-aac8-e738d93da52e> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:da2962d1-95d9-4738-a3af-3a95d40f35aa> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Does the marine/non-marine biome of a taxon from the bdq:sourceAuthority match the biome at the location given by the coordinates?" ;
 	rdfs:label "Does the marine/non-marine biome of a taxon from the bdq:sourceAuthority match the biome at the location given by the coordinates? Validation for SingleRecord" .
 
-<urn:uuid:d1e85cac-8d3c-4217-b67d-34126503fb72> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:f2b4a50a-6b2f-4930-b9df-da87b6a21082> ;
+<urn:uuid:da2962d1-95d9-4738-a3af-3a95d40f35aa> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> , <http://rs.tdwg.org/dwc/terms/scientificName> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
+<urn:uuid:da55a0e2-d394-467c-aac8-e738d93da52e> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Conformance: terrestrialmarine" .
+
+<urn:uuid:e119d7b4-e8e4-4c0c-a49f-61945faf9ab9> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:88c08645-c4df-4227-96f8-7df03b43f9d2> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:b9c184ce-a859-410c-9d12-71a338200380> ;
+	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
+
+<urn:uuid:270f5934-7348-4738-a235-e35363cc9569> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:f2b4a50a-6b2f-4930-b9df-da87b6a21082> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
@@ -342,124 +342,124 @@
 	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if any of dwc:decimalLatitude or dwc:decimalLongitude or dwc:countryCode are EMPTY; AMENDED dwc:decimalLatitude and dwc:decimalLongitude if the coordinates were transposed or one or more of the signs of the coordinates were reversed to align the location with dwc:countryCode; otherwise NOT_AMENDED " ;
 	rdfs:label "AMENDMENT_COORDINATES_TRANSPOSED" .
 
-<urn:uuid:5154970a-4da9-4f19-98c0-1a9c119ac9bd> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/countryCode> , <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> ;
+<urn:uuid:674e6ddd-677a-40ec-8d8d-7877234fb6b4> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/countryCode> , <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> ;
 	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
-<urn:uuid:a0bc87d4-2d6f-4e4a-b3e4-52c3f40edb80> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:b29b35e9-78bf-4381-b586-2393188cd3bc> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:5154970a-4da9-4f19-98c0-1a9c119ac9bd> ;
+<urn:uuid:bff1e8aa-2dd9-402b-9d62-81036ef14d0b> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
+	rdfs:label "Consistency: transposed" .
+
+<urn:uuid:d7c4fe95-5388-482f-baaf-f090db626c0a> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:e7c2f72d-bd40-403f-bce4-a1dd36d77022> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:f2b4a50a-6b2f-4930-b9df-da87b6a21082> ;
+	a <http://rs.tdwg.org/bdq/ffdq/AmendmentMethod> .
+
+<urn:uuid:e7c2f72d-bd40-403f-bce4-a1dd36d77022> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:bff1e8aa-2dd9-402b-9d62-81036ef14d0b> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:674e6ddd-677a-40ec-8d8d-7877234fb6b4> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedEnhancement> ;
 	rdfs:comment "Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to align the location with the dwc:countryCode." ;
 	rdfs:label "Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to align the location with the dwc:countryCode.Amedment for SingleRecord" .
 
-<urn:uuid:b29b35e9-78bf-4381-b586-2393188cd3bc> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
-	rdfs:label "Consistency: transposed" .
-
-<urn:uuid:fc129d84-cee8-4bb7-87be-4653afcd1fb0> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:a0bc87d4-2d6f-4e4a-b3e4-52c3f40edb80> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:f2b4a50a-6b2f-4930-b9df-da87b6a21082> ;
-	a <http://rs.tdwg.org/bdq/ffdq/AmendmentMethod> .
-
 <urn:uuid:c5658b83-4471-4f57-9d94-bf7d0a96900c> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
 	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:verbatimDepth is EMPTY or the value is not unambiguously interpretable or dwc:minimumDepthInMeters and dwc:maximumDepthInMeters are not EMPTY; FILLED_IN the value of dwc:minimumDepthInMeters and/or dwc:maximumDepthInMeters if they could be unambiguously determined from dwc:verbatimDepth; otherwise NOT_AMENDED " ;
 	rdfs:label "AMENDMENT_MINDEPTH-MAXDEPTH_FROM_VERBATIM" .
 
-<urn:uuid:dcbcf8ad-606c-41a8-9455-0d6e38b30f54> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:c5658b83-4471-4f57-9d94-bf7d0a96900c> ;
+<urn:uuid:ead93368-ba5a-4f9e-b214-5894bd3b16b3> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:c5658b83-4471-4f57-9d94-bf7d0a96900c> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
-<urn:uuid:6b590536-224e-4ec8-beb9-08778c63e3c8> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
-	rdfs:label "Completeness: verbatim" .
-
-<urn:uuid:7985f260-c810-4eb6-8a07-d0e4f83cdcbb> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:fc17b11d-fd0e-45c9-b1e0-f23db37eb354> ;
+<urn:uuid:23dc3dec-e69d-4df8-a9ca-7e95d216c11d> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:41808a17-b1dd-437e-9cb3-09d00bb5a191> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:c5658b83-4471-4f57-9d94-bf7d0a96900c> ;
 	a <http://rs.tdwg.org/bdq/ffdq/AmendmentMethod> .
 
-<urn:uuid:a38835c0-f46b-42db-aed6-719f04478499> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/maximumDepthInMeters> , <http://rs.tdwg.org/dwc/terms/minimumDepthInMeters> , <http://rs.tdwg.org/dwc/terms/verbatimDepth> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:fc17b11d-fd0e-45c9-b1e0-f23db37eb354> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:6b590536-224e-4ec8-beb9-08778c63e3c8> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:a38835c0-f46b-42db-aed6-719f04478499> ;
+<urn:uuid:41808a17-b1dd-437e-9cb3-09d00bb5a191> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:d4b69483-2b2c-400b-bf56-7966f61f8e98> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:a5bc073f-21a5-4a0e-b4c3-284f17c455a3> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedEnhancement> ;
 	rdfs:comment "Propose amendments of the values of dwc:minimumDepthInMeters and/or dwc:maximumDepthInMeters if they can be interpreted from dwc:verbatimDepth." ;
 	rdfs:label "Propose amendments of the values of dwc:minimumDepthInMeters and/or dwc:maximumDepthInMeters if they can be interpreted from dwc:verbatimDepth.Amedment for SingleRecord" .
 
-<urn:uuid:f18a470b-3fe1-4aae-9c65-a6d3db6b550c> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
-	rdfs:comment "EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority was not available; INTERNAL_PREREQUISITES_NOT_MET if the values of dwc:decimalLatitude, dwc:decimalLongitude, or dwc:stateProvince are EMPTY or invalid; COMPLIANT if the geographic coordinates fall on or within the boundary from the bdq:sourceAuthority for the given dwc:stateProvince (after coordinate reference system transformations, if any, have been accounted for), or within the distance given by bdq:spatialBufferInMeters outside that boundary; otherwise NOT_COMPLIANT. <ul><li>bdq:sourceAuthority default = \"ADM1 boundaries\" [https://gadm.org]</li><li> bdq:spatialBufferInMeters default = \"3000\" </li></ul>" ;
-	rdfs:label "VALIDATION_COORDINATES_STATEPROVINCE_CONSISTENT" .
+<urn:uuid:a5bc073f-21a5-4a0e-b4c3-284f17c455a3> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/maximumDepthInMeters> , <http://rs.tdwg.org/dwc/terms/minimumDepthInMeters> , <http://rs.tdwg.org/dwc/terms/verbatimDepth> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
-<urn:uuid:fa0976fa-da74-4254-8524-f8806af0073a> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:f18a470b-3fe1-4aae-9c65-a6d3db6b550c> ;
+<urn:uuid:d4b69483-2b2c-400b-bf56-7966f61f8e98> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
+	rdfs:label "Completeness: verbatim" .
+
+<urn:uuid:4f16da05-a26b-4754-8e51-5d2b5c4afa39> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:f18a470b-3fe1-4aae-9c65-a6d3db6b550c> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
-<urn:uuid:35d5e82a-d0d2-41ad-b70f-6ca0e88a4d6d> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> , <http://rs.tdwg.org/dwc/terms/stateProvince> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+<urn:uuid:f18a470b-3fe1-4aae-9c65-a6d3db6b550c> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
+	rdfs:comment "EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority was not available; INTERNAL_PREREQUISITES_NOT_MET if the values of dwc:decimalLatitude, dwc:decimalLongitude, or dwc:stateProvince are EMPTY or invalid; COMPLIANT if the geographic coordinates fall on or within the boundary from the bdq:sourceAuthority for the given dwc:stateProvince (after coordinate reference system transformations, if any, have been accounted for), or within the distance given by bdq:spatialBufferInMeters outside that boundary; otherwise NOT_COMPLIANT. bdq:sourceAuthority default = \"ADM1 boundaries\" [https://gadm.org],bdq:spatialBufferInMeters default = \"3000\"" ;
+	rdfs:label "VALIDATION_COORDINATES_STATEPROVINCE_CONSISTENT" .
 
-<urn:uuid:4f0a1e16-156a-451c-970b-84dcc225949c> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:5059342f-189f-487f-8e96-934a34a0f36c> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:35d5e82a-d0d2-41ad-b70f-6ca0e88a4d6d> ;
+<urn:uuid:2dbf15c2-e1ed-4fcb-abf9-93b94415bf0d> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Consistency: consistent" .
+
+<urn:uuid:80e71cc6-0aae-484d-9b16-b104fac11ba0> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:2dbf15c2-e1ed-4fcb-abf9-93b94415bf0d> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:eb86633b-0477-4302-8f82-4018f25730de> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Do the geographic coordinates fall on or within the boundary from the bdq:sourceAuthority for the given dwc:stateProvince or within the distance given by bdq:spatialBufferInMeters outside that boundary?" ;
 	rdfs:label "Do the geographic coordinates fall on or within the boundary from the bdq:sourceAuthority for the given dwc:stateProvince or within the distance given by bdq:spatialBufferInMeters outside that boundary? Validation for SingleRecord" .
 
-<urn:uuid:5059342f-189f-487f-8e96-934a34a0f36c> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Consistency: consistent" .
-
-<urn:uuid:c1113fa8-eca7-4605-9ede-bd7339eeee00> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:4f0a1e16-156a-451c-970b-84dcc225949c> ;
+<urn:uuid:aaa7b080-3c45-4f1f-b0a0-3ca03de0e4ba> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:80e71cc6-0aae-484d-9b16-b104fac11ba0> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:f18a470b-3fe1-4aae-9c65-a6d3db6b550c> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
 
-<urn:uuid:758b7e47-94a5-4a28-a4fd-aed1744aac41> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:7e0c0418-fe16-4a39-98bd-80e19d95b9d1> ;
+<urn:uuid:eb86633b-0477-4302-8f82-4018f25730de> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> , <http://rs.tdwg.org/dwc/terms/stateProvince> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
+<urn:uuid:7e0c0418-fe16-4a39-98bd-80e19d95b9d1> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
+	rdfs:comment "EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available, INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is EMPTY; COMPLIANT if the value of dwc:geodeticDatum is a valid EPSG CRS Code (with or without the \"EPSG:\" namespace prepended), or an unambiguous alphanumeric CRS or datum code; otherwise NOT_COMPLIANT bdq:sourceAuthority is \"EPSG:\" [https://epsg.io]" ;
+	rdfs:label "VALIDATION_GEODETICDATUM_STANDARD" .
+
+<urn:uuid:b73d8e79-19fc-4e94-82fd-a39ca93cecfd> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:7e0c0418-fe16-4a39-98bd-80e19d95b9d1> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
-<urn:uuid:7e0c0418-fe16-4a39-98bd-80e19d95b9d1> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
-	rdfs:comment "EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available, INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is EMPTY; COMPLIANT if the value of dwc:geodeticDatum is a valid EPSG CRS Code (with or without the \"epsg\" namespace prepended), or an unambiguous alphanumeric CRS or datum code; otherwise NOT_COMPLIANT bdq:sourceAuthority is \"epsg\" [https://epsg.io]" ;
-	rdfs:label "VALIDATION_GEODETICDATUM_STANDARD" .
-
-<urn:uuid:3e0fceb3-8f79-435b-a108-5f0e9e261e40> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Conformance: standard" .
-
-<urn:uuid:413900a5-eb80-47bb-9d60-b4bc56350b55> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/geodeticDatum> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:7f3d11ad-231a-4b57-8669-db770c33c2cf> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:b0c3b3fe-458e-455a-b9a8-25ded8d11d4a> ;
+<urn:uuid:3b57ccb5-c21d-42bf-987e-7a49c5363736> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:d1949704-6601-417d-a946-044ba541ecba> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:7e0c0418-fe16-4a39-98bd-80e19d95b9d1> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
 
-<urn:uuid:b0c3b3fe-458e-455a-b9a8-25ded8d11d4a> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:3e0fceb3-8f79-435b-a108-5f0e9e261e40> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:413900a5-eb80-47bb-9d60-b4bc56350b55> ;
+<urn:uuid:8cc8256a-77f5-459d-9202-1da556651c75> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/geodeticDatum> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
+<urn:uuid:d1949704-6601-417d-a946-044ba541ecba> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:fabb1033-8539-4c57-9f6a-044081e426fe> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:8cc8256a-77f5-459d-9202-1da556651c75> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Does the value of dwc:geodeticDatum occur in bdq:sourceAuthority?" ;
 	rdfs:label "Does the value of dwc:geodeticDatum occur in bdq:sourceAuthority? Validation for SingleRecord" .
 
+<urn:uuid:fabb1033-8539-4c57-9f6a-044081e426fe> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Conformance: standard" .
+
 <urn:uuid:0345b325-836d-4235-96d0-3b5caf150fc0> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
 	rdfs:comment "EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority was not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is EMPTY; AMENDED the value of dwc:geodeticDatum if it could be unambiguously interpreted as a value in bdq:sourceAuthority; otherwise NOT_AMENDED bdq:sourceAuthority = GBIF geodeticDatum thesaurus, when available" ;
 	rdfs:label "AMENDMENT_GEODETICDATUM_STANDARDIZED" .
 
-<urn:uuid:87262506-05c1-4f05-bf1e-fd03b3aa3099> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:0345b325-836d-4235-96d0-3b5caf150fc0> ;
+<urn:uuid:bde6060a-cbb3-4afa-ada2-ce8bcd4da1a8> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:0345b325-836d-4235-96d0-3b5caf150fc0> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
-<urn:uuid:268505e5-88b9-4cd1-bd51-bed21ab5b209> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:e5646352-02f9-40c0-9c17-fdcb076d3aae> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:0345b325-836d-4235-96d0-3b5caf150fc0> ;
-	a <http://rs.tdwg.org/bdq/ffdq/AmendmentMethod> .
-
-<urn:uuid:35782aea-385f-49aa-9764-6c77f1f6a4a9> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
-	rdfs:label "Conformance: standardized" .
-
-<urn:uuid:9634feba-7939-4199-be88-12c77a12552d> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/geodeticDatum> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:e5646352-02f9-40c0-9c17-fdcb076d3aae> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:35782aea-385f-49aa-9764-6c77f1f6a4a9> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:9634feba-7939-4199-be88-12c77a12552d> ;
+<urn:uuid:29ee385d-340f-43c5-8ccc-b9bd8c46ae98> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:77b124f7-3575-404c-bc65-f253286f35ef> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:af9d2d44-f73a-4830-ab49-04697709cc9f> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedEnhancement> ;
 	rdfs:comment "Propose amendment to the value of dwc:geodeticDatum using bdq:sourceAuthority." ;
 	rdfs:label "Propose amendment to the value of dwc:geodeticDatum using bdq:sourceAuthority.Amedment for SingleRecord" .
 
-<urn:uuid:a87cff85-99fd-4c99-8056-5c39a607aec8> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:b23110e7-1be7-444a-a677-cdee0cf4330c> ;
+<urn:uuid:5737c0ce-05bc-49db-97a4-35674a858ed0> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:29ee385d-340f-43c5-8ccc-b9bd8c46ae98> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:0345b325-836d-4235-96d0-3b5caf150fc0> ;
+	a <http://rs.tdwg.org/bdq/ffdq/AmendmentMethod> .
+
+<urn:uuid:77b124f7-3575-404c-bc65-f253286f35ef> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
+	rdfs:label "Conformance: standardized" .
+
+<urn:uuid:af9d2d44-f73a-4830-ab49-04697709cc9f> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/geodeticDatum> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
+<urn:uuid:2e11a788-ccc4-42c2-a962-ef0fd81d4cca> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:b23110e7-1be7-444a-a677-cdee0cf4330c> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
@@ -467,53 +467,53 @@
 	rdfs:comment "EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if either of the terms dwc:country or dwc:countryCode are EMPTY; COMPLIANT if the value of the country code determined from the value of dwc:country is equal to the value of dwc:countryCode; otherwise NOT_COMPLIANT bdq:sourceAuthority is \"ISO 3166-1-alpha-2\" [https://restcountries.eu/#api-endpoints-list-of-codes, https://www.iso.org/obp/ui/#search]" ;
 	rdfs:label "VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT" .
 
-<urn:uuid:3173f4ba-5eba-4225-9c83-c861649b4fb7> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:546f7b11-6b39-4913-b2fe-44f3c82e9152> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:6cccb99e-594f-45d0-9979-48bdfd3bfe78> ;
+<urn:uuid:9442eb00-45c4-4500-a637-7fe4b06b1e69> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Consistency: consistent" .
+
+<urn:uuid:afa9eada-2e2a-48a1-a98b-1de1ce2d90a5> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:9442eb00-45c4-4500-a637-7fe4b06b1e69> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:f451f70b-d456-4343-929e-593b15ef781d> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Does the ISO country code determined from the value of dwc:country equal the value of dwc:countryCode?" ;
 	rdfs:label "Does the ISO country code determined from the value of dwc:country equal the value of dwc:countryCode? Validation for SingleRecord" .
 
-<urn:uuid:33658ac6-8011-4e77-b2c7-9dff61edb550> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:3173f4ba-5eba-4225-9c83-c861649b4fb7> ;
+<urn:uuid:b6d66219-9af6-4a6d-b791-a615f30a0036> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:afa9eada-2e2a-48a1-a98b-1de1ce2d90a5> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:b23110e7-1be7-444a-a677-cdee0cf4330c> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
 
-<urn:uuid:546f7b11-6b39-4913-b2fe-44f3c82e9152> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Consistency: consistent" .
-
-<urn:uuid:6cccb99e-594f-45d0-9979-48bdfd3bfe78> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/country> , <http://rs.tdwg.org/dwc/terms/countryCode> ;
+<urn:uuid:f451f70b-d456-4343-929e-593b15ef781d> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/country> , <http://rs.tdwg.org/dwc/terms/countryCode> ;
 	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
 <urn:uuid:2d638c8b-4c62-44a0-a14d-fa147bf9823d> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
 	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:verbatimElevation is EMPTY or dwc:minimumElevationInMeters and/or dwc:maximumElevationInMeters are not EMPTY; FILLED_IN the values of dwc:minimumElevationInMeters and/or dwc:maximumElevationInMeters that could be unambiguously interpreted from dwc:verbatimElevation; otherwise NOT_AMENDED\" " ;
 	rdfs:label "AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM" .
 
-<urn:uuid:4d01c113-69b1-42c6-87cd-743a39694bd6> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:2d638c8b-4c62-44a0-a14d-fa147bf9823d> ;
+<urn:uuid:3dd68675-4eca-4a74-b0ca-0ab788a2f7ae> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:2d638c8b-4c62-44a0-a14d-fa147bf9823d> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
-<urn:uuid:02beb6f4-66bc-4102-8711-09cf22f1be57> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/maximumElevationInMeters> , <http://rs.tdwg.org/dwc/terms/minimumElevationInMeters> , <http://rs.tdwg.org/dwc/terms/verbatimElevation> ;
+<urn:uuid:4b188dd0-3370-4e14-a1a5-1c1fc6dbae42> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
+	rdfs:label "Completeness: verbatim" .
+
+<urn:uuid:6bab11a4-93bd-4e1a-9236-a6ee7b32b28d> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:ce11ca4e-caf3-4bdd-a9f1-088112820118> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:2d638c8b-4c62-44a0-a14d-fa147bf9823d> ;
+	a <http://rs.tdwg.org/bdq/ffdq/AmendmentMethod> .
+
+<urn:uuid:a1e4157a-cbb3-41df-ab13-dbcc42b90254> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/maximumElevationInMeters> , <http://rs.tdwg.org/dwc/terms/minimumElevationInMeters> , <http://rs.tdwg.org/dwc/terms/verbatimElevation> ;
 	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
-<urn:uuid:168d610c-d000-4c32-be6f-2659982d54e1> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:8a7737ec-277e-43dc-a2eb-6a2f05124728> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:02beb6f4-66bc-4102-8711-09cf22f1be57> ;
+<urn:uuid:ce11ca4e-caf3-4bdd-a9f1-088112820118> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:4b188dd0-3370-4e14-a1a5-1c1fc6dbae42> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:a1e4157a-cbb3-41df-ab13-dbcc42b90254> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedEnhancement> ;
 	rdfs:comment "Propose amendment(s) to the values of dwc:minimumElevationInMeters and/or dwc:maximumElevationInMeters if they can be interpreted from dwc:verbatimElevation." ;
 	rdfs:label "Propose amendment(s) to the values of dwc:minimumElevationInMeters and/or dwc:maximumElevationInMeters if they can be interpreted from dwc:verbatimElevation.Amedment for SingleRecord" .
 
-<urn:uuid:22ed9fbb-8692-4698-8504-93ab893ff174> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:168d610c-d000-4c32-be6f-2659982d54e1> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:2d638c8b-4c62-44a0-a14d-fa147bf9823d> ;
-	a <http://rs.tdwg.org/bdq/ffdq/AmendmentMethod> .
-
-<urn:uuid:8a7737ec-277e-43dc-a2eb-6a2f05124728> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
-	rdfs:label "Completeness: verbatim" .
-
 <urn:uuid:13d5a10e-188e-40fd-a22c-dbaa87b91df2> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
 	rdfs:comment "POTENTIAL_ISSUE if dwc:dataGeneralizations is not EMPTY; otherwise NOT_ISSUE " ;
 	rdfs:label "ISSUE_DATAGENERALIZATIONS_NOTEMPTY" .
 
-<urn:uuid:c7cd0128-8d95-4175-b8f7-2f5efac3323d> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:13d5a10e-188e-40fd-a22c-dbaa87b91df2> ;
+<urn:uuid:720708be-4056-449c-8cc9-4702707f93ee> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:13d5a10e-188e-40fd-a22c-dbaa87b91df2> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
@@ -523,74 +523,74 @@
 
 <http://rs.tdwg.org/bdq/ffdq/ProblemMethod> rdfbeans:bindingClass "org.datakurator.ffdq.model.solutions.ProblemMethod" .
 
-<urn:uuid:7f038c3b-6eed-4c6f-821a-4bb40818448d> a <http://rs.tdwg.org/bdq/ffdq/Issue> ;
-	rdfs:label "Resolution: notempty" .
-
-<urn:uuid:a47178e7-1c77-4b63-a754-bc8663858286> <http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:e6a692c3-9bb9-4515-8d76-f36d93325c1d> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasIssue> <urn:uuid:7f038c3b-6eed-4c6f-821a-4bb40818448d> ;
+<urn:uuid:6df31881-1c97-4a84-aed5-807b9fcce708> <http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:8efe8ce6-5a4e-40da-ac73-06d1f790c8e5> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasIssue> <urn:uuid:eb25e02c-06b4-436d-9536-7c0331374655> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedIssue> ;
 	rdfs:comment "Is there a value in dwc:dataGeneralizations?" ;
 	rdfs:label "Is there a value in dwc:dataGeneralizations? Issue for SingleRecord" .
 
-<urn:uuid:e6a692c3-9bb9-4515-8d76-f36d93325c1d> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/dataGeneralizations> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:f3c93e31-70f0-4b60-8255-d98c8a60038b> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:13d5a10e-188e-40fd-a22c-dbaa87b91df2> ;
-	<http://rs.tdwg.org/bdq/ffdq/issueInContext> <urn:uuid:a47178e7-1c77-4b63-a754-bc8663858286> ;
+<urn:uuid:87349f5e-7e66-4c49-8d8c-9facf94c0f11> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:13d5a10e-188e-40fd-a22c-dbaa87b91df2> ;
+	<http://rs.tdwg.org/bdq/ffdq/issueInContext> <urn:uuid:6df31881-1c97-4a84-aed5-807b9fcce708> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ProblemMethod> .
 
-<urn:uuid:418b11a6-ccea-4057-8e18-c66716a7bb7e> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae> ;
+<urn:uuid:8efe8ce6-5a4e-40da-ac73-06d1f790c8e5> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/dataGeneralizations> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
+<urn:uuid:eb25e02c-06b4-436d-9536-7c0331374655> a <http://rs.tdwg.org/bdq/ffdq/Issue> ;
+	rdfs:label "Resolution: notempty" .
+
+<urn:uuid:46de1e90-ad74-4310-b968-c60c2208a18a> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
 <urn:uuid:8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
-	rdfs:comment "EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority[countryShapes] is not available; INTERNAL_PREREQUISITES_NOT_MET if either dwc:decimalLatitude or dwc:decimalLongitude is EMPTY or uninterpretable, or if dwc:countryCode is NOT_EMPTY; FILLED_IN dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority[countryShapes] that is attributable to a single valid country code; otherwise NOT_AMENDED. <ul><li>bdq:sourceAuthority default = \"ADM1 boundaries\" [https://gadm.org] UNION with \"EEZs\" [https://marineregions.org] <li>bdq:sourceAuthority[countryCode] is \"ISO 3166 country codes\" [https://www.iso.org/iso-3166-country-codes.html] </li></ul>" ;
+	rdfs:comment "EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority[countryshapes] is not available; INTERNAL_PREREQUISITES_NOT_MET if either dwc:decimalLatitude or dwc:decimalLongitude is EMPTY or uninterpretable, or if dwc:countryCode is NOT_EMPTY; FILLED_IN dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority[countryshapes] that is attributable to a single valid country code; otherwise NOT_AMENDED. bdq:sourceAuthority default = \"ADM1 boundaries\" [https://gadm.org] UNION with \"EEZs\" [https://marineregions.org],bdq:sourceAuthority[countryCode] is \"ISO 3166 country codes\" [https://www.iso.org/iso-3166-country-codes.html]" ;
 	rdfs:label "AMENDMENT_COUNTRYCODE_FROM_COORDINATES" .
 
-<urn:uuid:4e0fa827-1c4e-497f-9335-c2a16667bea0> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:edb61eb4-e27d-4b44-a2b5-68f29bd4c686> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:7e32b49e-fcc4-4127-972b-ab6682ceac36> ;
+<urn:uuid:0d1edd18-3613-4629-b33c-37036afad6b8> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/coordinatePrecision> , <http://rs.tdwg.org/dwc/terms/countryCode> , <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> , <http://rs.tdwg.org/dwc/terms/geodeticDatum> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
+<urn:uuid:5d956d1f-aef5-4277-910a-d97f29e57135> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:ac2e2526-6a0d-44a8-b38e-8babf5374241> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae> ;
+	a <http://rs.tdwg.org/bdq/ffdq/AmendmentMethod> .
+
+<urn:uuid:ac2e2526-6a0d-44a8-b38e-8babf5374241> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:f925a132-fc14-4d65-9dbb-a8ebb00fa2bb> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:0d1edd18-3613-4629-b33c-37036afad6b8> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedEnhancement> ;
 	rdfs:comment "Propose amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority that is attributable to a single valid country code." ;
 	rdfs:label "Propose amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority that is attributable to a single valid country code.Amedment for SingleRecord" .
 
-<urn:uuid:7e32b49e-fcc4-4127-972b-ab6682ceac36> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/coordinatePrecision> , <http://rs.tdwg.org/dwc/terms/countryCode> , <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> , <http://rs.tdwg.org/dwc/terms/geodeticDatum> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:edb61eb4-e27d-4b44-a2b5-68f29bd4c686> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
+<urn:uuid:f925a132-fc14-4d65-9dbb-a8ebb00fa2bb> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
 	rdfs:label "Completeness: coordinates" .
-
-<urn:uuid:fb8ca104-5efc-475f-92b1-9b362e4d058c> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:4e0fa827-1c4e-497f-9335-c2a16667bea0> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae> ;
-	a <http://rs.tdwg.org/bdq/ffdq/AmendmentMethod> .
 
 <urn:uuid:239ec40e-a729-4a8e-ba69-e0bf03ac1c44> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
 	rdfs:comment "COMPLIANT if dwc:geodeticDatum is not EMPTY; otherwise NOT_COMPLIANT " ;
 	rdfs:label "VALIDATION_GEODETICDATUM_NOTEMPTY" .
 
-<urn:uuid:e7002f32-94df-4db0-b2ba-8fc068bfba23> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:239ec40e-a729-4a8e-ba69-e0bf03ac1c44> ;
+<urn:uuid:87c7fbbe-6a22-44e7-80d0-e9e8190f497e> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:239ec40e-a729-4a8e-ba69-e0bf03ac1c44> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
-<urn:uuid:0c26b2d3-91f0-49f0-9e66-e7716bdecb04> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:c9e8d9aa-bba9-401f-8054-a6f82b5b6ea2> ;
+<urn:uuid:14b2a8c8-5680-4f6b-a773-fbfa80c3194b> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/geodeticDatum> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
+<urn:uuid:15b15748-0fbe-4986-8cf4-34b509e71890> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Completeness: notempty" .
+
+<urn:uuid:96e844b5-adcf-4f65-9665-bbd57d41a9e8> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:e652782c-1302-4209-a957-e77969747c2a> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:239ec40e-a729-4a8e-ba69-e0bf03ac1c44> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
 
-<urn:uuid:9643e6bc-c43c-4ccb-a773-6de638329181> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/geodeticDatum> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:a2cd8e06-4d71-400e-9444-f5979c61e9d1> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Completeness: notempty" .
-
-<urn:uuid:c9e8d9aa-bba9-401f-8054-a6f82b5b6ea2> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:a2cd8e06-4d71-400e-9444-f5979c61e9d1> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:9643e6bc-c43c-4ccb-a773-6de638329181> ;
+<urn:uuid:e652782c-1302-4209-a957-e77969747c2a> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:15b15748-0fbe-4986-8cf4-34b509e71890> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:14b2a8c8-5680-4f6b-a773-fbfa80c3194b> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Is there a value in dwc:geodeticDatum?" ;
 	rdfs:label "Is there a value in dwc:geodeticDatum? Validation for SingleRecord" .
 
-<urn:uuid:1b5ea2ec-3eda-4f76-8ea7-02373cdf7843> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:b6ecda2a-ce36-437a-b515-3ae94948fe83> ;
+<urn:uuid:a511f750-f0b6-4b92-bc32-679b9f681812> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:b6ecda2a-ce36-437a-b515-3ae94948fe83> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
@@ -598,49 +598,49 @@
 	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is EMPTY or the value is not interpretable as a number; COMPLIANT if the value of dwc:decimalLatitude is between -90 and 90, inclusive; otherwise NOT_COMPLIANT " ;
 	rdfs:label "VALIDATION_DECIMALLATITUDE_INRANGE" .
 
-<urn:uuid:2d3048a2-953e-4f75-867c-383f13058bdf> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:e1e872cf-dcd2-43b4-9391-77b4895e0e6d> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:5b55db53-c0a4-4401-94a6-c4d62aba6c88> ;
+<urn:uuid:27a2f3a4-c4cb-4a93-a5e6-ae339a7cf7bd> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Conformance: inrange" .
+
+<urn:uuid:43e28d6a-7cae-4398-9d56-a0a4c74273af> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:bea3e05b-8b88-48d4-b7a0-92ba09da3202> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:b6ecda2a-ce36-437a-b515-3ae94948fe83> ;
+	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
+
+<urn:uuid:673dd5c1-e3f8-437d-b2af-d7baed5af450> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/decimalLatitude> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
+<urn:uuid:bea3e05b-8b88-48d4-b7a0-92ba09da3202> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:27a2f3a4-c4cb-4a93-a5e6-ae339a7cf7bd> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:673dd5c1-e3f8-437d-b2af-d7baed5af450> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Is the value of dwc:decimalLatitude a number between -90 and 90 inclusive?" ;
 	rdfs:label "Is the value of dwc:decimalLatitude a number between -90 and 90 inclusive? Validation for SingleRecord" .
 
-<urn:uuid:54714cde-df7e-46aa-a5b2-6eb65a5344d9> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:2d3048a2-953e-4f75-867c-383f13058bdf> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:b6ecda2a-ce36-437a-b515-3ae94948fe83> ;
-	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
-
-<urn:uuid:5b55db53-c0a4-4401-94a6-c4d62aba6c88> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/decimalLatitude> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:e1e872cf-dcd2-43b4-9391-77b4895e0e6d> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Conformance: inrange" .
-
 <urn:uuid:1bf0e210-6792-4128-b8cc-ab6828aa4871> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
-	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude and/or dwc:decimalLongitude are EMPTY or both of the values are not interpretable as numbers; COMPLIANT if either the value of dwc:decimalLatitude is not = 0 or the value of dwc:decimalLongitude is not = 0; otherwise NOT_COMPLIANT " ;
+	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is EMPTY or is not interpretable as a number, or dwc:decimalLongitude is EMPTY or is not interpretable as a number; COMPLIANT if either the value of dwc:decimalLatitude is not = 0 or the value of dwc:decimalLongitude is not = 0; otherwise NOT_COMPLIANT " ;
 	rdfs:label "VALIDATION_COORDINATES_NOTZERO" .
 
-<urn:uuid:590f9764-2027-449d-8d68-f8c5222a1caa> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:1bf0e210-6792-4128-b8cc-ab6828aa4871> ;
+<urn:uuid:8e548ade-3c86-4e31-b552-7ed167fae37d> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:1bf0e210-6792-4128-b8cc-ab6828aa4871> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
-<urn:uuid:144579f2-8a42-4591-ab3f-7cba257ca626> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:2862025b-da26-4a41-8dc5-a8dacbe061f0> ;
+<urn:uuid:52f0481d-7ded-4cfb-ac11-419e50a7a4e4> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
+<urn:uuid:56bb9814-a73b-4a73-bde6-593d28374743> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:a81281e9-8630-4592-91f2-47087463280a> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:1bf0e210-6792-4128-b8cc-ab6828aa4871> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
 
-<urn:uuid:2862025b-da26-4a41-8dc5-a8dacbe061f0> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:4854ec1e-459c-46a3-947c-6081b3c3e689> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:931da821-96f6-42ca-a422-4ec3e8692156> ;
+<urn:uuid:a81281e9-8630-4592-91f2-47087463280a> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:a91a73c3-aa75-477f-abd0-4b7d0dc34efb> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:52f0481d-7ded-4cfb-ac11-419e50a7a4e4> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Are the values of either dwc:decimalLatitude or dwc:decimalLongitude numbers that are not equal to 0?" ;
 	rdfs:label "Are the values of either dwc:decimalLatitude or dwc:decimalLongitude numbers that are not equal to 0? Validation for SingleRecord" .
 
-<urn:uuid:4854ec1e-459c-46a3-947c-6081b3c3e689> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+<urn:uuid:a91a73c3-aa75-477f-abd0-4b7d0dc34efb> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
 	rdfs:label "Likeliness: notzero" .
 
-<urn:uuid:931da821-96f6-42ca-a422-4ec3e8692156> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/decimalLatitude> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:8468cfd0-f19a-45e9-a3d7-3d103bb3d11a> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:9beb9442-d942-4f42-8b6a-fcea01ee086a> ;
+<urn:uuid:39e09670-e26b-40cc-b0cb-0c9a08fd1243> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:9beb9442-d942-4f42-8b6a-fcea01ee086a> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
@@ -648,99 +648,99 @@
 	rdfs:comment "COMPLIANT if dwc:decimalLongitude is not EMPTY; otherwise NOT_COMPLIANT " ;
 	rdfs:label "VALIDATION_DECIMALLONGITUDE_NOTEMPTY" .
 
-<urn:uuid:53c5e364-2b08-4045-93a6-fefe45ea1bfa> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:96f7f174-103b-4152-91ad-2d312a8faf5d> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:f90e4f27-d674-4b66-ade0-42c36c7d06ce> ;
+<urn:uuid:0fd3b8ba-ab60-42a1-bc55-dec65b1c4375> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Completeness: notempty" .
+
+<urn:uuid:3807fbff-1f1d-4632-b349-5d9216f10724> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:0fd3b8ba-ab60-42a1-bc55-dec65b1c4375> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:ebdb0697-282f-4dc8-a3d5-b5911ca0fe82> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Is there a value in dwc:decimalLongitude?" ;
 	rdfs:label "Is there a value in dwc:decimalLongitude? Validation for SingleRecord" .
 
-<urn:uuid:6db4c365-3fa1-4b88-a4fa-172cf785fb88> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:53c5e364-2b08-4045-93a6-fefe45ea1bfa> ;
+<urn:uuid:a5e8ebd8-8802-4d9e-a0da-5bcc365f2861> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:3807fbff-1f1d-4632-b349-5d9216f10724> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:9beb9442-d942-4f42-8b6a-fcea01ee086a> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
 
-<urn:uuid:96f7f174-103b-4152-91ad-2d312a8faf5d> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Completeness: notempty" .
-
-<urn:uuid:f90e4f27-d674-4b66-ade0-42c36c7d06ce> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/decimalLongitude> ;
+<urn:uuid:ebdb0697-282f-4dc8-a3d5-b5911ca0fe82> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/decimalLongitude> ;
 	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
+<urn:uuid:4c666942-9a40-4987-b606-48f4b45fc601> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:853b79a2-b314-44a2-ae46-34a1e7ed85e4> ;
+	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
+	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
 <urn:uuid:853b79a2-b314-44a2-ae46-34a1e7ed85e4> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
 	rdfs:comment "COMPLIANT if dwc:countryCode is not EMPTY; otherwise NOT_COMPLIANT " ;
 	rdfs:label "VALIDATION_COUNTRYCODE_NOTEMPTY" .
 
-<urn:uuid:f020b2ed-e950-4f34-80b7-f3cebe1e9f72> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:853b79a2-b314-44a2-ae46-34a1e7ed85e4> ;
-	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
-	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
-
-<urn:uuid:22a8d9e0-dd35-4551-a950-3ac122d31414> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/countryCode> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:38054188-6456-4b0c-aed0-7acda4684e46> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:f1db70a0-cf28-4c23-875f-06fecd14c7a8> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:22a8d9e0-dd35-4551-a950-3ac122d31414> ;
+<urn:uuid:0482f720-3b22-4ea6-8a24-6efff5e48c04> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:ebe6aa75-7439-419d-a976-30c195a7a63b> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:47721e80-3696-4c1a-9769-84febcfbd37a> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Is there a value in dwc:countryCode?" ;
 	rdfs:label "Is there a value in dwc:countryCode? Validation for SingleRecord" .
 
-<urn:uuid:3860d7d6-131c-4a93-89b6-f8ec26be2e60> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:38054188-6456-4b0c-aed0-7acda4684e46> ;
+<urn:uuid:47721e80-3696-4c1a-9769-84febcfbd37a> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/countryCode> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
+<urn:uuid:ba27e703-ee90-4a19-8a31-11e7da9fcbc6> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:0482f720-3b22-4ea6-8a24-6efff5e48c04> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:853b79a2-b314-44a2-ae46-34a1e7ed85e4> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
 
-<urn:uuid:f1db70a0-cf28-4c23-875f-06fecd14c7a8> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+<urn:uuid:ebe6aa75-7439-419d-a976-30c195a7a63b> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
 	rdfs:label "Completeness: notempty" .
 
-<urn:uuid:7498ca76-c4d4-42e2-8103-acacccbdffa7> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
-	rdfs:comment "If dwc:geodeticDatum is EMPTY, fill in the value of dwc:geodeticDatum with the value of bdq:defaultGeodeticDatum, report FILLED_IN and, if dwc:coordinateUncertaintyInMeters, dwc:decimalLatitude and dwc:decimalLongitude are NOT_EMPTY, amend the value of dwc:coordinateUncertaintyInMeters by adding the maximum datum shift between the specified bdq:defaultGeodeticDatum and any other datum at the provided dwc:decimalLatitude and dwc:decimalLongitude and instead report AMENDED; otherwise NOT_AMENDED. " ;
-	rdfs:label "AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT" .
-
-<urn:uuid:f296c3b1-e2aa-4bdb-a3c3-e90d831a22a5> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:7498ca76-c4d4-42e2-8103-acacccbdffa7> ;
+<urn:uuid:4fcc765a-1b93-4747-8d16-9a159c8d7865> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:7498ca76-c4d4-42e2-8103-acacccbdffa7> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
-<urn:uuid:4d61748f-0c1a-4daa-b9f0-b40b40203afc> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:b890e82b-be62-4b60-94a9-229fbe8d3507> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:71548e04-beb6-4802-8436-4d41fcf6617b> ;
+<urn:uuid:7498ca76-c4d4-42e2-8103-acacccbdffa7> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
+	rdfs:comment "If dwc:geodeticDatum is EMPTY, fill in the value of dwc:geodeticDatum with the value of bdq:defaultGeodeticDatum, report FILLED_IN and, if dwc:coordinateUncertaintyInMeters, dwc:decimalLatitude and dwc:decimalLongitude are NOT_EMPTY, amend the value of dwc:coordinateUncertaintyInMeters by adding the maximum datum shift between the specified bdq:defaultGeodeticDatum and any other datum at the provided dwc:decimalLatitude and dwc:decimalLongitude and instead report AMENDED; otherwise NOT_AMENDED. bdq:defaultGeodeticDatum default=\"EPSG:4326\"" ;
+	rdfs:label "AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT" .
+
+<urn:uuid:280aedaf-6c3a-48a9-8b9e-fed2217f09da> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> , <http://rs.tdwg.org/dwc/terms/decimatitude> , <http://rs.tdwg.org/dwc/terms/geodeticDatum> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
+<urn:uuid:4515ea77-acd6-4bce-99b7-1323ffe8ff9d> <http://rs.tdwg.org/bdq/ffdq/hasEnhancement> <urn:uuid:b6e2050b-02ff-4117-ab7d-1a2a64332257> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:280aedaf-6c3a-48a9-8b9e-fed2217f09da> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedEnhancement> ;
 	rdfs:comment "Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty. If dwc:coordinateUncertaintyInMeters is not empty and there are not empty values for dwc:latitude and dwc:longitude, amend dwc:coordinateUncertaintyInMeters by adding a maximum datum shift." ;
 	rdfs:label "Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty. If dwc:coordinateUncertaintyInMeters is not empty and there are not empty values for dwc:latitude and dwc:longitude, amend dwc:coordinateUncertaintyInMeters by adding a maximum datum shift.Amedment for SingleRecord" .
 
-<urn:uuid:64ed84da-08d8-4490-8131-2f514229883f> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:4d61748f-0c1a-4daa-b9f0-b40b40203afc> ;
+<urn:uuid:b6e2050b-02ff-4117-ab7d-1a2a64332257> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
+	rdfs:label "Completeness: assumeddefault" .
+
+<urn:uuid:bb8fa07f-fd88-4305-9191-d6c5d8704d1d> <http://rs.tdwg.org/bdq/ffdq/enhancementInContext> <urn:uuid:4515ea77-acd6-4bce-99b7-1323ffe8ff9d> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:7498ca76-c4d4-42e2-8103-acacccbdffa7> ;
 	a <http://rs.tdwg.org/bdq/ffdq/AmendmentMethod> .
 
-<urn:uuid:71548e04-beb6-4802-8436-4d41fcf6617b> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters> , <http://rs.tdwg.org/dwc/terms/decimalLongitude> , <http://rs.tdwg.org/dwc/terms/decimatitude> , <http://rs.tdwg.org/dwc/terms/geodeticDatum> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:b890e82b-be62-4b60-94a9-229fbe8d3507> a <http://rs.tdwg.org/bdq/ffdq/Enhancement> ;
-	rdfs:label "Completeness: assumeddefault" .
-
 <urn:uuid:04b2c8f3-c71b-4e95-8e43-f70374c5fb92> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
-	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters is EMPTY, or the value is not interpretable as number greater than or equal to zero; COMPLIANT if the value of dwc:minimumDepthInMeters is within the range of bdq:minimumValidDepthInMeters to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT " ;
+	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters is EMPTY, or the value is not interpretable as number greater than or equal to zero; COMPLIANT if the value of dwc:minimumDepthInMeters is within the range of bdq:minimumValidDepthInMeters to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT bdq:minimumValidDepthInMeters default=\"0\",bdq:maximumValidDepthInMeters default=\"11000\"" ;
 	rdfs:label "VALIDATION_MINDEPTH_INRANGE" .
 
-<urn:uuid:fcbab798-a8e4-44f5-9b2f-75b149f329db> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:04b2c8f3-c71b-4e95-8e43-f70374c5fb92> ;
+<urn:uuid:b10172f6-8dca-44c9-82cd-8ea0b18ac9d8> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:04b2c8f3-c71b-4e95-8e43-f70374c5fb92> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
-<urn:uuid:228991c7-aa4d-4072-9b9e-f77de3f49123> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:e41c95bd-0dbc-4f7b-817a-0ed8f196ba72> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:928d4e8c-95b8-4035-97fb-35cc922cee0d> ;
+<urn:uuid:352309ce-3a46-43d5-a136-7a448e90183d> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:fb542454-7119-4744-9082-f483dbb2b395> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:04b2c8f3-c71b-4e95-8e43-f70374c5fb92> ;
+	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
+
+<urn:uuid:3efddd0b-e756-42bc-96c6-b1ccb22f29dc> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Conformance: inrange" .
+
+<urn:uuid:c6f5cb7b-7c89-4ab9-ba63-d248357d911a> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/minimumDepthInMeters> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
+<urn:uuid:fb542454-7119-4744-9082-f483dbb2b395> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:3efddd0b-e756-42bc-96c6-b1ccb22f29dc> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:c6f5cb7b-7c89-4ab9-ba63-d248357d911a> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Is the value of dwc:minimumDepthInMeters within the Parameter range?" ;
 	rdfs:label "Is the value of dwc:minimumDepthInMeters within the Parameter range? Validation for SingleRecord" .
 
-<urn:uuid:722bc936-10f4-4e39-92c3-5bf0e6819fb7> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:228991c7-aa4d-4072-9b9e-f77de3f49123> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:04b2c8f3-c71b-4e95-8e43-f70374c5fb92> ;
-	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
-
-<urn:uuid:928d4e8c-95b8-4035-97fb-35cc922cee0d> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/minimumDepthInMeters> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:e41c95bd-0dbc-4f7b-817a-0ed8f196ba72> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Conformance: inrange" .
-
-<urn:uuid:8ee7be10-90b8-4fdd-ae8a-555a31fbf980> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:d708526b-6561-438e-aa1a-82cd80b06396> ;
+<urn:uuid:5d8bdc14-60ad-4476-b6fd-901a7f7ff69b> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:d708526b-6561-438e-aa1a-82cd80b06396> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
@@ -748,24 +748,24 @@
 	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumlevationInMeters or dwc:minimumElevationInMeters is EMPTY, or if either is not a number; COMPLIANT if the value of dwc:minimumElevationInMeters is a number less than or equal to the value of the number dwc:maximumElevationInMeters, otherwise NOT_COMPLIANT " ;
 	rdfs:label "VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION" .
 
-<urn:uuid:0daceeec-40ad-4bad-a502-06cb137dae19> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:e60984b3-3ecd-4a65-8396-549118b707d5> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:99c45e45-e9da-4db8-9947-82a59b8ca624> ;
+<urn:uuid:212eae74-3608-4e9a-a043-4bc0e7d33fb2> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:4d27327d-5f83-459d-b133-1da000f802d1> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:f1a1d8a1-6202-4d01-be37-cb6582388304> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Is the value of dwc:minimumElevationInMeters a number less than or equal to the value of dwc:maximumElevationInMeters?" ;
 	rdfs:label "Is the value of dwc:minimumElevationInMeters a number less than or equal to the value of dwc:maximumElevationInMeters? Validation for SingleRecord" .
 
-<urn:uuid:8f5aa51e-0c69-4a2d-96e3-a4f85142ec48> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:0daceeec-40ad-4bad-a502-06cb137dae19> ;
+<urn:uuid:4d27327d-5f83-459d-b133-1da000f802d1> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Conformance: maxelevation" .
+
+<urn:uuid:88e7912f-bdda-4a49-8893-c42bf69b0c45> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:212eae74-3608-4e9a-a043-4bc0e7d33fb2> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:d708526b-6561-438e-aa1a-82cd80b06396> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
 
-<urn:uuid:99c45e45-e9da-4db8-9947-82a59b8ca624> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/maximumElevationInMeters> , <http://rs.tdwg.org/dwc/terms/minimumElevationInMeters> ;
+<urn:uuid:f1a1d8a1-6202-4d01-be37-cb6582388304> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/maximumElevationInMeters> , <http://rs.tdwg.org/dwc/terms/minimumElevationInMeters> ;
 	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
-<urn:uuid:e60984b3-3ecd-4a65-8396-549118b707d5> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Conformance: maxelevation" .
-
-<urn:uuid:7fdd7401-cf65-4e14-9781-5438e91ac75b> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:c6adf2ea-3051-4498-97f4-4b2f8a105f57> ;
+<urn:uuid:8f26040d-61cf-4763-b0c1-06abb68adff4> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:c6adf2ea-3051-4498-97f4-4b2f8a105f57> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
@@ -773,49 +773,49 @@
 	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:coordinateUncertaintyInMeters is EMPTY; COMPLIANT if the value of  dwc:coordinateUncertaintyInMeters can be interpreted as a number between 1 and 20037509 inclusive; otherwise NOT_COMPLIANT " ;
 	rdfs:label "VALIDATION_COORDINATEUNCERTAINTY_INRANGE" .
 
-<urn:uuid:3703aea3-9c6c-4006-8420-d9411372705e> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:c667e24d-6307-4ca6-977c-02103d54a214> ;
+<urn:uuid:1584b846-faca-49d2-ab80-29aafabe82c0> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:f82d802f-5255-4420-adb4-5e0ef0e8f90f> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:c6adf2ea-3051-4498-97f4-4b2f8a105f57> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
 
-<urn:uuid:76b55aff-0170-45cc-997f-d2bbf8bc9b9c> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:b3f50ca7-8963-4ef5-8cf4-fb3c0ff7240c> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+<urn:uuid:48cb3dba-3579-46dd-a07a-a5ec487e365b> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
 	rdfs:label "Conformance: inrange" .
 
-<urn:uuid:c667e24d-6307-4ca6-977c-02103d54a214> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:b3f50ca7-8963-4ef5-8cf4-fb3c0ff7240c> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:76b55aff-0170-45cc-997f-d2bbf8bc9b9c> ;
+<urn:uuid:eeb3c541-d445-4d5f-9587-5b4e6379e653> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
+<urn:uuid:f82d802f-5255-4420-adb4-5e0ef0e8f90f> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:48cb3dba-3579-46dd-a07a-a5ec487e365b> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:eeb3c541-d445-4d5f-9587-5b4e6379e653> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Is the value of dwc:coordinateUncertaintyInMeters a number between 1 and 20,037,509?" ;
 	rdfs:label "Is the value of dwc:coordinateUncertaintyInMeters a number between 1 and 20,037,509? Validation for SingleRecord" .
 
-<urn:uuid:63d0afc5-044b-4463-beef-6259ab6f2088> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:c971fe3f-84c1-4636-9f44-b1ec31fd63c7> ;
+<urn:uuid:1c5a8869-f494-4755-b4ee-a9a2a3a766f8> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:c971fe3f-84c1-4636-9f44-b1ec31fd63c7> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
 <urn:uuid:c971fe3f-84c1-4636-9f44-b1ec31fd63c7> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
-	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumElevationInMeters is EMPTY or the value cannot be interpreted as a number; COMPLIANT if the value of dwc:maximumElevationInMeters is within the range of bdq:minimumValidElevationInMeters to bdq:maximumValidElevationInMeters inclusive; otherwise NOT_COMPLIANT " ;
+	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumElevationInMeters is EMPTY or the value cannot be interpreted as a number; COMPLIANT if the value of dwc:maximumElevationInMeters is within the range of bdq:minimumValidElevationInMeters to bdq:maximumValidElevationInMeters inclusive; otherwise NOT_COMPLIANT bdq:minimumValidElevationInMeters default=\"-430\",bdq:maximumValidElevationInMeters default=\"8850\"" ;
 	rdfs:label "VALIDATION_MAXELEVATION_INRANGE" .
 
-<urn:uuid:62ebfd06-391f-4b26-b2d5-ea6e62206564> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Conformance: inrange" .
+<urn:uuid:46e99f1b-a1b7-4d19-b600-81c821d1d329> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/maximumElevationInMeters> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
-<urn:uuid:96bd0f3f-bef3-4c66-8a93-72f45146d115> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:d199b580-7a07-4900-b00a-fdc1f4fdf911> ;
+<urn:uuid:4c1b4104-2373-4780-97a9-90ab733fafdc> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:f62a5b56-beab-4a0d-962c-0153836d215b> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:c971fe3f-84c1-4636-9f44-b1ec31fd63c7> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
 
-<urn:uuid:992fc88e-a7c1-441d-86cc-74fdde432360> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/maximumElevationInMeters> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+<urn:uuid:7586389a-2532-48b1-b659-199691a89fb6> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Conformance: inrange" .
 
-<urn:uuid:d199b580-7a07-4900-b00a-fdc1f4fdf911> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:62ebfd06-391f-4b26-b2d5-ea6e62206564> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:992fc88e-a7c1-441d-86cc-74fdde432360> ;
+<urn:uuid:f62a5b56-beab-4a0d-962c-0153836d215b> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:7586389a-2532-48b1-b659-199691a89fb6> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:46e99f1b-a1b7-4d19-b600-81c821d1d329> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Is the value of dwc:maximumElevationInMeters of a single record within a valid range" ;
 	rdfs:label "Is the value of dwc:maximumElevationInMeters of a single record within a valid range Validation for SingleRecord" .
 
-<urn:uuid:48cabcf4-f2ef-46be-ae48-081e301cc0ed> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:7d2485d5-1ba7-4f25-90cb-f4480ff1a275> ;
+<urn:uuid:0b4a9513-20f9-431e-ab16-2ab930466f96> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:7d2485d5-1ba7-4f25-90cb-f4480ff1a275> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
@@ -823,99 +823,99 @@
 	rdfs:comment "COMPLIANT if dwc:decimalLatitude is not EMPTY; otherwise NOT_COMPLIANT " ;
 	rdfs:label "VALIDATION_DECIMALLATITUDE_NOTEMPTY" .
 
-<urn:uuid:a5885a1e-4ec0-45c9-ba68-64bd9e773493> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/decimalLatitude> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:ad0aa572-786e-4f24-a5ee-c7fb084c0e8a> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+<urn:uuid:1d242734-17af-486e-91b3-4c3d28aa363f> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
 	rdfs:label "Completeness: notempty" .
 
-<urn:uuid:d33e5525-780b-4739-a11d-aaff831803ef> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:df09079d-c0ae-4737-a816-7db4bb75971f> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:7d2485d5-1ba7-4f25-90cb-f4480ff1a275> ;
-	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
-
-<urn:uuid:df09079d-c0ae-4737-a816-7db4bb75971f> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:ad0aa572-786e-4f24-a5ee-c7fb084c0e8a> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:a5885a1e-4ec0-45c9-ba68-64bd9e773493> ;
+<urn:uuid:6d36f860-b019-477a-a658-400393dbec98> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:1d242734-17af-486e-91b3-4c3d28aa363f> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:b6c73413-e746-4c93-ac2d-285f39370237> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Is there a value in dwc:decimalLatitude?" ;
 	rdfs:label "Is there a value in dwc:decimalLatitude? Validation for SingleRecord" .
 
-<urn:uuid:3f1db29a-bfa5-40db-9fd1-fde020d81939> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
-	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumDepthInMeters is EMPTY or is not interpretable as a number greater than or equal to zero; COMPLIANT if the value of dwc:maximumDepthInMeters is within the range of bdq:minimumValidDepthInMeters to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT " ;
-	rdfs:label "VALIDATION_MAXDEPTH_INRANGE" .
+<urn:uuid:b6c73413-e746-4c93-ac2d-285f39370237> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/decimalLatitude> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
-<urn:uuid:88799b80-2c38-424e-81ad-88cab92c1c52> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:3f1db29a-bfa5-40db-9fd1-fde020d81939> ;
+<urn:uuid:e1ae1ad3-3812-4165-8a58-ad7e873a0b42> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:6d36f860-b019-477a-a658-400393dbec98> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:7d2485d5-1ba7-4f25-90cb-f4480ff1a275> ;
+	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
+
+<urn:uuid:3b5b7999-af0f-4031-a235-d431cd6909ec> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:3f1db29a-bfa5-40db-9fd1-fde020d81939> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
-<urn:uuid:4e0ff567-2bd4-4f4c-94f0-a9645192311a> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:bfb1580b-66b1-4027-9dbf-673d5a25612c> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:6409f5a8-15e1-4ef9-84c0-a5378b468e93> ;
+<urn:uuid:3f1db29a-bfa5-40db-9fd1-fde020d81939> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
+	rdfs:comment "INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumDepthInMeters is EMPTY or is not interpretable as a number greater than or equal to zero; COMPLIANT if the value of dwc:maximumDepthInMeters is within the range of bdq:minimumValidDepthInMeters to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT bdq:minimumValidDepthInMeters default=\"0\",bdq:maximumValidDepthInMeters default=\"11000\"" ;
+	rdfs:label "VALIDATION_MAXDEPTH_INRANGE" .
+
+<urn:uuid:42fbe530-a8bf-49ee-9e15-a29c73fc6c21> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:55214239-7bf0-421a-9a85-c9fe18c99b46> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:4fbbc58e-7cfc-497a-ada0-2272348d0f0c> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Is the value of dwc:maximumDepthInMeters within the Parameter range?" ;
 	rdfs:label "Is the value of dwc:maximumDepthInMeters within the Parameter range? Validation for SingleRecord" .
 
-<urn:uuid:6409f5a8-15e1-4ef9-84c0-a5378b468e93> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/maximumDepthInMeters> ;
+<urn:uuid:4fbbc58e-7cfc-497a-ada0-2272348d0f0c> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/maximumDepthInMeters> ;
 	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
-<urn:uuid:bfb1580b-66b1-4027-9dbf-673d5a25612c> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+<urn:uuid:55214239-7bf0-421a-9a85-c9fe18c99b46> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
 	rdfs:label "Conformance: inrange" .
 
-<urn:uuid:da630e1f-373e-4c3e-a71f-b7ed315e1df4> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:4e0ff567-2bd4-4f4c-94f0-a9645192311a> ;
+<urn:uuid:5fca1a81-1973-4775-95c9-002e34edcf39> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:42fbe530-a8bf-49ee-9e15-a29c73fc6c21> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:3f1db29a-bfa5-40db-9fd1-fde020d81939> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
-
-<urn:uuid:3086ec48-57f9-482d-a63e-56d71a2d3c9a> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:4daa7986-d9b0-4dd5-ad17-2d7a771ea71a> ;
-	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
-	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
 <urn:uuid:4daa7986-d9b0-4dd5-ad17-2d7a771ea71a> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
 	rdfs:comment "EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:stateProvince is EMPTY; COMPLIANT if the value of dwc:stateProvince occurs as an administrative entity that is a child to at least one entity representing an ISO country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = \"The Getty Thesaurus of Geographic Names (TGN)\" [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]" ;
 	rdfs:label "VALIDATION_STATEPROVINCE_FOUND" .
 
-<urn:uuid:348dd533-bc3e-40b4-bd11-e33bd15eb9b3> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:9217d334-5689-4294-9f20-2043287d9ef9> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:f5bb8181-a948-4e36-b202-49b4e670efdd> ;
+<urn:uuid:ba5803f4-f51a-48af-b3b4-2f3eaaf49db8> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:4daa7986-d9b0-4dd5-ad17-2d7a771ea71a> ;
+	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
+	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
+
+<urn:uuid:2d00f3a7-975b-46dc-901e-19804ae9512e> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Conformance: found" .
+
+<urn:uuid:35ab6c94-e2df-4c26-a2bb-a9e537878ada> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/stateProvince> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
+<urn:uuid:cfcf5c06-d58a-43c9-841a-f6cde9d882ba> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:e2b9f652-1197-407a-a82a-467cb740c09b> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:4daa7986-d9b0-4dd5-ad17-2d7a771ea71a> ;
+	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
+
+<urn:uuid:e2b9f652-1197-407a-a82a-467cb740c09b> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:2d00f3a7-975b-46dc-901e-19804ae9512e> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:35ab6c94-e2df-4c26-a2bb-a9e537878ada> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Does the value of dwc:stateProvince occur in bdq:sourceAuthority?" ;
 	rdfs:label "Does the value of dwc:stateProvince occur in bdq:sourceAuthority? Validation for SingleRecord" .
 
-<urn:uuid:9217d334-5689-4294-9f20-2043287d9ef9> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Conformance: found" .
-
-<urn:uuid:96532b72-0d54-49ee-ade8-475af39484fb> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:348dd533-bc3e-40b4-bd11-e33bd15eb9b3> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:4daa7986-d9b0-4dd5-ad17-2d7a771ea71a> ;
-	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
-
-<urn:uuid:f5bb8181-a948-4e36-b202-49b4e670efdd> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/stateProvince> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:20e3b778-d6b8-424c-acca-480ad6965a40> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:e654f562-44f8-43fd-983b-2aaba4c6dda9> ;
-	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
-	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
-
 <urn:uuid:e654f562-44f8-43fd-983b-2aaba4c6dda9> a <http://rs.tdwg.org/bdq/ffdq/Specification> ;
 	rdfs:comment "EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country or dwc:stateProvince are EMPTY; COMPLIANT if the value of dwc:stateProvince occurs as an administrative entity that is a child to the entity matching the value of dwc:country in the bdq:sourceAuthority, and the match to dwc:country is an ISO country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = \"The Getty Thesaurus of Geographic Names (TGN)\" [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]" ;
 	rdfs:label "VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT" .
 
-<urn:uuid:464baa1d-c8b7-414e-a49c-4423052c24c9> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:a2bb14dc-9f2b-4e48-846f-b5eef78c74ed> ;
+<urn:uuid:f926a641-7014-461d-a708-e8ada111ecbe> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:e654f562-44f8-43fd-983b-2aaba4c6dda9> ;
+	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
+	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
+
+<urn:uuid:19de206b-9a65-4a9d-aa92-7cceb395dd9c> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/country> , <http://rs.tdwg.org/dwc/terms/stateProvince> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+
+<urn:uuid:26c8faa1-8e0e-4374-9712-265e11fa6bb0> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Conformance: consistent" .
+
+<urn:uuid:840b0a47-612e-44b8-8da9-c801b2becabd> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:b0690529-55b9-4fae-a87c-2b2b34aed588> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:e654f562-44f8-43fd-983b-2aaba4c6dda9> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
 
-<urn:uuid:9821c240-65bb-4157-b1ee-a3bbdcfe9846> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/country> , <http://rs.tdwg.org/dwc/terms/stateProvince> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
-
-<urn:uuid:a2bb14dc-9f2b-4e48-846f-b5eef78c74ed> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:a44d98c2-8d39-450e-97e9-c12632a2c4af> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:9821c240-65bb-4157-b1ee-a3bbdcfe9846> ;
+<urn:uuid:b0690529-55b9-4fae-a87c-2b2b34aed588> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:26c8faa1-8e0e-4374-9712-265e11fa6bb0> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:19de206b-9a65-4a9d-aa92-7cceb395dd9c> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Are the combination of the values of dwc:country, dwc:stateProvince consistent with the values in the bdq:sourceAuthority?" ;
 	rdfs:label "Are the combination of the values of dwc:country, dwc:stateProvince consistent with the values in the bdq:sourceAuthority? Validation for SingleRecord" .
 
-<urn:uuid:a44d98c2-8d39-450e-97e9-c12632a2c4af> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Conformance: consistent" .
-
-<urn:uuid:1cda51db-468b-4673-8d62-bebdbbe4395a> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:d257eb98-27cb-48e5-8d3c-ab9fca4edd11> ;
+<urn:uuid:9011f085-f3a6-4c14-914b-be158488879f> <http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:d257eb98-27cb-48e5-8d3c-ab9fca4edd11> ;
 	<http://rs.tdwg.org/bdq/ffdq/implementedBy> <urn:uuid:71fa3762-0dfa-43c7-a113-d59797af02e8> ;
 	a <http://rs.tdwg.org/bdq/ffdq/Implementation> .
 
@@ -923,19 +923,19 @@
 	rdfs:comment "EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country and dwc:stateProvince are EMPTY; COMPLIANT if the combination of values of dwc:country and dwc:stateProvince are unambiguously resolved to a single result with a child-parent relationship in the bdq:sourceAuthority and the entity matching the value of dwc:country in the bdq:sourceAuthority is an ISO country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = \"The Getty Thesaurus of Geographic Names (TGN)\" [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]" ;
 	rdfs:label "VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS" .
 
-<urn:uuid:082b1f8a-11c9-45db-b557-f644184f9787> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:baad33a3-97f9-4e5a-8188-7b05381e1cf4> ;
+<urn:uuid:06776653-1e04-462e-ad83-d89a190b234d> <http://rs.tdwg.org/bdq/ffdq/criterionInContext> <urn:uuid:122fe7ff-c3fa-4f03-a457-ab8792828a66> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasSpecification> <urn:uuid:d257eb98-27cb-48e5-8d3c-ab9fca4edd11> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ValidationMethod> .
 
-<urn:uuid:56a6a19e-1284-4a74-a3fd-a91048d88b59> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
-	rdfs:label "Conformance: unambiguous" .
+<urn:uuid:078aeaa5-9a1e-42af-b02a-06165746afb8> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/country> , <http://rs.tdwg.org/dwc/terms/stateProvince> ;
+	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
 
-<urn:uuid:baad33a3-97f9-4e5a-8188-7b05381e1cf4> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:56a6a19e-1284-4a74-a3fd-a91048d88b59> ;
-	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:f3b20b75-cb69-4e5c-a33d-3530bf25e5e4> ;
+<urn:uuid:122fe7ff-c3fa-4f03-a457-ab8792828a66> <http://rs.tdwg.org/bdq/ffdq/hasCriterion> <urn:uuid:a631e6e8-81f1-4a96-96fc-bf4a090118b4> ;
+	<http://rs.tdwg.org/bdq/ffdq/hasInformationElement> <urn:uuid:078aeaa5-9a1e-42af-b02a-06165746afb8> ;
 	<http://rs.tdwg.org/bdq/ffdq/hasResourceType> <rt:SingleRecord> ;
 	a <http://rs.tdwg.org/bdq/ffdq/ContextualizedCriterion> ;
 	rdfs:comment "Is the combination of the values of the terms dwc:country, dwc:stateProvince unique in the bdq:sourceAuthority?" ;
 	rdfs:label "Is the combination of the values of the terms dwc:country, dwc:stateProvince unique in the bdq:sourceAuthority? Validation for SingleRecord" .
 
-<urn:uuid:f3b20b75-cb69-4e5c-a33d-3530bf25e5e4> <http://rs.tdwg.org/bdq/ffdq/composedOf> <http://rs.tdwg.org/dwc/terms/country> , <http://rs.tdwg.org/dwc/terms/stateProvince> ;
-	a <http://rs.tdwg.org/bdq/ffdq/InformationElement> .
+<urn:uuid:a631e6e8-81f1-4a96-96fc-bf4a090118b4> a <http://rs.tdwg.org/bdq/ffdq/Criterion> ;
+	rdfs:label "Conformance: unambiguous" .
