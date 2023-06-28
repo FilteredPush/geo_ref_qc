@@ -572,6 +572,8 @@ public class GEOUtil {
 			CoordinateOperationFactory factory = new DefaultCoordinateOperationFactory();
 			try {
 				CoordinateReferenceSystem crsFrom = CRS.decode(lookup);
+				logger.debug(crsFrom.getCoordinateSystem().getName());
+				logger.debug(crsFrom.getCoordinateSystem().getIdentifiers());
 				retval = true;
 			} catch (FactoryException e) {
 				retval = false;
