@@ -61,6 +61,8 @@ public class CountryLookupTest {
 		assertNull(CountryLookup.lookupCode2FromCodeName(""));
 		assertEquals("UG",CountryLookup.lookupCode2FromCodeName("UGA"));
 		assertEquals("UG",CountryLookup.lookupCode2FromCodeName("Uganda"));
+		assertEquals("AF",CountryLookup.lookupCode2FromCodeName("4"));
+		assertEquals("AF",CountryLookup.lookupCode2FromCodeName("004"));
 	}
 	
 

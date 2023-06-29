@@ -519,6 +519,21 @@ public class CountryLookup {
 						done = true;
 					}
 				}
+			} else if (countryCodeOrName.matches("^0[0-9]+")) { 
+				country = lookupCountryFromCode(countryCodeOrName.replaceAll("^0+", ""));
+				if (country!=null) { 
+					// provided string is a numeric country code with leading zeroes
+					List<String> values = codes.get(country);
+					Iterator<String> iv = values.iterator();
+					boolean done = false;
+					while (iv.hasNext()&&!done) {
+						String v = iv.next();
+						if (v.matches("^[A-Z][A-Z]$" )) { 
+							result = v;
+							done = true;
+						}
+					}
+				}
 			} else if (codes.containsKey(countryCodeOrName)) { 
 				// provided string is a country name
 				List<String> values =  codes.get(countryCodeOrName);
