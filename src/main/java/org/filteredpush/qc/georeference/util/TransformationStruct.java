@@ -22,7 +22,8 @@ public class TransformationStruct {
 	private int precision;
 	private String geodeticDatum;
 	private String comments;
-	
+	private double uncertainty;
+			       
 	public TransformationStruct() { 
 		success = false;
 		comments = "";
@@ -156,4 +157,17 @@ public class TransformationStruct {
 		}
 	}
 
+	/**
+	 * @return the uncertainty
+	 */
+	public double getUncertainty() {
+		return uncertainty;
+	}
+
+	/**
+	 * @param uncertainty the uncertainty to set
+	 */
+	public void setUncertainty(double uncertainty) {
+		this.uncertainty = uncertainty;
+	}
 }

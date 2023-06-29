@@ -46,8 +46,9 @@ import org.datakurator.ffdq.api.result.*;
  * #59	VALIDATION_GEODETICDATUM_STANDARD 7e0c0418-fe16-4a39-98bd-80e19d95b9d1
  * #40	VALIDATION_LOCATION_NOTEMPTY 58486cb6-1114-4a8a-ba1e-bd89cfe887e9
  * 
- * 
+ * #43	AMENDMENT_COORDINATES_CONVERTED 620749b9-7d9c-4890-97d2-be3d1cde6da8
  * #102 AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT 7498ca76-c4d4-42e2-8103-acacccbdffa7
+ * #48	AMENDMENT_COUNTRYCODE_STANDARDIZED fec5ffe6-3958-4312-82d9-ebcca0efb350
  * 
  * For #72, see rec_occur_qc DwCMetadataDQ
  * #72 ISSUE_DATAGENERALIZATIONS_NOTEMPTY 13d5a10e-188e-40fd-a22c-dbaa87b91df2
@@ -572,7 +573,19 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-
+        //TODO:  Implement specification
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is 
+        // EMPTY or does not have a valid value, or dwc:decimalLongitude 
+        // is EMPTY or does not have a valid value, or dwc:geodeticDatum 
+        // is EMPTY or does not contain an interpretable value; AMENDED 
+        // if the values of dwc:decimalLatitude, dwc:decimalLongitude 
+        // and dwc:geodeticDatum are changed based on a conversion 
+        // between the coordinate reference systems as specified by 
+        // dwc:geodeticDatum and bdq:targetCRS, and, if dwc:coordinateUncertaintyInMeters 
+        // was an interpretable value, the uncertainty from the conversion 
+        // is added to it, and the value of dwc:coordinatePrecision 
+        // is provided from the conversion result; otherwise NOT_AMENDED. 
+        // bdq:targetCRS = "EPSG:4326" 
     
     /**
      * Propose amendment to the value of dwc:geodeticDatum and potentially to dwc:decimalLatitude and/or dwc:decimalLongitude based on a conversion between spatial reference systems.
@@ -580,7 +593,7 @@ public class DwCGeoRefDQ{
      * #43 Amendment SingleRecord Conformance: coordinates converted
      *
      * Provides: AMENDMENT_COORDINATES_CONVERTED
-     * Version: 2023-01-16
+     * Version: 2023-06-24
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
@@ -589,10 +602,11 @@ public class DwCGeoRefDQ{
      * @param coordinatePrecision the provided dwc:coordinatePrecision to evaluate
      * @return DQResponse the response of type AmendmentValue to return
      */
+// TODO: Implementation of AMENDMENT_COORDINATES_CONVERTED is not up to date with current version: https://rs.tdwg.org/bdq/terms/620749b9-7d9c-4890-97d2-be3d1cde6da8/2023-06-24 see line: 593
     @Amendment(label="AMENDMENT_COORDINATES_CONVERTED", description="Propose amendment to the value of dwc:geodeticDatum and potentially to dwc:decimalLatitude and/or dwc:decimalLongitude based on a conversion between spatial reference systems.")
     @Provides("620749b9-7d9c-4890-97d2-be3d1cde6da8")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/620749b9-7d9c-4890-97d2-be3d1cde6da8/2023-01-16")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude or dwc:decimalLongitude or dwc:geodeticDatum are EMPTY or not interpretable as a value decimal number; AMENDED the values of dwc:decimalLatitude, dwc:decimalLongitude and  dwc:geodeticDatum by a conversion between spatial reference systems; otherwise NOT_AMENDED ")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/620749b9-7d9c-4890-97d2-be3d1cde6da8/2023-06-24")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is EMPTY or does not have a valid value, or dwc:decimalLongitude is EMPTY or does not have a valid value, or dwc:geodeticDatum is EMPTY or does not contain an interpretable value; AMENDED if the values of dwc:decimalLatitude, dwc:decimalLongitude and dwc:geodeticDatum are changed based on a conversion between the coordinate reference systems as specified by dwc:geodeticDatum and bdq:targetCRS, and, if dwc:coordinateUncertaintyInMeters was an interpretable value, the uncertainty from the conversion is added to it, and the value of dwc:coordinatePrecision is provided from the conversion result; otherwise NOT_AMENDED. bdq:targetCRS = 'EPSG:4326'")
     public static DQResponse<AmendmentValue> amendmentCoordinatesConverted(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
     		@ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
@@ -613,17 +627,39 @@ public class DwCGeoRefDQ{
         // TODO: Specification needs to include addition to coordinatePrecisionInMeters, this is in notes.
         // TODO: Notes refer to non-existent NOTIFICATION_COORDINATES_CONVERSIONFAILED
         
-        // NOTES: These amendments have implications for dwc:coordinateUncertaintyInMeters and 
-        // dwc:coordinatePrecision. If the dwc:coordinateUncertaintyInMeters is EMPTY or is not interpretable, 
+        // NOTES: 
+        // This test relates only to EPSG codes applying to spatial reference systems where 
+        // the coordinate system is EPSG:6422 (EPSG:Ellipsoidal 2D CS. Axes: latitude, longitude. 
+        // Orientations: north, east. UoM: degree). Any amendment has implications for 
+        // dwc:coordinateUncertaintyInMeters and dwc:coordinatePrecision. If the 
+        // dwc:coordinateUncertaintyInMeters is EMPTY or is not interpretable, 
         // this amendment should not provide a dwc:coordinateUncertaintyInMeters. 
-        // If the dwc:coordinateUncertaintyInMeters is not EMPTY and is valid, this 
-        // amendment should add the uncertainty contributed by the conversion to the value of 
-        // dwc:CoordinateUncertaintyInMeters. The amended dwc:coordinatePrecision should be the 
-        // precision of coordinates as provided after the conversion, ideally this should be 0.0000001, 
-        // reflecting the seven digits of precision required to reverse a coordinate transformation without 
-        // loss of information at the scale of one meter.  A result status for a failure condition in 
-        // attempting a conversion is NOTIFICATION_COORDINATES_CONVERSIONFAILED
+        // If the dwc:coordinateUncertaintyInMeters is not EMPTY and is valid, 
+        // this amendment should add the uncertainty contributed by the conversion 
+        // to the value of dwc:coordinateUncertaintyInMeters. The amended 
+        // dwc:coordinatePrecision should be the precision of coordinates as 
+        // provided after the conversion, ideally this should be 0.0000001, 
+        // reflecting the seven digits of precision required to reverse a coordinate 
+        // transformation without loss of information at the scale of one meter. 
+        // If dwc:geodeticDatum specifies the same CRS for dwc:decimalLatitude and 
+        // dwc:decimalLongitude as bdq:targetCRS (e.g., if dwc:geodeticDatum has 
+        // either the value "WGS84" or "EPSG:4326" and the bdq:targetCRS is "EPSG:4326"), 
+        // then the coordinates are assumed to be in the target CRS and the Response.status is NOT_AMENDED.
         
+        //TODO:  Implement specification
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is 
+        // EMPTY or does not have a valid value, or dwc:decimalLongitude 
+        // is EMPTY or does not have a valid value, or dwc:geodeticDatum 
+        // is EMPTY or does not contain an interpretable value; AMENDED 
+        // if the values of dwc:decimalLatitude, dwc:decimalLongitude 
+        // and dwc:geodeticDatum are changed based on a conversion 
+        // between the coordinate reference systems as specified by 
+        // dwc:geodeticDatum and bdq:targetCRS, and, if dwc:coordinateUncertaintyInMeters 
+        // was an interpretable value, the uncertainty from the conversion 
+        // is added to it, and the value of dwc:coordinatePrecision 
+        // is provided from the conversion result; otherwise NOT_AMENDED. 
+        // bdq:targetCRS = "EPSG:4326" 
+    
         String targetGeodeticDatum = "EPSG:4326";
         
         logger.debug("From: " + geodeticDatum);
@@ -648,6 +684,13 @@ public class DwCGeoRefDQ{
         				values.put("dwc:geodeticDatum", targetGeodeticDatum);
         				values.put("dwc:decimalLatitude", transform.getDecimalLatitudeString());
         				values.put("dwc:decimalLongitude", transform.getDecimalLongitudeString());
+        				if (!GEOUtil.isEmpty(coordinateUncertaintyInMeters)) { 
+        					
+        				}
+        				Double precision = Math.pow(10.0, (-transform.getPrecision()));
+        				logger.debug(transform.getPrecision());
+        				logger.debug(precision);
+        				values.put("dwc:coordinatePrecision", Double.toString(precision));
         				result.setValue(new AmendmentValue(values));
         				result.setResultState(ResultState.AMENDED); 
         } else { 
@@ -668,34 +711,66 @@ public class DwCGeoRefDQ{
     }
 
     /**
+     * Propose amendment to the value of dwc:countryCode if it can be interpreted as an ISO country code.
+     * 
      * #48 Amendment SingleRecord Conformance: countrycode standardized
      *
      * Provides: AMENDMENT_COUNTRYCODE_STANDARDIZED
+     * Version: 2023-03-07
      *
      * @param countryCode the provided dwc:countryCode to evaluate
      * @return DQResponse the response of type AmendmentValue to return
      */
+    @Amendment(label="AMENDMENT_COUNTRYCODE_STANDARDIZED", description="Propose amendment to the value of dwc:countryCode if it can be interpreted as an ISO country code.")
     @Provides("fec5ffe6-3958-4312-82d9-ebcca0efb350")
-    public DQResponse<AmendmentValue> amendmentCountrycodeStandardized(@ActedUpon("dwc:countryCode") String countryCode) {
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/fec5ffe6-3958-4312-82d9-ebcca0efb350/2023-03-07")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISTITES_NOT_MET if the value of dwc:countryCode is EMPTY; AMENDED the value of dwc:countryCode if it can be unambiguously interpreted from bdq:sourceAuthority; otherwise NOT_AMENDED bdq:sourceAuthority is 'ISO 3166-1-alpha-2' [https://restcountries.eu/#api-endpoints-list-of-codes, https://www.iso.org/obp/ui/#search]")
+    public static DQResponse<AmendmentValue> amendmentCountrycodeStandardized(@ActedUpon("dwc:countryCode") String countryCode) {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
-        //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the ISO 3166 service was 
-        // not available; INTERNAL_PREREQUISTITES_NOT_MET if the value 
-        // of dwc:countryCode is EMPTY; AMENDED if a valid ISO 3166-1-alpha-2 
-        // country code could be unambiguously interpreted from the 
-        //value of dwc:countryCode; otherwise NOT_AMENDED 
+        // Specification
+        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
+        // is not available; INTERNAL_PREREQUISTITES_NOT_MET if the 
+        // value of dwc:countryCode is EMPTY; AMENDED the value of 
+        // dwc:countryCode if it can be unambiguously interpreted from 
+        // bdq:sourceAuthority; otherwise NOT_AMENDED bdq:sourceAuthority 
 
+        // TODO: Specification needs work, shouldn't be parameterized.
+        
         //TODO: Parameters. This test is defined as parameterized.
         // bdq:sourceAuthority
+        //"ISO 3166-1-alpha-2" [https://restcountries.eu/#api-endpoints-list-of-codes, 
+        // https://www.iso.org/obp/ui/#search] 
         
         if (GEOUtil.isEmpty(countryCode)) {
     		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
     		result.addComment("provided value for dwc:countryCode is empty.");
         } else { 
-        	// TODO 2 letter code, capitalized matches?
-        	// TODO 3 letter code matches?
-        	// TODO string matches?
+        	if (CountryLookup.codeTwoLetterMatched(countryCode)) { 
+        		result.setResultState(ResultState.NOT_AMENDED);
+        		result.addComment("provided value for dwc:countryCode ["+countryCode+"] is a known ISO 3166-1-alpha-2 country code.");
+        	} else { 
+        		result.addComment("provided value for dwc:countryCode ["+countryCode+"] is not a known ISO 3166-1-alpha-2 country code.");
+        		if (CountryLookup.codeTwoLetterMatched(countryCode.trim().toUpperCase())) { 
+        			result.addComment("changed case for dwc:countryCode ["+countryCode+"] to match a known ISO 3166-1-alpha-2 country code.");
+        			result.setResultState(ResultState.AMENDED);
+        			Map<String, String> values = new HashMap<>();
+        			values.put("dwc:countryCode", countryCode.trim().toUpperCase());
+        			result.setValue(new AmendmentValue(values));
+        		} else { 
+        			String match = CountryLookup.lookupCode2FromCodeName(countryCode.trim());
+        			if (match!=null) { 
+        				result.addComment("Match found for ISO 3166-1-alpha-2 country code.");
+        				result.setResultState(ResultState.AMENDED);
+        				Map<String, String> values = new HashMap<>();
+        				values.put("dwc:countryCode", match);
+        				result.setValue(new AmendmentValue(values));
+        			} else { 
+        				result.setResultState(ResultState.NOT_AMENDED);
+        				result.addComment("unable to amend the provided value for dwc:countryCode ["+countryCode+"] to a ISO 3166-1-alpha-2 country code.");
+        			}
+        		}
+        	}
         }
         
 
@@ -1941,7 +2016,6 @@ public class DwCGeoRefDQ{
     }
 
 // TODO: Implementation of AMENDMENT_COORDINATES_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e/2023-01-13 see line: 359
-// TODO: Implementation of AMENDMENT_COORDINATES_CONVERTED is not up to date with current version: https://rs.tdwg.org/bdq/terms/620749b9-7d9c-4890-97d2-be3d1cde6da8/2023-06-24 see line: 593
 // TODO: Implementation of AMENDMENT_COUNTRYCODE_STANDARDIZED is not up to date with current version: https://rs.tdwg.org/bdq/terms/fec5ffe6-3958-4312-82d9-ebcca0efb350/2023-03-07 see line: 678
 // TODO: Implementation of VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdq/terms/adb27d29-9f0d-4d52-b760-a77ba57a69c9/2023-02-27 see line: 715
 // TODO: Implementation of VALIDATION_COORDINATES_TERRESTRIALMARINE is not up to date with current version: https://rs.tdwg.org/bdq/terms/b9c184ce-a859-410c-9d12-71a338200380/2022-03-02 see line: 745

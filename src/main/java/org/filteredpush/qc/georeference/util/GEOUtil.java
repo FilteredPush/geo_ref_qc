@@ -3,17 +3,14 @@ package org.filteredpush.qc.georeference.util;
 import java.awt.geom.Path2D;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.filteredpush.qc.georeference.DwCGeoRefDQ;
 import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureCollection;
@@ -21,11 +18,18 @@ import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.filter.text.cql2.CQLException;
 import org.geotools.filter.text.ecql.ECQL;
 import org.geotools.geometry.DirectPosition2D;
+import org.geotools.geometry.jts.JTS;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.GeodeticCalculator;
 import org.geotools.referencing.operation.DefaultCoordinateOperationFactory;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 import org.opengis.filter.Filter;
 import org.opengis.geometry.DirectPosition;
+import org.opengis.metadata.quality.PositionalAccuracy;
+import org.opengis.metadata.quality.QuantitativeResult;
+import org.opengis.metadata.quality.Result;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
@@ -34,6 +38,7 @@ import org.opengis.referencing.operation.CoordinateOperation;
 import org.opengis.referencing.operation.CoordinateOperationFactory;
 import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.TransformException;
+import org.opengis.util.Record;
 
 public class GEOUtil {
     private static final Log logger = LogFactory.getLog(GEOUtil.class);
@@ -627,24 +632,54 @@ public class GEOUtil {
 		CoordinateReferenceSystem crsTarget = CRS.decode(targetGeodeticDatum);
 		
 		CoordinateOperation transform = factory.createOperation(crsFrom, crsTarget);
-	 	logger.debug(transform.getName());
 		
-	    DirectPosition fromPosition = new DirectPosition2D(Double.parseDouble(decimalLongitude), Double.parseDouble(decimalLatitude));
-	    DirectPosition toPosition = new DirectPosition2D(Double.parseDouble(decimalLongitude), Double.parseDouble(decimalLatitude));
-	    MathTransform mathTransform = transform.getMathTransform();
+		logger.debug(transform.getName());
+		
+		Collection<PositionalAccuracy> operationAccuracy = transform.getCoordinateOperationAccuracy();
+		Iterator<PositionalAccuracy> it = operationAccuracy.iterator();
+		while (it.hasNext()) { 
+			PositionalAccuracy pa = it.next();
+			logger.debug(pa.getMeasureDescription());
+            for (Result result : pa.getResults()) {
+                if (result instanceof QuantitativeResult) {
+                    for (Record record : ((QuantitativeResult) result).getValues()) {
+                    	logger.debug(record);
+                    }
+                } else {
+                	logger.debug(result);
+                }
+            }
+		}
+
+		DirectPosition fromPosition = new DirectPosition2D(Double.parseDouble(decimalLongitude), Double.parseDouble(decimalLatitude));
+		DirectPosition toPosition = new DirectPosition2D(Double.parseDouble(decimalLongitude), Double.parseDouble(decimalLatitude));
+		MathTransform mathTransform = transform.getMathTransform();
 		DirectPosition transformedPosition = mathTransform.transform(fromPosition, toPosition);
 		
-		 final int dimensions = transformedPosition.getDimension();
-		 for (int i=0; i<dimensions; i++) {
-			 logger.debug(transformedPosition.getOrdinate(i));
-		 }
+		GeometryFactory gf = new GeometryFactory();
+		Point point = gf.createPoint(new Coordinate(Double.parseDouble(decimalLongitude), Double.parseDouble(decimalLatitude)));
+		Point transformed = (Point) JTS.transform(point, transform.getMathTransform());
+		logger.debug(transformed.getPrecisionModel().getMaximumSignificantDigits());
+		
+		final int dimensions = transformedPosition.getDimension();
+		for (int i=0; i<dimensions; i++) {
+			logger.debug(transformedPosition.getOrdinate(i));
+		}
 		if (dimensions==2) { 
 			double lon = transformedPosition.getOrdinate(0);
 			double lat = transformedPosition.getOrdinate(1);
+			logger.debug(lon);
+			logger.debug(lat);
+			lon = transformed.getX();
+			lat = transformed.getY();
+			logger.debug(lon);
+			logger.debug(lat);
 			retval = new TransformationStruct();
 			retval.setDecimalLatitude(lat);
 			retval.setDecimalLongitude(lon);
 			retval.setGeodeticDatum(targetGeodeticDatum);
+			//retval.setUncertainty();
+			retval.setPrecision(transformed.getPrecisionModel().getMaximumSignificantDigits());
 			retval.setSuccess(true);
 		}
 		

@@ -294,36 +294,6 @@ public class DwCGeoRefDQ_stubs {
         return result;
     }
 
-    /**
-     * Propose amendment to the value of dwc:countryCode if it can be interpreted as an ISO country code.
-     *
-     * Provides: AMENDMENT_COUNTRYCODE_STANDARDIZED
-     * Version: 2023-03-07
-     *
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @return DQResponse the response of type AmendmentValue to return
-     */
-    @Amendment(label="AMENDMENT_COUNTRYCODE_STANDARDIZED", description="Propose amendment to the value of dwc:countryCode if it can be interpreted as an ISO country code.")
-    @Provides("fec5ffe6-3958-4312-82d9-ebcca0efb350")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/fec5ffe6-3958-4312-82d9-ebcca0efb350/2023-03-07")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISTITES_NOT_MET if the value of dwc:countryCode is EMPTY; AMENDED the value of dwc:countryCode if it can be unambiguously interpreted from bdq:sourceAuthority; otherwise NOT_AMENDED bdq:sourceAuthority is 'ISO 3166-1-alpha-2' [https://restcountries.eu/#api-endpoints-list-of-codes, https://www.iso.org/obp/ui/#search]")
-    public DQResponse<AmendmentValue> amendmentCountrycodeStandardized(@ActedUpon("dwc:countryCode") String countryCode) {
-        DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
-
-        //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // is not available; INTERNAL_PREREQUISTITES_NOT_MET if the 
-        // value of dwc:countryCode is EMPTY; AMENDED the value of 
-        // dwc:countryCode if it can be unambiguously interpreted from 
-        // bdq:sourceAuthority; otherwise NOT_AMENDED bdq:sourceAuthority 
-        // is "ISO 3166-1-alpha-2" [https://restcountries.eu/#api-endpoints-list-of-codes, 
-        // https://www.iso.org/obp/ui/#search] 
-
-        //TODO: Parameters. This test is defined as parameterized.
-        // bdq:sourceAuthority
-
-        return result;
-    }
 
     /**
      * Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?

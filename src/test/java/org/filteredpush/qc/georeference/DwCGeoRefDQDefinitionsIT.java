@@ -5,11 +5,16 @@ package org.filteredpush.qc.georeference;
 
 import static org.junit.Assert.*;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.datakurator.ffdq.api.DQResponse;
+import org.datakurator.ffdq.api.result.AmendmentValue;
 import org.datakurator.ffdq.api.result.ComplianceValue;
 import org.datakurator.ffdq.model.ResultState;
+import org.filteredpush.qc.georeference.util.CountryLookup;
 import org.filteredpush.qc.georeference.util.GeoUtilSingleton;
 import org.junit.Test;
 
@@ -109,5 +114,35 @@ public class DwCGeoRefDQDefinitionsIT {
 		assertFalse(GeoUtilSingleton.getInstance().getTgnCountriesEntry(country));
 
 	} 
+	
+	@Test
+	public void testamendmentCountrycodeStandardized() { 
+		String countryCode = null;
+		DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentCountrycodeStandardized(countryCode);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+		
+		countryCode="not a country code";
+		result = DwCGeoRefDQ.amendmentCountrycodeStandardized(countryCode);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.NOT_AMENDED.getLabel(), result.getResultState().getLabel());
+		assertNull(result.getValue());
+		
+		List<String> codes = CountryLookup.getCountryCodes2();
+		logger.debug(codes.size());
+		Iterator<String> i = codes.iterator();
+		while (i.hasNext()) { 
+			countryCode = i.next();
+			result = DwCGeoRefDQ.amendmentCountrycodeStandardized(countryCode.toLowerCase());
+			logger.debug(result.getComment());
+			assertNotNull(result.getComment());
+			assertEquals(ResultState.AMENDED.getLabel(), result.getResultState().getLabel());
+			assertEquals(1, result.getValue().getObject().size());
+			assertEquals(countryCode, result.getValue().getObject().get("dwc:countryCode"));
+		}
+		
+	}
 
 }
