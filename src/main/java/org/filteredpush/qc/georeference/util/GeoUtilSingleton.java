@@ -3,6 +3,7 @@
  */
 package org.filteredpush.qc.georeference.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -26,6 +27,7 @@ public class GeoUtilSingleton {
 	
 	private Map<String,String> tgnNations;
 	
+	private Map<String,ArrayList<String>> gettyCountryLookup;	
 	
 	private GeoUtilSingleton() { 
 		init();
@@ -34,6 +36,7 @@ public class GeoUtilSingleton {
 	private void init() { 
 		tgnCountries = new HashMap<String,Boolean>();
 		tgnNations = new HashMap<String,String>();
+		gettyCountryLookup = new HashMap<String,ArrayList<String>>();
 	}
 	
 	public static synchronized GeoUtilSingleton getInstance() {
@@ -102,5 +105,25 @@ public class GeoUtilSingleton {
 		
 		return retval;
 	}
+
+	
+	/**
+	 * @return a list of names for a country the gettyCountryLookup
+	 */
+	public List<String> getGettyCountryLookupItem(String country) {
+		return gettyCountryLookup.get(country);
+	}
+	
+	public boolean isGettyCountryLookupItem(String country) { 
+		return gettyCountryLookup.containsKey(country);
+	}
+	
+	/**
+	 * @return a list of names for a country the gettyCountryLookup
+	 */
+	public void addGettyCountryLookupItem(String country, ArrayList<String> names) {
+		gettyCountryLookup.put(country, names);
+	}
+	
 	
 }

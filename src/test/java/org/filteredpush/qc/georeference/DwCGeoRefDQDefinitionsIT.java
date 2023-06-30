@@ -145,5 +145,72 @@ public class DwCGeoRefDQDefinitionsIT {
 		
 	}
 	
+	/**
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountryCountrycodeConsistent(java.lang.String, java.lang.String)}.
+	 */
+	@Test
+	public void testValidationCountryCountrycodeConsistent() {
+		
+		String country="Uganda";
+		String countryCode = "AT";
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		country="USA";
+		countryCode = "US";
+		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+        // Notes
+        // The country code determination service should be able to match the name of a country 
+        // in the original language. 
+		
+	 	logger.debug(GeoUtilSingleton.getInstance().isGettyCountryLookupItem(country));
+	 	
+		country="México";
+		countryCode = "MX";
+		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+	 	logger.debug(GeoUtilSingleton.getInstance().isGettyCountryLookupItem(country));
+		
+		country="México";
+		countryCode = "MX";
+		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		// Notes
+		// This test will fail if there is leading or trailing 
+        // whitespace or there are leading or trailing non-printing characters.
+		country=" Uganda"; // leading wspace in country
+		countryCode = "UG";
+		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		country="Uganda"; 
+		countryCode = "UG ";  // trailing space in country code
+		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+	}
+		
 
 }

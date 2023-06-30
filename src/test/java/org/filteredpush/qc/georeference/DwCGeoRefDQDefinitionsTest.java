@@ -17,6 +17,7 @@ import org.datakurator.ffdq.api.result.AmendmentValue;
 import org.datakurator.ffdq.api.result.ComplianceValue;
 import org.datakurator.ffdq.api.result.IssueValue;
 import org.datakurator.ffdq.model.ResultState;
+import org.filteredpush.qc.georeference.util.GeoUtilSingleton;
 import org.geotools.referencing.ReferencingFactoryFinder;
 import org.junit.Test;
 
@@ -32,7 +33,7 @@ public class DwCGeoRefDQDefinitionsTest {
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountryCountrycodeConsistent(java.lang.String, java.lang.String)}.
 	 */
 	@Test
-	public void testValidationCountryCountrycodeInconsistent() {
+	public void testValidationCountryCountrycodeConsistent() {
 		
 		String country="";
 		String countryCode = "";
@@ -66,21 +67,7 @@ public class DwCGeoRefDQDefinitionsTest {
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
 		
-		country="Uganda";
-		countryCode = "AT";
-		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
-		logger.debug(result.getComment());
-		assertNotNull(result.getComment());
-		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
-		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
-		
-		country="USA";
-		countryCode = "US";
-		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
-		logger.debug(result.getComment());
-		assertNotNull(result.getComment());
-		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
-		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		// Other cases where lookup on service is used in integration test.
 		
 	}
 

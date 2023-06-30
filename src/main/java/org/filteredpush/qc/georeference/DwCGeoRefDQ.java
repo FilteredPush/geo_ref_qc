@@ -3,6 +3,8 @@
 package org.filteredpush.qc.georeference;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -14,8 +16,10 @@ import org.filteredpush.qc.georeference.util.CountryLookup;
 import org.filteredpush.qc.georeference.util.GEOUtil;
 import org.filteredpush.qc.georeference.util.GeoRefCacheValue;
 import org.filteredpush.qc.georeference.util.GeoUtilSingleton;
+import org.filteredpush.qc.georeference.util.GeorefServiceException;
 import org.filteredpush.qc.georeference.util.GettyCountryLookup;
 import org.filteredpush.qc.georeference.util.TransformationStruct;
+import org.geotools.ows.ServiceException;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.operation.TransformException;
 import org.datakurator.ffdq.api.result.*;
@@ -1045,6 +1049,11 @@ public class DwCGeoRefDQ{
         // [https://restcountries.eu/#api-endpoints-list-of-codes, 
         // https://www.iso.org/obp/ui/#search] 
         
+        // Notes
+        // The country code determination service should be able to match the name of a country 
+        // in the original language. This test will fail if there is leading or trailing 
+        // whitespace or there are leading or trailing non-printing characters.
+        
         if (GEOUtil.isEmpty(countryCode)) { 
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         	result.addComment("the provided value for dwc:countryCode is empty");
@@ -1063,9 +1072,29 @@ public class DwCGeoRefDQ{
         			result.setValue(ComplianceValue.COMPLIANT);
         			result.addComment("Provided value for dwc:countryCode ["+countryCode+"] is the ISO 3166-1-alpha-2 country code for the provided dwc:country ["+country+"].");
         		} else { 
-        			result.setResultState(ResultState.RUN_HAS_RESULT);
-        			result.setValue(ComplianceValue.NOT_COMPLIANT);
-        			result.addComment("Provided value for dwc:countryCode ["+countryCode+"] is not matched to the provided dwc:country ["+ country +"].");
+        			GettyCountryLookup getty = new GettyCountryLookup();
+        			try { 
+        				List<String> names = getty.getNamesForCountry(country);
+        				boolean found = false;
+        				Iterator<String> i = names.iterator();
+        				while (i.hasNext() && !found) { 
+        					if (foundName.equals(i.next())) { 
+        						found = true;
+        						result.setResultState(ResultState.RUN_HAS_RESULT);
+        						result.setValue(ComplianceValue.COMPLIANT);
+        						result.addComment("Provided value for dwc:countryCode ["+countryCode+"] is the ISO 3166-1-alpha-2 country code for the provided dwc:country ["+country+"].");
+        					}
+        				}
+        				if (!found) { 
+        					result.setResultState(ResultState.RUN_HAS_RESULT);
+        					result.setValue(ComplianceValue.NOT_COMPLIANT);
+        					result.addComment("Provided value for dwc:countryCode ["+countryCode+"] is not matched to the provided dwc:country ["+ country +"].");
+        				}
+        			} catch (GeorefServiceException e) { 
+        				logger.debug(e.getMessage());
+        				result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        				result.addComment("Error looking up alternatives for country name: " + e.getMessage() );
+        			}
         		}
         	}
          }

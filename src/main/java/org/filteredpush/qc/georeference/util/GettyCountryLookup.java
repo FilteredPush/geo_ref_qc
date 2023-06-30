@@ -9,12 +9,17 @@ import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.URI;
 
 import edu.getty.tgn.objects.Vocabulary;
+import edu.getty.tgn.objects.Vocabulary.Subject;
+import edu.getty.tgn.objects.Vocabulary.Subject.Term;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
@@ -133,5 +138,68 @@ public class GettyCountryLookup {
 	
 		return retval;
 	} 
+	
+	/**
+	 * Match a country name against the list of sovereign nations in the Getty TGN.
+	 * 
+	 * @param country
+	 * @return true if the country is found as a sovereign nation level entity in TGN matching 
+	 * any form of the name, false if the country is not found as a sovereign nation lavel entity
+	 * in TGN, null on an exception querying TGN.
+	 */
+	public List<String> getNamesForCountry(String country) throws GeorefServiceException { 
+
+		ArrayList<String> retval = new ArrayList<String>();
+
+		if (GeoUtilSingleton.getInstance().isGettyCountryLookupItem(country)) { 
+			retval = (ArrayList<String>) GeoUtilSingleton.getInstance().getGettyCountryLookupItem(country);
+		} else { 
+
+			String sovereignNationPlaceTypeID = "81011";
+			String baseURI = "http://vocabsservices.getty.edu//TGNService.asmx/TGNGetTermMatch?";
+
+			StringBuilder request = new StringBuilder();
+			request.append(baseURI);
+			String countryEncoded = URI.encodeFragment(country, false);
+			request.append("name=").append(countryEncoded);
+			request.append("&placetypeid=").append(sovereignNationPlaceTypeID);
+			request.append("&nationid=").append("");
+			logger.debug(request.toString());
+			try {
+				URL url = new URL(request.toString());
+				HttpURLConnection getty = (HttpURLConnection) url.openConnection();
+				InputStream is = getty.getInputStream();
+				JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
+				Unmarshaller unmarshaler = jc.createUnmarshaller();
+				Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
+				System.out.println(response.getCount());
+				System.out.println(response.getCount());
+				if (response.getCount().compareTo(BigInteger.ONE)==0) { 
+					List<Subject> subjectList = response.getSubject();
+					Iterator<Subject> i = subjectList.iterator();
+					while (i.hasNext()) { 
+						Subject subject = i.next();
+						List<Term> terms = subject.getTerm();
+						Iterator<Term> it = terms.iterator();
+						while (it.hasNext()) {
+							retval.add(it.next().getValue());
+						}
+						GeoUtilSingleton.getInstance().addGettyCountryLookupItem(country, retval);
+					}
+				}
+			} catch (JAXBException e) {
+				logger.debug(e.getMessage());
+				throw new GeorefServiceException("Getty Country Lookup Failure (XMLBinding).", e.getCause());
+			} catch (MalformedURLException e) {
+				logger.debug(e.getMessage());
+				throw new GeorefServiceException("Getty Country Lookup Failure (Malformed URI).", e.getCause());
+			} catch (IOException e) {
+				logger.debug(e.getMessage());
+				throw new GeorefServiceException("IO Error on Getty Country Lookup.", e.getCause());
+			}	
+		} 
+	
+		return retval;
+	}
 	
 }
