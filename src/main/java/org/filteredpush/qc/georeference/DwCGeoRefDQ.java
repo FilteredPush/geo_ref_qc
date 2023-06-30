@@ -32,6 +32,7 @@ import org.datakurator.ffdq.api.result.*;
  * #42 	VALIDATION_COUNTRY_NOTEMPTY 6ce2b2b4-6afe-4d13-82a0-390d31ade01c 
  * #21	VALIDATION_COUNTRY_FOUND 69b2efdc-6269-45a4-aecb-4cb99c2ae134
  * #98	VALIDATION_COUNTRYCODE_NOTEMPTY 853b79a2-b314-44a2-ae46-34a1e7ed85e4 
+ * #62	VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT" b23110e7-1be7-444a-a677-cdee0cf4330c
  * #119	VALIDATION_DECIMALLATITUDE_EMPTY 7d2485d5-1ba7-4f25-90cb-f4480ff1a275
  * #79	VALIDATION_DECIMALLATITUDE_INRANGE b6ecda2a-ce36-437a-b515-3ae94948fe83
  * #96	VALIDATION_DECIMALLONGITUDE_EMPTY 9beb9442-d942-4f42-8b6a-fcea01ee086a
@@ -1012,29 +1013,62 @@ public class DwCGeoRefDQ{
     }
 
     /**
+     * Does the ISO country code determined from the value of dwc:country equal the value of dwc:countryCode?
+     * 
      * #62 Validation SingleRecord Consistency: country countrycode inconsistent
      *
-     * Provides: VALIDATION_COUNTRY_COUNTRYCODE_INCONSISTENT
+     * Provides: VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT
+     * Version: 2022-05-02
      *
      * @param country the provided dwc:country to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT", description="Does the ISO country code determined from the value of dwc:country equal the value of dwc:countryCode?")
     @Provides("b23110e7-1be7-444a-a677-cdee0cf4330c")
-    public DQResponse<ComplianceValue> validationCountryCountrycodeInconsistent(@ActedUpon("dwc:country") String country, @ActedUpon("dwc:countryCode") String countryCode) {
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/b23110e7-1be7-444a-a677-cdee0cf4330c/2022-05-02")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if either of the terms dwc:country or dwc:countryCode are EMPTY; COMPLIANT if the value of the country code determined from the value of dwc:country is equal to the value of dwc:countryCode; otherwise NOT_COMPLIANT bdq:sourceAuthority is 'ISO 3166-1-alpha-2' [https://restcountries.eu/#api-endpoints-list-of-codes, https://www.iso.org/obp/ui/#search]")
+    public static DQResponse<ComplianceValue> validationCountryCountrycodeConsistent(
+    		@ActedUpon("dwc:country") String country, 
+    		@ActedUpon("dwc:countryCode") String countryCode) 
+    {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // service was not available; INTERNAL_PREREQUISITES_NOT_MET 
-        // if either of the terms dwc:country or dwc:countryCode are 
-        // EMPTY; COMPLIANT if the value of the ISO 3166-1-alpha-2 
-        // country code determined from the value of dwc:country is 
-        // equal to the value of dwc:countryCode; otherwise NOT_COMPLIANT 
-        //
-
-        //TODO: Parameters. This test is defined as parameterized.
-        // bdq:sourceAuthority
+        // is not available; INTERNAL_PREREQUISITES_NOT_MET if either 
+        // of the terms dwc:country or dwc:countryCode are EMPTY; COMPLIANT 
+        // if the value of the country code determined from the value 
+        // of dwc:country is equal to the value of dwc:countryCode; 
+        // otherwise NOT_COMPLIANT 
+        // bdq:sourceAuthority is "ISO 3166-1-alpha-2" 
+        // [https://restcountries.eu/#api-endpoints-list-of-codes, 
+        // https://www.iso.org/obp/ui/#search] 
+        
+        if (GEOUtil.isEmpty(countryCode)) { 
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("the provided value for dwc:countryCode is empty");
+        } else if (GEOUtil.isEmpty(country)) { 
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("the provided value for dwc:country is empty");
+        } else { 
+        	String foundName = CountryLookup.lookupCountryFromCode(countryCode);
+        	if (foundName==null) { 
+        		result.setResultState(ResultState.RUN_HAS_RESULT);
+        		result.setValue(ComplianceValue.NOT_COMPLIANT);
+        		result.addComment("Provided value for dwc:countryCode ["+countryCode+"] did not match a ISO 3166-1-alpha-2 country code");
+        	} else { 
+        		if (foundName.equals(country)) { 
+        			result.setResultState(ResultState.RUN_HAS_RESULT);
+        			result.setValue(ComplianceValue.COMPLIANT);
+        			result.addComment("Provided value for dwc:countryCode ["+countryCode+"] is the ISO 3166-1-alpha-2 country code for the provided dwc:country ["+country+"].");
+        		} else { 
+        			result.setResultState(ResultState.RUN_HAS_RESULT);
+        			result.setValue(ComplianceValue.NOT_COMPLIANT);
+        			result.addComment("Provided value for dwc:countryCode ["+countryCode+"] is not matched to the provided dwc:country ["+ country +"].");
+        		}
+        	}
+         }
 
         return result;
     }

@@ -323,36 +323,6 @@ public class DwCGeoRefDQ_stubs {
     }
 
     /**
-     * Does the ISO country code determined from the value of dwc:country equal the value of dwc:countryCode?
-     *
-     * Provides: VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT
-     * Version: 2022-05-02
-     *
-     * @param country the provided dwc:country to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT", description="Does the ISO country code determined from the value of dwc:country equal the value of dwc:countryCode?")
-    @Provides("b23110e7-1be7-444a-a677-cdee0cf4330c")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/b23110e7-1be7-444a-a677-cdee0cf4330c/2022-05-02")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if either of the terms dwc:country or dwc:countryCode are EMPTY; COMPLIANT if the value of the country code determined from the value of dwc:country is equal to the value of dwc:countryCode; otherwise NOT_COMPLIANT bdq:sourceAuthority is 'ISO 3166-1-alpha-2' [https://restcountries.eu/#api-endpoints-list-of-codes, https://www.iso.org/obp/ui/#search]")
-    public DQResponse<ComplianceValue> validationCountryCountrycodeConsistent(@ActedUpon("dwc:country") String country, @ActedUpon("dwc:countryCode") String countryCode) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // is not available; INTERNAL_PREREQUISITES_NOT_MET if either 
-        // of the terms dwc:country or dwc:countryCode are EMPTY; COMPLIANT 
-        // if the value of the country code determined from the value 
-        // of dwc:country is equal to the value of dwc:countryCode; 
-        // otherwise NOT_COMPLIANT bdq:sourceAuthority is "ISO 3166-1-alpha-2" 
-        // [https://restcountries.eu/#api-endpoints-list-of-codes, 
-        // https://www.iso.org/obp/ui/#search] 
-
-        return result;
-    }
-
-    /**
      * Propose amendment(s) to the values of dwc:minimumElevationInMeters and/or dwc:maximumElevationInMeters if they can be interpreted from dwc:verbatimElevation.
      *
      * Provides: AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM

@@ -23,6 +23,62 @@ import org.junit.Test;
 public class DwCGeoRefDQDefinitionsTest {
 
 	private static final Log logger = LogFactory.getLog(DwCGeoRefDQDefinitionsTest.class);
+	
+	/**
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountryCountrycodeConsistent(java.lang.String, java.lang.String)}.
+	 */
+	@Test
+	public void testValidationCountryCountrycodeInconsistent() {
+		
+		String country="";
+		String countryCode = "";
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+		assertNull(result.getValue());
+		
+		country=null;
+		countryCode = "ZZ";
+		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+		assertNull(result.getValue());
+		
+		country=null;
+		countryCode = "UG";
+		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+		assertNull(result.getValue());
+		
+		country="Uganda";
+		countryCode = "UG";
+		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		country="Uganda";
+		countryCode = "AT";
+		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		country="USA";
+		countryCode = "US";
+		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+	}
 
 	@Test
 	public void testValidationCoordinatesNotzero() { 

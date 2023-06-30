@@ -531,13 +531,6 @@ public class DwCGeoRefDQTestDefinitions {
 		fail("Not yet implemented");
 	}
 
-	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountryCountrycodeInconsistent(java.lang.String, java.lang.String)}.
-	 */
-	@Test
-	public void testValidationCountryCountrycodeInconsistent() {
-		fail("Not yet implemented");
-	}
 
 	/**
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#amendmentMinelevationMaxelevationFromVerbatim(java.lang.String, java.lang.String, java.lang.String)}.
