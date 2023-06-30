@@ -7,7 +7,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ DwCGeoRefDQTestDefinitions.class })
+@SuiteClasses({ DwCGeoRefDQDefinitionsTest.class })
 public class AllTests {
 
 	private static final Log logger = LogFactory.getLog(AllTests.class);
