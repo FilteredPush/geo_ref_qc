@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.datakurator.ffdq.annotations.ActedUpon;
 import org.datakurator.ffdq.annotations.Amendment;
+import org.datakurator.ffdq.annotations.Parameter;
 import org.datakurator.ffdq.annotations.Provides;
 import org.datakurator.ffdq.annotations.ProvidesVersion;
 import org.datakurator.ffdq.annotations.Specification;
@@ -14,6 +15,7 @@ import org.datakurator.ffdq.annotations.Validation;
 import org.datakurator.ffdq.api.DQResponse;
 import org.datakurator.ffdq.api.result.AmendmentValue;
 import org.datakurator.ffdq.api.result.ComplianceValue;
+import org.filteredpush.qc.georeference.util.GettyLookup;
 
 /**
  * Provides methods for parameterized SPACE tests without the bdq:parameters as method parameters, 
@@ -139,7 +141,26 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     @ProvidesVersion("https://rs.tdwg.org/bdq/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2022-08-29")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:country was EMPTY; COMPLIANT if value of dwc:country is a place type equivalent to 'nation' by the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]")
     public static DQResponse<ComplianceValue> validationCountryFound(@ActedUpon("dwc:country") String country) { 
-    	return DwCGeoRefDQ.validationCountryFound(country, "The Getty Thesaurus of Geographic Names (TGN)");
+    	return DwCGeoRefDQ.validationCountryFound(country, GettyLookup.GETTY_TGN);
     }
     
+    /**
+     * Does the value of dwc:stateProvince occur in bdq:sourceAuthority? 
+     * using the default stateProvince of "The Getty Thesaurus of Geographic Names (TGN)"
+     *
+     * Provides: VALIDATION_STATEPROVINCE_FOUND
+     * Version: 2022-09-05
+     *
+     * @param stateProvince the provided dwc:stateProvince to evaluate
+     * @return DQResponse the response of type ComplianceValue  to return
+     */
+    @Validation(label="VALIDATION_STATEPROVINCE_FOUND", description="Does the value of dwc:stateProvince occur in bdq:sourceAuthority?")
+    @Provides("4daa7986-d9b0-4dd5-ad17-2d7a771ea71a")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/4daa7986-d9b0-4dd5-ad17-2d7a771ea71a/2022-09-05")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:stateProvince is EMPTY; COMPLIANT if the value of dwc:stateProvince occurs as an administrative entity that is a child to at least one entity representing an ISO country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]")
+    public static DQResponse<ComplianceValue> validationStateprovinceFound(
+    		@ActedUpon("dwc:stateProvince") String stateProvince
+    		) {
+    	return DwCGeoRefDQ.validationStateprovinceFound(stateProvince, GettyLookup.GETTY_TGN);
+    }
 }

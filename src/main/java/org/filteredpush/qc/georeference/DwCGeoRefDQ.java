@@ -17,7 +17,7 @@ import org.filteredpush.qc.georeference.util.GEOUtil;
 import org.filteredpush.qc.georeference.util.GeoRefCacheValue;
 import org.filteredpush.qc.georeference.util.GeoUtilSingleton;
 import org.filteredpush.qc.georeference.util.GeorefServiceException;
-import org.filteredpush.qc.georeference.util.GettyCountryLookup;
+import org.filteredpush.qc.georeference.util.GettyLookup;
 import org.filteredpush.qc.georeference.util.TransformationStruct;
 import org.geotools.ows.ServiceException;
 import org.opengis.referencing.FactoryException;
@@ -37,6 +37,7 @@ import org.datakurator.ffdq.api.result.*;
  * #21	VALIDATION_COUNTRY_FOUND 69b2efdc-6269-45a4-aecb-4cb99c2ae134
  * #98	VALIDATION_COUNTRYCODE_NOTEMPTY 853b79a2-b314-44a2-ae46-34a1e7ed85e4 
  * #62	VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT" b23110e7-1be7-444a-a677-cdee0cf4330c
+ * #199	VALIDATION_STATEPROVINCE_FOUND 4daa7986-d9b0-4dd5-ad17-2d7a771ea71a
  * #119	VALIDATION_DECIMALLATITUDE_EMPTY 7d2485d5-1ba7-4f25-90cb-f4480ff1a275
  * #79	VALIDATION_DECIMALLATITUDE_INRANGE b6ecda2a-ce36-437a-b515-3ae94948fe83
  * #96	VALIDATION_DECIMALLONGITUDE_EMPTY 9beb9442-d942-4f42-8b6a-fcea01ee086a
@@ -155,14 +156,14 @@ public class DwCGeoRefDQ{
         // default = "The Getty Thesaurus of Geographic Names (TGN)" [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]
         
         if (sourceAuthority==null) { 
-        	sourceAuthority = "The Getty Thesaurus of Geographic Names (TGN)";
+        	sourceAuthority = GettyLookup.GETTY_TGN;
         }
 
         if (GEOUtil.isEmpty(country)) { 
         	result.addComment("dwc:country is empty");
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         } else { 
-        	if (sourceAuthority.equalsIgnoreCase("The Getty Thesaurus of Geographic Names (TGN)")) {
+        	if (sourceAuthority.equalsIgnoreCase(GettyLookup.GETTY_TGN)) {
         		Boolean cached = GeoUtilSingleton.getInstance().getTgnCountriesEntry(country);
         		if (cached!=null) { 
         			if (cached) {
@@ -174,21 +175,22 @@ public class DwCGeoRefDQ{
         				result.setResultState(ResultState.RUN_HAS_RESULT);
         				result.setValue(ComplianceValue.NOT_COMPLIANT);
         			}
-        		}
-        		GettyCountryLookup lookup = new GettyCountryLookup();
-        		if (lookup.lookupCountryExact(country)==null) { 
-        			result.addComment("Error looking up country in " + sourceAuthority);
-        			result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
-        		} else if (lookup.lookupCountryExact(country)) { 
-        			result.addComment("the value provided for dwc:country [" + country + "] exists as a nation in the Getty Thesaurus of Geographic Names (TGN).");
-        			result.setResultState(ResultState.RUN_HAS_RESULT);
-        			result.setValue(ComplianceValue.COMPLIANT);
-        			GeoUtilSingleton.getInstance().addTgnCountry(country, true);
         		} else { 
-        			result.addComment("the value provided for dwc:country [" + country + "] is not a nation in the Getty Thesaurus of Geographic Names (TGN).");
-        			result.setResultState(ResultState.RUN_HAS_RESULT);
-        			result.setValue(ComplianceValue.NOT_COMPLIANT);
-        			GeoUtilSingleton.getInstance().addTgnCountry(country, false);
+        			GettyLookup lookup = new GettyLookup();
+        			if (lookup.lookupCountryExact(country)==null) { 
+        				result.addComment("Error looking up country in " + sourceAuthority);
+        				result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        			} else if (lookup.lookupCountryExact(country)) { 
+        				result.addComment("the value provided for dwc:country [" + country + "] exists as a nation in the Getty Thesaurus of Geographic Names (TGN).");
+        				result.setResultState(ResultState.RUN_HAS_RESULT);
+        				result.setValue(ComplianceValue.COMPLIANT);
+        				GeoUtilSingleton.getInstance().addTgnCountry(country, true);
+        			} else { 
+        				result.addComment("the value provided for dwc:country [" + country + "] is not a nation in the Getty Thesaurus of Geographic Names (TGN).");
+        				result.setResultState(ResultState.RUN_HAS_RESULT);
+        				result.setValue(ComplianceValue.NOT_COMPLIANT);
+        				GeoUtilSingleton.getInstance().addTgnCountry(country, false);
+        			}
         		}
         	} else if (sourceAuthority.equalsIgnoreCase("NaturalEarth")) {
         		if (GEOUtil.isCountryKnown(country)) {
@@ -1072,7 +1074,7 @@ public class DwCGeoRefDQ{
         			result.setValue(ComplianceValue.COMPLIANT);
         			result.addComment("Provided value for dwc:countryCode ["+countryCode+"] is the ISO 3166-1-alpha-2 country code for the provided dwc:country ["+country+"].");
         		} else { 
-        			GettyCountryLookup getty = new GettyCountryLookup();
+        			GettyLookup getty = new GettyLookup();
         			try { 
         				List<String> names = getty.getNamesForCountry(country);
         				boolean found = false;
@@ -1943,41 +1945,10 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-// TODO: Implementation of VALIDATION_COUNTRYCODE_STANDARD is not up to date with current version: https://rs.tdwg.org/bdq/terms/0493bcfb-652e-4d17-815b-b0cce0742fbe/2022-05-02 see line: 90
-// TODO: Implementation of VALIDATION_COUNTRY_FOUND is not up to date with current version: https://rs.tdwg.org/bdq/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2022-08-29 see line: 147
-// TODO: Implementation of VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH is not up to date with current version: https://rs.tdwg.org/bdq/terms/8f1e6e58-544b-4365-a569-fb781341644e/2022-03-22 see line: 173
-// TODO: Implementation of VALIDATION_DECIMALLONGITUDE_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/0949110d-c06b-450e-9649-7c1374d940d1/2022-03-22 see line: 241
-// TODO: Implementation of AMENDMENT_COORDINATES_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e/2023-01-13 see line: 295
-// TODO: Implementation of VALIDATION_MINELEVATION_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/0bb8297d-8f8a-42d2-80c1-558f29efe798/2022-03-26 see line: 325
-// TODO: Implementation of VALIDATION_LOCATION_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/58486cb6-1114-4a8a-ba1e-bd89cfe887e9/2022-03-22 see line: 405
-// TODO: Implementation of AMENDMENT_COORDINATES_CONVERTED is not up to date with current version: https://rs.tdwg.org/bdq/terms/620749b9-7d9c-4890-97d2-be3d1cde6da8/2023-01-16 see line: 513
-// TODO: Implementation of AMENDMENT_COUNTRYCODE_STANDARDIZED is not up to date with current version: https://rs.tdwg.org/bdq/terms/fec5ffe6-3958-4312-82d9-ebcca0efb350/2023-03-07 see line: 536
-// TODO: Implementation of VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdq/terms/adb27d29-9f0d-4d52-b760-a77ba57a69c9/2023-02-27 see line: 573
-// TODO: Implementation of VALIDATION_COORDINATES_TERRESTRIALMARINE is not up to date with current version: https://rs.tdwg.org/bdq/terms/b9c184ce-a859-410c-9d12-71a338200380/2022-03-02 see line: 603
-// TODO: Implementation of AMENDMENT_COORDINATES_TRANSPOSED is not up to date with current version: https://rs.tdwg.org/bdq/terms/f2b4a50a-6b2f-4930-b9df-da87b6a21082/2022-03-30 see line: 639
-// TODO: Implementation of AMENDMENT_MINDEPTH-MAXDEPTH_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/c5658b83-4471-4f57-9d94-bf7d0a96900c/2022-04-19 see line: 667
-// TODO: Implementation of VALIDATION_COORDINATES_STATEPROVINCE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdq/terms/f18a470b-3fe1-4aae-9c65-a6d3db6b550c/2023-03-19 see line: 693
-// TODO: Implementation of VALIDATION_GEODETICDATUM_STANDARD is not up to date with current version: https://rs.tdwg.org/bdq/terms/7e0c0418-fe16-4a39-98bd-80e19d95b9d1/2022-03-22 see line: 720
-// TODO: Implementation of AMENDMENT_GEODETICDATUM_STANDARDIZED is not up to date with current version: https://rs.tdwg.org/bdq/terms/0345b325-836d-4235-96d0-3b5caf150fc0/2022-03-30 see line: 744
-// TODO: Implementation of VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdq/terms/b23110e7-1be7-444a-a677-cdee0cf4330c/2022-05-02 see line: 770
-// TODO: Implementation of AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2023-02-27 see line: 799
-// TODO: Implementation of ISSUE_DATAGENERALIZATIONS_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/13d5a10e-188e-40fd-a22c-dbaa87b91df2/2022-05-16 see line: 58
-// TODO: Implementation of AMENDMENT_COUNTRYCODE_FROM_COORDINATES is not up to date with current version: https://rs.tdwg.org/bdq/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2022-05-02 see line: 826
-// TODO: Implementation of VALIDATION_GEODETICDATUM_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/239ec40e-a729-4a8e-ba69-e0bf03ac1c44/2022-03-22 see line: 853
-// TODO: Implementation of VALIDATION_DECIMALLATITUDE_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/b6ecda2a-ce36-437a-b515-3ae94948fe83/2022-03-26 see line: 882
-// TODO: Implementation of VALIDATION_COORDINATES_NOTZERO is not up to date with current version: https://rs.tdwg.org/bdq/terms/1bf0e210-6792-4128-b8cc-ab6828aa4871/2022-05-22 see line: 932
-// TODO: Implementation of VALIDATION_DECIMALLONGITUDE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/9beb9442-d942-4f42-8b6a-fcea01ee086a/2022-03-22 see line: 1030
-// TODO: Implementation of AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT is not up to date with current version: https://rs.tdwg.org/bdq/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2022-09-12 see line: 1098
-// TODO: Implementation of VALIDATION_MINDEPTH_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/04b2c8f3-c71b-4e95-8e43-f70374c5fb92/2022-03-26 see line: 1154
-// TODO: Implementation of VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION is not up to date with current version: https://rs.tdwg.org/bdq/terms/d708526b-6561-438e-aa1a-82cd80b06396/2022-03-22 see line: 1228
-// TODO: Implementation of VALIDATION_COORDINATEUNCERTAINTY_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/c6adf2ea-3051-4498-97f4-4b2f8a105f57/2022-03-22 see line: 1291
-// TODO: Implementation of VALIDATION_MAXELEVATION_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/c971fe3f-84c1-4636-9f44-b1ec31fd63c7/2022-03-26 see line: 1349
-// TODO: Implementation of VALIDATION_DECIMALLATITUDE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/7d2485d5-1ba7-4f25-90cb-f4480ff1a275/2020-04-09 see line: 1452
-// TODO: Implementation of VALIDATION_MAXDEPTH_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/3f1db29a-bfa5-40db-9fd1-fde020d81939/2022-09-08 see line: 1527
     /**
      * Does the value of dwc:stateProvince occur in bdq:sourceAuthority?
      *
-     * Provides: VALIDATION_STATEPROVINCE_FOUND
+     * Provides: #199 VALIDATION_STATEPROVINCE_FOUND
      * Version: 2022-09-05
      *
      * @param stateProvince the provided dwc:stateProvince to evaluate
@@ -1987,25 +1958,71 @@ public class DwCGeoRefDQ{
     @Provides("4daa7986-d9b0-4dd5-ad17-2d7a771ea71a")
     @ProvidesVersion("https://rs.tdwg.org/bdq/terms/4daa7986-d9b0-4dd5-ad17-2d7a771ea71a/2022-09-05")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:stateProvince is EMPTY; COMPLIANT if the value of dwc:stateProvince occurs as an administrative entity that is a child to at least one entity representing an ISO country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]")
-    public DQResponse<ComplianceValue> validationStateprovinceFound(@ActedUpon("dwc:stateProvince") String stateProvince) {
+    public static DQResponse<ComplianceValue> validationStateprovinceFound(
+    		@ActedUpon("dwc:stateProvince") String stateProvince,
+    		@Parameter(name="bdq:sourceAuthority") String sourceAuthority
+    		) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
         // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
         // is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:stateProvince 
         // is EMPTY; COMPLIANT if the value of dwc:stateProvince occurs 
         // as an administrative entity that is a child to at least 
         // one entity representing an ISO country-like entity in the 
-        // bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority 
-        // default = "The Getty Thesaurus of Geographic Names (TGN)" 
-        // [https://www.getty.edu/research/tools/vocabularies/tgn/index.html] 
+        // bdq:sourceAuthority; otherwise NOT_COMPLIANT
         // 
 
-        //TODO: Parameters. This test is defined as parameterized.
+        // Parameters. This test is defined as parameterized.
         // bdq:sourceAuthority
+        // default = "The Getty Thesaurus of Geographic Names (TGN)" 
+        // [https://www.getty.edu/research/tools/vocabularies/tgn/index.html] 
 
+        if (sourceAuthority==null) { 
+        	sourceAuthority = GettyLookup.GETTY_TGN;
+        }
+
+        if (GEOUtil.isEmpty(stateProvince)) { 
+        	result.addComment("dwc:stateProvince is empty");
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        } else { 
+        	if (sourceAuthority.equalsIgnoreCase(GettyLookup.GETTY_TGN)) {
+        		Boolean cached = GeoUtilSingleton.getInstance().getTgnPrimaryEntry(stateProvince);
+        		if (cached!=null) { 
+        			if (cached) {
+        				result.addComment("the value provided for dwc:stateProvince [" + stateProvince + "] exists as a primary administrative divsion in the Getty Thesaurus of Geographic Names (TGN).");
+        				result.setResultState(ResultState.RUN_HAS_RESULT);
+        				result.setValue(ComplianceValue.COMPLIANT);
+        			} else { 
+        				result.addComment("the value provided for dwc:stateProvince [" + stateProvince + "] is not a primary administrative division in the Getty Thesaurus of Geographic Names (TGN).");
+        				result.setResultState(ResultState.RUN_HAS_RESULT);
+        				result.setValue(ComplianceValue.NOT_COMPLIANT);
+        			}
+        		} else { 
+        			GettyLookup lookup = new GettyLookup();
+        			if (lookup.lookupPrimary(stateProvince)==null) { 
+        				result.addComment("Error looking up stateProvince in " + sourceAuthority);
+        				result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        			} else if (lookup.lookupPrimary(stateProvince)) { 
+        				result.addComment("the value provided for dwc:stateProvince [" + stateProvince + "] exists as a primary administrative divsion in the Getty Thesaurus of Geographic Names (TGN).");
+        				result.setResultState(ResultState.RUN_HAS_RESULT);
+        				result.setValue(ComplianceValue.COMPLIANT);
+        				GeoUtilSingleton.getInstance().addTgnPrimary(stateProvince, true);
+        			} else { 
+        				result.addComment("the value provided for dwc:stateProvince [" + stateProvince + "] is not a primary administrative divsion in the Getty Thesaurus of Geographic Names (TGN).");
+        				result.setResultState(ResultState.RUN_HAS_RESULT);
+        				result.setValue(ComplianceValue.NOT_COMPLIANT);
+        				GeoUtilSingleton.getInstance().addTgnPrimary(stateProvince, false);
+        			}
+        		}
+        	} else { 
+        		result.addComment("Unknown bdq:sourceAuthority");
+        		result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        	}
+        }
         return result;
     }
+        
 
     /**
      * Are the combination of the values of dwc:country, dwc:stateProvince consistent with the values in the bdq:sourceAuthority?

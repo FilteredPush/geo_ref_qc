@@ -29,10 +29,10 @@ public class DwCGeoRefDQDefinitionsIT {
 	private static final Log logger = LogFactory.getLog(DwCGeoRefDQDefinitionsIT.class);
 
 	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountryExists(java.lang.String)}.
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountryFound(java.lang.String)}.
 	 */
 	@Test
-	public void testValidationCountryExists() {
+	public void testValidationCountryFound() {
 		
 		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountryFound(null,null);
 		logger.debug(result.getComment());
@@ -211,6 +211,41 @@ public class DwCGeoRefDQDefinitionsIT {
 		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
 		
 	}
+	
+	@Test
+	public void testvalidationStateprovinceFound() {
 		
+		String stateProvince ="Queensland";
+		String sourceAuthority = null;
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationStateprovinceFound(stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
 
+		stateProvince ="not a state province name";
+		sourceAuthority = null;
+		result = DwCGeoRefDQ.validationStateprovinceFound(stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		stateProvince ="";
+		sourceAuthority = null;
+		result = DwCGeoRefDQ.validationStateprovinceFound(stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+		assertNull(result.getValue());
+		
+		stateProvince ="Massachusetts";
+		sourceAuthority = "https://invalid/";
+		result = DwCGeoRefDQ.validationStateprovinceFound(stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertNotNull(result.getComment());
+		assertEquals(ResultState.EXTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+		assertNull(result.getValue());
+		
+	} 
 }

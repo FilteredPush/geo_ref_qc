@@ -1,5 +1,5 @@
 /**
- * GettyCountryLookup.java
+ * GettyLookup.java
  */
 package org.filteredpush.qc.georeference.util;
 
@@ -30,9 +30,11 @@ import jakarta.xml.bind.Unmarshaller;
  * @author mole
  *
  */
-public class GettyCountryLookup {
+public class GettyLookup {
 
-	private static final Log logger = LogFactory.getLog(GettyCountryLookup.class);
+	private static final Log logger = LogFactory.getLog(GettyLookup.class);
+	
+	public static final String GETTY_TGN = "The Getty Thesaurus of Geographic Names (TGN)";
 
 	/**
 	 * Match a country name against the list of sovereign nations in the Getty TGN.
@@ -201,5 +203,53 @@ public class GettyCountryLookup {
 	
 		return retval;
 	}
+	
+	/**
+	 * Match a secondary geopolitical entity (state/province) name in the the Getty TGN.
+	 * 
+	 * @param primaryDivision the state/province to look up.
+	 * @return true if the secondaryDivision is found as an appropriate geopolitical entity in TGN matching 
+	 * any form of the name, false if the country is not found in TGN, null on an exception querying TGN.
+	 */
+	public Boolean lookupPrimary(String primaryDivision) { 
+
+		Boolean retval = null;
+		String placeTypeID = "81100"; //first level subdivision
+		String baseURI = "http://vocabsservices.getty.edu//TGNService.asmx/TGNGetTermMatch?";
+
+		StringBuilder request = new StringBuilder();
+		request.append(baseURI);
+		String countryEncoded = URI.encodeFragment(primaryDivision, false);
+		request.append("name=").append(countryEncoded);
+		request.append("&placetypeid=").append(placeTypeID);
+		request.append("&nationid=").append("");
+		logger.debug(request.toString());
+		try {
+			URL url = new URL(request.toString());
+			HttpURLConnection getty = (HttpURLConnection) url.openConnection();
+			InputStream is = getty.getInputStream();
+			JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
+			Unmarshaller unmarshaler = jc.createUnmarshaller();
+			Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
+			System.out.println(response.getCount());
+			System.out.println(response.getCount());
+			if (response.getCount().compareTo(BigInteger.ONE)==0) { 
+				retval = true;
+			} else { 
+				retval = false;
+			}
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	
+		return retval;
+	} 
 	
 }

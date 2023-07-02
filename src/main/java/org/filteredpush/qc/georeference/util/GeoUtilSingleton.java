@@ -24,10 +24,12 @@ public class GeoUtilSingleton {
 
 	private static final GeoUtilSingleton instance = new GeoUtilSingleton();
 	private Map<String,Boolean> tgnCountries;
+	private Map<String,Boolean> tgnPrimary;
 	
 	private Map<String,String> tgnNations;
 	
 	private Map<String,ArrayList<String>> gettyCountryLookup;	
+	private Map<String,ArrayList<String>> gettyPrimaryLookup;	
 	
 	private GeoUtilSingleton() { 
 		init();
@@ -36,7 +38,9 @@ public class GeoUtilSingleton {
 	private void init() { 
 		tgnCountries = new HashMap<String,Boolean>();
 		tgnNations = new HashMap<String,String>();
+		tgnPrimary = new HashMap<String,Boolean>();
 		gettyCountryLookup = new HashMap<String,ArrayList<String>>();
+		gettyPrimaryLookup = new HashMap<String,ArrayList<String>>();
 	}
 	
 	public static synchronized GeoUtilSingleton getInstance() {
@@ -71,6 +75,36 @@ public class GeoUtilSingleton {
 	public void addTgnCountry(String country, Boolean match) { 
 		if (match!=null) { 
 			tgnCountries.put(country, match);
+		}
+	}
+	
+	/**
+	 * Obtain cache entry for match on a primary division (state/province) name
+	 * 
+	 * @param stateProvince to check 
+	 * @return cached true or false value, or null if not cached.
+	 */
+	public Boolean getTgnPrimaryEntry(String stateProvince) { 
+		Boolean retval = null;
+		if (tgnPrimary.containsKey(stateProvince)) { 
+			Boolean value = tgnPrimary.get(stateProvince);
+			if (value!=null) { 
+				retval = value;
+			}
+		}
+		return retval;
+	}
+	
+	/**
+	 * Cache a match on a primary division name.
+	 * 
+	 * @param stateProvince key to cache
+	 * @param match true or false to store in the cache, if null
+	 *  not added to the cache.
+	 */
+	public void addTgnPrimary(String stateProvince, Boolean match) { 
+		if (match!=null) { 
+			tgnPrimary.put(stateProvince, match);
 		}
 	}
 	
@@ -123,6 +157,29 @@ public class GeoUtilSingleton {
 	 */
 	public void addGettyCountryLookupItem(String country, ArrayList<String> names) {
 		gettyCountryLookup.put(country, names);
+	}
+	
+	/**
+	 * @return a list of names for a stateProvince cached in gettyPrimaryLookup
+	 */
+	public List<String> getGettyPrimaryLookupItem(String stateProvince) {
+		return gettyPrimaryLookup.get(stateProvince);
+	}
+	
+	/**
+	 * Check if a stateProvince result is cached for the Getty TGN
+	 * @param stateProvince
+	 * @return
+	 */
+	public boolean isGettyPrimaryLookupItem(String stateProvince) { 
+		return gettyPrimaryLookup.containsKey(stateProvince);
+	}
+	
+	/**
+	 * @return a list of names for a stateProvince cached in the the gettyCountryLookup
+	 */
+	public void addGettyPrimaryLookupItem(String stateProvince, ArrayList<String> names) {
+		gettyPrimaryLookup.put(stateProvince, names);
 	}
 	
 	
