@@ -15,6 +15,7 @@ import org.datakurator.ffdq.api.result.AmendmentValue;
 import org.datakurator.ffdq.api.result.ComplianceValue;
 import org.datakurator.ffdq.model.ResultState;
 import org.filteredpush.qc.georeference.util.CountryLookup;
+import org.filteredpush.qc.georeference.util.GEOUtil;
 import org.filteredpush.qc.georeference.util.GeoUtilSingleton;
 import org.junit.Test;
 
@@ -38,51 +39,51 @@ public class DwCGeoRefDQDefinitionsIT {
 		logger.debug(result.getComment());
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
 		assertNull(result.getValue());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
 		
 		result = DwCGeoRefDQ.validationCountryFound("Uganda",null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		
 		result = DwCGeoRefDQ.validationCountryFound("dwc:country",null);
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		
 		result = DwCGeoRefDQ.validationCountryFound("Uganda","The Getty Thesaurus of Geographic Names (TGN)");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		
 		result = DwCGeoRefDQ.validationCountryFound("dwc:country","The Getty Thesaurus of Geographic Names (TGN)");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		
 		// check name with spaces
 		result = DwCGeoRefDQ.validationCountryFound("République centrafricaine","The Getty Thesaurus of Geographic Names (TGN)");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		
 		result = DwCGeoRefDQ.validationCountryFound("Eswatini","The Getty Thesaurus of Geographic Names (TGN)");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		
 		// Preferred name: Eswatini
 		result = DwCGeoRefDQ.validationCountryFound("Swaziland","The Getty Thesaurus of Geographic Names (TGN)");
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		
 	}
 	
@@ -98,7 +99,7 @@ public class DwCGeoRefDQDefinitionsIT {
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 
 		assertNotNull(GeoUtilSingleton.getInstance().getTgnCountriesEntry(country));
 		assertTrue(GeoUtilSingleton.getInstance().getTgnCountriesEntry(country));
@@ -108,7 +109,7 @@ public class DwCGeoRefDQDefinitionsIT {
 		logger.debug(result.getComment());
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 
 		assertNotNull(GeoUtilSingleton.getInstance().getTgnCountriesEntry(country));
 		assertFalse(GeoUtilSingleton.getInstance().getTgnCountriesEntry(country));
@@ -120,13 +121,13 @@ public class DwCGeoRefDQDefinitionsIT {
 		String countryCode = null;
 		DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentCountrycodeStandardized(countryCode);
 		logger.debug(result.getComment());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
 		
 		countryCode="not a country code";
 		result = DwCGeoRefDQ.amendmentCountrycodeStandardized(countryCode);
 		logger.debug(result.getComment());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.NOT_AMENDED.getLabel(), result.getResultState().getLabel());
 		assertNull(result.getValue());
 		
@@ -137,7 +138,7 @@ public class DwCGeoRefDQDefinitionsIT {
 			countryCode = i.next();
 			result = DwCGeoRefDQ.amendmentCountrycodeStandardized(countryCode.toLowerCase());
 			logger.debug(result.getComment());
-			assertNotNull(result.getComment());
+			assertFalse(GEOUtil.isEmpty(result.getComment()));;
 			assertEquals(ResultState.AMENDED.getLabel(), result.getResultState().getLabel());
 			assertEquals(1, result.getValue().getObject().size());
 			assertEquals(countryCode, result.getValue().getObject().get("dwc:countryCode"));
@@ -155,7 +156,7 @@ public class DwCGeoRefDQDefinitionsIT {
 		String countryCode = "AT";
 		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
 		logger.debug(result.getComment());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
 		
@@ -163,7 +164,7 @@ public class DwCGeoRefDQDefinitionsIT {
 		countryCode = "US";
 		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
 		logger.debug(result.getComment());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
 		
@@ -177,7 +178,7 @@ public class DwCGeoRefDQDefinitionsIT {
 		countryCode = "MX";
 		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
 		logger.debug(result.getComment());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
 		
@@ -187,7 +188,7 @@ public class DwCGeoRefDQDefinitionsIT {
 		countryCode = "MX";
 		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
 		logger.debug(result.getComment());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
 		
@@ -198,7 +199,7 @@ public class DwCGeoRefDQDefinitionsIT {
 		countryCode = "UG";
 		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
 		logger.debug(result.getComment());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
 		
@@ -206,7 +207,7 @@ public class DwCGeoRefDQDefinitionsIT {
 		countryCode = "UG ";  // trailing space in country code
 		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
 		logger.debug(result.getComment());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
 		
@@ -219,7 +220,7 @@ public class DwCGeoRefDQDefinitionsIT {
 		String sourceAuthority = null;
 		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationStateprovinceFound(stateProvince, sourceAuthority);
 		logger.debug(result.getComment());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
 
@@ -227,7 +228,7 @@ public class DwCGeoRefDQDefinitionsIT {
 		sourceAuthority = null;
 		result = DwCGeoRefDQ.validationStateprovinceFound(stateProvince, sourceAuthority);
 		logger.debug(result.getComment());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
 		
@@ -235,7 +236,7 @@ public class DwCGeoRefDQDefinitionsIT {
 		sourceAuthority = null;
 		result = DwCGeoRefDQ.validationStateprovinceFound(stateProvince, sourceAuthority);
 		logger.debug(result.getComment());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
 		assertNull(result.getValue());
 		
@@ -243,7 +244,7 @@ public class DwCGeoRefDQDefinitionsIT {
 		sourceAuthority = "https://invalid/";
 		result = DwCGeoRefDQ.validationStateprovinceFound(stateProvince, sourceAuthority);
 		logger.debug(result.getComment());
-		assertNotNull(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.EXTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
 		assertNull(result.getValue());
 		

@@ -18,6 +18,7 @@ import org.datakurator.ffdq.api.result.AmendmentValue;
 import org.datakurator.ffdq.api.result.ComplianceValue;
 import org.datakurator.ffdq.api.result.IssueValue;
 import org.datakurator.ffdq.model.ResultState;
+import org.filteredpush.qc.georeference.util.GEOUtil;
 import org.geotools.referencing.ReferencingFactoryFinder;
 import org.junit.Test;
 
@@ -53,6 +54,7 @@ public class DwCGeoRefDQTestTemporary {
 		
 		 DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentCoordinatesConverted("42.3836864972", "-71.1474180222", "100", "EPSG:4267", "0.000001");
 		 assertEquals(ResultState.AMENDED.getLabel(), result.getResultState().getLabel());
+		 assertFalse(GEOUtil.isEmpty(result.getComment()));
 		 assertEquals(result.getValue().getObject().get("dwc:geodeticDatum"), "EPSG:4326");
 		 assertEquals("42.3837831", result.getValue().getObject().get("dwc:decimalLatitude"));
 		 assertEquals("-71.1469160", result.getValue().getObject().get("dwc:decimalLongitude"));
