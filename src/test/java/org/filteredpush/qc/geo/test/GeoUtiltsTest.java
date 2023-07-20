@@ -178,6 +178,19 @@ public class GeoUtiltsTest {
         
 	}
 	
+	@Test
+	public void testNearCountryPlusEEZ() { 
+		double latitude = -20d;
+		double longitude = -72d;
+		
+		assertTrue(GEOUtil.isPointNearCountryPlusEEZ("CHL", latitude, longitude, 3d));
+		
+		latitude = -21d;
+		longitude = -76d;
+		assertFalse(GEOUtil.isPointNearCountryPlusEEZ("CHL", latitude, longitude, 3d));
+		
+	}
+	
 	@Test 
 	public void testisNumericCharacters() { 
 		assertTrue(GEOUtil.isNumericCharacters("1"));

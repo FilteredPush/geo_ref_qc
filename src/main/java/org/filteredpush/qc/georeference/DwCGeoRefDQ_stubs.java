@@ -89,43 +89,6 @@ public class DwCGeoRefDQ_stubs {
 
 
     /**
-     * Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?
-     *
-     * Provides: VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT
-     * Version: 2023-02-27
-     *
-     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
-     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT", description="Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?")
-    @Provides("adb27d29-9f0d-4d52-b760-a77ba57a69c9")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/adb27d29-9f0d-4d52-b760-a77ba57a69c9/2023-02-27")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if one or more of dwc:decimalLatitude, dwc:decimalLongitude, or dwc:countryCode are EMPTY or invalid; COMPLIANT if the geographic coordinates fall on or within the boundary defined by the union of the boundary of the country from dwc:countryCode plus it's Exclusive Economic Zone, if any, plus an exterior buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'ADM1 boundaries' [https://gadm.org] UNION with 'EEZs' [https://marineregions.org],bdq:spatialBufferInMeters default = '3000'")
-    public DQResponse<ComplianceValue> validationCoordinatesCountrycodeConsistent(@ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude, @ActedUpon("dwc:countryCode") String countryCode) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // is not available; INTERNAL_PREREQUISITES_NOT_MET if one 
-        // or more of dwc:decimalLatitude, dwc:decimalLongitude, or 
-        // dwc:countryCode are EMPTY or invalid; COMPLIANT if the geographic 
-        // coordinates fall on or within the boundary defined by the 
-        // union of the boundary of the country from dwc:countryCode 
-        // plus it's Exclusive Economic Zone, if any, plus an exterior 
-        // buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT 
-        // bdq:sourceAuthority default = "ADM1 boundaries" [https://gadm.org] 
-        // UNION with "EEZs" [https://marineregions.org],bdq:spatialBufferInMeters 
-        // default = "3000" 
-
-        //TODO: Parameters. This test is defined as parameterized.
-        // bdq:sourceAuthority,bdq:spatialBufferInMeters
-
-        return result;
-    }
-
-    /**
      * Does the marine/non-marine biome of a taxon from the bdq:sourceAuthority match the biome at the location given by the coordinates?
      *
      * Provides: VALIDATION_COORDINATES_TERRESTRIALMARINE

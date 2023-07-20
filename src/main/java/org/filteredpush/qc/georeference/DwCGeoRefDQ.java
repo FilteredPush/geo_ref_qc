@@ -785,33 +785,96 @@ public class DwCGeoRefDQ{
     }
 
     /**
+     * Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?
+     * 
      * #50 Validation SingleRecord Consistency: coordinates countrycode inconsistent
      *
-     * Provides: VALIDATION_COORDINATES_COUNTRYCODE_INCONSISTENT
-     *
+     * Provides: #50 VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT
+     * Version: 2023-02-27
+     * 
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT", description="Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?")
     @Provides("adb27d29-9f0d-4d52-b760-a77ba57a69c9")
-    public DQResponse<ComplianceValue> validationCoordinatesCountrycodeInconsistent(@ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude, @ActedUpon("dwc:countryCode") String countryCode) {
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/adb27d29-9f0d-4d52-b760-a77ba57a69c9/2023-02-27")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if one or more of dwc:decimalLatitude, dwc:decimalLongitude, or dwc:countryCode are EMPTY or invalid; COMPLIANT if the geographic coordinates fall on or within the boundary defined by the union of the boundary of the country from dwc:countryCode plus it's Exclusive Economic Zone, if any, plus an exterior buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'ADM1 boundaries' [https://gadm.org] UNION with 'EEZs' [https://marineregions.org],bdq:spatialBufferInMeters default = '3000'")
+    public static DQResponse<ComplianceValue> validationCoordinatesCountrycodeConsistent(
+    		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
+    		@ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
+    		@ActedUpon("dwc:countryCode") String countryCode,
+    		@Parameter(name="bdq:spatialBufferInMeters") String spatialBufferInMeters
+    		) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         //TODO:  Implement specification
         // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // service was not available; INTERNAL_PREREQUISITES_NOT_MET 
-        // if one or more of dwc:decimalLatitude, dwc:decimalLongitude, 
-        // or dwc:countryCode are EMPTY or contain values that cannot 
-        // be interpreted; COMPLIANT if the geographic coordinates 
-        // fall on or within the boundary defined by the union of the 
-        // boundary of the country from dwc:countryCode plus it's Exclusive 
-        // Economic Zone, if any, plus an exterior buffer given by 
-        //bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT 
+        // is not available; INTERNAL_PREREQUISITES_NOT_MET if one 
+        // or more of dwc:decimalLatitude, dwc:decimalLongitude, or 
+        // dwc:countryCode are EMPTY or invalid; COMPLIANT if the geographic 
+        // coordinates fall on or within the boundary defined by the 
+        // union of the boundary of the country from dwc:countryCode 
+        // plus it's Exclusive Economic Zone, if any, plus an exterior 
+        // buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT 
 
         //TODO: Parameters. This test is defined as parameterized.
         // bdq:sourceAuthority; bdq:spatialBufferInMeters
+        // bdq:sourceAuthority default = "ADM1 boundaries" [https://gadm.org] 
+        // UNION with "EEZs" [https://marineregions.org]
+        // bdq:spatialBufferInMeters default = "3000" 
 
+        if (GEOUtil.isEmpty(spatialBufferInMeters)) { 
+        	spatialBufferInMeters = "3000";
+        }
+        
+        Double buffer_km = 3d;
+        try { 
+        	buffer_km = Double.parseDouble(spatialBufferInMeters);
+        	buffer_km = buffer_km / 1000d;
+        } catch (Exception e) {
+        	buffer_km = 3d;
+        }
+        
+        if (GEOUtil.isEmpty(decimalLatitude)) { 
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+			result.addComment("The value provided for dwc:decimalLatitude is empty");
+        } else if (GEOUtil.isEmpty(decimalLongitude)) { 
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+			result.addComment("The value provided for dwc:decimalLongitude is empty");
+        } else if (GEOUtil.isEmpty(countryCode)) { 
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+			result.addComment("The value provided for dwc:countryCode is empty");
+		} else { 
+			String countryCode3 = countryCode;
+			if (!countryCode.matches("^[A-Z]$")) {
+				// expected case, two letter country code, find the three letter code used in the datasets.
+				countryCode3 = CountryLookup.lookupCode3FromCodeName(countryCode);
+			}
+			if (countryCode3==null) { 
+				result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+				result.addComment("Unable to look up country from provided country code ["+countryCode+"].");
+			} else {
+				try { 
+				Double lat = Double.parseDouble(decimalLatitude);
+				Double lng = Double.parseDouble(decimalLongitude);
+				result.setResultState(ResultState.RUN_HAS_RESULT);
+				if (GEOUtil.isPointNearCountryPlusEEZ(countryCode3, lat, lng, buffer_km)) { 
+					result.setValue(ComplianceValue.COMPLIANT);
+					result.addComment("Provided coordinate lies within the bounds of the country specified by the country code.");
+				} else { 
+					result.setValue(ComplianceValue.NOT_COMPLIANT);
+					result.addComment("Provided coordinate decimalLatitude=["+decimalLatitude+"], decimalLongitude=["+decimalLongitude+"] lies outside the bounds of the country specified by the country code ["+countryCode+"].");
+				}
+				} catch (NumberFormatException e) { 
+					result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+					result.addComment("Error parsing numeric latitude/longitude from provided dwc:decimalLatitude ["+decimalLatitude+"] or dwc:decimalLongitude ["+ decimalLongitude +"].");
+				}
+			
+			}
+		}
+        
         return result;
     }
 

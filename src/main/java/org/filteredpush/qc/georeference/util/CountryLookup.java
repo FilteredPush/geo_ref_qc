@@ -540,4 +540,60 @@ public class CountryLookup {
 		return result;
 	}
 	
+	/**
+	 * Given a string that might be a country code or a country name return the 
+	 * matching three letter country code if one can be found.
+	 *  
+	 * @param countryCodeOrName string for which to look up the country code
+	 * @return a three letter country code or null if no match is found
+	 */
+	public static String lookupCode3FromCodeName(String countryCodeOrName) {
+		if (countries==null) { 
+			cl = new CountryLookup();
+		}
+		String result = null;
+		if (countryCodeOrName!=null) { 
+			String country = lookupCountryFromCode(countryCodeOrName);
+			if (country!=null) {
+				// provided string is a country code
+				List<String> values = codes.get(country);
+				Iterator<String> iv = values.iterator();
+				boolean done = false;
+				while (iv.hasNext()&&!done) {
+					String v = iv.next();
+					if (v.matches("^[A-Z]{3}$" )) { 
+						result = v;
+						done = true;
+					}
+				}
+			} else if (countryCodeOrName.matches("^0[0-9]+")) { 
+				country = lookupCountryFromCode(countryCodeOrName.replaceAll("^0+", ""));
+				if (country!=null) { 
+					// provided string is a numeric country code with leading zeroes
+					List<String> values = codes.get(country);
+					Iterator<String> iv = values.iterator();
+					boolean done = false;
+					while (iv.hasNext()&&!done) {
+						String v = iv.next();
+						if (v.matches("^[A-Z]{3}$" )) { 
+							result = v;
+							done = true;
+						}
+					}
+				}
+			} else if (codes.containsKey(countryCodeOrName)) { 
+				// provided string is a country name
+				List<String> values =  codes.get(countryCodeOrName);
+				Iterator<String> iv = values.iterator();
+				while (iv.hasNext()) {
+					String v = iv.next();
+					if (v.matches("^[A-Z]{3}$" )) { 
+						result = v;
+					}
+				}
+			}
+		}
+		return result;
+	}
+	
 }

@@ -6,6 +6,7 @@ package org.filteredpush.qc.georeference;
 import static org.junit.Assert.*;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
@@ -14,6 +15,7 @@ import org.datakurator.ffdq.api.DQResponse;
 import org.datakurator.ffdq.api.result.AmendmentValue;
 import org.datakurator.ffdq.api.result.ComplianceValue;
 import org.datakurator.ffdq.model.ResultState;
+import org.filteredpush.qc.georeference.util.CountryLookup;
 import org.filteredpush.qc.georeference.util.GEOUtil;
 import org.geotools.referencing.ReferencingFactoryFinder;
 import org.junit.Test;
@@ -25,6 +27,79 @@ import org.junit.Test;
 public class DwCGeoRefDQDefinitionsTest {
 
 	private static final Log logger = LogFactory.getLog(DwCGeoRefDQDefinitionsTest.class);
+	
+	/**
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCoordinatesCountrycodeConsistent(java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 */
+	@Test
+	public void testValidationCoordinatesCountrycodeConsistent() {
+		
+		String countryCode = "";
+		String decimalLatitude = "";
+		String decimalLongitude = "";
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+		assertNull(result.getValue());
+		
+		countryCode = "US";
+		decimalLatitude = "1";
+		decimalLongitude = "1";
+		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());	
+		
+		countryCode = "US";
+		decimalLatitude = "30";
+		decimalLongitude = "-90";
+		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());	
+		
+		countryCode = "CL";
+		decimalLatitude = "-24.40";
+		decimalLongitude = "-72.71";
+		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());	
+		
+		countryCode = "CL";
+		decimalLatitude = "-28.50";
+		decimalLongitude = "-79.53";
+		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());	
+		
+		List<String> codes = CountryLookup.getCountryCodes2();
+		Iterator<String> i = codes.iterator();
+		boolean done = false;  // too slow....
+		while (i.hasNext() && ! done) { 
+			countryCode = i.next();
+			String country3 = CountryLookup.lookupCode3FromCodeName(countryCode);
+			logger.debug(country3);
+			if (country3!=null && CountryLookup.countryExistsHasCode(CountryLookup.lookupCountryFromCode(country3))) { 
+				decimalLatitude = "64.896";
+				decimalLongitude = "-0.555";
+				result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null);
+				logger.debug(result.getComment());
+				assertFalse(GEOUtil.isEmpty(result.getComment()));
+				assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+				assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+			}
+			done = true;
+		}
+
+		
+	}
 	
 	/**
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountryCountrycodeConsistent(java.lang.String, java.lang.String)}.

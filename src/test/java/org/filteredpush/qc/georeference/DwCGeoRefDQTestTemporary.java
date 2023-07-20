@@ -70,13 +70,7 @@ public class DwCGeoRefDQTestTemporary {
 		fail("Not yet implemented");
 	}
 
-	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCoordinatesCountrycodeInconsistent(java.lang.String, java.lang.String, java.lang.String)}.
-	 */
-	@Test
-	public void testValidationCoordinatesCountrycodeInconsistent() {
-		fail("Not yet implemented");
-	}
+
 
 	/**
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCoordinatesTerrestrialmarine(java.lang.String, java.lang.String)}.
