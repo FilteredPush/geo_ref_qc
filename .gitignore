@@ -6,3 +6,4 @@ geo_ref_qc-*-cfweblib.jar
 .settings/
 .idea
 *.iml
+src/main/resources/org.filteredpush.kuration.services/eez_v11*

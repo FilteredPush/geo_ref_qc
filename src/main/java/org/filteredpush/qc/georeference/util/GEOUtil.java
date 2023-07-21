@@ -280,31 +280,15 @@ public class GEOUtil {
 	 */
 	public static boolean isPointNearCountryPlusEEZ(String countryCode, double latitude, double longitude, double distanceKm) { 
 		boolean result = false;
-        URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_0_countries.shp");
-        URL eezShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/eez_v11.shp");
-        FileDataStore store = null;
+		URL combinedShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/merged_countries_and_eez.shp");
+		FileDataStore store = null;
 		try {
-			store = FileDataStoreFinder.getDataStore(countryShapeFile);
-            SimpleFeatureSource featureSource = store.getFeatureSource();
-            double distanceD = distanceKm / 111d; // GeoTools ignores units, uses units of underlying projection (degrees in this case), fudge by dividing km by number of km in one degree of latitude (this will describe a wide ellipse far north or south).
-		    Filter filter = ECQL.toFilter("SOV_A3 ILIKE '"+ countryCode +"' AND DWITHIN(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "), "+ distanceD +", kilometers)");
-		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
-		    result = !collection.isEmpty();
-		} catch (IOException e) {
-			logger.debug(e.getMessage());
-		} catch (CQLException e) {
-			logger.debug(e.getMessage());
-		} finally { 
-			if (store!=null) { store.dispose(); }			
-		}
-		if (!result)
-		try {
-			store = FileDataStoreFinder.getDataStore(eezShapeFile);
-            SimpleFeatureSource featureSource = store.getFeatureSource();
-            double distanceD = distanceKm / 111d; // GeoTools ignores units, uses units of underlying projection (degrees in this case), fudge by dividing km by number of km in one degree of latitude (this will describe a wide ellipse far north or south).
-		    Filter filter = ECQL.toFilter("ISO_SOV1 ILIKE '"+ countryCode +"' AND DWITHIN(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "), "+ distanceD +", kilometers)");
-		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
-		    result = !collection.isEmpty();
+			store = FileDataStoreFinder.getDataStore(combinedShapeFile);
+			SimpleFeatureSource featureSource = store.getFeatureSource();
+			double distanceD = distanceKm / 111d; // GeoTools ignores units, uses units of underlying projection (degrees in this case), fudge by dividing km by number of km in one degree of latitude (this will describe a wide ellipse far north or south).
+			Filter filter = ECQL.toFilter("ISO_SOV1 ILIKE '"+ countryCode +"' AND DWITHIN(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "), "+ distanceD +", kilometers)");
+			SimpleFeatureCollection collection=featureSource.getFeatures(filter);
+			result = !collection.isEmpty();
 		} catch (IOException e) {
 			logger.debug(e.getMessage());
 		} catch (CQLException e) {

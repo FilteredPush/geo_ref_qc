@@ -61,6 +61,24 @@ public class DwCGeoRefDQDefinitionsTest {
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());	
 		
+		countryCode = "UG";
+		decimalLatitude = "30";
+		decimalLongitude = "-90";
+		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());	
+		
+		countryCode = "UG";
+		decimalLatitude = "0.30";
+		decimalLongitude = "32.7";
+		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());	
+		
 		countryCode = "CL";
 		decimalLatitude = "-24.40";
 		decimalLongitude = "-72.71";
@@ -81,8 +99,7 @@ public class DwCGeoRefDQDefinitionsTest {
 		
 		List<String> codes = CountryLookup.getCountryCodes2();
 		Iterator<String> i = codes.iterator();
-		boolean done = false;  // too slow....
-		while (i.hasNext() && ! done) { 
+		while (i.hasNext()) { 
 			countryCode = i.next();
 			String country3 = CountryLookup.lookupCode3FromCodeName(countryCode);
 			logger.debug(country3);
@@ -95,7 +112,6 @@ public class DwCGeoRefDQDefinitionsTest {
 				assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 				assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
 			}
-			done = true;
 		}
 
 		
