@@ -805,7 +805,8 @@ public class DwCGeoRefDQ{
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
     		@ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
     		@ActedUpon("dwc:countryCode") String countryCode,
-    		@Parameter(name="bdq:spatialBufferInMeters") String spatialBufferInMeters
+    		@Parameter(name="bdq:spatialBufferInMeters") String spatialBufferInMeters, 
+    		@Parameter(name="bdq:sourceAuthority") String sourceAuthority
     		) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 

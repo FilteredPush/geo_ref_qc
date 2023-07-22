@@ -37,7 +37,7 @@ public class DwCGeoRefDQDefinitionsTest {
 		String countryCode = "";
 		String decimalLatitude = "";
 		String decimalLongitude = "";
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null);
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null, null);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
@@ -46,7 +46,7 @@ public class DwCGeoRefDQDefinitionsTest {
 		countryCode = "US";
 		decimalLatitude = "1";
 		decimalLongitude = "1";
-		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null);
+		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null, null);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
@@ -55,7 +55,7 @@ public class DwCGeoRefDQDefinitionsTest {
 		countryCode = "US";
 		decimalLatitude = "30";
 		decimalLongitude = "-90";
-		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null);
+		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null, null);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
@@ -64,7 +64,7 @@ public class DwCGeoRefDQDefinitionsTest {
 		countryCode = "UG";
 		decimalLatitude = "30";
 		decimalLongitude = "-90";
-		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null);
+		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null, null);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
@@ -73,7 +73,7 @@ public class DwCGeoRefDQDefinitionsTest {
 		countryCode = "UG";
 		decimalLatitude = "0.30";
 		decimalLongitude = "32.7";
-		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null);
+		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null, null);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
@@ -82,7 +82,7 @@ public class DwCGeoRefDQDefinitionsTest {
 		countryCode = "CL";
 		decimalLatitude = "-24.40";
 		decimalLongitude = "-72.71";
-		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null);
+		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null, null);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
@@ -91,7 +91,7 @@ public class DwCGeoRefDQDefinitionsTest {
 		countryCode = "CL";
 		decimalLatitude = "-28.50";
 		decimalLongitude = "-79.53";
-		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null);
+		result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null, null);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
@@ -106,7 +106,7 @@ public class DwCGeoRefDQDefinitionsTest {
 			if (country3!=null && CountryLookup.countryExistsHasCode(CountryLookup.lookupCountryFromCode(country3))) { 
 				decimalLatitude = "64.896";
 				decimalLongitude = "-0.555";
-				result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null);
+				result = DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, null, null);
 				logger.debug(result.getComment());
 				assertFalse(GEOUtil.isEmpty(result.getComment()));
 				assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
