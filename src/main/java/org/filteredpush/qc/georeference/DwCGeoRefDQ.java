@@ -19,6 +19,7 @@ import org.filteredpush.qc.georeference.util.GeoUtilSingleton;
 import org.filteredpush.qc.georeference.util.GeorefServiceException;
 import org.filteredpush.qc.georeference.util.GettyLookup;
 import org.filteredpush.qc.georeference.util.TransformationStruct;
+import org.filteredpush.qc.georeference.util.UnknownToWGS84Error;
 import org.geotools.ows.ServiceException;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.operation.TransformException;
@@ -826,6 +827,14 @@ public class DwCGeoRefDQ{
         // UNION with "EEZs" [https://marineregions.org]
         // bdq:spatialBufferInMeters default = "3000" 
 
+        
+        if (GEOUtil.isEmpty(sourceAuthority)) { 
+        	// TODO: Value needs to be determined in the issue.
+        	sourceAuthority = "ADM1 boundaries UNION EEZ";
+        }
+
+
+        
         if (GEOUtil.isEmpty(spatialBufferInMeters)) { 
         	spatialBufferInMeters = "3000";
         }
@@ -848,31 +857,35 @@ public class DwCGeoRefDQ{
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
 			result.addComment("The value provided for dwc:countryCode is empty");
 		} else { 
-			String countryCode3 = countryCode;
-			if (!countryCode.matches("^[A-Z]$")) {
-				// expected case, two letter country code, find the three letter code used in the datasets.
-				countryCode3 = CountryLookup.lookupCode3FromCodeName(countryCode);
-			}
-			if (countryCode3==null) { 
-				result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
-				result.addComment("Unable to look up country from provided country code ["+countryCode+"].");
-			} else {
-				try { 
-				Double lat = Double.parseDouble(decimalLatitude);
-				Double lng = Double.parseDouble(decimalLongitude);
-				result.setResultState(ResultState.RUN_HAS_RESULT);
-				if (GEOUtil.isPointNearCountryPlusEEZ(countryCode3, lat, lng, buffer_km)) { 
-					result.setValue(ComplianceValue.COMPLIANT);
-					result.addComment("Provided coordinate lies within the bounds of the country specified by the country code.");
-				} else { 
-					result.setValue(ComplianceValue.NOT_COMPLIANT);
-					result.addComment("Provided coordinate decimalLatitude=["+decimalLatitude+"], decimalLongitude=["+decimalLongitude+"] lies outside the bounds of the country specified by the country code ["+countryCode+"].");
+			if (!sourceAuthority.equals("ADM1 boundaries UNION EEZ")) { 
+				result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+				result.addComment("Unsupported or unrecognized source authority.");
+			} else { 
+				String countryCode3 = countryCode;
+				if (!countryCode.matches("^[A-Z]$")) {
+					// expected case, two letter country code, find the three letter code used in the datasets.
+					countryCode3 = CountryLookup.lookupCode3FromCodeName(countryCode);
 				}
-				} catch (NumberFormatException e) { 
+				if (countryCode3==null) { 
 					result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
-					result.addComment("Error parsing numeric latitude/longitude from provided dwc:decimalLatitude ["+decimalLatitude+"] or dwc:decimalLongitude ["+ decimalLongitude +"].");
+					result.addComment("Unable to look up country from provided country code ["+countryCode+"].");
+				} else {
+					try { 
+						Double lat = Double.parseDouble(decimalLatitude);
+						Double lng = Double.parseDouble(decimalLongitude);
+						result.setResultState(ResultState.RUN_HAS_RESULT);
+						if (GEOUtil.isPointNearCountryPlusEEZ(countryCode3, lat, lng, buffer_km)) { 
+							result.setValue(ComplianceValue.COMPLIANT);
+							result.addComment("Provided coordinate lies within the bounds of the country specified by the country code.");
+						} else { 
+							result.setValue(ComplianceValue.NOT_COMPLIANT);
+							result.addComment("Provided coordinate decimalLatitude=["+decimalLatitude+"], decimalLongitude=["+decimalLongitude+"] lies outside the bounds of the country specified by the country code ["+countryCode+"].");
+						}
+					} catch (NumberFormatException e) { 
+						result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+						result.addComment("Error parsing numeric latitude/longitude from provided dwc:decimalLatitude ["+decimalLatitude+"] or dwc:decimalLongitude ["+ decimalLongitude +"].");
+					}
 				}
-			
 			}
 		}
         
@@ -1494,45 +1507,49 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+    
      /**
-     * Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty.
+     * Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty. 
+     * If dwc:coordinateUncertaintyInMeters is not empty and there are not empty values for dwc:latitude and dwc:longitude, 
+     * amend dwc:coordinateUncertaintyInMeters by adding a maximum datum shift.
      *
      * Provides: 102 AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT
+     * Version: 2023-06-23
      *
      * @param coordinateUncertantyInMeters the provided dwc:coordinateUncertantyInMeters to evaluate
      * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
+     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
+     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @param defaultGeodeticDatum to use as default, if not specified, uses EPSG:4326
      * @return DQResponse the response of type AmendmentValue to return
      */
-    @Amendment(label="AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT", description="Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty.")
+    @Amendment(label="AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT", description="Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty. If dwc:coordinateUncertaintyInMeters is not empty and there are not empty values for dwc:latitude and dwc:longitude, amend dwc:coordinateUncertaintyInMeters by adding a maximum datum shift.")
     @Provides("7498ca76-c4d4-42e2-8103-acacccbdffa7")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2023-06-23")
+    @Specification("If dwc:geodeticDatum is EMPTY, fill in the value of dwc:geodeticDatum with the value of bdq:defaultGeodeticDatum, report FILLED_IN and, if dwc:coordinateUncertaintyInMeters, dwc:decimalLatitude and dwc:decimalLongitude are NOT_EMPTY, amend the value of dwc:coordinateUncertaintyInMeters by adding the maximum datum shift between the specified bdq:defaultGeodeticDatum and any other datum at the provided dwc:decimalLatitude and dwc:decimalLongitude and instead report AMENDED; otherwise NOT_AMENDED. bdq:defaultGeodeticDatum default='EPSG:4326'")
     public static DQResponse<AmendmentValue> amendmentGeodeticdatumAssumeddefault(
     		@ActedUpon("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters, 
     		@ActedUpon("dwc:geodeticDatum") String geodeticDatum,
+    		@ActedUpon("dwc:decimalLatitude") String decimalLatitude,
+    		@ActedUpon("dwc:decimalLongitude") String decimalLongitude,
     		@Parameter(name="bdq:defaultGeodeticDatum") String defaultGeodeticDatum) {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
         // Specification
-        // FILLED_IN the value of dwc:geodeticDatum to the value of 
-        // bdq:defaultGeodeticDatum if dwc:geodeticDatum is EMPTY; 
-        // otherwise NOT_AMENDED Source Authority is "epsg" [https://epsg.io] 
+        // If dwc:geodeticDatum is EMPTY, fill in the value of dwc:geodeticDatum 
+        // with the value of bdq:defaultGeodeticDatum, report FILLED_IN 
+        // and, if dwc:coordinateUncertaintyInMeters, dwc:decimalLatitude 
+        // and dwc:decimalLongitude are NOT_EMPTY, amend the value 
+        // of dwc:coordinateUncertaintyInMeters by adding the maximum 
+        // datum shift between the specified bdq:defaultGeodeticDatum 
+        // and any other datum at the provided dwc:decimalLatitude 
+        // and dwc:decimalLongitude and instead report AMENDED; otherwise 
+        // NOT_AMENDED. 
         // 
 
         // Parameters. This test is defined as parameterized.
-        // bdq:defaultGeodeticDatum default value="EPSG:4326"
-        
-        // TODO:  Notes discuss potential amendment to an existing coordinateUncertaintyInMeters value 
-        // If the dwc:coordinateUncertaintyInMeters is EMPTY or
-        // is not interpretable, this amendment should not provide a
-        // dwc:coordinateUncertaintyInMeters. If the 
-        // dwc:coordinateUncertaintyInMeters is not EMPTY and is valid, 
-        // this amendment should add to the dwc:coordinateUncertaintyInMeters 
-        // the uncertainty contributed by the conversion. Since different 
-        // systems have differing requirements for what the default datum 
-        // should be, it is left unspecified, but should match whatever 
-        // the target datum is in #43 . After the amendment is performed, 
-        // the dwc:geodeticDatum field should be the assumed default datum as parameterized.
-        
+        // bdq:defaultGeodeticDatum default="EPSG:4326" 
+
         if (GEOUtil.isEmpty(defaultGeodeticDatum)) {
         	defaultGeodeticDatum = "EPSG:4326";
         }
@@ -1543,6 +1560,22 @@ public class DwCGeoRefDQ{
     		Map<String, String> values = new HashMap<>();
     		values.put("dwc:geodeticDatum", defaultGeodeticDatum) ;
     		result.setValue(new AmendmentValue(values));
+    		if (!GEOUtil.isEmpty(coordinateUncertaintyInMeters) && !GEOUtil.isEmpty(decimalLatitude) && !GEOUtil.isEmpty(decimalLongitude)) {
+    			// ... and dwc:decimalLongitude are NOT_EMPTY, amend the value 
+    			// of dwc:coordinateUncertaintyInMeters by adding the maximum 
+    			// datum shift between the specified bdq:defaultGeodeticDatum 
+    			// and any other datum at the provided dwc:decimalLatitude 
+    			// and dwc:decimalLongitude and instead report AMENDED; 
+    			Integer existingUncertainty = ((Double)Math.ceil(Double.parseDouble(coordinateUncertaintyInMeters))).intValue();
+    			Double latVal = Double.parseDouble(decimalLatitude);
+    			Double longVal = Double.parseDouble(decimalLongitude);
+    			Integer addedUncertainty = UnknownToWGS84Error.getErrorAtCoordinate(latVal, longVal);
+    			Integer totalUncertainty = existingUncertainty + addedUncertainty;
+        		result.addComment("Adding an uncertainty of ["+ addedUncertainty.toString() +"] meters to existing dwc coordinateUncertaintyInMeters of ["+coordinateUncertaintyInMeters+"] meters to account for the difference between any unknown datum and the assigned value of dwc:geodeticDatim of WGS84 for the provided cooordinates.");
+        		result.setResultState(ResultState.AMENDED);
+        		values.put("dwc:coordinateUncertaintyInMeters", totalUncertainty.toString());
+        		result.setValue(new AmendmentValue(values));
+    		}
         } else { 
         	result.addComment("The provided geodeticDatum contains a value, not proposing a change");
         	result.setResultState(ResultState.NOT_AMENDED);
@@ -2161,14 +2194,11 @@ public class DwCGeoRefDQ{
 
 // TODO: Implementation of AMENDMENT_COORDINATES_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e/2023-01-13 see line: 359
 // TODO: Implementation of AMENDMENT_COUNTRYCODE_STANDARDIZED is not up to date with current version: https://rs.tdwg.org/bdq/terms/fec5ffe6-3958-4312-82d9-ebcca0efb350/2023-03-07 see line: 678
-// TODO: Implementation of VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdq/terms/adb27d29-9f0d-4d52-b760-a77ba57a69c9/2023-02-27 see line: 715
 // TODO: Implementation of VALIDATION_COORDINATES_TERRESTRIALMARINE is not up to date with current version: https://rs.tdwg.org/bdq/terms/b9c184ce-a859-410c-9d12-71a338200380/2022-03-02 see line: 745
 // TODO: Implementation of AMENDMENT_COORDINATES_TRANSPOSED is not up to date with current version: https://rs.tdwg.org/bdq/terms/f2b4a50a-6b2f-4930-b9df-da87b6a21082/2022-03-30 see line: 781
 // TODO: Implementation of AMENDMENT_MINDEPTH-MAXDEPTH_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/c5658b83-4471-4f57-9d94-bf7d0a96900c/2022-04-19 see line: 809
 // TODO: Implementation of VALIDATION_COORDINATES_STATEPROVINCE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdq/terms/f18a470b-3fe1-4aae-9c65-a6d3db6b550c/2023-03-19 see line: 835
 // TODO: Implementation of AMENDMENT_GEODETICDATUM_STANDARDIZED is not up to date with current version: https://rs.tdwg.org/bdq/terms/0345b325-836d-4235-96d0-3b5caf150fc0/2022-03-30 see line: 922
-// TODO: Implementation of VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdq/terms/b23110e7-1be7-444a-a677-cdee0cf4330c/2022-05-02 see line: 948
 // TODO: Implementation of AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2023-02-27 see line: 977
 // TODO: Implementation of AMENDMENT_COUNTRYCODE_FROM_COORDINATES is not up to date with current version: https://rs.tdwg.org/bdq/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2022-05-02 see line: 1004
-// TODO: Implementation of AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT is not up to date with current version: https://rs.tdwg.org/bdq/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2023-06-23 see line: 1301
 }

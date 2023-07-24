@@ -14,6 +14,7 @@ import java.util.Set;
 
 import org.filteredpush.qc.georeference.util.GEOUtil;
 import org.filteredpush.qc.georeference.util.GISDataLoader;
+import org.filteredpush.qc.georeference.util.UnknownToWGS84Error;
 import org.geotools.data.shapefile.shp.ShapefileException;
 import org.geotools.filter.text.cql2.CQLException;
 import org.junit.Test;
@@ -211,6 +212,22 @@ public class GeoUtiltsTest {
 		assertFalse(GEOUtil.isNumericCharacters("0x1"));
 		assertFalse(GEOUtil.isNumericCharacters("F1"));
 		assertFalse(GEOUtil.isNumericCharacters("0F8H"));
+	}
+	
+	@Test 
+	public void testUUnknownToWGS84Error() { 
+		assertEquals(3289, UnknownToWGS84Error.getErrorAtCoordinate(-90, -180).intValue());
+		assertEquals(3289, UnknownToWGS84Error.getErrorAtCoordinate(-89, -179).intValue());
+		
+		assertEquals(3085, UnknownToWGS84Error.getErrorAtCoordinate(-85, -180).intValue());
+		assertEquals(3085, UnknownToWGS84Error.getErrorAtCoordinate(-84, -179).intValue());
+		
+		assertEquals(2825, UnknownToWGS84Error.getErrorAtCoordinate(85, 175).intValue());
+		assertEquals(2825, UnknownToWGS84Error.getErrorAtCoordinate(89, 179).intValue());
+		assertEquals(2825, UnknownToWGS84Error.getErrorAtCoordinate(90, 180).intValue());
+		
+		
+		
 	}
 
 }

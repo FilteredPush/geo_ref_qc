@@ -56,15 +56,19 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     *
     * @param coordinateUncertantyInMeters the provided dwc:coordinateUncertantyInMeters to evaluate
     * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
+    * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
+    * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
     * @return DQResponse the response of type AmendmentValue to return
     */
    @Amendment(label="AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT", description="Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty.")
    @Provides("7498ca76-c4d4-42e2-8103-acacccbdffa7")
    public DQResponse<AmendmentValue> amendmentGeodeticdatumAssumeddefault(
    		@ActedUpon("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters, 
-   		@ActedUpon("dwc:geodeticDatum") String geodeticDatum) 
+   		@ActedUpon("dwc:geodeticDatum") String geodeticDatum,
+   		@ActedUpon("dwc:decimalLatitude") String decimalLatitude,
+   		@ActedUpon("dwc:decimalLongitude") String decimalLongitude)
    {
-	   return DwCGeoRefDQ.amendmentGeodeticdatumAssumeddefault(coordinateUncertaintyInMeters, geodeticDatum, null);
+	   return DwCGeoRefDQ.amendmentGeodeticdatumAssumeddefault(coordinateUncertaintyInMeters, geodeticDatum, decimalLatitude, decimalLongitude, null);
    }
    
     /**

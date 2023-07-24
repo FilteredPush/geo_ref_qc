@@ -434,19 +434,29 @@ public class DwCGeoRefDQDefinitionsTest {
 		
 	    String coordinateUncertantyInMeters = "";
 		String geodeticDatum = "foo";
-	    DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentGeodeticdatumAssumeddefault(coordinateUncertantyInMeters, geodeticDatum, null);
+	    DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentGeodeticdatumAssumeddefault(coordinateUncertantyInMeters, geodeticDatum, "30", "50", null);
 	    logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 	    assertEquals(ResultState.NOT_AMENDED.getLabel(), result.getResultState().getLabel());
 	    
 	    coordinateUncertantyInMeters = "";
 		geodeticDatum = "";
-	    result = DwCGeoRefDQ.amendmentGeodeticdatumAssumeddefault(coordinateUncertantyInMeters, geodeticDatum, null);
+	    result = DwCGeoRefDQ.amendmentGeodeticdatumAssumeddefault(coordinateUncertantyInMeters, geodeticDatum, "", "", null);
 	    logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 	    assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
 		assertEquals(1, result.getValue().getObject().size());
 		assertEquals("EPSG:4326", result.getValue().getObject().get("dwc:geodeticDatum"));
+		
+	    coordinateUncertantyInMeters = "1000";
+		geodeticDatum = "";
+	    result = DwCGeoRefDQ.amendmentGeodeticdatumAssumeddefault(coordinateUncertantyInMeters, geodeticDatum, "-88", "-178", null);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.AMENDED.getLabel(), result.getResultState().getLabel());
+		assertEquals(2, result.getValue().getObject().size());
+		assertEquals("EPSG:4326", result.getValue().getObject().get("dwc:geodeticDatum"));
+		assertEquals("4289", result.getValue().getObject().get("dwc:coordinateUncertaintyInMeters"));
 	    
 	}
 	
