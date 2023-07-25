@@ -56,6 +56,7 @@ import org.datakurator.ffdq.api.result.*;
  * #43	AMENDMENT_COORDINATES_CONVERTED 620749b9-7d9c-4890-97d2-be3d1cde6da8
  * #102 AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT 7498ca76-c4d4-42e2-8103-acacccbdffa7
  * #48	AMENDMENT_COUNTRYCODE_STANDARDIZED fec5ffe6-3958-4312-82d9-ebcca0efb350
+ * #73	AMENDMENT_COUNTRYCODE_FROM_COORDINATES 8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae
  * 
  * For #72, see rec_occur_qc DwCMetadataDQ
  * #72 ISSUE_DATAGENERALIZATIONS_NOTEMPTY 13d5a10e-188e-40fd-a22c-dbaa87b91df2
@@ -1206,10 +1207,14 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+
     /**
+     * Propose amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority that is attributable to a single valid country code.
+     * 
      * #73 Amendment SingleRecord Completeness: countrycode from coordinates
      *
      * Provides: AMENDMENT_COUNTRYCODE_FROM_COORDINATES
+     * Version: 2022-05-02
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
@@ -1218,22 +1223,61 @@ public class DwCGeoRefDQ{
      * @param coordinatePrecision the provided dwc:coordinatePrecision to evaluate
      * @return DQResponse the response of type AmendmentValue to return
      */
+    @Amendment(label="AMENDMENT_COUNTRYCODE_FROM_COORDINATES", description="Propose amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority that is attributable to a single valid country code.")
     @Provides("8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae")
-    public DQResponse<AmendmentValue> amendmentCountrycodeFromCoordinates(@ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude, @ActedUpon("dwc:geodeticDatum") String geodeticDatum, @ActedUpon("dwc:countryCode") String countryCode, @ActedUpon("dwc:coordinatePrecision") String coordinatePrecision) {
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2022-05-02")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority[countryshapes] is not available; INTERNAL_PREREQUISITES_NOT_MET if either dwc:decimalLatitude or dwc:decimalLongitude is EMPTY or uninterpretable, or if dwc:countryCode is NOT_EMPTY; FILLED_IN dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority[countryshapes] that is attributable to a single valid country code; otherwise NOT_AMENDED. bdq:sourceAuthority default = 'ADM1 boundaries' [https://gadm.org] UNION with 'EEZs' [https://marineregions.org],bdq:sourceAuthority[countryCode] is 'ISO 3166 country codes' [https://www.iso.org/iso-3166-country-codes.html]")
+    public static DQResponse<AmendmentValue> amendmentCountrycodeFromCoordinates(
+    		@Consulted("dwc:decimalLatitude") String decimalLatitude, 
+    		@Consulted("dwc:decimalLongitude") String decimalLongitude, 
+    		@Consulted("dwc:geodeticDatum") String geodeticDatum, 
+    		@ActedUpon("dwc:countryCode") String countryCode, 
+    		@Consulted("dwc:coordinatePrecision") String coordinatePrecision) {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
         //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // was not available; INTERNAL_PREREQUISITES_NOT_MET if either 
+        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority[countryshapes] 
+        // is not available; INTERNAL_PREREQUISITES_NOT_MET if either 
         // dwc:decimalLatitude or dwc:decimalLongitude is EMPTY or 
-        // uninterpretable, or if dwc:countryCode is NOT_EMPTY; AMENDED 
-        // if dwc:decimalLatitude and dwc:decimalLongitude fall within 
-        // a boundary from the bdq:sourceAuthority that is attributable 
-        //to a single valid country code; otherwise NOT_AMENDED. 
+        // uninterpretable, or if dwc:countryCode is NOT_EMPTY; FILLED_IN 
+        // dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude 
+        // fall within a boundary from the bdq:sourceAuthority[countryshapes] 
+        // that is attributable to a single valid country code; otherwise 
+        // NOT_AMENDED. 
 
         //TODO: Parameters. This test is defined as parameterized.
-        // bdq:sourceAuthority; bdq:spatialBufferInMeters
+        // bdq:sourceAuthority default = "ADM1 boundaries" 
+        // [https://gadm.org] UNION with "EEZs" [https://marineregions.org],bdq:sourceAuthority[countryCode] 
+        // is "ISO 3166 country codes" [https://www.iso.org/iso-3166-country-codes.html] 
 
+        if (!GEOUtil.isEmpty(countryCode)) {
+        	result.addComment("Not altering existing countryCode value.");
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        } else if (GEOUtil.isEmpty(decimalLatitude)) { 
+        	result.addComment("No value supplied for dwc:decimalLatitude, unable to propose a dwc:countryCode .");
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        } else if (GEOUtil.isEmpty(decimalLongitude)) {
+        	result.addComment("No value supplied for dwc:decimalLongitude, unable to propose a dwc:countryCode .");
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        } else { 
+        	String countryCode3 = GEOUtil.getCountryForPoint(decimalLatitude, decimalLongitude);
+        	if (countryCode3== null) { 
+        		result.addComment("No unique dwc:contryCode found containing the coordinate specified by dwc:decimalLatitude ["+decimalLatitude+"], dwc:decimalLongitude ["+decimalLongitude+"].");
+        		result.setResultState(ResultState.NOT_AMENDED);
+        	} else { 
+        		String countryCode2 = CountryLookup.lookupCode2FromCodeName(countryCode3);
+        		if (countryCode2==null) {  
+        			result.addComment("Error finding dwc:contryCode in ISO 2 letter form from 3 letter form ["+countryCode3+"] found containing the coordinate specified by dwc:decimalLatitude ["+decimalLatitude+"], dwc:decimalLongitude ["+decimalLongitude+"].");
+        			result.setResultState(ResultState.NOT_AMENDED);
+        		} else { 
+        			result.addComment("Propose filling in empty countryCode with value ["+countryCode2+"] which contains the coordinate specified by dwc:decimalLatitude ["+decimalLatitude+"], dwc:decimalLongitude ["+decimalLongitude+"].");
+        			result.setResultState(ResultState.FILLED_IN);
+        			Map<String, String> values = new HashMap<>();
+        			values.put("dwc:countryCode", countryCode2) ;
+        			result.setValue(new AmendmentValue(values));
+        		}
+        	}
+        }
         return result;
     }
 

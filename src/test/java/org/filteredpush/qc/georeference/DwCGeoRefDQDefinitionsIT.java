@@ -5,9 +5,17 @@ package org.filteredpush.qc.georeference;
 
 import static org.junit.Assert.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.datakurator.ffdq.api.DQResponse;
@@ -249,4 +257,62 @@ public class DwCGeoRefDQDefinitionsIT {
 		assertNull(result.getValue());
 		
 	} 
+	
+	/**
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#amendmentCountrycodeFromCoordinates(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 */
+	@Test
+	public void testAmendmentCountrycodeFromCoordinates() {
+		
+		String latitude = "71.295556";
+		String longitude = "-156.766389";
+		String geodeticDatum = "EPSG:4326";
+	    DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, geodeticDatum, "US", "");
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+	    
+	    result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, geodeticDatum, "", "");
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+		assertEquals(1, result.getValue().getObject().size());
+		assertEquals("US", result.getValue().getObject().get("dwc:countryCode"));
+		
+		try {
+			String countryListUri = "https://raw.githubusercontent.com/mihai-craita/countries_center_box/master/countries.csv";
+			InputStream inputStream;
+			inputStream = new URL(countryListUri).openStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			CSVParser records = CSVFormat.DEFAULT.parse(reader);
+			Iterator<CSVRecord> i = records.iterator();
+			while (i.hasNext()) { 
+				CSVRecord record = i.next();
+				String countryCode = record.get(2);
+				logger.debug(countryCode);
+				latitude = record.get(3);
+				longitude = record.get(4);
+				String countryCode3 = CountryLookup.lookupCode3FromCodeName(countryCode);
+				if (countryCode3==null || countryCode==null || 
+						countryCode.equals("Antigua") || countryCode3.equals("CYP") || countryCode3.equals("GAB") ||
+						countryCode3.equals("LIE") || countryCode3.equals("MCO") || countryCode3.equals("SMR") || 
+						countryCode3.equals("VAT")) {
+					countryCode=null; 
+				} 
+				// Has country rather than code for Antigua.
+				// GAB, LIE have wrong sign in data set.  
+				// CYP, MCO come up with multiple matches from buffers
+				if (countryCode!=null) { 
+				    result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, geodeticDatum, "", "");
+				    logger.debug(result.getComment());
+					assertFalse(GEOUtil.isEmpty(result.getComment()));
+				    assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+					assertEquals(1, result.getValue().getObject().size());
+					assertEquals(countryCode, result.getValue().getObject().get("dwc:countryCode"));
+				}
+			}
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+	}
 }

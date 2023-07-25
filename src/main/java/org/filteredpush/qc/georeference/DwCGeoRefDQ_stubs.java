@@ -227,33 +227,6 @@ public class DwCGeoRefDQ_stubs {
         return result;
     }
 
-    /**
-     * Does the value of dwc:geodeticDatum occur in bdq:sourceAuthority?
-     *
-     * Provides: VALIDATION_GEODETICDATUM_STANDARD
-     * Version: 2022-03-22
-     *
-     * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_GEODETICDATUM_STANDARD", description="Does the value of dwc:geodeticDatum occur in bdq:sourceAuthority?")
-    @Provides("7e0c0418-fe16-4a39-98bd-80e19d95b9d1")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/7e0c0418-fe16-4a39-98bd-80e19d95b9d1/2022-03-22")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available, INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is EMPTY; COMPLIANT if the value of dwc:geodeticDatum is a valid EPSG CRS Code (with or without the 'EPSG:' namespace prepended), or an unambiguous alphanumeric CRS or datum code; otherwise NOT_COMPLIANT bdq:sourceAuthority is 'EPSG:' [https://epsg.io]")
-    public DQResponse<ComplianceValue> validationGeodeticdatumStandard(@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // is not available, INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum 
-        // is EMPTY; COMPLIANT if the value of dwc:geodeticDatum is 
-        // a valid EPSG CRS Code (with or without the "EPSG:" namespace 
-        // prepended), or an unambiguous alphanumeric CRS or datum 
-        // code; otherwise NOT_COMPLIANT bdq:sourceAuthority is "EPSG:" 
-        // [https://epsg.io] 
-
-        return result;
-    }
 
     /**
      * Propose amendment to the value of dwc:geodeticDatum using bdq:sourceAuthority.
@@ -354,76 +327,7 @@ public class DwCGeoRefDQ_stubs {
     }
 
 
-    /**
-     * Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty. If dwc:coordinateUncertaintyInMeters is not empty and there are not empty values for dwc:latitude and dwc:longitude, amend dwc:coordinateUncertaintyInMeters by adding a maximum datum shift.
-     *
-     * Provides: AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT
-     * Version: 2023-06-23
-     *
-     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
-     * @param coordinateUncertaintyInMeters the provided dwc:coordinateUncertaintyInMeters to evaluate
-     * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
-     * @param decimatitude the provided dwc:decimatitude to evaluate
-     * @return DQResponse the response of type AmendmentValue to return
-     */
-    @Amendment(label="AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT", description="Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty. If dwc:coordinateUncertaintyInMeters is not empty and there are not empty values for dwc:latitude and dwc:longitude, amend dwc:coordinateUncertaintyInMeters by adding a maximum datum shift.")
-    @Provides("7498ca76-c4d4-42e2-8103-acacccbdffa7")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2023-06-23")
-    @Specification("If dwc:geodeticDatum is EMPTY, fill in the value of dwc:geodeticDatum with the value of bdq:defaultGeodeticDatum, report FILLED_IN and, if dwc:coordinateUncertaintyInMeters, dwc:decimalLatitude and dwc:decimalLongitude are NOT_EMPTY, amend the value of dwc:coordinateUncertaintyInMeters by adding the maximum datum shift between the specified bdq:defaultGeodeticDatum and any other datum at the provided dwc:decimalLatitude and dwc:decimalLongitude and instead report AMENDED; otherwise NOT_AMENDED. bdq:defaultGeodeticDatum default='EPSG:4326'")
-    public DQResponse<AmendmentValue> amendmentGeodeticdatumAssumeddefault(@ActedUpon("dwc:decimalLongitude") String decimalLongitude, @ActedUpon("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters, @ActedUpon("dwc:geodeticDatum") String geodeticDatum, @ActedUpon("dwc:decimatitude") String decimatitude) {
-        DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
-        //TODO:  Implement specification
-        // If dwc:geodeticDatum is EMPTY, fill in the value of dwc:geodeticDatum 
-        // with the value of bdq:defaultGeodeticDatum, report FILLED_IN 
-        // and, if dwc:coordinateUncertaintyInMeters, dwc:decimalLatitude 
-        // and dwc:decimalLongitude are NOT_EMPTY, amend the value 
-        // of dwc:coordinateUncertaintyInMeters by adding the maximum 
-        // datum shift between the specified bdq:defaultGeodeticDatum 
-        // and any other datum at the provided dwc:decimalLatitude 
-        // and dwc:decimalLongitude and instead report AMENDED; otherwise 
-        // NOT_AMENDED. bdq:defaultGeodeticDatum default="EPSG:4326" 
-        // 
-
-        //TODO: Parameters. This test is defined as parameterized.
-        // bdq:defaultGeodeticDatum
-
-        return result;
-    }
-
-
-    /**
-     * Does the value of dwc:stateProvince occur in bdq:sourceAuthority?
-     *
-     * Provides: VALIDATION_STATEPROVINCE_FOUND
-     * Version: 2022-09-05
-     *
-     * @param stateProvince the provided dwc:stateProvince to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Validation(label="VALIDATION_STATEPROVINCE_FOUND", description="Does the value of dwc:stateProvince occur in bdq:sourceAuthority?")
-    @Provides("4daa7986-d9b0-4dd5-ad17-2d7a771ea71a")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/4daa7986-d9b0-4dd5-ad17-2d7a771ea71a/2022-09-05")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:stateProvince is EMPTY; COMPLIANT if the value of dwc:stateProvince occurs as an administrative entity that is a child to at least one entity representing an ISO country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]")
-    public DQResponse<ComplianceValue> validationStateprovinceFound(@ActedUpon("dwc:stateProvince") String stateProvince) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:stateProvince 
-        // is EMPTY; COMPLIANT if the value of dwc:stateProvince occurs 
-        // as an administrative entity that is a child to at least 
-        // one entity representing an ISO country-like entity in the 
-        // bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority 
-        // default = "The Getty Thesaurus of Geographic Names (TGN)" 
-        // [https://www.getty.edu/research/tools/vocabularies/tgn/index.html] 
-        // 
-
-        //TODO: Parameters. This test is defined as parameterized.
-        // bdq:sourceAuthority
-
-        return result;
-    }
 
     /**
      * Are the combination of the values of dwc:country, dwc:stateProvince consistent with the values in the bdq:sourceAuthority?

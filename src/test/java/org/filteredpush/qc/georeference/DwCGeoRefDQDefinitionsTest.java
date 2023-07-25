@@ -1490,4 +1490,36 @@ public class DwCGeoRefDQDefinitionsTest {
 		
 	}
 	
+	/**
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#amendmentCountrycodeFromCoordinates(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 */
+	@Test
+	public void testAmendmentCountrycodeFromCoordinates() {
+		
+		String latitude = "71.295556";
+		String longitude = "-156.766389";
+		String geodeticDatum = "EPSG:4326";
+	    DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, geodeticDatum, "US", "");
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+	    
+	    result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, geodeticDatum, "", "");
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+		assertEquals(1, result.getValue().getObject().size());
+		assertEquals("US", result.getValue().getObject().get("dwc:countryCode"));
+		
+		longitude = "-95.689444";
+		latitude = "39.055833";
+	    result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, geodeticDatum, "", "");
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+		assertEquals(1, result.getValue().getObject().size());
+		assertEquals("US", result.getValue().getObject().get("dwc:countryCode"));
+		
+	}
+	
 }

@@ -123,15 +123,6 @@ public class DwCGeoRefDQTestTemporary {
 		fail("Not yet implemented");
 	}
 
-	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#amendmentCountrycodeFromCoordinates(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 */
-	@Test
-	public void testAmendmentCountrycodeFromCoordinates() {
-		fail("Not yet implemented");
-	}
-
-
 
 	/**
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCoordinatesNotzero(java.lang.String, java.lang.String)}.
@@ -148,13 +139,6 @@ public class DwCGeoRefDQTestTemporary {
 	public void testValidationGeographyAmbiguous() {
 		fail("Not yet implemented");
 	}
-
-
-
-
-
-
-
 
 
 	/**

@@ -5,18 +5,21 @@ package org.filteredpush.qc.geo.test;
 
 import static org.junit.Assert.*;
 
-import java.awt.geom.Path2D;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.util.HashMap;
-import java.util.Set;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.Iterator;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.filteredpush.qc.georeference.util.CountryLookup;
 import org.filteredpush.qc.georeference.util.GEOUtil;
-import org.filteredpush.qc.georeference.util.GISDataLoader;
 import org.filteredpush.qc.georeference.util.UnknownToWGS84Error;
-import org.geotools.data.shapefile.shp.ShapefileException;
-import org.geotools.filter.text.cql2.CQLException;
 import org.junit.Test;
 
 /**
@@ -25,6 +28,8 @@ import org.junit.Test;
  */
 public class GeoUtiltsTest {
 
+	private static final Log logger = LogFactory.getLog(GeoUtiltsTest.class);
+	
 	/**
 	 * Test method for {@link org.filteredpush.kuration.util.GEOUtil#getDistanceKm(double, double, double, double)}.
 	 */
@@ -91,7 +96,7 @@ public class GeoUtiltsTest {
         double originalLng = -95.689444d;
         double originalLat = 39.055833d;
         assertTrue(GEOUtil.isOnLand(originalLng, originalLat, invertSense));
-        // Barrow, Alaska
+        // Utqiagvik, Alaska
         originalLng = -156.766389d;
         originalLat = 71.295556d;
         assertTrue(GEOUtil.isOnLand(originalLng, originalLat, invertSense));
@@ -111,7 +116,7 @@ public class GeoUtiltsTest {
         assertTrue(GEOUtil.isCountryKnown("UNITED STATES"));
         assertFalse(GEOUtil.isCountryKnown("zzzzzzzzzzzzz"));
         
-        // Barrow, Alaska
+        // Utqiagvik, Alaska
         double originalLng = -156.766389d;
         double originalLat = 71.295556d;
         assertTrue(GEOUtil.isPointInCountry("United States", originalLat, originalLng));
@@ -152,7 +157,7 @@ public class GeoUtiltsTest {
 		
         double thresholdDistanceKmFromLand = 44.448d;  // 24 nautical miles, territorial waters plus contigouus zone.
 		
-        // Barrow, Alaska, in and near boundary of US.
+        // Utqiagvik, Alaska, in and near boundary of US.
         double originalLng = -156.766389d;
         double originalLat = 71.295556d;
         assertTrue(GEOUtil.isPointInCountry("United States", originalLat, originalLng));
@@ -177,6 +182,19 @@ public class GeoUtiltsTest {
         assertFalse(GEOUtil.isPointInCountry("United States", originalLat, originalLng));
         assertFalse(GEOUtil.isPointNearCountry("United States", originalLat, originalLng, thresholdDistanceKmFromLand));
         
+	}
+	
+	@Test
+	public void testGetCountryForPoint() { 
+
+		String latitude = "71.295556";
+		String longitude = "-156.766389";
+		assertEquals("USA", GEOUtil.getCountryForPoint(latitude, longitude));
+
+		longitude = "-95.689444";
+		latitude = "39.055833";
+		assertEquals("USA", GEOUtil.getCountryForPoint(latitude, longitude));
+
 	}
 	
 	@Test

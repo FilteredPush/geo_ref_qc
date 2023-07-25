@@ -14,6 +14,7 @@ import org.apache.commons.logging.LogFactory;
 import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.filter.text.cql2.CQLException;
 import org.geotools.filter.text.ecql.ECQL;
@@ -25,6 +26,7 @@ import org.geotools.referencing.operation.DefaultCoordinateOperationFactory;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
+import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.filter.Filter;
 import org.opengis.geometry.DirectPosition;
 import org.opengis.metadata.quality.PositionalAccuracy;
@@ -232,6 +234,70 @@ public class GEOUtil {
 			e.printStackTrace();
 		} finally { 
 			if (store!=null) { store.dispose(); }			
+		}
+		return result;
+	}
+	
+	/**
+	 * Given a decimal latitude and decimal longitude, return the country code for a containing country, including EEZ
+	 * for the specified coordinate.
+	 * 
+	 * @param latitude to check
+	 * @param longitude to check
+	 * @return an ISO three letter country code, or null if not matched or if multiple matches.
+	 */
+	public static String getCountryForPoint(String latitude, String longitude) { 
+		String result = null;
+		URL combinedShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/merged_countries_and_eez.shp");
+        FileDataStore store = null;
+		try {
+			store = FileDataStoreFinder.getDataStore(combinedShapeFile);
+            SimpleFeatureSource featureSource = store.getFeatureSource();
+		    Filter filter = ECQL.toFilter("CONTAINS(the_geom, POINT(" + longitude + " " + latitude + "))");
+		    logger.debug(filter.toString());
+		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
+		    logger.debug(collection.size());
+		    if (!collection.isEmpty()) {
+		    	if (collection.size()==1) {
+		    		SimpleFeature feature = collection.features().next();
+		    		result = feature.getAttribute("ISO_SOV1").toString();
+		    		if (!GEOUtil.isEmpty(feature.getAttribute("ISO_SOV2").toString())) {
+		    			result = null;
+		    		}
+		    	}  else { 
+		    		SimpleFeatureIterator i = collection.features();
+		    		SimpleFeature feature = i.next();
+		    		String aMatch = feature.getAttribute("ISO_SOV1").toString();
+		    		logger.debug(aMatch);
+		    		boolean singleMatch = true;
+	    			if (!GEOUtil.isEmpty(feature.getAttribute("ISO_SOV2").toString())) {
+	    				singleMatch=false;
+	    			}
+		    		while (i.hasNext() && singleMatch) { 
+		    			feature = i.next();
+		    			String anotherMatch = feature.getAttribute("ISO_SOV1").toString();
+		    			if (!GEOUtil.isEmpty(feature.getAttribute("ISO_SOV2").toString())) {
+		    				singleMatch=false;
+		    			}
+		    			logger.debug(anotherMatch);
+		    			if (! aMatch.equals(anotherMatch)) { 
+		    				singleMatch = false;
+		    			}
+		    		}
+		    		i.close();
+		    		if (singleMatch) {
+		    			result = aMatch;
+		    		}
+		    	}
+		    }
+		} catch (IOException e) {
+			logger.debug(e.getMessage());
+		} catch (CQLException e) {
+			logger.debug(e.getMessage());
+		} finally { 
+			if (store!=null) {
+				store.dispose(); 
+			}			
 		}
 		return result;
 	}
