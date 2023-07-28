@@ -1260,6 +1260,14 @@ public class DwCGeoRefDQ{
         	result.addComment("No value supplied for dwc:decimalLongitude, unable to propose a dwc:countryCode .");
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         } else { 
+        	
+        	// TODO: Parameter
+        	//551 #73 Fail got FILLED_IN expected EXTERNAL_PREREQUISITES_NOT_MET Propose filling in empty countryCode with value [AU] which contains the coordinate specified by dwc:decimalLatitude [-25.23], dwc:decimalLongitude [135.43].
+        	// TODO: uninterpretable lat/long
+        	//559 #73 Fail got NOT_AMENDED expected INTERNAL_PREREQUISITES_NOT_MET No unique dwc:contryCode found containing the coordinate specified by dwc:decimalLatitude [x], dwc:decimalLongitude [135.87].
+        	//562 #73 Fail got NOT_AMENDED expected INTERNAL_PREREQUISITES_NOT_MET No unique dwc:contryCode found containing the coordinate specified by dwc:decimalLatitude [-25.23], dwc:decimalLongitude [x].
+        	
+        	
         	String countryCode3 = GEOUtil.getCountryForPoint(decimalLatitude, decimalLongitude);
         	if (countryCode3== null) { 
         		result.addComment("No unique dwc:contryCode found containing the coordinate specified by dwc:decimalLatitude ["+decimalLatitude+"], dwc:decimalLongitude ["+decimalLongitude+"].");
@@ -1384,7 +1392,9 @@ public class DwCGeoRefDQ{
     @Provides("1bf0e210-6792-4128-b8cc-ab6828aa4871")
     @ProvidesVersion("https://rs.tdwg.org/bdq/terms/1bf0e210-6792-4128-b8cc-ab6828aa4871/2023-06-20")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is EMPTY or is not interpretable as a number, or dwc:decimalLongitude is EMPTY or is not interpretable as a number; COMPLIANT if either the value of dwc:decimalLatitude is not = 0 or the value of dwc:decimalLongitude is not = 0; otherwise NOT_COMPLIANT ")
-    public static DQResponse<ComplianceValue> validationCoordinatesNotzero(@ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
+    public static DQResponse<ComplianceValue> validationCoordinatesNotzero(
+    		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
+    		@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification

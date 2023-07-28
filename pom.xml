@@ -331,6 +331,9 @@
 									<exclude>javax.media:jai_imageio*</exclude>
 									<exclude>com.sun.xml.bind:jaxb-impl</exclude>
 									<exclude>com.sun.mail:jakarta.mail</exclude>
+									<exclude>javax.mail:mail</exclude>
+									<exclude>xerces:xercesImpl</exclude>
+									<exclude>commons-logging:commons</exclude>
 								</excludes>
 							</artifactSet>
 							<transformers>
