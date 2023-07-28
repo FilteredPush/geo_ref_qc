@@ -773,7 +773,7 @@ public class DwCGeoRefDQDefinitionsTest {
 	
 
 	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationDecimallatitudeNotEmpty(java.lang.String)}.
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationDecimallatitudeNotempty(java.lang.String)}.
 	 */
 	@Test
 	public void testValidationDecimallatitudeEmpty() {
@@ -782,13 +782,13 @@ public class DwCGeoRefDQDefinitionsTest {
         // COMPLIANT if dwc:decimalLatitude is not EMPTY; otherwise 
         // NOT_COMPLIANT 
 		
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationDecimallatitudeNotEmpty(null);
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationDecimallatitudeNotempty(null);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationDecimallatitudeNotEmpty("foo");
+		result = DwCGeoRefDQ.validationDecimallatitudeNotempty("foo");
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
@@ -1429,7 +1429,7 @@ public class DwCGeoRefDQDefinitionsTest {
 	}
 
 	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountryNotEmpty(java.lang.String)}.
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountryNotempty(java.lang.String)}.
 	 */
 	@Test
 	public void testValidationCountryEmpty() {
@@ -1438,13 +1438,13 @@ public class DwCGeoRefDQDefinitionsTest {
         // COMPLIANT if dwc:country is not EMPTY; otherwise NOT_COMPLIANT 
         //
 		
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountryNotEmpty(null);
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountryNotempty(null);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationCountryNotEmpty("foo");
+		result = DwCGeoRefDQ.validationCountryNotempty("foo");
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());

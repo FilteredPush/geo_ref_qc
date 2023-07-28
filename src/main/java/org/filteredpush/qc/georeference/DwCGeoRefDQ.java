@@ -562,7 +562,7 @@ public class DwCGeoRefDQ{
     @Provides("6ce2b2b4-6afe-4d13-82a0-390d31ade01c")
     @ProvidesVersion("https://rs.tdwg.org/bdq/terms/6ce2b2b4-6afe-4d13-82a0-390d31ade01c/2022-03-22")
     @Specification("COMPLIANT if dwc:country is not EMPTY; otherwise NOT_COMPLIANT ")
-    public static DQResponse<ComplianceValue> validationCountryNotEmpty(@ActedUpon("dwc:country") String country) {
+    public static DQResponse<ComplianceValue> validationCountryNotempty(@ActedUpon("dwc:country") String country) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
@@ -1959,7 +1959,7 @@ public class DwCGeoRefDQ{
     @Provides("7d2485d5-1ba7-4f25-90cb-f4480ff1a275")
     @ProvidesVersion("https://rs.tdwg.org/bdq/terms/7d2485d5-1ba7-4f25-90cb-f4480ff1a275/2020-04-09")
     @Specification("COMPLIANT if dwc:decimalLatitude is not EMPTY; otherwise NOT_COMPLIANT ")
-    public static DQResponse<ComplianceValue> validationDecimallatitudeNotEmpty(
+    public static DQResponse<ComplianceValue> validationDecimallatitudeNotempty(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
