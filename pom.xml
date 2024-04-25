@@ -41,7 +41,7 @@
 	<repositories>
 		<repository>
 			<id>gbif-all</id>
-			<url>http://repository.gbif.org/content/groups/gbif</url>
+			<url>https://repository.gbif.org/content/groups/gbif</url>
 		</repository>
 		<repository>
 			<id>osgeo</id>
@@ -54,7 +54,7 @@
 		<dependency>
 			<groupId>org.datakurator</groupId>
 			<artifactId>ffdq-api</artifactId>
-			<version>2.0.1-SNAPSHOT</version>
+			<version>2.0.2-SNAPSHOT</version>
 		</dependency>
 
 		<!-- used by the geolocate and getty services -->
