@@ -19,7 +19,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.filteredpush.qc.georeference.util.CountryLookup;
 import org.filteredpush.qc.georeference.util.GEOUtil;
+import org.filteredpush.qc.georeference.util.TransformationStruct;
 import org.filteredpush.qc.georeference.util.UnknownToWGS84Error;
+import org.geotools.api.referencing.FactoryException;
+import org.geotools.api.referencing.operation.TransformException;
 import org.junit.Test;
 
 /**
@@ -248,6 +251,25 @@ public class GeoUtiltsTest {
 		
 	}
 
+	@Test 
+	public void testDatumTransform() { 
+		
+		String decimalLatitude = "42.383686";
+		String decimalLongitude = "-71.1474181";
+		String geodeticDatum = "EPSG:4267";
+		String targetGeodeticDatum = "EPSG:4326";
+		Double delta = 0.0000001d;
+		
+		try { 
+			TransformationStruct result = GEOUtil.datumTransform(decimalLatitude, decimalLongitude, geodeticDatum, targetGeodeticDatum);
+			// https://epsg.io/transform#s_srs=4267&t_srs=4326&ops=15851&x=-71.1474181&y=42.383686
+			assertEquals(42.383783d, result.getDecimalLatitude(),delta);
+			assertEquals(-71.146916d,result.getDecimalLongitude(),delta);
+		} catch (Exception e) { 
+			fail(e.getMessage());
+		}
+	}
+	
 }
 
 
