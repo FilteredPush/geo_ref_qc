@@ -2,7 +2,7 @@ space_tests.csv are the subset of TDWG BDQ TG2 tests related to SPACE (spatial) 
 
 To extract the current list of space tests from the csv list of tests in a checkout of the tdwg/bdq respository: 
 
-    grep "IE Category" ../../bdq/tg2/core/TG2_tests.csv > space_tests.csv
+    head -n 1 ../../bdq/tg2/core/TG2_tests.csv > space_tests.csv
     grep SPACE ../../bdq/tg2/core/TG2_tests.csv  | grep -v AllDarwinCoreTerms  >> space_tests.csv
 
 Turtle RDF generated using kurator-ffdq using (from a kurator-ffdq directory in the same parent directory as geo_ref_qc) with:
