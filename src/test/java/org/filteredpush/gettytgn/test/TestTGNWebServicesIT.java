@@ -1,4 +1,4 @@
-package org.filterepush.gettytgn.test;
+package org.filteredpush.gettytgn.test;
 /**
  * TestTGNWebServicesIT.java
  */

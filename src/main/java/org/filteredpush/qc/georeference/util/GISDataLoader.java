@@ -5,13 +5,14 @@ package org.filteredpush.qc.georeference.util;
 
 import java.io.IOException;
 import java.net.URL;
-import org.geotools.data.FileDataStore;
-import org.geotools.data.FileDataStoreFinder;
+
+import org.geotools.api.data.FileDataStore;
+import org.geotools.api.data.FileDataStoreFinder;
+import org.geotools.api.data.SimpleFeatureSource;
+import org.geotools.api.filter.Filter;
 import org.geotools.data.simple.SimpleFeatureCollection;
-import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.filter.text.cql2.CQLException;
 import org.geotools.filter.text.ecql.ECQL;
-import org.opengis.filter.Filter;
 
 /**
  * @author mole

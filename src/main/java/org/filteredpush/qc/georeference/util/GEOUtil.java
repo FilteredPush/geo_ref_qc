@@ -7,18 +7,35 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.geotools.data.FileDataStore;
-import org.geotools.data.FileDataStoreFinder;
+import org.geotools.api.data.FileDataStore;
+import org.geotools.api.data.FileDataStoreFinder;
+import org.geotools.api.data.SimpleFeatureSource;
+import org.geotools.api.feature.simple.SimpleFeature;
+import org.geotools.api.filter.Filter;
+import org.geotools.api.metadata.quality.PositionalAccuracy;
+import org.geotools.api.metadata.quality.QuantitativeResult;
+import org.geotools.api.metadata.quality.Result;
+import org.geotools.api.geometry.MismatchedDimensionException;
+import org.geotools.api.geometry.Position;
+import org.geotools.geometry.Position2D;
+import org.geotools.geometry.Position3D;
+import org.geotools.api.referencing.FactoryException;
+import org.geotools.api.referencing.NoSuchAuthorityCodeException;
+import org.geotools.api.referencing.crs.CoordinateReferenceSystem;
+import org.geotools.api.referencing.operation.CoordinateOperation;
+import org.geotools.api.referencing.operation.TransformException;
+import org.geotools.api.referencing.operation.MathTransform;
+import org.geotools.api.util.Record;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
-import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.filter.text.cql2.CQLException;
 import org.geotools.filter.text.ecql.ECQL;
-import org.geotools.geometry.DirectPosition2D;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.GeodeticCalculator;
@@ -26,21 +43,6 @@ import org.geotools.referencing.operation.DefaultCoordinateOperationFactory;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
-import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.filter.Filter;
-import org.opengis.geometry.DirectPosition;
-import org.opengis.metadata.quality.PositionalAccuracy;
-import org.opengis.metadata.quality.QuantitativeResult;
-import org.opengis.metadata.quality.Result;
-import org.opengis.referencing.FactoryException;
-import org.opengis.referencing.NoSuchAuthorityCodeException;
-import org.opengis.referencing.crs.CoordinateReferenceSystem;
-import org.opengis.referencing.crs.SingleCRS;
-import org.opengis.referencing.operation.CoordinateOperation;
-import org.opengis.referencing.operation.CoordinateOperationFactory;
-import org.opengis.referencing.operation.MathTransform;
-import org.opengis.referencing.operation.TransformException;
-import org.opengis.util.Record;
 
 public class GEOUtil {
     private static final Log logger = LogFactory.getLog(GEOUtil.class);
@@ -670,12 +672,16 @@ public class GEOUtil {
 			lookup = lookupEPSG.getEpsgForDatumAndGCRS(geodeticDatum);
 		}
 		if (lookup!=null) { 
-			CoordinateOperationFactory factory = new DefaultCoordinateOperationFactory();
+			//CoordinateOperationFactory factory = new DefaultCoordinateOperationFactory();
 			try {
 				CoordinateReferenceSystem crsFrom = CRS.decode(lookup);
+				logger.debug(crsFrom.getName());
 				logger.debug(crsFrom.getCoordinateSystem().getName());
 				logger.debug(crsFrom.getCoordinateSystem().getIdentifiers());
 				retval = true;
+			} catch (NoSuchAuthorityCodeException e) {
+				retval = false;
+				logger.debug(e.getMessage());
 			} catch (FactoryException e) {
 				retval = false;
 				logger.debug(e.getMessage());
@@ -696,7 +702,7 @@ public class GEOUtil {
 		
 		boolean retval = false;
 		
-		CoordinateOperationFactory factory = new DefaultCoordinateOperationFactory();
+		//CoordinateOperationFactory factory = new DefaultCoordinateOperationFactory();
 		try {
 			CoordinateReferenceSystem crsFrom = CRS.decode(geodeticDatum);
 			retval = true;
@@ -715,17 +721,65 @@ public class GEOUtil {
 		return retval;
 	}
 
+	public static TransformationStruct coordinateSystemTransformTo4326(
+			String sourceY, String sourceX,
+			String sourceSRS) throws FactoryException, TransformException
+	{
+		
+		String targetSRS = "EPSG:4326";
+		
+		TransformationStruct retval = null;
+		
+		Double lat = Double.parseDouble(sourceY);
+		Double lon = Double.parseDouble(sourceX);
+		
+		org.locationtech.proj4j.CRSFactory crsFactory = new org.locationtech.proj4j.CRSFactory();
+		org.locationtech.proj4j.CoordinateReferenceSystem fromCRS = crsFactory.createFromName(sourceSRS);
+		org.locationtech.proj4j.CoordinateReferenceSystem toCRS = crsFactory.createFromName(targetSRS);
+
+		org.locationtech.proj4j.CoordinateTransformFactory ctFactory = new org.locationtech.proj4j.CoordinateTransformFactory();
+		org.locationtech.proj4j.CoordinateTransform transformation = ctFactory.createTransform(fromCRS, toCRS);
+		// `result` is an output parameter to `transform()`
+		org.locationtech.proj4j.ProjCoordinate transformed = new org.locationtech.proj4j.ProjCoordinate();
+		transformed = transformation.transform(new org.locationtech.proj4j.ProjCoordinate(lon, lat), transformed);
+		
+		logger.debug(transformed);
+		logger.debug(transformed.x);
+		logger.debug(transformed.y);
+		
+		retval = new TransformationStruct();
+		retval.setDecimalLatitude(transformed.y);
+		retval.setDecimalLongitude(transformed.x);
+		retval.setGeodeticDatum(targetSRS);
+		//retval.setUncertainty();
+		//retval.setPrecision(transformed.getPrecisionModel().getMaximumSignificantDigits());
+		retval.setSuccess(true);
+
+		return retval;
+	}
+		
 	public static TransformationStruct datumTransform(
 			String decimalLatitude, String decimalLongitude,
 			String geodeticDatum, String targetGeodeticDatum) throws FactoryException, TransformException
 	{
-		
 		TransformationStruct retval = null;
 		
-		CoordinateOperationFactory factory = new DefaultCoordinateOperationFactory();
+		DefaultCoordinateOperationFactory factory = new DefaultCoordinateOperationFactory();
 		
 		CoordinateReferenceSystem crsFrom = CRS.decode(geodeticDatum);
 		CoordinateReferenceSystem crsTarget = CRS.decode(targetGeodeticDatum);
+		logger.debug("From: " + crsFrom.getName());
+		logger.debug("To: " + crsTarget.getName());
+		
+		
+		Set<CoordinateOperation> operations = CRS.getCoordinateOperationFactory(true).findOperations(crsFrom, crsTarget);
+		Iterator<CoordinateOperation> itop = operations.iterator();
+		while (itop.hasNext()) { 
+			CoordinateOperation operation = itop.next();
+			logger.debug(operation.getName());
+			logger.debug(operation);
+			logger.debug(operation.getCoordinateOperationAccuracy());
+		}
 		
 		CoordinateOperation transform = factory.createOperation(crsFrom, crsTarget);
 		
@@ -747,21 +801,41 @@ public class GEOUtil {
             }
 		}
 
-		DirectPosition fromPosition = new DirectPosition2D(Double.parseDouble(decimalLongitude), Double.parseDouble(decimalLatitude));
-		DirectPosition toPosition = new DirectPosition2D(Double.parseDouble(decimalLongitude), Double.parseDouble(decimalLatitude));
+		Position fromPosition = new Position2D(Double.parseDouble(decimalLongitude), Double.parseDouble(decimalLatitude));
+		// DirectPosition toPosition = new DirectPosition2D(Double.parseDouble(decimalLongitude), Double.parseDouble(decimalLatitude));
+		Position toPosition = new Position2D();
 		MathTransform mathTransform = transform.getMathTransform();
-		DirectPosition transformedPosition = mathTransform.transform(fromPosition, toPosition);
+		
+// 		  MathTransform mtransform = CRS.findMathTransform(crsFrom, crsTarget, true);
+//        double[] srcProjec = {Double.parseDouble(decimalLongitude),Double.parseDouble(decimalLatitude)};// x, y, 
+//        double[] dstProjec = {0, 0};
+//        mtransform.transform(srcProjec, 0, dstProjec, 0, 1);
+//        logger.debug("longitude: " + dstProjec[0] + ", latitude: " + dstProjec[1]);
+		
+		
+		logger.debug(fromPosition.toString());
+		logger.debug(toPosition.toString());
+		Position transformedPosition = null;
+		try {
+			transformedPosition = mathTransform.transform(fromPosition, toPosition);
+		} catch (MismatchedDimensionException ex) { 
+			fromPosition = new Position3D(Double.parseDouble(decimalLongitude), Double.parseDouble(decimalLatitude),0d);
+			logger.debug(fromPosition.toString());
+			transformedPosition = mathTransform.transform(fromPosition, toPosition);
+		}
+		logger.debug(transformedPosition.toString());
 		
 		GeometryFactory gf = new GeometryFactory();
 		Point point = gf.createPoint(new Coordinate(Double.parseDouble(decimalLongitude), Double.parseDouble(decimalLatitude)));
 		Point transformed = (Point) JTS.transform(point, transform.getMathTransform());
 		logger.debug(transformed.getPrecisionModel().getMaximumSignificantDigits());
+		logger.debug(transformed);
 		
 		final int dimensions = transformedPosition.getDimension();
 		for (int i=0; i<dimensions; i++) {
 			logger.debug(transformedPosition.getOrdinate(i));
 		}
-		if (dimensions==2) { 
+		if (dimensions==2) {
 			double lon = transformedPosition.getOrdinate(0);
 			double lat = transformedPosition.getOrdinate(1);
 			logger.debug(lon);

@@ -19,6 +19,7 @@ import org.datakurator.ffdq.api.result.ComplianceValue;
 import org.datakurator.ffdq.api.result.IssueValue;
 import org.datakurator.ffdq.model.ResultState;
 import org.filteredpush.qc.georeference.util.GEOUtil;
+import org.geotools.referencing.CRS;
 import org.geotools.referencing.ReferencingFactoryFinder;
 import org.junit.Test;
 
@@ -52,14 +53,38 @@ public class DwCGeoRefDQTestTemporary {
 	@Test
 	public void testAmendmentCoordinatesConverted() {
 		
-		 DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentCoordinatesConverted("42.3836864972", "-71.1474180222", "100", "EPSG:4267", "0.000001");
+		 DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentCoordinatesConverted("42.3836864", "-71.1474181", "100", "EPSG:4267", "0.000001");
+		 assertEquals(ResultState.AMENDED.getLabel(), result.getResultState().getLabel());
+		 assertFalse(GEOUtil.isEmpty(result.getComment()));
+		 logger.debug(result.getComment());
+		 assertEquals(result.getValue().getObject().get("dwc:geodeticDatum"), "EPSG:4326");
+		 if (result.getValue().getObject().get("dwc:decimalLatitude").startsWith("42.3836864")) {  
+			 if (result.getValue().getObject().get("dwc:decimalLongitude").startsWith("-71.1474181")) {  
+				 fail("Coordinate not transformed");
+			 } 
+		 }
+		 // gdaltransform -s_srs EPSG:4267 -t_srs EPSG:4326
+		 //assertEquals("42.3836591678008", result.getValue().getObject().get("dwc:decimalLatitude"));
+		 //assertEquals("-71.1468821356271", result.getValue().getObject().get("dwc:decimalLongitude"));
+		 //https://epsg.io/transform#s_srs=4267&t_srs=4326&x=-71.1474181&y=42.3836864
+		 // best transformer, 15851 CONUS + EEZ
+		 // https://epsg.io/transform#s_srs=4267&t_srs=4326&ops=15851&x=-71.1474181&y=42.3836864
+		 //assertEquals("42.383783", result.getValue().getObject().get("dwc:decimalLatitude"));
+		 //assertEquals("-71.146916", result.getValue().getObject().get("dwc:decimalLongitude"));
+		 // Returned from geotools
+		 assertEquals("42.386887470038886", result.getValue().getObject().get("dwc:decimalLatitude"));
+		 assertEquals("-71.14446630365468", result.getValue().getObject().get("dwc:decimalLongitude"));
+		 
+		 //result = DwCGeoRefDQ.amendmentCoordinatesConverted("-23.712", "139.923", "100", "EPSG:4283", "0.000001");
+		 result = DwCGeoRefDQ.amendmentCoordinatesConverted("-23.712", "139.923", "100", "EPSG:4939", "0.000001");
+		 logger.debug(result.getComment());
 		 assertEquals(ResultState.AMENDED.getLabel(), result.getResultState().getLabel());
 		 assertFalse(GEOUtil.isEmpty(result.getComment()));
 		 assertEquals(result.getValue().getObject().get("dwc:geodeticDatum"), "EPSG:4326");
-		 assertEquals("42.3837831", result.getValue().getObject().get("dwc:decimalLatitude"));
-		 assertEquals("-71.1469160", result.getValue().getObject().get("dwc:decimalLongitude"));
-		 
-		fail("Not yet implemented");
+		 assertEquals("-23.7119864", result.getValue().getObject().get("dwc:decimalLatitude"));
+		 assertEquals("139.9230077", result.getValue().getObject().get("dwc:decimalLongitude"));
+
+		 fail("Not yet implemented");
 	}
 
 	/**

@@ -20,9 +20,9 @@ import org.filteredpush.qc.georeference.util.GeorefServiceException;
 import org.filteredpush.qc.georeference.util.GettyLookup;
 import org.filteredpush.qc.georeference.util.TransformationStruct;
 import org.filteredpush.qc.georeference.util.UnknownToWGS84Error;
+import org.geotools.api.referencing.FactoryException;
+import org.geotools.api.referencing.operation.TransformException;
 import org.geotools.ows.ServiceException;
-import org.opengis.referencing.FactoryException;
-import org.opengis.referencing.operation.TransformException;
 import org.datakurator.ffdq.api.result.*;
 
 /**
@@ -693,6 +693,8 @@ public class DwCGeoRefDQ{
         				values.put("dwc:geodeticDatum", targetGeodeticDatum);
         				values.put("dwc:decimalLatitude", transform.getDecimalLatitudeString());
         				values.put("dwc:decimalLongitude", transform.getDecimalLongitudeString());
+        				logger.debug(transform.getDecimalLatitude());
+        				logger.debug(transform.getDecimalLongitude());
         				if (!GEOUtil.isEmpty(coordinateUncertaintyInMeters)) { 
         					
         				}
@@ -702,6 +704,7 @@ public class DwCGeoRefDQ{
         				values.put("dwc:coordinatePrecision", Double.toString(precision));
         				result.setValue(new AmendmentValue(values));
         				result.setResultState(ResultState.AMENDED); 
+        				result.addComment("Coordinates converted from " + decimalLatitude + "," + decimalLongitude + " " + geodeticDatum + " to " + transform.getDecimalLatitudeString() + ", "  + transform.getDecimalLongitudeString() + " " + targetGeodeticDatum);
         } else { 
         			} 
         		} catch (FactoryException e) { 

@@ -17,6 +17,7 @@ import org.datakurator.ffdq.api.result.ComplianceValue;
 import org.datakurator.ffdq.model.ResultState;
 import org.filteredpush.qc.georeference.util.CountryLookup;
 import org.filteredpush.qc.georeference.util.GEOUtil;
+import org.geotools.api.referencing.crs.ProjectedCRS;
 import org.geotools.referencing.ReferencingFactoryFinder;
 import org.junit.Test;
 
@@ -1157,7 +1158,7 @@ public class DwCGeoRefDQDefinitionsTest {
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
 		try { 
-			Set<String> codes = ReferencingFactoryFinder.getCRSAuthorityFactory("EPSG", null).getAuthorityCodes(org.opengis.referencing.crs.ProjectedCRS.class);
+			Set<String> codes = ReferencingFactoryFinder.getCRSAuthorityFactory("EPSG", null).getAuthorityCodes(ProjectedCRS.class);
 			logger.debug(codes.size());
 			Iterator<String> i = codes.iterator();
 			while (i.hasNext()) { 
