@@ -1,7 +1,11 @@
 package org.filteredpush.qc.georeference.util;
 
 import java.awt.geom.Path2D;
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URI;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,6 +15,7 @@ import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.geotools.api.data.FileDataStore;
@@ -21,12 +26,14 @@ import org.geotools.api.filter.Filter;
 import org.geotools.api.metadata.quality.PositionalAccuracy;
 import org.geotools.api.metadata.quality.QuantitativeResult;
 import org.geotools.api.metadata.quality.Result;
+import org.geotools.api.parameter.ParameterNotFoundException;
 import org.geotools.api.geometry.MismatchedDimensionException;
 import org.geotools.api.geometry.Position;
 import org.geotools.geometry.Position2D;
 import org.geotools.geometry.Position3D;
 import org.geotools.api.referencing.FactoryException;
 import org.geotools.api.referencing.NoSuchAuthorityCodeException;
+import org.geotools.api.referencing.ReferenceIdentifier;
 import org.geotools.api.referencing.crs.CoordinateReferenceSystem;
 import org.geotools.api.referencing.operation.CoordinateOperation;
 import org.geotools.api.referencing.operation.TransformException;
@@ -40,9 +47,11 @@ import org.geotools.geometry.jts.JTS;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.GeodeticCalculator;
 import org.geotools.referencing.operation.DefaultCoordinateOperationFactory;
+import org.geotools.referencing.operation.transform.NADCONTransform;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
+import org.locationtech.proj4j.CoordinateTransform;
 
 public class GEOUtil {
     private static final Log logger = LogFactory.getLog(GEOUtil.class);
@@ -721,6 +730,94 @@ public class GEOUtil {
 		return retval;
 	}
 
+	public static NADCONTransform getNadconTransform(String latGridFile, String longGridFile) throws ParameterNotFoundException, FactoryException {
+		File fLat = new File(latGridFile);
+		File fLong = new File(longGridFile);
+
+		if (!fLat.exists()) {
+			throw new IllegalArgumentException(latGridFile +" does not exist");
+		}
+		if (!fLong.exists()) {
+			throw new IllegalArgumentException(longGridFile+" does not exist");
+		}
+
+		URI uriLat = fLat.toURI();
+		URI uriLong = fLong.toURI();
+
+		NADCONTransform transform = new NADCONTransform(uriLat, uriLong);
+		return transform;
+
+	}
+	
+	
+	public static TransformationStruct externalTransforTo4326(String sourceY, String sourceX, String sourceSRS) { 
+		
+		TransformationStruct retval = null;
+		String targetSRS = "EPSG:4326";
+		
+		String sourceDatum = null;
+		if (sourceSRS.equals("EPSG:4267")) { 
+			sourceDatum = "NAD27";
+		}
+		
+		CoordinateReferenceSystem crsFrom;
+		try {
+			crsFrom = CRS.decode(sourceSRS);
+			logger.debug(crsFrom.getName());
+			logger.debug(crsFrom.getName().getCode());
+			sourceDatum = crsFrom.getName().getCode();
+		} catch (NoSuchAuthorityCodeException e) {
+			logger.debug(e.getMessage());
+		} catch (FactoryException e) {
+			logger.debug(e.getMessage());
+		}
+		
+		// echo "-71.1474181 42.3836864" | cs2cs +proj=latlong +datum=NAD27 +to +proj=latlong +datum=WGS84 -f %.12f - 
+		
+		
+		StringBuilder shellCommand = new StringBuilder();
+		
+		shellCommand.append("/usr/bin/echo").append(" \"").append(sourceX).append(" ").append(sourceY).append("\"");
+		shellCommand.append(" | ");
+		shellCommand.append("/usr/bin/cs2cs +proj=latlong +datum=").append(sourceDatum).append(" +to +proj=latlong +datum=WGS84 -f %.12f - ");
+		
+		// build command as string array to allow pipe of echo within shellCommand to work within shell.
+		String[] cmd = { "/bin/sh", "-c", shellCommand.toString() };
+		
+		logger.debug(shellCommand);
+		
+		try {
+			Process shell = Runtime.getRuntime().exec(cmd);
+		    BufferedReader errorReader = new BufferedReader(new InputStreamReader(shell.getErrorStream()));
+		    String line = "";
+		    while ((line = errorReader.readLine()) != null) {
+		    	logger.debug(line);
+		    }
+		    BufferedReader reader = new BufferedReader(new InputStreamReader(shell.getInputStream()));
+		    line = "";
+		    while ((line = reader.readLine()) != null) {
+		    	logger.debug(line);
+		    	String[] bits = StringUtils.split(line);
+		    	if (bits.length==3) { 
+		    		retval = new TransformationStruct();
+		    		retval.setDecimalLatitude(Double.parseDouble(bits[1]));
+		    		retval.setDecimalLongitude(Double.parseDouble(bits[0]));
+		    		retval.setGeodeticDatum(targetSRS);
+		    		//retval.setUncertainty();
+		    		//retval.setPrecision(transformed.getPrecisionModel().getMaximumSignificantDigits());
+		    		retval.setSuccess(true);
+		    	}
+		    }
+			if (shell.exitValue()!=0) {
+				logger.error("Process completed with an error.");
+			}
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+		}
+		
+		return retval;
+	}
+	
 	public static TransformationStruct coordinateSystemTransformTo4326(
 			String sourceY, String sourceX,
 			String sourceSRS) throws FactoryException, TransformException
@@ -736,12 +833,30 @@ public class GEOUtil {
 		org.locationtech.proj4j.CRSFactory crsFactory = new org.locationtech.proj4j.CRSFactory();
 		org.locationtech.proj4j.CoordinateReferenceSystem fromCRS = crsFactory.createFromName(sourceSRS);
 		org.locationtech.proj4j.CoordinateReferenceSystem toCRS = crsFactory.createFromName(targetSRS);
+		
+		String WGS84_PARAM = "+title=long/lat:WGS84 +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees";
+		org.locationtech.proj4j.CoordinateReferenceSystem WGS84 = crsFactory.createFromParameters("WGS84", WGS84_PARAM);
+		toCRS = WGS84;
 
 		org.locationtech.proj4j.CoordinateTransformFactory ctFactory = new org.locationtech.proj4j.CoordinateTransformFactory();
 		org.locationtech.proj4j.CoordinateTransform transformation = ctFactory.createTransform(fromCRS, toCRS);
-		// `result` is an output parameter to `transform()`
+		if (sourceSRS.equals("4267")) { 
+			// newer replacement is https://github.com/noaa-ngs/ncat-lib
+			
+			// for files see: https://www.ngs.noaa.gov/PC_PROD/NADCON/
+			transformation = (CoordinateTransform) GEOUtil.getNadconTransform("/counus.las","/conus.los");
+		}
+		logger.debug(transformation.getSourceCRS());
+		logger.debug(transformation.getTargetCRS());
+		logger.debug(transformation.getSourceCRS().isGeographic());
+		logger.debug(transformation.getTargetCRS().isGeographic());
+		logger.debug(transformation.getSourceCRS().getDatum());
+		logger.debug(transformation.getTargetCRS().getDatum());
+		
 		org.locationtech.proj4j.ProjCoordinate transformed = new org.locationtech.proj4j.ProjCoordinate();
-		transformed = transformation.transform(new org.locationtech.proj4j.ProjCoordinate(lon, lat), transformed);
+		logger.debug(transformed);
+		
+		transformation.transform(new org.locationtech.proj4j.ProjCoordinate(lon, lat), transformed);
 		
 		logger.debug(transformed);
 		logger.debug(transformed.x);
@@ -763,6 +878,10 @@ public class GEOUtil {
 			String geodeticDatum, String targetGeodeticDatum) throws FactoryException, TransformException
 	{
 		TransformationStruct retval = null;
+		
+		if (geodeticDatum.equals("EPSG:4267") && targetGeodeticDatum.equals("EPSG:4326")) { 
+			return externalTransforTo4326(decimalLatitude, decimalLongitude, geodeticDatum);
+		} else { 
 		
 		DefaultCoordinateOperationFactory factory = new DefaultCoordinateOperationFactory();
 		
@@ -851,6 +970,8 @@ public class GEOUtil {
 			//retval.setUncertainty();
 			retval.setPrecision(transformed.getPrecisionModel().getMaximumSignificantDigits());
 			retval.setSuccess(true);
+		}
+		
 		}
 		
 		return retval;
