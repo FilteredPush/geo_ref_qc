@@ -9,9 +9,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for GeographicPoint complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="GeographicPoint"&gt;
  *   &lt;complexContent&gt;
@@ -24,8 +24,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "GeographicPoint", propOrder = {
@@ -41,7 +42,8 @@ public class GeographicPoint {
 
     /**
      * Gets the value of the latitude property.
-     * 
+     *
+     * @return a double.
      */
     public double getLatitude() {
         return latitude;
@@ -49,7 +51,8 @@ public class GeographicPoint {
 
     /**
      * Sets the value of the latitude property.
-     * 
+     *
+     * @param value a double.
      */
     public void setLatitude(double value) {
         this.latitude = value;
@@ -57,7 +60,8 @@ public class GeographicPoint {
 
     /**
      * Gets the value of the longitude property.
-     * 
+     *
+     * @return a double.
      */
     public double getLongitude() {
         return longitude;
@@ -65,7 +69,8 @@ public class GeographicPoint {
 
     /**
      * Sets the value of the longitude property.
-     * 
+     *
+     * @param value a double.
      */
     public void setLongitude(double value) {
         this.longitude = value;

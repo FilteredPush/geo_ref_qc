@@ -10,9 +10,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType&gt;
  *   &lt;complexContent&gt;
@@ -24,8 +24,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
@@ -39,11 +40,8 @@ public class CalcUncertaintyPolyResponse {
 
     /**
      * Gets the value of the calcUncertaintyPolyResult property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getCalcUncertaintyPolyResult() {
         return calcUncertaintyPolyResult;
@@ -51,11 +49,10 @@ public class CalcUncertaintyPolyResponse {
 
     /**
      * Sets the value of the calcUncertaintyPolyResult property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setCalcUncertaintyPolyResult(String value) {
         this.calcUncertaintyPolyResult = value;

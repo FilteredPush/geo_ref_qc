@@ -11,18 +11,20 @@ import jakarta.xml.bind.annotation.XmlRegistry;
 
 
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
- * generated in the edu.getty.tgn.objects package. 
- * <p>An ObjectFactory allows you to programmatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
+ * This object contains factory methods for each
+ * Java content interface and Java element interface
+ * generated in the edu.getty.tgn.objects package.
+ * <p>An ObjectFactory allows you to programmatically
+ * construct new instances of the Java representation
+ * for XML content. The Java representation of XML
+ * content can consist of schema derived interfaces
+ * and classes representing the binding of schema
+ * type definitions, element declarations and model
+ * groups.  Factory methods for each of these are
  * provided in this class.
- * 
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 @XmlRegistry
 public class ObjectFactory {
@@ -30,46 +32,41 @@ public class ObjectFactory {
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: edu.getty.tgn.objects
-     * 
      */
     public ObjectFactory() {
     }
 
     /**
-     * Create an instance of {@link Vocabulary }
-     * 
-     * @return
-     *     the new instance of {@link Vocabulary }
+     * Create an instance of {@link edu.getty.tgn.objects.Vocabulary}
+     *
+     * @return a {@link edu.getty.tgn.objects.Vocabulary} object.
      */
     public Vocabulary createVocabulary() {
         return new Vocabulary();
     }
 
     /**
-     * Create an instance of {@link Vocabulary.Subject }
-     * 
-     * @return
-     *     the new instance of {@link Vocabulary.Subject }
+     * Create an instance of {@link edu.getty.tgn.objects.Vocabulary.Subject}
+     *
+     * @return a {@link edu.getty.tgn.objects.Vocabulary.Subject} object.
      */
     public Vocabulary.Subject createVocabularySubject() {
         return new Vocabulary.Subject();
     }
 
     /**
-     * Create an instance of {@link Vocabulary.Subject.PreferredTerm }
-     * 
-     * @return
-     *     the new instance of {@link Vocabulary.Subject.PreferredTerm }
+     * Create an instance of {@link edu.getty.tgn.objects.Vocabulary.Subject.PreferredTerm}
+     *
+     * @return a {@link edu.getty.tgn.objects.Vocabulary.Subject.PreferredTerm} object.
      */
     public Vocabulary.Subject.PreferredTerm createVocabularySubjectPreferredTerm() {
         return new Vocabulary.Subject.PreferredTerm();
     }
 
     /**
-     * Create an instance of {@link Vocabulary.Subject.Term }
-     * 
-     * @return
-     *     the new instance of {@link Vocabulary.Subject.Term }
+     * Create an instance of {@link edu.getty.tgn.objects.Vocabulary.Subject.Term}
+     *
+     * @return a {@link edu.getty.tgn.objects.Vocabulary.Subject.Term} object.
      */
     public Vocabulary.Subject.Term createVocabularySubjectTerm() {
         return new Vocabulary.Subject.Term();

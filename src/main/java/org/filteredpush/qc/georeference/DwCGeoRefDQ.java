@@ -28,15 +28,15 @@ import org.datakurator.ffdq.api.result.*;
 /**
  *
  * Implementations of TDWG BDQ SPACE related tests.
- * 
+ *
  * Provides:
- * 
+ *
  * #20 	VALIDATION_COUNTRYCODE_STANDARD 0493bcfb-652e-4d17-815b-b0cce0742fbe
  * #187 VALIDATION_MAXDEPTH_INRANGE 3f1db29a-bfa5-40db-9fd1-fde020d81939
  * #24	VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH 8f1e6e58-544b-4365-a569-fb781341644e
- * #42 	VALIDATION_COUNTRY_NOTEMPTY 6ce2b2b4-6afe-4d13-82a0-390d31ade01c 
+ * #42 	VALIDATION_COUNTRY_NOTEMPTY 6ce2b2b4-6afe-4d13-82a0-390d31ade01c
  * #21	VALIDATION_COUNTRY_FOUND 69b2efdc-6269-45a4-aecb-4cb99c2ae134
- * #98	VALIDATION_COUNTRYCODE_NOTEMPTY 853b79a2-b314-44a2-ae46-34a1e7ed85e4 
+ * #98	VALIDATION_COUNTRYCODE_NOTEMPTY 853b79a2-b314-44a2-ae46-34a1e7ed85e4
  * #62	VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT" b23110e7-1be7-444a-a677-cdee0cf4330c
  * #199	VALIDATION_STATEPROVINCE_FOUND 4daa7986-d9b0-4dd5-ad17-2d7a771ea71a
  * #119	VALIDATION_DECIMALLATITUDE_EMPTY 7d2485d5-1ba7-4f25-90cb-f4480ff1a275
@@ -52,17 +52,17 @@ import org.datakurator.ffdq.api.result.*;
  * #78	VALIDATION_GEODETICDATUM_NOTEMPTY 239ec40e-a729-4a8e-ba69-e0bf03ac1c44
  * #59	VALIDATION_GEODETICDATUM_STANDARD 7e0c0418-fe16-4a39-98bd-80e19d95b9d1
  * #40	VALIDATION_LOCATION_NOTEMPTY 58486cb6-1114-4a8a-ba1e-bd89cfe887e9
- * 
+ *
  * #43	AMENDMENT_COORDINATES_CONVERTED 620749b9-7d9c-4890-97d2-be3d1cde6da8
  * #102 AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT 7498ca76-c4d4-42e2-8103-acacccbdffa7
  * #48	AMENDMENT_COUNTRYCODE_STANDARDIZED fec5ffe6-3958-4312-82d9-ebcca0efb350
  * #73	AMENDMENT_COUNTRYCODE_FROM_COORDINATES 8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae
- * 
+ *
  * For #72, see rec_occur_qc DwCMetadataDQ
  * #72 ISSUE_DATAGENERALIZATIONS_NOTEMPTY 13d5a10e-188e-40fd-a22c-dbaa87b91df2
- * 
- * @author mole
  *
+ * @author mole
+ * @version $Id: $Id
  */
 @Mechanism(value="71fa3762-0dfa-43c7-a113-d59797af02e8",label="Kurator: Date Validator - DwCGeoRefDQ:v2.0.0")
 public class DwCGeoRefDQ{
@@ -125,14 +125,14 @@ public class DwCGeoRefDQ{
     
     /**
      * Does the value of dwc:country occur in bdq:sourceAuthority?
-     * 
+     *
      * #21 Validation SingleRecord Conformance: country notstandard
      *
      * Provides: VALIDATION_COUNTRY_FOUND
      * Version: 2022-08-29
      *
      * @param country the provided dwc:country to evaluate
-     * @param sourceAuthority the source authority to consult, if null uses ""The Getty Thesaurus of Geographic Names (TGN)", 
+     * @param sourceAuthority the source authority to consult, if null uses ""The Getty Thesaurus of Geographic Names (TGN)",
      * 	additional supported values for sourceAuthority are "NaturalEarth" and "datahub.io".
      * @return DQResponse the response of type ComplianceValue  to return
      */
@@ -225,7 +225,7 @@ public class DwCGeoRefDQ{
     
     /**
      * Is the value of dwc:minimumDepthInMeters a number that is less than or equal to the value of dwc:maximumDepthInMeters?
-     * 
+     *
      * #24 Validation SingleRecord Conformance: mindepth greaterthan maxdepth
      *
      * Provides: VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH
@@ -453,21 +453,24 @@ public class DwCGeoRefDQ{
 
     /**
      * Is there a value in any of the Darwin Core spatial terms that could specify a location?
-     * 
+     *
      * #40 Validation SingleRecord Completeness: location empty
      *
      * Provides: VALIDATION_LOCATION_NOTEMPTY
      * Version: 2022-03-22
-     * 
+     *
      * Provides: VALIDATION_LOCATION_EMPTY
      *
      * @param higherGeography the provided dwc:higherGeography to evaluate
      * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
      * @param continent the provided dwc:continent to evaluate
      * @param waterBody the provided dwc:waterBody to evaluate
      * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
      * @param island the provided dwc:island to evaluate
      * @param country the provided dwc:country to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
      * @param stateProvince the provided dwc:stateProvince to evaluate
      * @param county the provided dwc:county to evaluate
@@ -724,7 +727,7 @@ public class DwCGeoRefDQ{
 
     /**
      * Propose amendment to the value of dwc:countryCode if it can be interpreted as an ISO country code.
-     * 
+     *
      * #48 Amendment SingleRecord Conformance: countrycode standardized
      *
      * Provides: AMENDMENT_COUNTRYCODE_STANDARDIZED
@@ -790,20 +793,21 @@ public class DwCGeoRefDQ{
     }
 
     /**
-     * Do the geographic coordinates fall on or within the boundaries of the territory given in 
+     * Do the geographic coordinates fall on or within the boundaries of the territory given in
      * dwc:countryCode or its Exclusive Economic Zone?
-     * 
+     *
      * Uses the default value for bdq:spatialBufferInMeters
-     * 
+     *
      * #50 Validation SingleRecord Consistency: coordinates countrycode inconsistent
      *
      * Provides: #50 VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT
      * Version: 2023-02-27
-     * 
+     *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
+     * @param sourceAuthority a {@link java.lang.String} object.
      */
     @Validation(label="VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT", description="Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?")
     @Provides("adb27d29-9f0d-4d52-b760-a77ba57a69c9")
@@ -821,17 +825,18 @@ public class DwCGeoRefDQ{
     
     /**
      * Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?
-     * 
+     *
      * #50 Validation SingleRecord Consistency: coordinates countrycode inconsistent
      *
      * Provides: #50 VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT
      * Version: 2023-02-27
-     * 
+     *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
-	 * @param spatialBufferInMeters the value of bdq:spatialBufferInMeters to apply. 
+     * @param spatialBufferInMeters the value of bdq:spatialBufferInMeters to apply.
      * @return DQResponse the response of type ComplianceValue  to return
+     * @param sourceAuthority a {@link java.lang.String} object.
      */
     @Validation(label="VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT", description="Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?")
     @Provides("adb27d29-9f0d-4d52-b760-a77ba57a69c9")
@@ -1142,13 +1147,14 @@ public class DwCGeoRefDQ{
 
     /**
      * Does the ISO country code determined from the value of dwc:country equal the value of dwc:countryCode?
-     * 
+     *
      * #62 Validation SingleRecord Consistency: country countrycode inconsistent
      *
      * Provides: VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT
      * Version: 2022-05-02
      *
      * @param country the provided dwc:country to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
@@ -1254,7 +1260,7 @@ public class DwCGeoRefDQ{
 
     /**
      * Propose amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority that is attributable to a single valid country code.
-     * 
+     *
      * #73 Amendment SingleRecord Completeness: countrycode from coordinates
      *
      * Provides: AMENDMENT_COUNTRYCODE_FROM_COORDINATES
@@ -1335,7 +1341,7 @@ public class DwCGeoRefDQ{
 
     /**
      * Is there a value in dwc:geodeticDatum?
-     * 
+     *
      * #78 Validation SingleRecord Completeness: geodeticdatum empty
      *
      * Provides: VALIDATION_GEODETICDATUM_NOTEMPTY
@@ -1370,7 +1376,7 @@ public class DwCGeoRefDQ{
     
     /**
      * Is the value of dwc:decimalLatitude a number between -90 and 90 inclusive?
-     * 
+     *
      * #79 Validation SingleRecord Conformance: decimallatitude outofrange
      *
      * Provides: VALIDATION_DECIMALLATITUDE_INRANGE
@@ -1511,6 +1517,7 @@ public class DwCGeoRefDQ{
      * @param county the provided dwc:county to evaluate
      * @param country the provided dwc:country to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
      * @param municipality the provided dwc:municipality to evaluate
      * @param stateProvince the provided dwc:stateProvince to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
@@ -1606,20 +1613,20 @@ public class DwCGeoRefDQ{
     }
 
     
-     /**
-     * Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty. 
-     * If dwc:coordinateUncertaintyInMeters is not empty and there are not empty values for dwc:latitude and dwc:longitude, 
+    /**
+     * Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty.
+     * If dwc:coordinateUncertaintyInMeters is not empty and there are not empty values for dwc:latitude and dwc:longitude,
      * amend dwc:coordinateUncertaintyInMeters by adding a maximum datum shift.
      *
      * Provides: 102 AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT
      * Version: 2023-06-23
      *
-     * @param coordinateUncertantyInMeters the provided dwc:coordinateUncertantyInMeters to evaluate
      * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @param defaultGeodeticDatum to use as default, if not specified, uses EPSG:4326
      * @return DQResponse the response of type AmendmentValue to return
+     * @param coordinateUncertaintyInMeters a {@link java.lang.String} object.
      */
     @Amendment(label="AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT", description="Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty. If dwc:coordinateUncertaintyInMeters is not empty and there are not empty values for dwc:latitude and dwc:longitude, amend dwc:coordinateUncertaintyInMeters by adding a maximum datum shift.")
     @Provides("7498ca76-c4d4-42e2-8103-acacccbdffa7")
@@ -1690,6 +1697,8 @@ public class DwCGeoRefDQ{
      *
      * @param minimumDepthInMeters the provided dwc:minimumDepthInMeters to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
+     * @param minimumValidDepthInMeters a {@link java.lang.Double} object.
+     * @param maximumValidDepthInMeters a {@link java.lang.Double} object.
      */
     @Validation(label="VALIDATION_MINDEPTH_INRANGE", description="Is the value of dwc:minimumDepthInMeters within the Parameter range?")
     @Provides("04b2c8f3-c71b-4e95-8e43-f70374c5fb92")
@@ -1882,7 +1891,7 @@ public class DwCGeoRefDQ{
     
     /**
      * Is the value of dwc:maximumElevationInMeters of a single record within a valid range
-     * 
+     *
      * Is the value of dwc:maximumElevationInMeters within the Parameter range?
      *
      * Provides: #112 VALIDATION_MAXELEVATION_INRANGE
@@ -1960,6 +1969,7 @@ public class DwCGeoRefDQ{
      * @param county the provided dwc:county to evaluate
      * @param country the provided dwc:country to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
      * @param municipality the provided dwc:municipality to evaluate
      * @param stateProvince the provided dwc:stateProvince to evaluate
      * @return DQResponse the response of type AmendmentValue to return
@@ -2033,6 +2043,7 @@ public class DwCGeoRefDQ{
      * @param county the provided dwc:county to evaluate
      * @param country the provided dwc:country to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
      * @param municipality the provided dwc:municipality to evaluate
      * @param stateProvince the provided dwc:stateProvince to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
@@ -2066,8 +2077,8 @@ public class DwCGeoRefDQ{
 
     /**
      * Is the value of dwc:maximumDepthInMeters within the Parameter range?
-     * 
-     * #187 Is the value of dwc:maximumDepthInMeters within the specified Parameter range? 
+     *
+     * #187 Is the value of dwc:maximumDepthInMeters within the specified Parameter range?
      *
      * Provides: VALIDATION_MAXDEPTH_INRANGE
      * Version: 2022-09-08
@@ -2148,6 +2159,7 @@ public class DwCGeoRefDQ{
      *
      * @param stateProvince the provided dwc:stateProvince to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
+     * @param sourceAuthority a {@link java.lang.String} object.
      */
     @Validation(label="VALIDATION_STATEPROVINCE_FOUND", description="Does the value of dwc:stateProvince occur in bdq:sourceAuthority?")
     @Provides("4daa7986-d9b0-4dd5-ad17-2d7a771ea71a")

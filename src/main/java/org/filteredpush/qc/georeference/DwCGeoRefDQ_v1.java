@@ -19,8 +19,10 @@ import java.util.*;
 
 /**
  * Created by lowery on 2/24/17.
- * @deprecated
+ *
  * @see org.filteredpush.qc.georeference.DwCGeoRefDQ
+ * @author mole
+ * @version $Id: $Id
  */
 public class DwCGeoRefDQ_v1 {
     private static final GeoTester geoTester;
@@ -35,6 +37,13 @@ public class DwCGeoRefDQ_v1 {
         }
     }
 
+    /**
+     * <p>isLatLongInRange.</p>
+     *
+     * @param latitude a {@link java.lang.String} object.
+     * @param longitude a {@link java.lang.String} object.
+     * @return a {@link org.filteredpush.qc.georeference.GeoDQValidation} object.
+     */
     @Provides(value = "COORDINATES_IN_RANGE") // same as "COORDINATES_OUT_OF_RANGE" defined in the spreadsheet that contains list of tests
     @Validation(label = "Coordinate In Range", description = "Test to see whether a provided latitude and longitude is a numeric " +
             "value in range")
@@ -79,6 +88,15 @@ public class DwCGeoRefDQ_v1 {
         return result;
     }
 
+    /**
+     * <p>isPointInCountry.</p>
+     *
+     * @param country a {@link java.lang.String} object.
+     * @param originalLat a {@link java.lang.String} object.
+     * @param originalLong a {@link java.lang.String} object.
+     * @param waterBody a {@link java.lang.String} object.
+     * @return a {@link org.filteredpush.qc.georeference.GeoDQValidation} object.
+     */
     @Provides(value = "COUNTRY_COORDINATE_MISMATCH")
     @Validation(label = "Coordinate In Country", description = "Check if the values for latitude and longitude represents a coordinate inside the range for the reported country.")
     @Specification("Check that the values for dwc:latitude and dwc:longitude are consistent with the value for dwc:country. Compliant if the coordinates are inside the " +
@@ -137,6 +155,15 @@ public class DwCGeoRefDQ_v1 {
         return result;
     }
 
+    /**
+     * <p>stateProvinceIsConsistent.</p>
+     *
+     * @param country a {@link java.lang.String} object.
+     * @param stateProvince a {@link java.lang.String} object.
+     * @param originalLat a {@link java.lang.String} object.
+     * @param originalLong a {@link java.lang.String} object.
+     * @return a {@link org.filteredpush.qc.georeference.GeoDQValidation} object.
+     */
     @Provides(value = "STATEPROVINCE_COORDINATE_MISMATCH")
     @Validation(label = "State Province Is Consistent", description = "Check that that latitude and longitude are in state/province and that state/provice is inside country")
     @Specification("Compliant if the value for dwc:stateProvince is known to be inside dwc:country and values for dwc:latitude and dwc:longitude are inside stateProvince, " +
@@ -192,6 +219,15 @@ public class DwCGeoRefDQ_v1 {
 
     }
 
+    /**
+     * <p>waterBodyIsConsistent.</p>
+     *
+     * @param country a {@link java.lang.String} object.
+     * @param waterBody a {@link java.lang.String} object.
+     * @param originalLat a {@link java.lang.String} object.
+     * @param originalLong a {@link java.lang.String} object.
+     * @return a {@link org.filteredpush.qc.georeference.GeoDQValidation} object.
+     */
     @Provides(value = "WATER_BODY_IS_CONSISTENT")
     @Validation(label = "Water Body Is Consistent", description = "Check that the latitude and longitude are outside of country boundaries and that water body is an ocean or sea.")
     @Specification("If a value for dwc:country is provided, the result is compliant if dwc:latitude and dwc:longitude are not within the country boundaries. " +
@@ -252,6 +288,17 @@ public class DwCGeoRefDQ_v1 {
         return result;
     }
 
+    /**
+     * <p>fillInMissing.</p>
+     *
+     * @param country a {@link java.lang.String} object.
+     * @param stateProvince a {@link java.lang.String} object.
+     * @param county a {@link java.lang.String} object.
+     * @param locality a {@link java.lang.String} object.
+     * @param latitude a {@link java.lang.String} object.
+     * @param longitude a {@link java.lang.String} object.
+     * @return a {@link org.filteredpush.qc.georeference.GeoDQAmendment} object.
+     */
     @Provides(value = "FILL_IN_MISSING_COORDINATES")
     @Amendment(label = "Fill In Missing Coordinates", description = "If coordinates are missing or invalid, attempts to fill in values from lookup of locality in GeoLocate service.")
     @Specification("If dwc:latitude and/or dwc:longitude are missing or invalid, lookup locality using values of dwc:country, dwc:stateProvince, dwc:locality as parameters to " +
@@ -327,6 +374,18 @@ public class DwCGeoRefDQ_v1 {
         return result;
     }
 
+    /**
+     * <p>coordinateTransposition.</p>
+     *
+     * @param country a {@link java.lang.String} object.
+     * @param stateProvince a {@link java.lang.String} object.
+     * @param county a {@link java.lang.String} object.
+     * @param locality a {@link java.lang.String} object.
+     * @param waterBody a {@link java.lang.String} object.
+     * @param latitude a {@link java.lang.String} object.
+     * @param longitude a {@link java.lang.String} object.
+     * @return a {@link org.filteredpush.qc.georeference.GeoDQAmendment} object.
+     */
     @Amendment(label = "Coordinate Transposition", description = "If the coordinates fail to validate, lookup the locality using the GeoLocate service " +
             "and check to see if any transposition of the coordinates corresponds to a " +
             "good match.")

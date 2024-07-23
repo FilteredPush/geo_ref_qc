@@ -20,6 +20,9 @@ import java.util.List;
 
 /**
  * Created by lowery on 2/24/17.
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 public class GeoLocateService {
     private static final Log logger = LogFactory.getLog(GeoLocate3.class);
@@ -30,13 +33,13 @@ public class GeoLocateService {
      * Given country, stateProvince, county/Shire, and locality strings, return all matches found by geolocate for
      * that location.
      *
-     * @param country
-     * @param stateProvince
-     * @param county
-     * @param locality
+     * @param country a {@link java.lang.String} object.
+     * @param stateProvince a {@link java.lang.String} object.
+     * @param county a {@link java.lang.String} object.
+     * @param locality a {@link java.lang.String} object.
      * @param latitude for distance comparison in log
      * @param longitude for distance comparison in log
-     * @return
+     * @return a {@link java.util.List} object.
      */
     public List<GeolocationResult> queryGeoLocateMulti(String country, String stateProvince, String county, String locality, String latitude, String longitude) {
         List<GeolocationResult> result = new ArrayList<GeolocationResult>();

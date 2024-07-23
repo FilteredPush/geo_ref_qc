@@ -15,6 +15,12 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.TreeMultimap;
 
+/**
+ * <p>CountryLookup class.</p>
+ *
+ * @author mole
+ * @version $Id: $Id
+ */
 public class CountryLookup {
 
     private static final Log logger = LogFactory.getLog(CountryLookup.class);
@@ -389,10 +395,10 @@ public class CountryLookup {
 	}
 	
 	/**
-	 * Given a string that might be a country code, return a matching country, if any 
-	 * from the list of country names used in the Natural Earth 10m-admin-0-countries 
+	 * Given a string that might be a country code, return a matching country, if any
+	 * from the list of country names used in the Natural Earth 10m-admin-0-countries
 	 * dataset.  If more than one match exists, or no match exists, return null.
-	 * 
+	 *
 	 * @param countryCode for which to look up the country name
 	 * @return country name or null if no match was found
 	 */
@@ -410,6 +416,12 @@ public class CountryLookup {
 		return result;
 	}
 	
+	/**
+	 * <p>countryExistsHasCode.</p>
+	 *
+	 * @param countryName a {@link java.lang.String} object.
+	 * @return a boolean.
+	 */
 	public static boolean countryExistsHasCode(String countryName) { 
 		boolean retval = false;
 		if (countries==null) { 
@@ -422,9 +434,10 @@ public class CountryLookup {
 	}
 	
 	/**
-	 * 
-	 * @param countryName
-	 * @return
+	 * <p>countryExistsGettyNation.</p>
+	 *
+	 * @param countryName a {@link java.lang.String} object.
+	 * @return a {@link java.lang.Boolean} object.
 	 */
 	public static Boolean countryExistsGettyNation(String countryName) { 
 		Boolean retval = false;
@@ -435,8 +448,8 @@ public class CountryLookup {
 	}
 	
 	/**
-	 * Obtain the list of two letter country codes. 
-	 * 
+	 * Obtain the list of two letter country codes.
+	 *
 	 * @return a list of two letter country codes.
 	 */
 	public static List<String> getCountryCodes2() { 
@@ -459,9 +472,9 @@ public class CountryLookup {
 	}
 	
 	/**
-	 * Check if a provided countryCode is an exact match to a known 
+	 * Check if a provided countryCode is an exact match to a known
 	 * two letter country code.
-	 * 
+	 *
 	 * @param countryCode to test
 	 * @return true if an exact match, otherwise false.
 	 */
@@ -485,9 +498,9 @@ public class CountryLookup {
 	}
 	
 	/**
-	 * Given a string that might be a country code or a country name return the 
+	 * Given a string that might be a country code or a country name return the
 	 * matching two letter country code if one can be found.
-	 *  
+	 *
 	 * @param countryCodeOrName string for which to look up the country code
 	 * @return a two letter country code or null if no match is found
 	 */
@@ -541,9 +554,9 @@ public class CountryLookup {
 	}
 	
 	/**
-	 * Given a string that might be a country code or a country name return the 
+	 * Given a string that might be a country code or a country name return the
 	 * matching three letter country code if one can be found.
-	 *  
+	 *
 	 * @param countryCodeOrName string for which to look up the country code
 	 * @return a three letter country code or null if no match is found
 	 */

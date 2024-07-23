@@ -24,8 +24,22 @@ import java.util.List;
  * User: cobalt
  * Date: 02.10.2013
  * Time: 14:13
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 public interface Cache {
+    /**
+     * <p>lookup.</p>
+     *
+     * @param key a {@link java.util.List} object.
+     * @return a {@link java.lang.String} object.
+     */
     public String lookup(List<String> key);
+    /**
+     * <p>insert.</p>
+     *
+     * @param entry a {@link java.util.List} object.
+     */
     public void insert(List<String> entry);
 }

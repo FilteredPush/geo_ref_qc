@@ -53,6 +53,12 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.proj4j.CoordinateTransform;
 
+/**
+ * <p>GEOUtil class.</p>
+ *
+ * @author mole
+ * @version $Id: $Id
+ */
 public class GEOUtil {
     private static final Log logger = LogFactory.getLog(GEOUtil.class);
 
@@ -72,12 +78,13 @@ public class GEOUtil {
 	private static double EARTH_MEAN_RADIUS_METERS = 6370949.0d;  // Mean radius, from CRC
 	
 	/**
-	 * 
-	 * @param lat1
-	 * @param lng1
-	 * @param lat2
-	 * @param lng2
-	 * @return
+	 * <p>getDistanceKm.</p>
+	 *
+	 * @param lat1 a double.
+	 * @param lng1 a double.
+	 * @param lat2 a double.
+	 * @param lng2 a double.
+	 * @return a double.
 	 */
 	public static double getDistanceKm(double lat1, double lng1, double lat2, double lng2)
 	{
@@ -95,12 +102,11 @@ public class GEOUtil {
 	/**
 	 * Calculate distance in meters between two points on the Earth's surface using the Haversine formula,
 	 * which maintains accuracy even when points are a short distance apart.
-	 * 
+	 *
 	 * @param lat1 latitude of the first point
 	 * @param lon1 longitude of the first point
 	 * @param lat2 latitude of the second point
 	 * @param lon2 longitude of the second point
-	 * 
 	 * @return great circle distance between the two points in meters.
 	 */
 	public static long calcDistanceHaversineMeters(double lat1, double lon1, double lat2, double lon2) {
@@ -118,6 +124,14 @@ public class GEOUtil {
 	    return distance;
 	}
 	
+	/**
+	 * <p>convertLatLongDecimal.</p>
+	 *
+	 * @param degrees a int.
+	 * @param minutes a {@link java.lang.Integer} object.
+	 * @param seconds a {@link java.lang.Integer} object.
+	 * @return a {@link org.filteredpush.qc.georeference.util.DegreeWithPrecision} object.
+	 */
 	public static DegreeWithPrecision convertLatLongDecimal(int degrees, Integer minutes, Integer seconds) { 
 		double deg = degrees;
 		int precision = 0;
@@ -166,13 +180,12 @@ public class GEOUtil {
 	
     /**
      * Test to see if an x/y coordinate is inside any of a set of polygons.
-     * 
-     * @param polygonSet
-     * @param Xvalue
-     * @param Yvalue
+     *
+     * @param polygonSet a {@link java.util.Set} object.
+     * @param Xvalue a double.
+     * @param Yvalue a double.
      * @param invertSense true to invert the result, false to keep the result unchanged.
-     * 
-     * @return true if the x/y value is inside polygonSet and invertSense is false 
+     * @return true if the x/y value is inside polygonSet and invertSense is false
      *         false if the x/y value is outside polygonSet and invertSense is false
      *         false if the x/y value is insidePolygonSet and invertSense is true
      *         true if the x/y value is outside polygonSet and invertSense is true
@@ -184,12 +197,13 @@ public class GEOUtil {
     } 	
     
     /**
-     * Test to see if a point is on land 
+     * Test to see if a point is on land
+     *
      * @param Xvalue a decimal longitude expressed as a double
-     * @param Yvalue a decimal latitude expressed as a double 
+     * @param Yvalue a decimal latitude expressed as a double
      * @param invertSense true to invert the result, false to keep the result unchanged.
      *    that is, if invertSense is true, make this a test of is marine.
-     * @return true if the x/y value is inside land and invertSense is false 
+     * @return true if the x/y value is inside land and invertSense is false
      *         false if the x/y value is outside land and invertSense is false
      *         false if the x/y value is inside land and invertSense is true
      *         true if the x/y value is outside land and invertSense is true
@@ -206,14 +220,13 @@ public class GEOUtil {
  
     /**
      * Test to see if an x/y coordinate is inside any of a set of polygons.
-     * 
-     * @param polygonSet
-     * @param Xvalue
-     * @param Yvalue
-     * 
+     *
+     * @param polygonSet a {@link java.util.Set} object.
+     * @param Xvalue a double.
+     * @param Yvalue a double.
      * @return true if the x/y value is inside polygonSet
      *         false if the x/y value is outside or on a boundary of polygonSet
-     */    
+     */
     public static boolean isInPolygon(Set<Path2D> polygonSet, double Xvalue, double Yvalue){
         Boolean foundInPolygon = false;
         Iterator it = polygonSet.iterator();
@@ -227,6 +240,14 @@ public class GEOUtil {
         return foundInPolygon;
     }    
 	
+	/**
+	 * <p>isPointInCountry.</p>
+	 *
+	 * @param country a {@link java.lang.String} object.
+	 * @param latitude a double.
+	 * @param longitude a double.
+	 * @return a boolean.
+	 */
 	public static boolean isPointInCountry(String country, double latitude, double longitude) { 
 		boolean result = false;
         URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_0_countries.shp");
@@ -252,7 +273,7 @@ public class GEOUtil {
 	/**
 	 * Given a decimal latitude and decimal longitude, return the country code for a containing country, including EEZ
 	 * for the specified coordinate.
-	 * 
+	 *
 	 * @param latitude to check
 	 * @param longitude to check
 	 * @return an ISO three letter country code, or null if not matched or if multiple matches.
@@ -315,12 +336,11 @@ public class GEOUtil {
 	
 	/**
 	 * Test to see if a point is near (to a specified distance in km) or within a country.
-	 * 
-	 * @param country
-	 * @param latitude
-	 * @param longitude
-	 * @param distanceKm
-	 * 
+	 *
+	 * @param country a {@link java.lang.String} object.
+	 * @param latitude a double.
+	 * @param longitude a double.
+	 * @param distanceKm a double.
 	 * @return true if latitude/longitude is inside or within distanceKm of any part of country.
 	 */
 	public static boolean isPointNearCountry(String country, double latitude, double longitude, double distanceKm) { 
@@ -345,14 +365,13 @@ public class GEOUtil {
 	}	
 	
 	/**
-	 * Test to see if a point is near (to a specified distance in km) or within a country including 
+	 * Test to see if a point is near (to a specified distance in km) or within a country including
 	 * Marine Exclusive Economic Zones.
-	 * 
+	 *
 	 * @param countryCode three letter country code
-	 * @param latitude of point to check 
+	 * @param latitude of point to check
 	 * @param longitude of point to check
 	 * @param distanceKm buffer distance in km.
-	 * 
 	 * @return true if latitude/longitude is inside or within distanceKm of any part of country or EEZ.
 	 */
 	public static boolean isPointNearCountryPlusEEZ(String countryCode, double latitude, double longitude, double distanceKm) { 
@@ -378,12 +397,12 @@ public class GEOUtil {
 	
 	/**
 	 * Is a given point inside a primary division (state/province) of a given country.
-	 * 
-	 * @param country
-	 * @param primaryDivision
-	 * @param latitude
-	 * @param longitude
-	 * @return 
+	 *
+	 * @param country a {@link java.lang.String} object.
+	 * @param primaryDivision a {@link java.lang.String} object.
+	 * @param latitude a double.
+	 * @param longitude a double.
+	 * @return a boolean.
 	 */
 	public static boolean isPointInPrimary(String country, String primaryDivision, double latitude, double longitude) { 
 		boolean result = false;
@@ -410,12 +429,12 @@ public class GEOUtil {
 	/**
 	 * Test to see if a point is near (to a specified distance in km) or within a primary division (state/province) of a given country.
 	 *
-	 * @param country
-	 * @param latitude
-	 * @param longitude
-	 * @param distanceKm
-	 *
+	 * @param country a {@link java.lang.String} object.
+	 * @param latitude a double.
+	 * @param longitude a double.
+	 * @param distanceKm a double.
 	 * @return true if latitude/longitude is inside or within distanceKm of a primary division (state/province) of a given country.
+	 * @param primaryDivision a {@link java.lang.String} object.
 	 */
 	public static boolean isPointNearPrimary(String country, String primaryDivision, double latitude, double longitude, double distanceKm) {
 		boolean result = false;
@@ -441,6 +460,12 @@ public class GEOUtil {
 		return result;
 	}
 
+	/**
+	 * <p>isCountryKnown.</p>
+	 *
+	 * @param country a {@link java.lang.String} object.
+	 * @return a boolean.
+	 */
 	public static boolean isCountryKnown(String country) { 
 		boolean result = false;
         URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_0_countries.shp");
@@ -464,11 +489,11 @@ public class GEOUtil {
 	}	
 	
 	/**
-	 * Is a combination of country name and primary division (state/province) name known the primary division data set. 
-	 * 
-	 * @param country
-	 * @param primaryDivision
-	 * @return
+	 * Is a combination of country name and primary division (state/province) name known the primary division data set.
+	 *
+	 * @param country a {@link java.lang.String} object.
+	 * @param primaryDivision a {@link java.lang.String} object.
+	 * @return a boolean.
 	 */
 	public static boolean isPrimaryKnown(String country, String primaryDivision) { 
 		boolean result = false;
@@ -498,7 +523,7 @@ public class GEOUtil {
 	/**
 	 * Parse latitude from string and check that value is in range (-90 to 90 inclusive).
 	 *
-	 * @param latitude
+	 * @param latitude a {@link java.lang.String} object.
 	 * @return parsed latitude or null if not valid
 	 */
 	public static Double parseLatitude(String latitude) {
@@ -520,7 +545,7 @@ public class GEOUtil {
 	/**
 	 * Parse longitude from string and check that value is in range (-90 to 90 inclusive).
 	 *
-	 * @param longitude
+	 * @param longitude a {@link java.lang.String} object.
 	 * @return parsed longitude or null if not valid
 	 */
 	public static Double parseLongitude(String longitude) {
@@ -544,11 +569,11 @@ public class GEOUtil {
      * Checks coordinate consistency with country/stateProvince or checks that coordinates are not on land if flagged
      * as a marine locality
      *
-     * @param country
-     * @param stateProvince
-     * @param originalLat
-     * @param originalLong
-     * @param isMarine
+     * @param country a {@link java.lang.String} object.
+     * @param stateProvince a {@link java.lang.String} object.
+     * @param originalLat a double.
+     * @param originalLong a double.
+     * @param isMarine a boolean.
      * @return true if consistent, false otherwise
      */
     public static boolean validateCoordinates(String country, String stateProvince, double originalLat, double originalLong, boolean isMarine) {
@@ -573,6 +598,12 @@ public class GEOUtil {
         return false;
     }
 
+	/**
+	 * <p>standardizeCountryName.</p>
+	 *
+	 * @param country a {@link java.lang.String} object.
+	 * @return a {@link java.lang.String} object.
+	 */
 	public static String standardizeCountryName(String country) {
 		if (country.toUpperCase().equals("USA") || country.toUpperCase().equals("U.S.A.") || country.toLowerCase().equals("united states of america")) {
 			return "United States";
@@ -581,14 +612,14 @@ public class GEOUtil {
 		}
 	}
 
-	/**
+    /**
      * Checks to see if a locality is marine. If country, stateProvince and county are not present, or if waterBody is
      * a known value, the test returns true.
      *
-     * @param country
-     * @param stateProvince
-     * @param county
-     * @param waterBody
+     * @param country a {@link java.lang.String} object.
+     * @param stateProvince a {@link java.lang.String} object.
+     * @param county a {@link java.lang.String} object.
+     * @param waterBody a {@link java.lang.String} object.
      * @return true if marine locality, false otherwise
      */
     public static boolean isMarine(String country, String stateProvince, String county, String waterBody) {
@@ -605,7 +636,7 @@ public class GEOUtil {
     
     /**
      * Check a presented string against the list of two letter country codes.
-     * 
+     *
      * @param countryCode a string to test for a case sensitive match against two letter country codes.
      * @return true if an exact match to a country code on the list, otherwise false.
      */
@@ -631,9 +662,9 @@ public class GEOUtil {
 
     /**
      * Does a string contain a non-blank value.
-     * 
+     *
      * @param aString to check
-     * @return true if the string is null, is an empty string, 
+     * @return true if the string is null, is an empty string,
      *     or contains only whitespace.
      */
     public static boolean isEmpty(String aString)  {
@@ -650,7 +681,7 @@ public class GEOUtil {
     
     /**
      * Test to see if a string contains only numeric characters.
-     * 
+     *
      * @param aString to test
      * @return true if the string, ignoring leading and trailing whitespace,
      *  contains at least one digit 0-9 and no other characters except for - and .
@@ -663,13 +694,14 @@ public class GEOUtil {
     	return result;
     }
 
-    /** is the provided geodeticDatum on a known list of datums that this software
-     * can work with.
-     * 
-     * @param geodeticDatum string containing a representation of a geodetic datum 
-     *    as an EPSG code or as member of a short set of other alternatives.
-     * @return true if the geodetic datum is recognized, false otherwise
-     */
+	/**
+	 * is the provided geodeticDatum on a known list of datums that this software
+	 * can work with.
+	 *
+	 * @param geodeticDatum string containing a representation of a geodetic datum
+	 *    as an EPSG code or as member of a short set of other alternatives.
+	 * @return true if the geodetic datum is recognized, false otherwise
+	 */
 	public static boolean isDatumKnown(String geodeticDatum) {
 		
 		boolean retval = false;
@@ -701,11 +733,11 @@ public class GEOUtil {
 	
 	/**
 	 * is the provided geodeticDatum a known EPSG code.
-	 * 
-	 * @param geodeticDatum string containing a representation of a geodetic datum 
-     *    as an EPSG code
+	 *
+	 * @param geodeticDatum string containing a representation of a geodetic datum
+	 *    as an EPSG code
 	 * @return true if the geodetic datum is recognized, false otherwise
-	 * @throws FactoryException 
+	 * @throws org.geotools.api.referencing.FactoryException if any.
 	 */
 	public static boolean isCooridnateSystemCodeKnown(String geodeticDatum) throws FactoryException {
 		
@@ -730,6 +762,15 @@ public class GEOUtil {
 		return retval;
 	}
 
+	/**
+	 * <p>getNadconTransform.</p>
+	 *
+	 * @param latGridFile a {@link java.lang.String} object.
+	 * @param longGridFile a {@link java.lang.String} object.
+	 * @return a {@link org.geotools.referencing.operation.transform.NADCONTransform} object.
+	 * @throws org.geotools.api.parameter.ParameterNotFoundException if any.
+	 * @throws org.geotools.api.referencing.FactoryException if any.
+	 */
 	public static NADCONTransform getNadconTransform(String latGridFile, String longGridFile) throws ParameterNotFoundException, FactoryException {
 		File fLat = new File(latGridFile);
 		File fLong = new File(longGridFile);
@@ -750,6 +791,14 @@ public class GEOUtil {
 	}
 	
 	
+	/**
+	 * <p>externalTransforTo4326.</p>
+	 *
+	 * @param sourceY a {@link java.lang.String} object.
+	 * @param sourceX a {@link java.lang.String} object.
+	 * @param sourceSRS a {@link java.lang.String} object.
+	 * @return a {@link org.filteredpush.qc.georeference.util.TransformationStruct} object.
+	 */
 	public static TransformationStruct externalTransforTo4326(String sourceY, String sourceX, String sourceSRS) { 
 		
 		TransformationStruct retval = null;
@@ -818,6 +867,16 @@ public class GEOUtil {
 		return retval;
 	}
 	
+	/**
+	 * <p>coordinateSystemTransformTo4326.</p>
+	 *
+	 * @param sourceY a {@link java.lang.String} object.
+	 * @param sourceX a {@link java.lang.String} object.
+	 * @param sourceSRS a {@link java.lang.String} object.
+	 * @return a {@link org.filteredpush.qc.georeference.util.TransformationStruct} object.
+	 * @throws org.geotools.api.referencing.FactoryException if any.
+	 * @throws org.geotools.api.referencing.operation.TransformException if any.
+	 */
 	public static TransformationStruct coordinateSystemTransformTo4326(
 			String sourceY, String sourceX,
 			String sourceSRS) throws FactoryException, TransformException
@@ -873,6 +932,17 @@ public class GEOUtil {
 		return retval;
 	}
 		
+	/**
+	 * <p>datumTransform.</p>
+	 *
+	 * @param decimalLatitude a {@link java.lang.String} object.
+	 * @param decimalLongitude a {@link java.lang.String} object.
+	 * @param geodeticDatum a {@link java.lang.String} object.
+	 * @param targetGeodeticDatum a {@link java.lang.String} object.
+	 * @return a {@link org.filteredpush.qc.georeference.util.TransformationStruct} object.
+	 * @throws org.geotools.api.referencing.FactoryException if any.
+	 * @throws org.geotools.api.referencing.operation.TransformException if any.
+	 */
 	public static TransformationStruct datumTransform(
 			String decimalLatitude, String decimalLongitude,
 			String geodeticDatum, String targetGeodeticDatum) throws FactoryException, TransformException

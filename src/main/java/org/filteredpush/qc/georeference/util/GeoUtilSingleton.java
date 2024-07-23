@@ -15,8 +15,10 @@ import org.apache.commons.logging.LogFactory;
 import edu.getty.tgn.service.TGNWebServices;
 
 /**
- * @author mole
+ * <p>GeoUtilSingleton class.</p>
  *
+ * @author mole
+ * @version $Id: $Id
  */
 public class GeoUtilSingleton {
 
@@ -43,13 +45,18 @@ public class GeoUtilSingleton {
 		gettyPrimaryLookup = new HashMap<String,ArrayList<String>>();
 	}
 	
+	/**
+	 * <p>Getter for the field <code>instance</code>.</p>
+	 *
+	 * @return a {@link org.filteredpush.qc.georeference.util.GeoUtilSingleton} object.
+	 */
 	public static synchronized GeoUtilSingleton getInstance() {
 		return instance;
 	}
 
 	/**
 	 * Check cache of TGNCountry matches against a provided country.
-	 * 
+	 *
 	 * @param country to check for previous lookup
 	 * @return null if no match was found, otherwise the cached true or false value for
 	 * a match on that country.
@@ -67,7 +74,7 @@ public class GeoUtilSingleton {
 	
 	/**
 	 * Cache a match on a country name.
-	 * 
+	 *
 	 * @param country key to cache
 	 * @param match true or false to store in the cache, if null
 	 *  not added to the cache.
@@ -80,8 +87,8 @@ public class GeoUtilSingleton {
 	
 	/**
 	 * Obtain cache entry for match on a primary division (state/province) name
-	 * 
-	 * @param stateProvince to check 
+	 *
+	 * @param stateProvince to check
 	 * @return cached true or false value, or null if not cached.
 	 */
 	public Boolean getTgnPrimaryEntry(String stateProvince) { 
@@ -97,7 +104,7 @@ public class GeoUtilSingleton {
 	
 	/**
 	 * Cache a match on a primary division name.
-	 * 
+	 *
 	 * @param stateProvince key to cache
 	 * @param match true or false to store in the cache, if null
 	 *  not added to the cache.
@@ -108,12 +115,11 @@ public class GeoUtilSingleton {
 		}
 	}
 	
-	/** 
+	/**
 	 * Check provided country against the TGN list of nations, obtained and cached from the TGNGetNations service.
-	 * 
+	 *
 	 * @param country to check
-	 * 
-	 * @return true if country is an exact match to a value in the TGNGetNations list, false if not, null if 
+	 * @return true if country is an exact match to a value in the TGNGetNations list, false if not, null if
 	 *   obtaining the list results in an exception.
 	 */
 	public Boolean isTgnNation(String country) { 
@@ -142,25 +148,40 @@ public class GeoUtilSingleton {
 
 	
 	/**
+	 * <p>getGettyCountryLookupItem.</p>
+	 *
 	 * @return a list of names for a country the gettyCountryLookup
+	 * @param country a {@link java.lang.String} object.
 	 */
 	public List<String> getGettyCountryLookupItem(String country) {
 		return gettyCountryLookup.get(country);
 	}
 	
+	/**
+	 * <p>isGettyCountryLookupItem.</p>
+	 *
+	 * @param country a {@link java.lang.String} object.
+	 * @return a boolean.
+	 */
 	public boolean isGettyCountryLookupItem(String country) { 
 		return gettyCountryLookup.containsKey(country);
 	}
 	
 	/**
-	 * @return a list of names for a country the gettyCountryLookup
+	 * <p>addGettyCountryLookupItem.</p>
+	 *
+	 * @param country a {@link java.lang.String} object.
+	 * @param names a {@link java.util.ArrayList} object.
 	 */
 	public void addGettyCountryLookupItem(String country, ArrayList<String> names) {
 		gettyCountryLookup.put(country, names);
 	}
 	
 	/**
+	 * <p>getGettyPrimaryLookupItem.</p>
+	 *
 	 * @return a list of names for a stateProvince cached in gettyPrimaryLookup
+	 * @param stateProvince a {@link java.lang.String} object.
 	 */
 	public List<String> getGettyPrimaryLookupItem(String stateProvince) {
 		return gettyPrimaryLookup.get(stateProvince);
@@ -168,15 +189,19 @@ public class GeoUtilSingleton {
 	
 	/**
 	 * Check if a stateProvince result is cached for the Getty TGN
-	 * @param stateProvince
-	 * @return
+	 *
+	 * @param stateProvince a {@link java.lang.String} object.
+	 * @return a boolean.
 	 */
 	public boolean isGettyPrimaryLookupItem(String stateProvince) { 
 		return gettyPrimaryLookup.containsKey(stateProvince);
 	}
 	
 	/**
-	 * @return a list of names for a stateProvince cached in the the gettyCountryLookup
+	 * <p>addGettyPrimaryLookupItem.</p>
+	 *
+	 * @param stateProvince a {@link java.lang.String} object.
+	 * @param names a {@link java.util.ArrayList} object.
 	 */
 	public void addGettyPrimaryLookupItem(String stateProvince, ArrayList<String> names) {
 		gettyPrimaryLookup.put(stateProvince, names);

@@ -26,9 +26,9 @@ import java.util.Map;
 /**
  * Specific implementation of return values for an F4UF amendment result for org.filteredpush.qc.date
  * intended to implement an amendment interface from an F4UF api package at some future point.
- * 
- * @author mole
  *
+ * @author mole
+ * @version $Id: $Id
  */
 public class GeoDQAmendment implements DQAmendmentResponse {
 
@@ -36,12 +36,20 @@ public class GeoDQAmendment implements DQAmendmentResponse {
 	private Map<String,String> result;
 	private StringBuffer resultComment;
 
+	/**
+	 * <p>Constructor for GeoDQAmendment.</p>
+	 */
 	public GeoDQAmendment() {
 		setResultState(EnumDQResultState.NOT_RUN);
 		result = new HashMap<String, String>();
 		resultComment = new StringBuffer();
 	}
 	
+	/**
+	 * <p>addComment.</p>
+	 *
+	 * @param comment a {@link java.lang.String} object.
+	 */
 	public void addComment(String comment) { 
 		if (resultComment.length()>0) {
 			resultComment.append("|");
@@ -49,11 +57,18 @@ public class GeoDQAmendment implements DQAmendmentResponse {
 		resultComment.append(comment);
 	}
 
+	/**
+	 * <p>getComment.</p>
+	 *
+	 * @return a {@link java.lang.String} object.
+	 */
 	public String getComment() { 
 		return resultComment.toString();
 	}
 	
 	/**
+	 * <p>Getter for the field <code>resultState</code>.</p>
+	 *
 	 * @return the resultState
 	 */
 	public ResultState getResultState() {
@@ -61,6 +76,8 @@ public class GeoDQAmendment implements DQAmendmentResponse {
 	}
 
 	/**
+	 * <p>Setter for the field <code>resultState</code>.</p>
+	 *
 	 * @param resultState the resultState to set
 	 */
 	public void setResultState(ResultState resultState) {
@@ -68,6 +85,8 @@ public class GeoDQAmendment implements DQAmendmentResponse {
 	}
 
 	/**
+	 * <p>Getter for the field <code>result</code>.</p>
+	 *
 	 * @return the result
 	 */
 	public Map<String,String> getResult() {
@@ -76,7 +95,7 @@ public class GeoDQAmendment implements DQAmendmentResponse {
 
 	/**
 	 * Add a Darwin Core term and its value to the result.
-	 * 
+	 *
 	 * @param key the darwin core term for which a value is being provided
 	 * @param value the value provided for the key.
 	 */

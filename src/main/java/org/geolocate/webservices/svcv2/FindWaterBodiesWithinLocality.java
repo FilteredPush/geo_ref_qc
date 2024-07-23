@@ -10,9 +10,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType&gt;
  *   &lt;complexContent&gt;
@@ -24,8 +24,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
@@ -39,11 +40,8 @@ public class FindWaterBodiesWithinLocality {
 
     /**
      * Gets the value of the localityDescription property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link LocalityDescription }
-     *     
+     *
+     * @return a {@link org.geolocate.webservices.svcv2.LocalityDescription} object.
      */
     public LocalityDescription getLocalityDescription() {
         return localityDescription;
@@ -51,11 +49,10 @@ public class FindWaterBodiesWithinLocality {
 
     /**
      * Sets the value of the localityDescription property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link LocalityDescription }
-     *     
+     *     {@link org.geolocate.webservices.svcv2.LocalityDescription}
      */
     public void setLocalityDescription(LocalityDescription value) {
         this.localityDescription = value;

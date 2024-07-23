@@ -11,9 +11,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for Georef_Result_Set complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="Georef_Result_Set"&gt;
  *   &lt;complexContent&gt;
@@ -28,8 +28,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Georef_Result_Set", propOrder = {
@@ -51,11 +52,8 @@ public class GeorefResultSet {
 
     /**
      * Gets the value of the engineVersion property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getEngineVersion() {
         return engineVersion;
@@ -63,11 +61,10 @@ public class GeorefResultSet {
 
     /**
      * Sets the value of the engineVersion property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setEngineVersion(String value) {
         this.engineVersion = value;
@@ -75,7 +72,8 @@ public class GeorefResultSet {
 
     /**
      * Gets the value of the numResults property.
-     * 
+     *
+     * @return a int.
      */
     public int getNumResults() {
         return numResults;
@@ -83,7 +81,8 @@ public class GeorefResultSet {
 
     /**
      * Sets the value of the numResults property.
-     * 
+     *
+     * @param value a int.
      */
     public void setNumResults(int value) {
         this.numResults = value;
@@ -91,7 +90,8 @@ public class GeorefResultSet {
 
     /**
      * Gets the value of the executionTimems property.
-     * 
+     *
+     * @return a double.
      */
     public double getExecutionTimems() {
         return executionTimems;
@@ -99,7 +99,8 @@ public class GeorefResultSet {
 
     /**
      * Sets the value of the executionTimems property.
-     * 
+     *
+     * @param value a double.
      */
     public void setExecutionTimems(double value) {
         this.executionTimems = value;
@@ -107,25 +108,25 @@ public class GeorefResultSet {
 
     /**
      * Gets the value of the resultSet property.
-     * 
+     *
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the Jakarta XML Binding object.
      * This is why there is not a <CODE>set</CODE> method for the resultSet property.
-     * 
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getResultSet().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link GeorefResult }
-     * 
-     * 
+     * {@link org.geolocate.webservices.svcv2.GeorefResult}
+     *
+     * @return a {@link java.util.List} object.
      */
     public List<GeorefResult> getResultSet() {
         if (resultSet == null) {

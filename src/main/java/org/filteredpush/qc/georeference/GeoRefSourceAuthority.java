@@ -50,6 +50,7 @@ public class GeoRefSourceAuthority {
 	 *
 	 * @param authority the authority
 	 * @throws org.filteredpush.qc.sciname.SourceAuthorityException if the authority specified requires a sub data set specification
+	 * @throws org.filteredpush.qc.georeference.SourceAuthorityException if any.
 	 */
 	public GeoRefSourceAuthority(EnumGeoRefSourceAuthority authority) throws SourceAuthorityException { 
 		this.authority = authority;
@@ -63,6 +64,7 @@ public class GeoRefSourceAuthority {
 	 * @param authorityString a value matching the name of an item in EnumGeoRefSourceAuthority
 	 * @throws org.filteredpush.qc.sciname.SourceAuthorityException if the string is not matched to the enumeration, or if the specified
 	 *   source authority requires the specification of an authoritySubDataset.
+	 * @throws org.filteredpush.qc.georeference.SourceAuthorityException if any.
 	 */
 	public GeoRefSourceAuthority(String authorityString) throws SourceAuthorityException {
 		logger.debug(authorityString);
@@ -82,6 +84,7 @@ public class GeoRefSourceAuthority {
 	 * Construct a scientific name source authority descriptor.
 	 *
 	 * @param authority the authority to use
+	 * @param authoritySubDataset the specific authority (e.g. GBIF checklist) to use.
 	 * @param authoritySubDataset the specific authority (e.g. GBIF checklist) to use.
 	 */
 	public GeoRefSourceAuthority(EnumGeoRefSourceAuthority authority, String authoritySubDataset) {

@@ -15,16 +15,33 @@ import org.geotools.filter.text.cql2.CQLException;
 import org.geotools.filter.text.ecql.ECQL;
 
 /**
- * @author mole
+ * <p>GISDataLoader class.</p>
  *
+ * @author mole
+ * @version $Id: $Id
  */
 public class GISDataLoader {
 	
+	/**
+	 * <p>pointIsWithinLand.</p>
+	 *
+	 * @param latitude a double.
+	 * @param longitude a double.
+	 * @return a boolean.
+	 */
 	public boolean pointIsWithinLand(double latitude, double longitude) {
 		return pointIsWithinLand(latitude, longitude, false);
 	}
 	
 	
+	/**
+	 * <p>pointIsWithinLand.</p>
+	 *
+	 * @param longitude a double.
+	 * @param latitude a double.
+	 * @param invertSense a boolean.
+	 * @return a boolean.
+	 */
 	public boolean pointIsWithinLand(double longitude, double latitude, boolean invertSense) {
 		
 		boolean result = false;

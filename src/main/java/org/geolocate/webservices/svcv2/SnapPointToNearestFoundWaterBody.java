@@ -10,9 +10,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType&gt;
  *   &lt;complexContent&gt;
@@ -25,8 +25,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
@@ -43,11 +44,8 @@ public class SnapPointToNearestFoundWaterBody {
 
     /**
      * Gets the value of the localityDescription property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link LocalityDescription }
-     *     
+     *
+     * @return a {@link org.geolocate.webservices.svcv2.LocalityDescription} object.
      */
     public LocalityDescription getLocalityDescription() {
         return localityDescription;
@@ -55,11 +53,10 @@ public class SnapPointToNearestFoundWaterBody {
 
     /**
      * Sets the value of the localityDescription property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link LocalityDescription }
-     *     
+     *     {@link org.geolocate.webservices.svcv2.LocalityDescription}
      */
     public void setLocalityDescription(LocalityDescription value) {
         this.localityDescription = value;
@@ -67,11 +64,8 @@ public class SnapPointToNearestFoundWaterBody {
 
     /**
      * Gets the value of the wgs84Coordinate property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link GeographicPoint }
-     *     
+     *
+     * @return a {@link org.geolocate.webservices.svcv2.GeographicPoint} object.
      */
     public GeographicPoint getWGS84Coordinate() {
         return wgs84Coordinate;
@@ -79,11 +73,10 @@ public class SnapPointToNearestFoundWaterBody {
 
     /**
      * Sets the value of the wgs84Coordinate property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link GeographicPoint }
-     *     
+     *     {@link org.geolocate.webservices.svcv2.GeographicPoint}
      */
     public void setWGS84Coordinate(GeographicPoint value) {
         this.wgs84Coordinate = value;

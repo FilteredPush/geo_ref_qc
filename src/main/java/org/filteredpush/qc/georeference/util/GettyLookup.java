@@ -26,21 +26,22 @@ import jakarta.xml.bind.Unmarshaller;
 
 /**
  * Check country names against the Getty Thesaurus of Geographic Names (TGN).
- * 
- * @author mole
  *
+ * @author mole
+ * @version $Id: $Id
  */
 public class GettyLookup {
 
 	private static final Log logger = LogFactory.getLog(GettyLookup.class);
 	
+	/** Constant <code>GETTY_TGN="The Getty Thesaurus of Geographic Names"{trunked}</code> */
 	public static final String GETTY_TGN = "The Getty Thesaurus of Geographic Names (TGN)";
 
 	/**
 	 * Match a country name against the list of sovereign nations in the Getty TGN.
-	 * 
-	 * @param country
-	 * @return true if the country is found as a sovereign nation level entity in TGN matching 
+	 *
+	 * @param country a {@link java.lang.String} object.
+	 * @return true if the country is found as a sovereign nation level entity in TGN matching
 	 * any form of the name, false if the country is not found as a sovereign nation lavel entity
 	 * in TGN, null on an exception querying TGN.
 	 */
@@ -87,9 +88,8 @@ public class GettyLookup {
 	
 	/**
 	 * Lookup a country by preferred name only in the Getty TGN.
-	 * 
+	 *
 	 * @param country preferred name of sovereign nation level entity to look up.
-	 * 
 	 * @return true if the provided country matches a preferred name of a sovereign nation level
 	 * entity in TGN, false if it does not, null on an error querying the TGN service.
 	 */
@@ -143,11 +143,12 @@ public class GettyLookup {
 	
 	/**
 	 * Match a country name against the list of sovereign nations in the Getty TGN.
-	 * 
-	 * @param country
-	 * @return true if the country is found as a sovereign nation level entity in TGN matching 
+	 *
+	 * @param country a {@link java.lang.String} object.
+	 * @return true if the country is found as a sovereign nation level entity in TGN matching
 	 * any form of the name, false if the country is not found as a sovereign nation lavel entity
 	 * in TGN, null on an exception querying TGN.
+	 * @throws org.filteredpush.qc.georeference.util.GeorefServiceException if any.
 	 */
 	public List<String> getNamesForCountry(String country) throws GeorefServiceException { 
 
@@ -206,9 +207,9 @@ public class GettyLookup {
 	
 	/**
 	 * Match a secondary geopolitical entity (state/province) name in the the Getty TGN.
-	 * 
+	 *
 	 * @param primaryDivision the state/province to look up.
-	 * @return true if the secondaryDivision is found as an appropriate geopolitical entity in TGN matching 
+	 * @return true if the secondaryDivision is found as an appropriate geopolitical entity in TGN matching
 	 * any form of the name, false if the country is not found in TGN, null on an exception querying TGN.
 	 */
 	public Boolean lookupPrimary(String primaryDivision) { 

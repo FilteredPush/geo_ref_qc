@@ -9,6 +9,9 @@ import java.util.List;
  * Date: 02.10.2013
  * Time: 14:31
  * To change this template use File | Settings | File Templates.
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 public class GeoRefDBCache implements Cache {
 
@@ -17,6 +20,9 @@ public class GeoRefDBCache implements Cache {
     PreparedStatement ps = null;
     PreparedStatement ps2 = null;
 
+    /**
+     * <p>Constructor for GeoRefDBCache.</p>
+     */
     public GeoRefDBCache() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -43,6 +49,7 @@ public class GeoRefDBCache implements Cache {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public String lookup(List<String> key) {
         ResultSet rs = null;
@@ -80,6 +87,7 @@ public class GeoRefDBCache implements Cache {
         return null;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void insert(List<String> entry) {
         try {

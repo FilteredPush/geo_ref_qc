@@ -8,47 +8,55 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Exception for failures on using services by georeference utility classes.
- * 
- * @author mole
  *
+ * @author mole
+ * @version $Id: $Id
  */
 public class GeorefServiceException extends Exception {
 
 	private static final Log logger = LogFactory.getLog(GeorefServiceException.class);
 
 	/**
-	 * 
+	 * <p>Constructor for GeorefServiceException.</p>
 	 */
 	public GeorefServiceException() {
 	}
 
 	/**
-	 * @param message
+	 * <p>Constructor for GeorefServiceException.</p>
+	 *
+	 * @param message a {@link java.lang.String} object.
 	 */
 	public GeorefServiceException(String message) {
 		super(message);
 	}
 
 	/**
-	 * @param cause
+	 * <p>Constructor for GeorefServiceException.</p>
+	 *
+	 * @param cause a {@link java.lang.Throwable} object.
 	 */
 	public GeorefServiceException(Throwable cause) {
 		super(cause);
 	}
 
 	/**
-	 * @param message
-	 * @param cause
+	 * <p>Constructor for GeorefServiceException.</p>
+	 *
+	 * @param message a {@link java.lang.String} object.
+	 * @param cause a {@link java.lang.Throwable} object.
 	 */
 	public GeorefServiceException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
 	/**
-	 * @param message
-	 * @param cause
-	 * @param enableSuppression
-	 * @param writableStackTrace
+	 * <p>Constructor for GeorefServiceException.</p>
+	 *
+	 * @param message a {@link java.lang.String} object.
+	 * @param cause a {@link java.lang.Throwable} object.
+	 * @param enableSuppression a boolean.
+	 * @param writableStackTrace a boolean.
 	 */
 	public GeorefServiceException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);

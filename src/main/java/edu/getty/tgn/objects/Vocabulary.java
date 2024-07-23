@@ -22,9 +22,9 @@ import jakarta.xml.bind.annotation.XmlValue;
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>{@code
  * <complexType>
  *   <complexContent>
@@ -66,8 +66,9 @@ import jakarta.xml.bind.annotation.XmlValue;
  *   </complexContent>
  * </complexType>
  * }</pre>
- * 
- * 
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
@@ -84,11 +85,8 @@ public class Vocabulary {
 
     /**
      * Gets the value of the count property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
+     *
+     * @return a {@link java.math.BigInteger} object.
      */
     public BigInteger getCount() {
         return count;
@@ -96,11 +94,10 @@ public class Vocabulary {
 
     /**
      * Sets the value of the count property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link BigInteger }
-     *     
+     *     {@link java.math.BigInteger}
      */
     public void setCount(BigInteger value) {
         this.count = value;
@@ -108,27 +105,25 @@ public class Vocabulary {
 
     /**
      * Gets the value of the subject property.
-     * 
+     *
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the Jakarta XML Binding object.
      * This is why there is not a {@code set} method for the subject property.
-     * 
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getSubject().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Vocabulary.Subject }
-     * 
-     * 
-     * @return
-     *     The value of the subject property.
+     * {@link edu.getty.tgn.objects.Vocabulary.Subject}
+     *
+     * @return a {@link java.util.List} object.
      */
     public List<Vocabulary.Subject> getSubject() {
         if (subject == null) {

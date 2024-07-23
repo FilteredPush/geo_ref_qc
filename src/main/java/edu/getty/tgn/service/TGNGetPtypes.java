@@ -10,9 +10,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType&gt;
  *   &lt;complexContent&gt;
@@ -25,8 +25,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
@@ -43,11 +44,8 @@ public class TGNGetPtypes {
 
     /**
      * Gets the value of the ptypeId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getPtypeId() {
         return ptypeId;
@@ -55,11 +53,10 @@ public class TGNGetPtypes {
 
     /**
      * Sets the value of the ptypeId property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setPtypeId(String value) {
         this.ptypeId = value;
@@ -67,11 +64,8 @@ public class TGNGetPtypes {
 
     /**
      * Gets the value of the ptypeText property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getPtypeText() {
         return ptypeText;
@@ -79,11 +73,10 @@ public class TGNGetPtypes {
 
     /**
      * Sets the value of the ptypeText property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setPtypeText(String value) {
         this.ptypeText = value;

@@ -37,9 +37,9 @@ import org.datakurator.ffdq.model.ResultState;
 
 /**
  * Selfstanding execution of geo_ref_qc functionality.  Can run TG2 Space related tests on flat DarwinCore.
- * 
- * @author mole
  *
+ * @author mole
+ * @version $Id: $Id
  */
 public class Runner {
 
@@ -47,7 +47,7 @@ public class Runner {
 
 	/**
 	 * Execute Runner from the command line.
-	 * 
+	 *
 	 * @param args -e runTests with -f {filename} -h
 	 */
 	public static void main(String[] args) {

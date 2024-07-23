@@ -9,9 +9,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for Georef_Result complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="Georef_Result"&gt;
  *   &lt;complexContent&gt;
@@ -32,8 +32,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Georef_Result", propOrder = {
@@ -73,11 +74,8 @@ public class GeorefResult {
 
     /**
      * Gets the value of the wgs84Coordinate property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link GeographicPoint }
-     *     
+     *
+     * @return a {@link org.geolocate.webservices.svcv2.GeographicPoint} object.
      */
     public GeographicPoint getWGS84Coordinate() {
         return wgs84Coordinate;
@@ -85,11 +83,10 @@ public class GeorefResult {
 
     /**
      * Sets the value of the wgs84Coordinate property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link GeographicPoint }
-     *     
+     *     {@link org.geolocate.webservices.svcv2.GeographicPoint}
      */
     public void setWGS84Coordinate(GeographicPoint value) {
         this.wgs84Coordinate = value;
@@ -97,11 +94,8 @@ public class GeorefResult {
 
     /**
      * Gets the value of the parsePattern property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getParsePattern() {
         return parsePattern;
@@ -109,11 +103,10 @@ public class GeorefResult {
 
     /**
      * Sets the value of the parsePattern property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setParsePattern(String value) {
         this.parsePattern = value;
@@ -121,11 +114,8 @@ public class GeorefResult {
 
     /**
      * Gets the value of the precision property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getPrecision() {
         return precision;
@@ -133,11 +123,10 @@ public class GeorefResult {
 
     /**
      * Sets the value of the precision property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setPrecision(String value) {
         this.precision = value;
@@ -145,7 +134,8 @@ public class GeorefResult {
 
     /**
      * Gets the value of the score property.
-     * 
+     *
+     * @return a int.
      */
     public int getScore() {
         return score;
@@ -153,7 +143,8 @@ public class GeorefResult {
 
     /**
      * Sets the value of the score property.
-     * 
+     *
+     * @param value a int.
      */
     public void setScore(int value) {
         this.score = value;
@@ -161,11 +152,8 @@ public class GeorefResult {
 
     /**
      * Gets the value of the uncertaintyRadiusMeters property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getUncertaintyRadiusMeters() {
         return uncertaintyRadiusMeters;
@@ -173,11 +161,10 @@ public class GeorefResult {
 
     /**
      * Sets the value of the uncertaintyRadiusMeters property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setUncertaintyRadiusMeters(String value) {
         this.uncertaintyRadiusMeters = value;
@@ -185,11 +172,8 @@ public class GeorefResult {
 
     /**
      * Gets the value of the uncertaintyPolygon property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getUncertaintyPolygon() {
         return uncertaintyPolygon;
@@ -197,11 +181,10 @@ public class GeorefResult {
 
     /**
      * Sets the value of the uncertaintyPolygon property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setUncertaintyPolygon(String value) {
         this.uncertaintyPolygon = value;
@@ -209,11 +192,8 @@ public class GeorefResult {
 
     /**
      * Gets the value of the referenceLocation property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getReferenceLocation() {
         return referenceLocation;
@@ -221,11 +201,10 @@ public class GeorefResult {
 
     /**
      * Sets the value of the referenceLocation property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setReferenceLocation(String value) {
         this.referenceLocation = value;
@@ -233,7 +212,8 @@ public class GeorefResult {
 
     /**
      * Gets the value of the displacedDistanceMiles property.
-     * 
+     *
+     * @return a double.
      */
     public double getDisplacedDistanceMiles() {
         return displacedDistanceMiles;
@@ -241,7 +221,8 @@ public class GeorefResult {
 
     /**
      * Sets the value of the displacedDistanceMiles property.
-     * 
+     *
+     * @param value a double.
      */
     public void setDisplacedDistanceMiles(double value) {
         this.displacedDistanceMiles = value;
@@ -249,7 +230,8 @@ public class GeorefResult {
 
     /**
      * Gets the value of the displacedHeadingDegrees property.
-     * 
+     *
+     * @return a double.
      */
     public double getDisplacedHeadingDegrees() {
         return displacedHeadingDegrees;
@@ -257,7 +239,8 @@ public class GeorefResult {
 
     /**
      * Sets the value of the displacedHeadingDegrees property.
-     * 
+     *
+     * @param value a double.
      */
     public void setDisplacedHeadingDegrees(double value) {
         this.displacedHeadingDegrees = value;
@@ -265,11 +248,8 @@ public class GeorefResult {
 
     /**
      * Gets the value of the debug property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getDebug() {
         return debug;
@@ -277,11 +257,10 @@ public class GeorefResult {
 
     /**
      * Sets the value of the debug property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setDebug(String value) {
         this.debug = value;

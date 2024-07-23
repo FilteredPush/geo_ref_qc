@@ -10,9 +10,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType&gt;
  *   &lt;complexContent&gt;
@@ -35,8 +35,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
@@ -79,11 +80,8 @@ public class Georef2PlusBG {
 
     /**
      * Gets the value of the country property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getCountry() {
         return country;
@@ -91,11 +89,10 @@ public class Georef2PlusBG {
 
     /**
      * Sets the value of the country property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setCountry(String value) {
         this.country = value;
@@ -103,11 +100,8 @@ public class Georef2PlusBG {
 
     /**
      * Gets the value of the state property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getState() {
         return state;
@@ -115,11 +109,10 @@ public class Georef2PlusBG {
 
     /**
      * Sets the value of the state property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setState(String value) {
         this.state = value;
@@ -127,11 +120,8 @@ public class Georef2PlusBG {
 
     /**
      * Gets the value of the county property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getCounty() {
         return county;
@@ -139,11 +129,10 @@ public class Georef2PlusBG {
 
     /**
      * Sets the value of the county property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setCounty(String value) {
         this.county = value;
@@ -151,11 +140,8 @@ public class Georef2PlusBG {
 
     /**
      * Gets the value of the localityString property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getLocalityString() {
         return localityString;
@@ -163,11 +149,10 @@ public class Georef2PlusBG {
 
     /**
      * Sets the value of the localityString property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setLocalityString(String value) {
         this.localityString = value;
@@ -175,7 +160,8 @@ public class Georef2PlusBG {
 
     /**
      * Gets the value of the hwyX property.
-     * 
+     *
+     * @return a boolean.
      */
     public boolean isHwyX() {
         return hwyX;
@@ -183,7 +169,8 @@ public class Georef2PlusBG {
 
     /**
      * Sets the value of the hwyX property.
-     * 
+     *
+     * @param value a boolean.
      */
     public void setHwyX(boolean value) {
         this.hwyX = value;
@@ -191,7 +178,8 @@ public class Georef2PlusBG {
 
     /**
      * Gets the value of the findWaterbody property.
-     * 
+     *
+     * @return a boolean.
      */
     public boolean isFindWaterbody() {
         return findWaterbody;
@@ -199,7 +187,8 @@ public class Georef2PlusBG {
 
     /**
      * Sets the value of the findWaterbody property.
-     * 
+     *
+     * @param value a boolean.
      */
     public void setFindWaterbody(boolean value) {
         this.findWaterbody = value;
@@ -207,7 +196,8 @@ public class Georef2PlusBG {
 
     /**
      * Gets the value of the restrictToLowestAdm property.
-     * 
+     *
+     * @return a boolean.
      */
     public boolean isRestrictToLowestAdm() {
         return restrictToLowestAdm;
@@ -215,7 +205,8 @@ public class Georef2PlusBG {
 
     /**
      * Sets the value of the restrictToLowestAdm property.
-     * 
+     *
+     * @param value a boolean.
      */
     public void setRestrictToLowestAdm(boolean value) {
         this.restrictToLowestAdm = value;
@@ -223,7 +214,8 @@ public class Georef2PlusBG {
 
     /**
      * Gets the value of the doUncert property.
-     * 
+     *
+     * @return a boolean.
      */
     public boolean isDoUncert() {
         return doUncert;
@@ -231,7 +223,8 @@ public class Georef2PlusBG {
 
     /**
      * Sets the value of the doUncert property.
-     * 
+     *
+     * @param value a boolean.
      */
     public void setDoUncert(boolean value) {
         this.doUncert = value;
@@ -239,7 +232,8 @@ public class Georef2PlusBG {
 
     /**
      * Gets the value of the doPoly property.
-     * 
+     *
+     * @return a boolean.
      */
     public boolean isDoPoly() {
         return doPoly;
@@ -247,7 +241,8 @@ public class Georef2PlusBG {
 
     /**
      * Sets the value of the doPoly property.
-     * 
+     *
+     * @param value a boolean.
      */
     public void setDoPoly(boolean value) {
         this.doPoly = value;
@@ -255,7 +250,8 @@ public class Georef2PlusBG {
 
     /**
      * Gets the value of the displacePoly property.
-     * 
+     *
+     * @return a boolean.
      */
     public boolean isDisplacePoly() {
         return displacePoly;
@@ -263,7 +259,8 @@ public class Georef2PlusBG {
 
     /**
      * Sets the value of the displacePoly property.
-     * 
+     *
+     * @param value a boolean.
      */
     public void setDisplacePoly(boolean value) {
         this.displacePoly = value;
@@ -271,7 +268,8 @@ public class Georef2PlusBG {
 
     /**
      * Gets the value of the polyAsLinkID property.
-     * 
+     *
+     * @return a boolean.
      */
     public boolean isPolyAsLinkID() {
         return polyAsLinkID;
@@ -279,7 +277,8 @@ public class Georef2PlusBG {
 
     /**
      * Sets the value of the polyAsLinkID property.
-     * 
+     *
+     * @param value a boolean.
      */
     public void setPolyAsLinkID(boolean value) {
         this.polyAsLinkID = value;
@@ -287,7 +286,8 @@ public class Georef2PlusBG {
 
     /**
      * Gets the value of the languageKey property.
-     * 
+     *
+     * @return a int.
      */
     public int getLanguageKey() {
         return languageKey;
@@ -295,7 +295,8 @@ public class Georef2PlusBG {
 
     /**
      * Sets the value of the languageKey property.
-     * 
+     *
+     * @param value a int.
      */
     public void setLanguageKey(int value) {
         this.languageKey = value;

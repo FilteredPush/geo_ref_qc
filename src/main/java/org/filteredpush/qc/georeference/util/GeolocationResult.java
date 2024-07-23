@@ -18,7 +18,7 @@ import org.geolocate.webservices.svcv2.GeorefResultSet;
  * Representation of a single georeference assertion as made by GeoLocate's service.
  *
  * @author mole
- *
+ * @version $Id: $Id
  */
 public class GeolocationResult implements Serializable {
 
@@ -26,6 +26,7 @@ public class GeolocationResult implements Serializable {
 
 	private static final Log logger = LogFactory.getLog(GeolocationResult.class);
 
+	/** Constant <code>MIN_SCORE_THRESHOLD=25</code> */
 	public static final int MIN_SCORE_THRESHOLD = 25;
 
 	private Double latitude;
@@ -34,10 +35,13 @@ public class GeolocationResult implements Serializable {
 	private Integer confidence;
 	private String parseString;
 	/**
-	 * @param latitude
-	 * @param longitude
-	 * @param confidence
-	 * @param parseString
+	 * <p>Constructor for GeolocationResult.</p>
+	 *
+	 * @param latitude a double.
+	 * @param longitude a double.
+	 * @param confidence a int.
+	 * @param parseString a {@link java.lang.String} object.
+	 * @param coordinateUncertainty a int.
 	 */
 	public GeolocationResult(double latitude, double longitude, int coordinateUncertainty, int confidence,
 			String parseString) {
@@ -49,12 +53,24 @@ public class GeolocationResult implements Serializable {
 		this.coordinateUncertainty = coordinateUncertainty;
 	}
 
+	/**
+	 * <p>constructFromXML.</p>
+	 *
+	 * @param geolocateXmlResult a {@link org.dom4j.Document} object.
+	 * @return a {@link java.util.List} object.
+	 */
 	public static List<GeolocationResult> constructFromXML(Document geolocateXmlResult) {
 		ArrayList<GeolocationResult> result = new ArrayList<GeolocationResult>();
 
 		return result;
 	}
 
+	/**
+	 * <p>constructFromGeolocateResultSet.</p>
+	 *
+	 * @param results a {@link org.geolocate.webservices.svcv2.GeorefResultSet} object.
+	 * @return a {@link java.util.List} object.
+	 */
 	public static List<GeolocationResult> constructFromGeolocateResultSet(GeorefResultSet results) {
 		ArrayList<GeolocationResult> resultList = new ArrayList<GeolocationResult>();
 		if (results !=null && results.getNumResults()>0) {
@@ -85,6 +101,15 @@ public class GeolocationResult implements Serializable {
 		return resultList;
 	}
 
+	/**
+	 * <p>isLocationNearAResult.</p>
+	 *
+	 * @param latitude a double.
+	 * @param longitude a double.
+	 * @param toCompare a {@link java.util.List} object.
+	 * @param thresholdDistanceMeters a int.
+	 * @return a boolean.
+	 */
 	public static boolean isLocationNearAResult(double latitude, double longitude, List<GeolocationResult> toCompare, int thresholdDistanceMeters) {
 		boolean result = false;
 		if (toCompare!=null && toCompare.size()>0) {
@@ -107,6 +132,15 @@ public class GeolocationResult implements Serializable {
 	}
 
 
+	/**
+	 * <p>getCachableNearAResult.</p>
+	 *
+	 * @param latitude a double.
+	 * @param longitude a double.
+	 * @param toCompare a {@link java.util.List} object.
+	 * @param thresholdDistanceMeters a int.
+	 * @return a {@link org.filteredpush.qc.georeference.util.GeoRefCacheValue} object.
+	 */
 	public static GeoRefCacheValue getCachableNearAResult(double latitude, double longitude, List<GeolocationResult> toCompare, int thresholdDistanceMeters) {
 		GeoRefCacheValue result = null;
 		if (toCompare!=null && toCompare.size()>0) {
@@ -132,60 +166,80 @@ public class GeolocationResult implements Serializable {
 	}
 
 	/**
+	 * <p>Getter for the field <code>latitude</code>.</p>
+	 *
 	 * @return the latitude
 	 */
 	public Double getLatitude() {
 		return latitude;
 	}
 	/**
+	 * <p>Setter for the field <code>latitude</code>.</p>
+	 *
 	 * @param latitude the latitude to set
 	 */
 	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 	/**
+	 * <p>Getter for the field <code>longitude</code>.</p>
+	 *
 	 * @return the longitude
 	 */
 	public Double getLongitude() {
 		return longitude;
 	}
 	/**
+	 * <p>Setter for the field <code>longitude</code>.</p>
+	 *
 	 * @param longitude the longitude to set
 	 */
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 	/**
+	 * <p>getCoordinateUncertaintyMeters.</p>
+	 *
 	 * @return the coordinateUncertainty
 	 */
 	public Integer getCoordinateUncertaintyMeters() {
 		return coordinateUncertainty;
 	}
 	/**
+	 * <p>setCoordinateUncertaintyMeters.</p>
+	 *
 	 * @param coordinateUncertainty the coordinateUncertainty to set
 	 */
 	public void setCoordinateUncertaintyMeters(Integer coordinateUncertainty) {
 		this.coordinateUncertainty = coordinateUncertainty;
 	}
 	/**
+	 * <p>Getter for the field <code>confidence</code>.</p>
+	 *
 	 * @return the confidence
 	 */
 	public Integer getConfidence() {
 		return confidence;
 	}
 	/**
+	 * <p>Setter for the field <code>confidence</code>.</p>
+	 *
 	 * @param confidence the confidence to set
 	 */
 	public void setConfidence(Integer confidence) {
 		this.confidence = confidence;
 	}
 	/**
+	 * <p>Getter for the field <code>parseString</code>.</p>
+	 *
 	 * @return the parseString
 	 */
 	public String getParseString() {
 		return parseString;
 	}
 	/**
+	 * <p>Setter for the field <code>parseString</code>.</p>
+	 *
 	 * @param parseString the parseString to set
 	 */
 	public void setParseString(String parseString) {

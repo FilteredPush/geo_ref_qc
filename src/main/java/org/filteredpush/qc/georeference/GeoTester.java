@@ -37,6 +37,9 @@ import java.util.concurrent.Executors;
 
 /**
  * Georeference validation utility based on org.filteredpush.qc.georeference.util.GEOUtil
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 public class GeoTester {
     private final ExecutorService executor = Executors.newFixedThreadPool(8);
@@ -45,6 +48,11 @@ public class GeoTester {
     private Map<String, MultiPolygon> countryPolys = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private Map<String, Map<String, MultiPolygon>> countryPrimaryDivisions = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
+    /**
+     * <p>Constructor for GeoTester.</p>
+     *
+     * @throws java.io.IOException if any.
+     */
     public GeoTester() throws IOException {
         // Preload the shapefile polygons into HashMaps as a cheap index on country and stateProvince
         loadCountryPolys();
@@ -115,6 +123,14 @@ public class GeoTester {
         }
     }
 
+    /**
+     * <p>isPointInCountry.</p>
+     *
+     * @param country a {@link java.lang.String} object.
+     * @param latitude a double.
+     * @param longitude a double.
+     * @return a boolean.
+     */
     public boolean isPointInCountry(String country, double latitude, double longitude) {
         if (!countryPolys.containsKey(country)) {
             return false;
@@ -124,6 +140,15 @@ public class GeoTester {
         return polygon.contains(geometryFactory.createPoint(new Coordinate(longitude, latitude)));
     }
 
+    /**
+     * <p>isPointNearCountry.</p>
+     *
+     * @param country a {@link java.lang.String} object.
+     * @param latitude a double.
+     * @param longitude a double.
+     * @param distanceKm a double.
+     * @return a boolean.
+     */
     public boolean isPointNearCountry(String country, double latitude, double longitude, double distanceKm) {
         if (!countryPolys.containsKey(country)) {
             return false;
@@ -137,6 +162,15 @@ public class GeoTester {
         return polygon.isWithinDistance(geometryFactory.createPoint(new Coordinate(longitude, latitude)), distanceD);
     }
 
+    /**
+     * <p>isPointInPrimary.</p>
+     *
+     * @param country a {@link java.lang.String} object.
+     * @param primaryDivision a {@link java.lang.String} object.
+     * @param latitude a double.
+     * @param longitude a double.
+     * @return a boolean.
+     */
     public boolean isPointInPrimary(String country, String primaryDivision, double latitude, double longitude) {
         // Standardize country names first
         if (country.toLowerCase().equals("united states")) {
@@ -157,6 +191,16 @@ public class GeoTester {
         return polygon.contains(geometryFactory.createPoint(new Coordinate(longitude, latitude)));
     }
 
+    /**
+     * <p>isPointNearPrimary.</p>
+     *
+     * @param country a {@link java.lang.String} object.
+     * @param primaryDivision a {@link java.lang.String} object.
+     * @param latitude a double.
+     * @param longitude a double.
+     * @param distanceKm a double.
+     * @return a boolean.
+     */
     public boolean isPointNearPrimary(String country, String primaryDivision, double latitude, double longitude, double distanceKm) {
         // GeoTools ignores units, uses units of underlying projection (degrees in this case), fudge by dividing km by
         // number of km in one degree of latitude (this will describe a wide ellipse far north or south).
@@ -181,10 +225,23 @@ public class GeoTester {
         return polygon.isWithinDistance(geometryFactory.createPoint(new Coordinate(longitude, latitude)), distanceD);
     }
 
+    /**
+     * <p>isCountryKnown.</p>
+     *
+     * @param country a {@link java.lang.String} object.
+     * @return a boolean.
+     */
     public boolean isCountryKnown(String country) {
         return countryPolys.containsKey(country);
     }
 
+    /**
+     * <p>isPrimaryKnown.</p>
+     *
+     * @param country a {@link java.lang.String} object.
+     * @param primaryDivision a {@link java.lang.String} object.
+     * @return a boolean.
+     */
     public boolean isPrimaryKnown(String country, String primaryDivision) {
         // Standardize country names first
         if (country.toLowerCase().equals("united states")) {
@@ -199,6 +256,11 @@ public class GeoTester {
         return primaryDivisions.containsKey(primaryDivision);
     }
 
+    /**
+     * <p>validate.</p>
+     *
+     * @param record a {@link java.util.Map} object.
+     */
     public void validate(final Map<String, String> record) {
         executor.execute(new Runnable() {
             @Override
@@ -235,10 +297,19 @@ public class GeoTester {
         });
     }
 
+    /**
+     * <p>close.</p>
+     */
     public void close() {
         executor.shutdown();
     }
 
+    /**
+     * <p>main.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     * @throws java.io.IOException if any.
+     */
     public static void main(String[] args) throws IOException {
 
         GeoTester tester = new GeoTester();

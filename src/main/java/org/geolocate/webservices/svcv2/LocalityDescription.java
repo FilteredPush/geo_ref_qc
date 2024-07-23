@@ -9,9 +9,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for LocalityDescription complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="LocalityDescription"&gt;
  *   &lt;complexContent&gt;
@@ -26,8 +26,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LocalityDescription", propOrder = {
@@ -49,11 +50,8 @@ public class LocalityDescription {
 
     /**
      * Gets the value of the localityString property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getLocalityString() {
         return localityString;
@@ -61,11 +59,10 @@ public class LocalityDescription {
 
     /**
      * Sets the value of the localityString property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setLocalityString(String value) {
         this.localityString = value;
@@ -73,11 +70,8 @@ public class LocalityDescription {
 
     /**
      * Gets the value of the country property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getCountry() {
         return country;
@@ -85,11 +79,10 @@ public class LocalityDescription {
 
     /**
      * Sets the value of the country property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setCountry(String value) {
         this.country = value;
@@ -97,11 +90,8 @@ public class LocalityDescription {
 
     /**
      * Gets the value of the state property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getState() {
         return state;
@@ -109,11 +99,10 @@ public class LocalityDescription {
 
     /**
      * Sets the value of the state property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setState(String value) {
         this.state = value;
@@ -121,11 +110,8 @@ public class LocalityDescription {
 
     /**
      * Gets the value of the county property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getCounty() {
         return county;
@@ -133,11 +119,10 @@ public class LocalityDescription {
 
     /**
      * Sets the value of the county property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setCounty(String value) {
         this.county = value;

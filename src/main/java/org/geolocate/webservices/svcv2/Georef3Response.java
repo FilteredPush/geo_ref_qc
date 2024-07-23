@@ -10,9 +10,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType&gt;
  *   &lt;complexContent&gt;
@@ -24,8 +24,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
@@ -39,11 +40,8 @@ public class Georef3Response {
 
     /**
      * Gets the value of the result property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link GeorefResultSet }
-     *     
+     *
+     * @return a {@link org.geolocate.webservices.svcv2.GeorefResultSet} object.
      */
     public GeorefResultSet getResult() {
         return result;
@@ -51,11 +49,10 @@ public class Georef3Response {
 
     /**
      * Sets the value of the result property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link GeorefResultSet }
-     *     
+     *     {@link org.geolocate.webservices.svcv2.GeorefResultSet}
      */
     public void setResult(GeorefResultSet value) {
         this.result = value;

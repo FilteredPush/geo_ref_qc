@@ -19,39 +19,81 @@ package org.filteredpush.qc.georeference.util;
 
 /**
  * Created by tianhong on 3/4/15.
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 public class CacheValue {
 
     CurationStatus status;
     String comment;
     String source;
+    /**
+     * <p>Setter for the field <code>status</code>.</p>
+     *
+     * @param status a {@link org.filteredpush.qc.georeference.util.CurationStatus} object.
+     * @return a {@link org.filteredpush.qc.georeference.util.CacheValue} object.
+     */
     public CacheValue setStatus(CurationStatus status){
         this.status = status;
         return this;
     }
 
+    /**
+     * <p>Setter for the field <code>comment</code>.</p>
+     *
+     * @param comment a {@link java.lang.String} object.
+     * @return a {@link org.filteredpush.qc.georeference.util.CacheValue} object.
+     */
     public CacheValue setComment(String comment){
         this.comment = comment;
         return this;
     }
 
+    /**
+     * <p>Setter for the field <code>source</code>.</p>
+     *
+     * @param source a {@link java.lang.String} object.
+     * @return a {@link org.filteredpush.qc.georeference.util.CacheValue} object.
+     */
     public CacheValue setSource(String source){
         this.source = source;
         return this;
     }
 
+    /**
+     * <p>Getter for the field <code>status</code>.</p>
+     *
+     * @return a {@link org.filteredpush.qc.georeference.util.CurationStatus} object.
+     */
     public CurationStatus getStatus(){
         return status;
     }
 
+    /**
+     * <p>Getter for the field <code>comment</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getComment(){
         return comment;
     }
 
+    /**
+     * <p>Getter for the field <code>source</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getSource(){
         return source;
     }
 
+    /**
+     * <p>equals.</p>
+     *
+     * @param newValue a {@link org.filteredpush.qc.georeference.util.CacheValue} object.
+     * @return a boolean.
+     */
     public boolean equals(CacheValue newValue){
         if(comment.equals(newValue.getComment()) && source.equals(newValue.getSource()) && status.equals(newValue.getStatus())) return true;
         else return false;

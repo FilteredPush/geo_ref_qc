@@ -24,9 +24,9 @@ import org.datakurator.ffdq.api.ResultState;
 /**
  * Specific implementation of return values for an F4UF validation result for org.filteredpush.qc.date
  * intended to implement an validation interface from an F4UF api package at some future point.
- * 
- * @author mole
  *
+ * @author mole
+ * @version $Id: $Id
  */
 public class GeoDQValidation implements DQValidationResponse {
 
@@ -34,12 +34,20 @@ public class GeoDQValidation implements DQValidationResponse {
 	private EnumDQValidationResult result;
 	private StringBuffer resultComment;
 
+	/**
+	 * <p>Constructor for GeoDQValidation.</p>
+	 */
 	public GeoDQValidation() {
 		setResultState(EnumDQResultState.NOT_RUN);
 		setResult(null);
 		resultComment = new StringBuffer();
 	}
 	
+	/**
+	 * <p>addComment.</p>
+	 *
+	 * @param comment a {@link java.lang.String} object.
+	 */
 	public void addComment(String comment) { 
 		if (resultComment.length()>0) {
 			resultComment.append("|");
@@ -47,11 +55,18 @@ public class GeoDQValidation implements DQValidationResponse {
 		resultComment.append(comment);
 	}
 
+	/**
+	 * <p>getComment.</p>
+	 *
+	 * @return a {@link java.lang.String} object.
+	 */
 	public String getComment() { 
 		return resultComment.toString();
 	}
 	
 	/**
+	 * <p>Getter for the field <code>resultState</code>.</p>
+	 *
 	 * @return the resultState
 	 */
 	public ResultState getResultState() {
@@ -59,6 +74,8 @@ public class GeoDQValidation implements DQValidationResponse {
 	}
 
 	/**
+	 * <p>Setter for the field <code>resultState</code>.</p>
+	 *
 	 * @param resultState the resultState to set
 	 */
 	public void setResultState(ResultState resultState) {
@@ -67,6 +84,8 @@ public class GeoDQValidation implements DQValidationResponse {
 
 
 	/**
+	 * <p>Getter for the field <code>result</code>.</p>
+	 *
 	 * @return the result
 	 */
 	public EnumDQValidationResult getResult() {
@@ -74,6 +93,8 @@ public class GeoDQValidation implements DQValidationResponse {
 	}
 
 	/**
+	 * <p>Setter for the field <code>result</code>.</p>
+	 *
 	 * @param result the result to set
 	 */
 	public void setResult(EnumDQValidationResult result) {

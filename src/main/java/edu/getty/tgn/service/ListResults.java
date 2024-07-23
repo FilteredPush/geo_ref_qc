@@ -9,9 +9,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for List_Results complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="List_Results"&gt;
  *   &lt;complexContent&gt;
@@ -24,8 +24,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "List_Results", propOrder = {
@@ -41,11 +42,8 @@ public class ListResults {
 
     /**
      * Gets the value of the listId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getListId() {
         return listId;
@@ -53,11 +51,10 @@ public class ListResults {
 
     /**
      * Sets the value of the listId property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setListId(String value) {
         this.listId = value;
@@ -65,11 +62,8 @@ public class ListResults {
 
     /**
      * Gets the value of the listValue property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getListValue() {
         return listValue;
@@ -77,11 +71,10 @@ public class ListResults {
 
     /**
      * Sets the value of the listValue property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setListValue(String value) {
         this.listValue = value;

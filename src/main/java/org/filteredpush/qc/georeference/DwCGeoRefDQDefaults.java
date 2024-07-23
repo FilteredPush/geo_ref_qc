@@ -18,13 +18,13 @@ import org.datakurator.ffdq.api.result.ComplianceValue;
 import org.filteredpush.qc.georeference.util.GettyLookup;
 
 /**
- * Provides methods for parameterized SPACE tests without the bdq:parameters as method parameters, 
+ * Provides methods for parameterized SPACE tests without the bdq:parameters as method parameters,
  * with the method signatures only providing the information elements under test as method parameters.
- * Each method here is just a wrapper for the parameterized method in DwCGeoRefDQ, specifying the 
- * default values for each bdq:parameter. 
- * 
- * @author mole
+ * Each method here is just a wrapper for the parameterized method in DwCGeoRefDQ, specifying the
+ * default values for each bdq:parameter.
  *
+ * @author mole
+ * @version $Id: $Id
  */
 public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
 
@@ -48,17 +48,17 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     	return (DwCGeoRefDQ.validationMaxdepthInrange(maximumDepthInMeters, 0d, 11000d));
     }
 	
-    /**
+   /**
     * Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty.
     * uses the default parameter value.
     *
     * Provides: 102 AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT
     *
-    * @param coordinateUncertantyInMeters the provided dwc:coordinateUncertantyInMeters to evaluate
     * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
     * @return DQResponse the response of type AmendmentValue to return
+    * @param coordinateUncertaintyInMeters a {@link java.lang.String} object.
     */
    @Amendment(label="AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT", description="Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty.")
    @Provides("7498ca76-c4d4-42e2-8103-acacccbdffa7")
@@ -95,7 +95,7 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
      *
      * Provides: #112 VALIDATION_MAXELEVATION_INRANGE
      * Version: 2022-03-26
-     * 
+     *
      * Uses Default values: bdq:minimumValidElevationInMeters="-430", bdq:maximumValidElevationInMeters="8850"
      *
      * @param maximumElevationInMeters the provided dwc:maximumElevationInMeters to evaluate
@@ -131,7 +131,7 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     
     /**
      * Does the value of dwc:country occur in bdq:sourceAuthority?  Using the default source authority "The Getty Thesaurus of Geographic Names (TGN)"
-     * 
+     *
      * #21 Validation SingleRecord Conformance: country notstandard
      *
      * Provides: VALIDATION_COUNTRY_FOUND
@@ -149,7 +149,7 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     }
     
     /**
-     * Does the value of dwc:stateProvince occur in bdq:sourceAuthority? 
+     * Does the value of dwc:stateProvince occur in bdq:sourceAuthority?
      * using the default stateProvince of "The Getty Thesaurus of Geographic Names (TGN)"
      *
      * Provides: VALIDATION_STATEPROVINCE_FOUND
@@ -170,16 +170,16 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     
     /**
      * Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?
-     * 
+     *
      * Uses the default parameter values:
      * bdq:sourceAuthority default = "ADM1 boundaries" [https://gadm.org]  UNION with "EEZs" [https://marineregions.org]
-     * bdq:spatialBufferInMeters default = "3000" 
-     * 
+     * bdq:spatialBufferInMeters default = "3000"
+     *
      * #50 Validation SingleRecord Consistency: coordinates countrycode inconsistent
      *
      * Provides: #50 VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT
      * Version: 2023-02-27
-     * 
+     *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate

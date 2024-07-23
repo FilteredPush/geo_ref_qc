@@ -20,9 +20,9 @@ import java.util.Map;
 
 /**
  * Class to carry structured results (result plus metadata) from method calls in org.filteredpush.qc.georeference.
- * 
- * @author mole
  *
+ * @author mole
+ * @version $Id: $Id
  */
 public class GeoResult {
 	
@@ -39,12 +39,20 @@ public class GeoResult {
 	private Object result;
 	private StringBuffer resultComment;
 	
+	/**
+	 * <p>Constructor for GeoResult.</p>
+	 */
 	public GeoResult() {
 		setResultState(GeoQCResultState.NOT_RUN);
 		setResult(null);
 		resultComment = new StringBuffer();
 	}
 	
+	/**
+	 * <p>addComment.</p>
+	 *
+	 * @param comment a {@link java.lang.String} object.
+	 */
 	public void addComment(String comment) { 
 		if (resultComment.length()>0) {
 			resultComment.append("|");
@@ -52,11 +60,18 @@ public class GeoResult {
 		resultComment.append(comment);
 	}
 
+	/**
+	 * <p>getComment.</p>
+	 *
+	 * @return a {@link java.lang.String} object.
+	 */
 	public String getComment() { 
 		return resultComment.toString();
 	}
 	
 	/**
+	 * <p>Getter for the field <code>resultState</code>.</p>
+	 *
 	 * @return the resultState
 	 */
 	public GeoQCResultState getResultState() {
@@ -64,6 +79,8 @@ public class GeoResult {
 	}
 
 	/**
+	 * <p>Setter for the field <code>resultState</code>.</p>
+	 *
 	 * @param resultState the resultState to set
 	 */
 	public void setResultState(GeoQCResultState resultState) {
@@ -71,6 +88,8 @@ public class GeoResult {
 	}
 
 	/**
+	 * <p>Getter for the field <code>result</code>.</p>
+	 *
 	 * @return the result
 	 */
 	public Object getResult() {
@@ -78,6 +97,8 @@ public class GeoResult {
 	}
 
 	/**
+	 * <p>Setter for the field <code>result</code>.</p>
+	 *
 	 * @param result the result to set
 	 */
 	public void setResult(Object result) {

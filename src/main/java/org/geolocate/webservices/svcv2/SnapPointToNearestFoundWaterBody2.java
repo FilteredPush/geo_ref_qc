@@ -10,9 +10,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType&gt;
  *   &lt;complexContent&gt;
@@ -29,8 +29,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ * @author mole
+ * @version $Id: $Id
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
@@ -59,11 +60,8 @@ public class SnapPointToNearestFoundWaterBody2 {
 
     /**
      * Gets the value of the country property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getCountry() {
         return country;
@@ -71,11 +69,10 @@ public class SnapPointToNearestFoundWaterBody2 {
 
     /**
      * Sets the value of the country property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setCountry(String value) {
         this.country = value;
@@ -83,11 +80,8 @@ public class SnapPointToNearestFoundWaterBody2 {
 
     /**
      * Gets the value of the state property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getState() {
         return state;
@@ -95,11 +89,10 @@ public class SnapPointToNearestFoundWaterBody2 {
 
     /**
      * Sets the value of the state property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setState(String value) {
         this.state = value;
@@ -107,11 +100,8 @@ public class SnapPointToNearestFoundWaterBody2 {
 
     /**
      * Gets the value of the county property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getCounty() {
         return county;
@@ -119,11 +109,10 @@ public class SnapPointToNearestFoundWaterBody2 {
 
     /**
      * Sets the value of the county property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setCounty(String value) {
         this.county = value;
@@ -131,11 +120,8 @@ public class SnapPointToNearestFoundWaterBody2 {
 
     /**
      * Gets the value of the localityString property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getLocalityString() {
         return localityString;
@@ -143,11 +129,10 @@ public class SnapPointToNearestFoundWaterBody2 {
 
     /**
      * Sets the value of the localityString property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link java.lang.String}
      */
     public void setLocalityString(String value) {
         this.localityString = value;
@@ -155,7 +140,8 @@ public class SnapPointToNearestFoundWaterBody2 {
 
     /**
      * Gets the value of the wgs84Latitude property.
-     * 
+     *
+     * @return a double.
      */
     public double getWGS84Latitude() {
         return wgs84Latitude;
@@ -163,7 +149,8 @@ public class SnapPointToNearestFoundWaterBody2 {
 
     /**
      * Sets the value of the wgs84Latitude property.
-     * 
+     *
+     * @param value a double.
      */
     public void setWGS84Latitude(double value) {
         this.wgs84Latitude = value;
@@ -171,7 +158,8 @@ public class SnapPointToNearestFoundWaterBody2 {
 
     /**
      * Gets the value of the wgs84Longitude property.
-     * 
+     *
+     * @return a double.
      */
     public double getWGS84Longitude() {
         return wgs84Longitude;
@@ -179,7 +167,8 @@ public class SnapPointToNearestFoundWaterBody2 {
 
     /**
      * Sets the value of the wgs84Longitude property.
-     * 
+     *
+     * @param value a double.
      */
     public void setWGS84Longitude(double value) {
         this.wgs84Longitude = value;

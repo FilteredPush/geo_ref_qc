@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Structure to hold transpositions and sign changes of latitude and longitude values 
+ * Structure to hold transpositions and sign changes of latitude and longitude values
  * along with metadata about potential matching against GIS data.
- * 
- * @author mole
  *
+ * @author mole
+ * @version $Id: $Id
  */
 public class GeolocationAlternative {
 	
@@ -34,6 +34,13 @@ public class GeolocationAlternative {
 	private boolean matched;
 	private String comment;
 	
+	/**
+	 * <p>constructListOfAlternatives.</p>
+	 *
+	 * @param latitude a double.
+	 * @param longitude a double.
+	 * @return a {@link java.util.List} object.
+	 */
 	public static List<GeolocationAlternative> constructListOfAlternatives(double latitude, double longitude) { 
 		ArrayList<GeolocationAlternative> result = new ArrayList<GeolocationAlternative>();
 		result.add(new GeolocationAlternative(latitude, longitude, "Original"));
@@ -76,6 +83,8 @@ public class GeolocationAlternative {
 	}
 
 	/**
+	 * <p>Getter for the field <code>latitude</code>.</p>
+	 *
 	 * @return the latitude
 	 */
 	public double getLatitude() {
@@ -83,6 +92,8 @@ public class GeolocationAlternative {
 	}
 
 	/**
+	 * <p>Setter for the field <code>latitude</code>.</p>
+	 *
 	 * @param latitude the latitude to set
 	 */
 	public void setLatitude(double latitude) {
@@ -90,6 +101,8 @@ public class GeolocationAlternative {
 	}
 
 	/**
+	 * <p>Getter for the field <code>longitude</code>.</p>
+	 *
 	 * @return the longitude
 	 */
 	public double getLongitude() {
@@ -97,6 +110,8 @@ public class GeolocationAlternative {
 	}
 
 	/**
+	 * <p>Setter for the field <code>longitude</code>.</p>
+	 *
 	 * @param longitude the longitude to set
 	 */
 	public void setLongitude(double longitude) {
@@ -104,6 +119,8 @@ public class GeolocationAlternative {
 	}
 
 	/**
+	 * <p>Getter for the field <code>alternative</code>.</p>
+	 *
 	 * @return the alternative
 	 */
 	public String getAlternative() {
@@ -111,6 +128,8 @@ public class GeolocationAlternative {
 	}
 
 	/**
+	 * <p>Setter for the field <code>alternative</code>.</p>
+	 *
 	 * @param alternative the alternative to set
 	 */
 	public void setAlternative(String alternative) {
@@ -118,6 +137,8 @@ public class GeolocationAlternative {
 	}
 
 	/**
+	 * <p>isMatched.</p>
+	 *
 	 * @return the matched
 	 */
 	public boolean isMatched() {
@@ -125,6 +146,8 @@ public class GeolocationAlternative {
 	}
 
 	/**
+	 * <p>Setter for the field <code>matched</code>.</p>
+	 *
 	 * @param matched the matched to set
 	 */
 	public void setMatched(boolean matched) {
@@ -132,6 +155,8 @@ public class GeolocationAlternative {
 	}
 
 	/**
+	 * <p>Getter for the field <code>comment</code>.</p>
+	 *
 	 * @return the comment
 	 */
 	public String getComment() {
@@ -139,6 +164,8 @@ public class GeolocationAlternative {
 	}
 
 	/**
+	 * <p>Setter for the field <code>comment</code>.</p>
+	 *
 	 * @param comment the comment to set
 	 */
 	public void setComment(String comment) {

@@ -17,6 +17,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
+/**
+ * <p>GeoLocate3 class.</p>
+ *
+ * @author mole
+ * @version $Id: $Id
+ */
 public class GeoLocate3 {
 	private static final Log logger = LogFactory.getLog(GeoLocate3.class);
 	private static final GeoLocateService service = new GeoLocateService();
@@ -43,6 +49,19 @@ public class GeoLocate3 {
 	 * If latitude or longitude is null, it means such information is missing in the original records
 	 * 
 	 * @see org.kepler.actor.SpecimenQC.IGeoRefValidationService#validateGeoRef(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
+	/**
+	 * <p>validateGeoRef.</p>
+	 *
+	 * @param country a {@link java.lang.String} object.
+	 * @param stateProvince a {@link java.lang.String} object.
+	 * @param county a {@link java.lang.String} object.
+	 * @param waterBody a {@link java.lang.String} object.
+	 * @param verbatimDepth a {@link java.lang.String} object.
+	 * @param locality a {@link java.lang.String} object.
+	 * @param latitude a {@link java.lang.String} object.
+	 * @param longitude a {@link java.lang.String} object.
+	 * @param thresholdDistanceKm a double.
 	 */
 	public void validateGeoRef(String country, String stateProvince, String county, String waterBody, String verbatimDepth, String locality, String latitude, String longitude, double thresholdDistanceKm){
 		logger.debug("Geolocate3.validateGeoref("+country+","+stateProvince+","+county+","+locality+")");
@@ -344,6 +363,16 @@ public class GeoLocate3 {
 	}
 
 
+    /**
+     * <p>addNewToCache.</p>
+     *
+     * @param Lat a double.
+     * @param Lng a double.
+     * @param country a {@link java.lang.String} object.
+     * @param stateProvince a {@link java.lang.String} object.
+     * @param county a {@link java.lang.String} object.
+     * @param locality a {@link java.lang.String} object.
+     */
     public void addNewToCache(double Lat, double Lng, String country, String stateProvince, String county, String locality) {
         String key = constructCachedMapKey(country, stateProvince, county, locality);
         if(!coordinatesCache.containsKey(key)){
