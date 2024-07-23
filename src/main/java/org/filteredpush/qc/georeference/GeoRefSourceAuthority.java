@@ -19,8 +19,6 @@ package org.filteredpush.qc.georeference;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.datakurator.ffdq.api.DQResponse;
-import org.datakurator.ffdq.api.result.AmendmentValue;
 
 /**
  * Identify source authorities for geospatial data, handling both specific services
@@ -49,8 +47,7 @@ public class GeoRefSourceAuthority {
 	 * is not needed.
 	 *
 	 * @param authority the authority
-	 * @throws org.filteredpush.qc.sciname.SourceAuthorityException if the authority specified requires a sub data set specification
-	 * @throws org.filteredpush.qc.georeference.SourceAuthorityException if any.
+	 * @throws org.filteredpush.qc.georeference.SourceAuthorityException if the authority specified requires a sub data set specification
 	 */
 	public GeoRefSourceAuthority(EnumGeoRefSourceAuthority authority) throws SourceAuthorityException { 
 		this.authority = authority;
@@ -62,9 +59,9 @@ public class GeoRefSourceAuthority {
 	 * Utility constructor to construct a georeference source authority from a string instead of the enum.
 	 *
 	 * @param authorityString a value matching the name of an item in EnumGeoRefSourceAuthority
-	 * @throws org.filteredpush.qc.sciname.SourceAuthorityException if the string is not matched to the enumeration, or if the specified
+	 * @throws org.filteredpush.qc.georeference.SourceAuthorityException
+	 *   if the string is not matched to the enumeration, or if the specified
 	 *   source authority requires the specification of an authoritySubDataset.
-	 * @throws org.filteredpush.qc.georeference.SourceAuthorityException if any.
 	 */
 	public GeoRefSourceAuthority(String authorityString) throws SourceAuthorityException {
 		logger.debug(authorityString);
@@ -84,8 +81,7 @@ public class GeoRefSourceAuthority {
 	 * Construct a scientific name source authority descriptor.
 	 *
 	 * @param authority the authority to use
-	 * @param authoritySubDataset the specific authority (e.g. GBIF checklist) to use.
-	 * @param authoritySubDataset the specific authority (e.g. GBIF checklist) to use.
+	 * @param authoritySubDataset the specific authority to use.
 	 */
 	public GeoRefSourceAuthority(EnumGeoRefSourceAuthority authority, String authoritySubDataset) {
 		this.authority = authority;
@@ -96,7 +92,7 @@ public class GeoRefSourceAuthority {
 	/**
 	 * <p>Getter for the field <code>authority</code>.</p>
 	 *
-	 * @return a {@link org.filteredpush.qc.sciname.EnumGeoRefSourceAuthority} object.
+	 * @return a {@link org.filteredpush.qc.georeference.EnumGeoRefSourceAuthority} object.
 	 */
 	public EnumGeoRefSourceAuthority getAuthority() {
 		return authority;
