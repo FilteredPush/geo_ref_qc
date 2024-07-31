@@ -140,13 +140,7 @@ public class DwCGeoRefDQTestTemporary {
 	}
 
 
-	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#amendmentMinelevationMaxelevationFromVerbatim(java.lang.String, java.lang.String, java.lang.String)}.
-	 */
-	@Test
-	public void testAmendmentMinelevationMaxelevationFromVerbatim() {
-		fail("Not yet implemented");
-	}
+
 
 
 	/**

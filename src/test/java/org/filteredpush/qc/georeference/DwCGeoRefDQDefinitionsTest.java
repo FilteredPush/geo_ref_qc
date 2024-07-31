@@ -1523,4 +1523,94 @@ public class DwCGeoRefDQDefinitionsTest {
 		
 	}
 	
+	/**
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#amendmentMinelevationMaxelevationFromVerbatim(java.lang.String, java.lang.String, java.lang.String)}.
+	 */
+	@Test
+	public void testAmendmentMinelevationMaxelevationFromVerbatim() {
+		String verbatimDepth = "";
+		String maximumDepthInMeters = "";
+		String minimumDepthInMeters = "";
+		DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentMindepthMaxdepthFromVerbatim(verbatimDepth, maximumDepthInMeters, minimumDepthInMeters);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+	    assertNull(result.getValue());
+	
+	    verbatimDepth = "";
+		maximumDepthInMeters = "1";
+		minimumDepthInMeters = "";
+		result = DwCGeoRefDQ.amendmentMindepthMaxdepthFromVerbatim(verbatimDepth, maximumDepthInMeters, minimumDepthInMeters);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+// TODO: specification needs to be consistent with other amendments.		
+//	    assertEquals(ResultState.NOT_AMENDED.getLabel(), result.getResultState().getLabel());
+	    assertNull(result.getValue());
+	
+	    verbatimDepth = "1-10m";
+		maximumDepthInMeters = "";
+		minimumDepthInMeters = "";
+		result = DwCGeoRefDQ.amendmentMindepthMaxdepthFromVerbatim(verbatimDepth, maximumDepthInMeters, minimumDepthInMeters);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+	    assertEquals(result.getValue().getObject().get("dwc:minimumDepthInMeters"),"1");
+	    assertEquals(result.getValue().getObject().get("dwc:maximumDepthInMeters"),"10");
+	    assertEquals(result.getValue().getObject().size(),2);
+	    
+	    verbatimDepth = "10 meters";
+		maximumDepthInMeters = "";
+		minimumDepthInMeters = "";
+		result = DwCGeoRefDQ.amendmentMindepthMaxdepthFromVerbatim(verbatimDepth, maximumDepthInMeters, minimumDepthInMeters);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+	    assertEquals(result.getValue().getObject().get("dwc:minimumDepthInMeters"),"10");
+	    assertEquals(result.getValue().getObject().get("dwc:maximumDepthInMeters"),"10");
+	    assertEquals(result.getValue().getObject().size(),2);
+	    
+	    verbatimDepth = "10 fathoms";
+		maximumDepthInMeters = "";
+		minimumDepthInMeters = "";
+		result = DwCGeoRefDQ.amendmentMindepthMaxdepthFromVerbatim(verbatimDepth, maximumDepthInMeters, minimumDepthInMeters);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+	    assertEquals(result.getValue().getObject().get("dwc:minimumDepthInMeters"),"18.288");
+	    assertEquals(result.getValue().getObject().get("dwc:maximumDepthInMeters"),"18.288");
+	    assertEquals(result.getValue().getObject().size(),2);
+	    
+	    verbatimDepth = "10-15 fathoms";
+		maximumDepthInMeters = "";
+		minimumDepthInMeters = "";
+		result = DwCGeoRefDQ.amendmentMindepthMaxdepthFromVerbatim(verbatimDepth, maximumDepthInMeters, minimumDepthInMeters);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+	    assertEquals(result.getValue().getObject().get("dwc:minimumDepthInMeters"),"18.288");
+	    assertEquals(result.getValue().getObject().get("dwc:maximumDepthInMeters"),"27.432");
+	    assertEquals(result.getValue().getObject().size(),2);
+	    
+	    verbatimDepth = "15 ft.";
+		maximumDepthInMeters = "";
+		minimumDepthInMeters = "";
+		result = DwCGeoRefDQ.amendmentMindepthMaxdepthFromVerbatim(verbatimDepth, maximumDepthInMeters, minimumDepthInMeters);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+	    assertEquals(result.getValue().getObject().get("dwc:minimumDepthInMeters"),"4.572");
+	    assertEquals(result.getValue().getObject().get("dwc:maximumDepthInMeters"),"4.572");
+	    assertEquals(result.getValue().getObject().size(),2);
+	    
+	    verbatimDepth = "10 shmoos";
+		maximumDepthInMeters = "";
+		minimumDepthInMeters = "";
+		result = DwCGeoRefDQ.amendmentMindepthMaxdepthFromVerbatim(verbatimDepth, maximumDepthInMeters, minimumDepthInMeters);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET .getLabel(), result.getResultState().getLabel());
+	    assertNull(result.getValue());
+	    
+	}
+	
 }
