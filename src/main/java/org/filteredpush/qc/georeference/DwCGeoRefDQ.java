@@ -57,6 +57,9 @@ import org.datakurator.ffdq.api.result.*;
  * #102 AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT 7498ca76-c4d4-42e2-8103-acacccbdffa7
  * #48	AMENDMENT_COUNTRYCODE_STANDARDIZED fec5ffe6-3958-4312-82d9-ebcca0efb350
  * #73	AMENDMENT_COUNTRYCODE_FROM_COORDINATES 8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae
+ * #68	AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM 2d638c8b-4c62-44a0-a14d-fa147bf9823d
+ * #55	AMENDMENT_MINDEPTH-MAXDEPTH_FROM_VERBATIM c5658b83-4471-4f57-9d94-bf7d0a96900c
+ *
  *
  * For #72, see rec_occur_qc DwCMetadataDQ
  * #72 ISSUE_DATAGENERALIZATIONS_NOTEMPTY 13d5a10e-188e-40fd-a22c-dbaa87b91df2
@@ -1006,54 +1009,60 @@ public class DwCGeoRefDQ{
     }
 
     /**
+     *  Propose amendments of the values of dwc:minimumDepthInMeters and
+     *  dwc:maximumDepthInMeters if they can be interpreted from dwc:verbatimDepth
+     * 
      * #55 Amendment SingleRecord Completeness: mindepth-maxdepth from verbatim
      *
      * Provides: AMENDMENT_MINDEPTH-MAXDEPTH_FROM_VERBATIM
+     * Version: 2024-07-31
      *
      * @param verbatimDepth the provided dwc:verbatimDepth to evaluate
      * @param maximumDepthInMeters the provided dwc:maximumDepthInMeters to evaluate
      * @param minimumDepthInMeters the provided dwc:minimumDepthInMeters to evaluate
      * @return DQResponse the response of type AmendmentValue to return
      */
+    @Validation(label="AMENDMENT_MINDEPTH-MAXDEPTH_FROM_VERBATIM", description="Propose amendments of the values of dwc:minimumDepthInMeters and dwc:maximumDepthInMeters if they can be interpreted from dwc:verbatimDepth.")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters and dwc:maximumDepthInMeters are EMPTY and either dwc:verbatimDepth is EMPTY or the value is not unambiguously interpretable; FILLED_IN the value of dwc:minimumDepthInMeters and dwc:maximumDepthInMeters if they are EMPTY and could be unambiguously determined from dwc:verbatimDepth; otherwise NOT_AMENDED.")
     @Provides("c5658b83-4471-4f57-9d94-bf7d0a96900c")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/c5658b83-4471-4f57-9d94-bf7d0a96900c/2024-07-31")
     public static DQResponse<AmendmentValue> amendmentMindepthMaxdepthFromVerbatim(
     		@ActedUpon("dwc:verbatimDepth") String verbatimDepth, 
     		@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters, 
     		@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters) {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:verbatimDepth is EMPTY 
-        // or the value is not unambiguously interpretable or dwc:minimumDepthInMeters 
-        // and dwc:maximumDepthInMeters are not EMPTY; AMENDED if the 
-        // value of dwc:minimumDepthInMeters and/or dwc:maximumDepthInMeters 
-        // were unambiguously determined from dwc:verbatimDepth; otherwise 
-        // NOT_AMENDED 
+        // Specification
+		// INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters and
+		// dwc:maximumDepthInMeters are EMPTY and either dwc:verbatimDepth is EMPTY or
+		// the value is not unambiguously interpretable; FILLED_IN the value of
+		// dwc:minimumDepthInMeters and dwc:maximumDepthInMeters if they are EMPTY and
+		// could be unambiguously determined from dwc:verbatimDepth; otherwise
+		// NOT_AMENDED.
 
-        // TODO: Fix specification, if min depth/max depth in meters are not empty then should be NOT_AMENDED.
-
-
-        if (GEOUtil.isEmpty(verbatimDepth)) { 
+        if (GEOUtil.isEmpty(verbatimDepth) && GEOUtil.isEmpty(maximumDepthInMeters) && GEOUtil.isEmpty(minimumDepthInMeters)) { 
         	result.addComment("No Value provided for dwc:verbatimDepth");
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         } else {
         	if (GEOUtil.isEmpty(maximumDepthInMeters) && GEOUtil.isEmpty(minimumDepthInMeters)) { 
 
-        		// TODO: M not meters, probably miles
+        		// M Ambiguous, probably not meters, probably miles
         		logger.debug(verbatimDepth);
-        		if (verbatimDepth.matches("^[0-9]+([.]{0,1}[0-9]*){0,1} *[mM](eter(s){0,1}){0,1}$")) { 
+        		if (verbatimDepth.matches("^[0-9]+([.]{0,1}[0-9]*){0,1} *(m|m[.]|[mM](eter(s){0,1}))$")) { 
         			String cleaned = verbatimDepth.replaceAll("[ Mmetrs]+", "").trim();
+        			cleaned = cleaned.replaceAll("[.]$","");
         			result.addComment("Interpreted equal minimum and maximum depths in meters from dwc:verbatimDepth ["+ verbatimDepth +"] interpreted as a depth range in meters ");
         			Map<String, String> values = new HashMap<>();
         			values.put("dwc:minimumDepthInMeters", cleaned);        		
         			values.put("dwc:maximumDepthInMeters", cleaned);
         			result.setValue(new AmendmentValue(values));
         			result.setResultState(ResultState.FILLED_IN);
-        		} else if (verbatimDepth.matches("^[0-9]+([.]{0,1}[0-9]*){0,1}[ to-]{0,4}[0-9]+([.]{0,1}[0-9]*){0,1} *[mM](eter(s{0,1})){0,1}$")) { 
+        		} else if (verbatimDepth.matches("^[0-9]+([.]{0,1}[0-9]*){0,1}[ to-]{0,4}[0-9]+([.]{0,1}[0-9]*){0,1} *(m|m[.]|[mM](eter(s){0,1}))$")) { 
         			//1-2m  1.1 to 2.2 m
         			String cleaned = verbatimDepth.replaceAll(" ", "");
         			cleaned = cleaned.replace("to","-");
         			cleaned = cleaned.replaceAll("[mMetrs]","");
+        			cleaned = cleaned.replaceAll("[.]$","");
         			String[] bits = cleaned.split("-");
         			result.addComment("Interpreted minimum and maximum depths in meters from dwc:verbatimDepth ["+ verbatimDepth +"] interpreted as a depth range in meters ");
         			float min = Float.parseFloat(bits[0]);
@@ -1074,8 +1083,9 @@ public class DwCGeoRefDQ{
         			}
         			result.setValue(new AmendmentValue(values));
         			result.setResultState(ResultState.FILLED_IN);
-        		} else if (verbatimDepth.matches("^[0-9]+([.]{0,1}[0-9]*){0,1} *([fF]ath(om){0,1}s{0,1}){1}$")) { 
+        		} else if (verbatimDepth.matches("^[0-9]+([.]{0,1}[0-9]*){0,1} *([fF]ms|[fF]ms.|[fF]ath(om){0,1}s{0,1}){1}$")) { 
         			String cleaned = verbatimDepth.replaceAll("[ fFathoms]+", "").trim();
+        			cleaned = cleaned.replaceAll("[.]$","");
         			result.addComment("Interpreted equal minimum and maximum depths in meters from dwc:verbatimDepth ["+ verbatimDepth +"] interpreted as a depth in fathoms ");
         			cleaned = cleaned.replaceAll("[^0-9.]", "");
         			double min = Double.parseDouble(cleaned);
@@ -1083,17 +1093,18 @@ public class DwCGeoRefDQ{
         			// this will introduce an error on older US charts, but the error is negligible.
         			// difference is between 1.8288 and 1.828804, this works out to a 
         			// difference at 15,000 fathoms of 0.06 meters.
-        			min = min * 1.8288;
+        			min = min * GEOUtil.FATHOMS_TO_METERS;
         			Map<String, String> values = new HashMap<>();
         			values.put("dwc:minimumDepthInMeters", Double.toString(min));        		
         			values.put("dwc:maximumDepthInMeters", Double.toString(min));
         			result.setValue(new AmendmentValue(values));
         			result.setResultState(ResultState.FILLED_IN);
-        		} else if (verbatimDepth.matches("^[0-9]+([.]{0,1}[0-9]*){0,1}[ to-]{0,4}[0-9]+([.]{0,1}[0-9]*){0,1} *([fF]ath(om){0,1}s{0,1}){1}$")) { 
+        		} else if (verbatimDepth.matches("^[0-9]+([.]{0,1}[0-9]*){0,1}[ to-]{0,4}[0-9]+([.]{0,1}[0-9]*){0,1} *([fF]ms|[fF]ms.|[fF]ath(om){0,1}s{0,1}){1}$")) { 
         			//1-2m  1.1 to 2.2 m
         			String cleaned = verbatimDepth.replaceAll(" ", "");
         			cleaned = cleaned.replace("to","-");
         			cleaned = cleaned.replaceAll("[fFathoms]","");
+        			cleaned = cleaned.replaceAll("[.]$","");
         			String[] bits = cleaned.split("-");
         			result.addComment("Interpreted minimum and maximum depths in meters from dwc:verbatimDepth ["+ verbatimDepth +"] interpreted as a depth range in fathoms ");
         			double min = Double.parseDouble(bits[0]);
@@ -1103,28 +1114,29 @@ public class DwCGeoRefDQ{
         			}
         			Map<String, String> values = new HashMap<>();
         			if (bits.length==1) { 
-        				String meters = Double.toString(min * 1.8288);
+        				String meters = Double.toString(min * GEOUtil.FATHOMS_TO_METERS);
         				values.put("dwc:minimumDepthInMeters", meters);        		
         				values.put("dwc:maximumDepthInMeters", meters);
         			} else if (min<max) { 
-        				String minMeters = Double.toString(min * 1.8288);
-        				String maxMeters = Double.toString(max * 1.8288);
+        				String minMeters = Double.toString(min * GEOUtil.FATHOMS_TO_METERS);
+        				String maxMeters = Double.toString(max * GEOUtil.FATHOMS_TO_METERS);
         				values.put("dwc:minimumDepthInMeters", minMeters);        		
         				values.put("dwc:maximumDepthInMeters", maxMeters);
         			} else { 
-        				String minMeters = Double.toString(min * 1.8288);
-        				String maxMeters = Double.toString(max * 1.8288);
+        				String minMeters = Double.toString(min * GEOUtil.FATHOMS_TO_METERS);
+        				String maxMeters = Double.toString(max * GEOUtil.FATHOMS_TO_METERS);
         				values.put("dwc:minimumDepthInMeters", maxMeters);        		
         				values.put("dwc:maximumDepthInMeters", minMeters);
         			}
         			result.setValue(new AmendmentValue(values));
         			result.setResultState(ResultState.FILLED_IN);        			
         		} else if (verbatimDepth.matches("^[0-9]+([.]{0,1}[0-9]*){0,1} *([fF]eet|[Ff]oot|[fF]t[.]{0,1}){1}$")) { 
-        			String cleaned = verbatimDepth.replaceAll("[ fFote.]+", "").trim();
+        			String cleaned = verbatimDepth.replaceAll("[ fFote]+", "").trim();
+        			cleaned = cleaned.replaceAll("[.]$","");
         			result.addComment("Interpreted equal minimum and maximum depths in meters from dwc:verbatimDepth ["+ verbatimDepth +"] interpreted as a depth in feet ");
         			cleaned = cleaned.replaceAll("[^0-9.]", "");
         			double min = Double.parseDouble(cleaned);
-        			min = min * 0.3048;
+        			min = min * GEOUtil.FEET_TO_METERS;
         			Map<String, String> values = new HashMap<>();
         			values.put("dwc:minimumDepthInMeters", Double.toString(min));        		
         			values.put("dwc:maximumDepthInMeters", Double.toString(min));
@@ -1134,7 +1146,8 @@ public class DwCGeoRefDQ{
         			//1.1 to 2.2 ft.
         			String cleaned = verbatimDepth.replaceAll(" ", "");
         			cleaned = cleaned.replace("to","-");
-        			cleaned = cleaned.replaceAll("[fFote.]","");
+        			cleaned = cleaned.replaceAll("[fFote]","");
+        			cleaned = cleaned.replaceAll("[.]$","");
         			String[] bits = cleaned.split("-");
         			result.addComment("Interpreted minimum and maximum depths in meters from dwc:verbatimDepth ["+ verbatimDepth +"] interpreted as a depth range in fathoms ");
         			double min = Double.parseDouble(bits[0]);
@@ -1144,17 +1157,17 @@ public class DwCGeoRefDQ{
         			}
         			Map<String, String> values = new HashMap<>();
         			if (bits.length==1) { 
-        				String meters = Double.toString(min * 0.3048);
+        				String meters = Double.toString(min * GEOUtil.FEET_TO_METERS);
         				values.put("dwc:minimumDepthInMeters", meters);        		
         				values.put("dwc:maximumDepthInMeters", meters);
         			} else if (min<max) { 
-        				String minMeters = Double.toString(min * 0.3048);
-        				String maxMeters = Double.toString(max * 0.3048);
+        				String minMeters = Double.toString(min * GEOUtil.FEET_TO_METERS);
+        				String maxMeters = Double.toString(max * GEOUtil.FEET_TO_METERS);
         				values.put("dwc:minimumDepthInMeters", minMeters);        		
         				values.put("dwc:maximumDepthInMeters", maxMeters);
         			} else { 
-        				String minMeters = Double.toString(min * 0.3048);
-        				String maxMeters = Double.toString(max * 0.3048);
+        				String minMeters = Double.toString(min * GEOUtil.FEET_TO_METERS);
+        				String maxMeters = Double.toString(max * GEOUtil.FEET_TO_METERS);
         				values.put("dwc:minimumDepthInMeters", maxMeters);        		
         				values.put("dwc:maximumDepthInMeters", minMeters);
         			}
@@ -1377,27 +1390,231 @@ public class DwCGeoRefDQ{
     }
 
     /**
-     * #68 Amendment SingleRecord Completeness: minelevation-maxelevation from verbatim
-     *
-     * Provides: AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM
-     *
-     * @param minimumElevationInMeters the provided dwc:minimumElevationInMeters to evaluate
-     * @param maximumElevationInMeters the provided dwc:maximumElevationInMeters to evaluate
-     * @param verbatimElevation the provided dwc:verbatimElevation to evaluate
-     * @return DQResponse the response of type AmendmentValue to return
-     */
+	 * Propose amendment(s) to the values of dwc:minimumElevationInMeters and
+	 * dwc:maximumElevationInMeters if they can be interpreted from
+	 * dwc:verbatimElevation.
+	 * 
+	 * #68 Amendment SingleRecord Completeness: minelevation-maxelevation from
+	 * verbatim
+	 *
+	 * Provides: 68 AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM
+	 * Version: 2024-07-31
+	 *
+	 * @param minimumElevationInMeters the provided dwc:minimumElevationInMeters to
+	 *                                 evaluate
+	 * @param maximumElevationInMeters the provided dwc:maximumElevationInMeters to
+	 *                                 evaluate
+	 * @param verbatimElevation        the provided dwc:verbatimElevation to
+	 *                                 evaluate
+	 * @return DQResponse the response of type AmendmentValue to return
+	 */
+    
+    @Validation(label="AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM", description="Propose amendment(s) to the values of dwc:minimumElevationInMeters and dwc:maximumElevationInMeters if they can be interpreted from dwc:verbatimElevation.")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumElevationInMeters and dwc:maximumElevationInMeters are EMPTY and either dwc:verbatimElevation is EMPTY or the value is not unambiguously interpretable; FILLED_IN the values of dwc:minimumElevationInMeters and dwc:maximumElevationInMeters if they are EMPTY and could be unambiguously interpreted from dwc:verbatimElevation; otherwise NOT_AMENDED")
     @Provides("2d638c8b-4c62-44a0-a14d-fa147bf9823d")
-    public DQResponse<AmendmentValue> amendmentMinelevationMaxelevationFromVerbatim(@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters, @ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters, @ActedUpon("dwc:verbatimElevation") String verbatimElevation) {
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2024-07-31")
+    public static DQResponse<AmendmentValue> amendmentMinelevationMaxelevationFromVerbatim(
+    		@ActedUpon("dwc:verbatimElevation") String verbatimElevation,
+    		@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters, 
+    		@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters
+    	) {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:verbatimElevation 
-        // is EMPTY or thevalue is not unambiguously interpretable 
-        // or dwc:minimumElevationInMeters and/or dwc:maximumElevationInMeters 
-        // are not EMPTY; AMENDED if the values of dwc:minimumElevationInMeters 
-        // and/or dwc:maximumElevationInMeters were unambiguously interpreted 
-        //from dwc:verbatimElevation; otherwise NOT_AMENDED 
+        // Specification
+		// INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumElevationInMeters and
+		// dwc:maximumElevationInMeters are EMPTY and either dwc:verbatimElevation is
+		// EMPTY or the value is not unambiguously interpretable; FILLED_IN the values
+		// of dwc:minimumElevationInMeters and dwc:maximumElevationInMeters if they are
+		// EMPTY and could be unambiguously interpreted from dwc:verbatimElevation;
+		// otherwise NOT_AMENDED
 
+        if (GEOUtil.isEmpty(verbatimElevation) && GEOUtil.isEmpty(maximumElevationInMeters) && GEOUtil.isEmpty(minimumElevationInMeters)) { 
+        	result.addComment("No Value provided for dwc:verbatimElevation");
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        } else {
+        	if (GEOUtil.isEmpty(maximumElevationInMeters) && GEOUtil.isEmpty(minimumElevationInMeters)) { 
+        		// M is ambiguous, probably not meters, likely miles, but not interpreted.
+        		logger.debug(verbatimElevation);
+        		if (verbatimElevation.matches("^[0-9]+([.]{0,1}[0-9]*){0,1} *(m|m[.]|[mM](eter(s){0,1}))$")) {
+        			// Meters, single value e.g. 51 m
+        			String cleaned = verbatimElevation.replaceAll("[ Mmetrs]+", "").trim();
+        			cleaned = cleaned.replaceAll("[.]$","");
+        			result.addComment("Interpreted equal minimum and maximum elevations in meters from dwc:verbatimElevation ["+ verbatimElevation +"] interpreted as a elevation range in meters ");
+        			Map<String, String> values = new HashMap<>();
+        			values.put("dwc:minimumElevationInMeters", cleaned);        		
+        			values.put("dwc:maximumElevationInMeters", cleaned);
+        			result.setValue(new AmendmentValue(values));
+        			result.setResultState(ResultState.FILLED_IN);
+        		} else if (verbatimElevation.matches("^[0-9]+([.]{0,1}[0-9]*){0,1}[ to-]{0,4}[0-9]+([.]{0,1}[0-9]*){0,1} *(m|m[.]|[mM](eter(s){0,1}))$")) { 
+        			//Meters, range, e.g. 1-2m  1.1 to 2.2 m
+        			String cleaned = verbatimElevation.replaceAll(" ", "");
+        			cleaned = cleaned.replace("to","-");
+        			cleaned = cleaned.replaceAll("[mMetrs]","");
+        			cleaned = cleaned.replaceAll("[.]$","");
+        			String[] bits = cleaned.split("-");
+        			result.addComment("Interpreted minimum and maximum elevations in meters from dwc:verbatimElevation ["+ verbatimElevation +"] interpreted as a elevation range in meters ");
+        			float min = Float.parseFloat(bits[0]);
+        			float max = min;
+        			if (bits.length>1) { 
+        				max = Float.parseFloat(bits[1]);
+        			}
+        			Map<String, String> values = new HashMap<>();
+        			if (bits.length==1) { 
+        				values.put("dwc:minimumElevationInMeters", bits[0]);        		
+        				values.put("dwc:maximumElevationInMeters", bits[0]);
+        			} else if (min<max) { 
+        				values.put("dwc:minimumElevationInMeters", bits[0]);        		
+        				values.put("dwc:maximumElevationInMeters", bits[1]);
+        			} else { 
+        				values.put("dwc:minimumElevationInMeters", bits[1]);        		
+        				values.put("dwc:maximumElevationInMeters", bits[0]);
+        			}
+        			result.setValue(new AmendmentValue(values));
+        			result.setResultState(ResultState.FILLED_IN);
+        		} else if (verbatimElevation.matches("^[0-9]+([.]{0,1}[0-9]*){0,1} *([fF]eet|[Ff]oot|[fF]t[.]{0,1}){1}$")) { 
+        			// Feet, single value, e.g. 15 ft
+        			String cleaned = verbatimElevation.replaceAll("[ fFote]+", "").trim();
+        			cleaned = cleaned.replaceAll("[.]$","");
+        			result.addComment("Interpreted equal minimum and maximum elevations in meters from dwc:verbatimElevation ["+ verbatimElevation +"] interpreted as a elevation in feet ");
+        			cleaned = cleaned.replaceAll("[^0-9.]", "");
+        			double min = Double.parseDouble(cleaned);
+        			min = min * GEOUtil.FEET_TO_METERS;
+        			Map<String, String> values = new HashMap<>();
+        			values.put("dwc:minimumElevationInMeters", Double.toString(min));        		
+        			values.put("dwc:maximumElevationInMeters", Double.toString(min));
+        			result.setValue(new AmendmentValue(values));
+        			result.setResultState(ResultState.FILLED_IN);
+        		} else if (verbatimElevation.matches("^[0-9]+([.]{0,1}[0-9]*){0,1}[ to-]{0,4}[0-9]+([.]{0,1}[0-9]*){0,1} *([fF]eet|[Ff]oot|[fF]t[.]{0,1}){1}$")) { 
+        			//Feet, ranges, e.g. 1.1 to 2.2 ft.
+        			String cleaned = verbatimElevation.replaceAll(" ", "");
+        			cleaned = cleaned.replace("to","-");
+        			cleaned = cleaned.replaceAll("[fFote]","");
+        			cleaned = cleaned.replaceAll("[.]$","");
+        			String[] bits = cleaned.split("-");
+        			result.addComment("Interpreted minimum and maximum elevations in meters from dwc:verbatimElevation ["+ verbatimElevation +"] interpreted as a elevation range in fathoms ");
+        			double min = Double.parseDouble(bits[0]);
+        			double max = min;
+        			if (bits.length>1) { 
+        				max = Double.parseDouble(bits[1]);
+        			}
+        			Map<String, String> values = new HashMap<>();
+        			if (bits.length==1) { 
+        				String meters = Double.toString(min * GEOUtil.FEET_TO_METERS);
+        				values.put("dwc:minimumElevationInMeters", meters);        		
+        				values.put("dwc:maximumElevationInMeters", meters);
+        			} else if (min<max) { 
+        				String minMeters = Double.toString(min * GEOUtil.FEET_TO_METERS);
+        				String maxMeters = Double.toString(max * GEOUtil.FEET_TO_METERS);
+        				values.put("dwc:minimumElevationInMeters", minMeters);        		
+        				values.put("dwc:maximumElevationInMeters", maxMeters);
+        			} else { 
+        				String minMeters = Double.toString(min * GEOUtil.FEET_TO_METERS);
+        				String maxMeters = Double.toString(max * GEOUtil.FEET_TO_METERS);
+        				values.put("dwc:minimumElevationInMeters", maxMeters);        		
+        				values.put("dwc:maximumElevationInMeters", minMeters);
+        			}
+        			result.setValue(new AmendmentValue(values));
+        			result.setResultState(ResultState.FILLED_IN);
+        		} else if (verbatimElevation.matches("^[0-9]+([.]{0,1}[0-9]*){0,1} *([yY]ards|[Yy]ard|[yY]d[.]{0,1}}[yY]ds[.]{0,1}){1}$")) {
+        			// Yards, single value, e.g. 15 yd
+        			String cleaned = verbatimElevation.replaceAll("[ Yyards]+", "").trim();
+        			cleaned = cleaned.replaceAll("[.]$","");
+        			result.addComment("Interpreted equal minimum and maximum elevations in meters from dwc:verbatimElevation ["+ verbatimElevation +"] interpreted as a elevation in yards ");
+        			cleaned = cleaned.replaceAll("[^0-9.]", "");
+        			double min = Double.parseDouble(cleaned);
+        			min = min * GEOUtil.YARDS_TO_METERS;
+        			Map<String, String> values = new HashMap<>();
+        			values.put("dwc:minimumElevationInMeters", Double.toString(min));        		
+        			values.put("dwc:maximumElevationInMeters", Double.toString(min));
+        			result.setValue(new AmendmentValue(values));
+        			result.setResultState(ResultState.FILLED_IN);
+        		} else if (verbatimElevation.matches("^[0-9]+([.]{0,1}[0-9]*){0,1}[ to-]{0,4}[0-9]+([.]{0,1}[0-9]*){0,1} *([yY]ards|[Yy]ard|[yY]d[.]{0,1}}[yY]ds[.]{0,1}){1}$")) { 
+        			//Yards, range e.g. 1000-1500 yd
+        			String cleaned = verbatimElevation.replaceAll(" ", "");
+        			cleaned = cleaned.replace("to","-");
+        			cleaned = cleaned.replaceAll("[ Yyards]","");
+        			cleaned = cleaned.replaceAll("[.]$","");
+        			String[] bits = cleaned.split("-");
+        			result.addComment("Interpreted minimum and maximum elevations in meters from dwc:verbatimElevation ["+ verbatimElevation +"] interpreted as a elevation range in yards ");
+        			double min = Double.parseDouble(bits[0]);
+        			double max = min;
+        			if (bits.length>1) { 
+        				max = Double.parseDouble(bits[1]);
+        			}
+        			Map<String, String> values = new HashMap<>();
+        			if (bits.length==1) { 
+        				String meters = Double.toString(min * GEOUtil.YARDS_TO_METERS);
+        				values.put("dwc:minimumElevationInMeters", meters);        		
+        				values.put("dwc:maximumElevationInMeters", meters);
+        			} else if (min<max) { 
+        				String minMeters = Double.toString(min * GEOUtil.YARDS_TO_METERS);
+        				String maxMeters = Double.toString(max * GEOUtil.YARDS_TO_METERS);
+        				values.put("dwc:minimumElevationInMeters", minMeters);        		
+        				values.put("dwc:maximumElevationInMeters", maxMeters);
+        			} else { 
+        				String minMeters = Double.toString(min * GEOUtil.YARDS_TO_METERS);
+        				String maxMeters = Double.toString(max * GEOUtil.YARDS_TO_METERS);
+        				values.put("dwc:minimumElevationInMeters", maxMeters);        		
+        				values.put("dwc:maximumElevationInMeters", minMeters);
+        			}
+        			result.setValue(new AmendmentValue(values));
+        			result.setResultState(ResultState.FILLED_IN); 
+        		} else if (verbatimElevation.matches("^[0-9]+([.]{0,1}[0-9]*){0,1} *([mM]iles|[Mm]ile|[Mm]i[.]{0,1}}){1}$")) {
+        			// Miles, single value, e.g. 15 miles
+        			String cleaned = verbatimElevation.replaceAll("[ mMiles]+", "").trim();
+        			cleaned = cleaned.replaceAll("[.]$","");
+        			result.addComment("Interpreted equal minimum and maximum elevations in meters from dwc:verbatimElevation ["+ verbatimElevation +"] interpreted as a elevation in yards ");
+        			cleaned = cleaned.replaceAll("[^0-9.]", "");
+        			double min = Double.parseDouble(cleaned);
+        			min = min * GEOUtil.MILES_TO_METERS;
+        			Map<String, String> values = new HashMap<>();
+        			values.put("dwc:minimumElevationInMeters", Double.toString(min));        		
+        			values.put("dwc:maximumElevationInMeters", Double.toString(min));
+        			result.setValue(new AmendmentValue(values));
+        			result.setResultState(ResultState.FILLED_IN);
+        		} else if (verbatimElevation.matches("^[0-9]+([.]{0,1}[0-9]*){0,1}[ to-]{0,4}[0-9]+([.]{0,1}[0-9]*){0,1} *([mM]iles|[Mm]ile|[Mm]i[.]{0,1}){1}$")) { 
+        			//Miles, range e.g. 1000-1500 mi
+        			String cleaned = verbatimElevation.replaceAll(" ", "");
+        			cleaned = cleaned.replace("to","-");
+        			cleaned = cleaned.replaceAll("[ mMiles]","");
+        			cleaned = cleaned.replaceAll("[.]$","");
+        			String[] bits = cleaned.split("-");
+        			result.addComment("Interpreted minimum and maximum elevations in meters from dwc:verbatimElevation ["+ verbatimElevation +"] interpreted as a elevation range in miles ");
+        			double min = Double.parseDouble(bits[0]);
+        			double max = min;
+        			if (bits.length>1) { 
+        				max = Double.parseDouble(bits[1]);
+        			}
+        			Map<String, String> values = new HashMap<>();
+        			if (bits.length==1) { 
+        				String meters = Double.toString(min * GEOUtil.MILES_TO_METERS);
+        				values.put("dwc:minimumElevationInMeters", meters);        		
+        				values.put("dwc:maximumElevationInMeters", meters);
+        			} else if (min<max) { 
+        				String minMeters = Double.toString(min * GEOUtil.MILES_TO_METERS);
+        				String maxMeters = Double.toString(max * GEOUtil.MILES_TO_METERS);
+        				values.put("dwc:minimumElevationInMeters", minMeters);        		
+        				values.put("dwc:maximumElevationInMeters", maxMeters);
+        			} else { 
+        				String minMeters = Double.toString(min * GEOUtil.MILES_TO_METERS);
+        				String maxMeters = Double.toString(max * GEOUtil.MILES_TO_METERS);
+        				values.put("dwc:minimumElevationInMeters", maxMeters);        		
+        				values.put("dwc:maximumElevationInMeters", minMeters);
+        			}
+        			result.setValue(new AmendmentValue(values));
+        			result.setResultState(ResultState.FILLED_IN);        			
+        		}  else { 
+        			result.addComment("Unable to Interpret provided dwc:verbatimElevation ["+ verbatimElevation +"].");
+        			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        		}
+        		
+        		
+        	} else { 
+        		result.addComment("At least one of dwc:minimumElevationInMeters and dwc:maximumElevationInMeters contains a value.");
+        		result.setResultState(ResultState.NOT_AMENDED);
+        	}
+        }
+        
         return result;
     }
 

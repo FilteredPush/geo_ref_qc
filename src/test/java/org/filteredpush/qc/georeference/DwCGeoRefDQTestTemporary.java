@@ -113,13 +113,7 @@ public class DwCGeoRefDQTestTemporary {
 		fail("Not yet implemented");
 	}
 
-	/**
-	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#amendmentMindepthMaxdepthFromVerbatim(java.lang.String, java.lang.String, java.lang.String)}.
-	 */
-	@Test
-	public void testAmendmentMindepthMaxdepthFromVerbatim() {
-		fail("Not yet implemented");
-	}
+
 
 	/**
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCoordinatesStateprovinceInconsistent(java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.

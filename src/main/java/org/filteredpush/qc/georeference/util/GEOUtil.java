@@ -67,6 +67,26 @@ public class GEOUtil {
 	 */
 	private static double EARTH_EQUATORIAL_RADIUS_KM = 6378.138;
 	
+	/**
+	 * Conversion factor for fathoms to meters, using fathom as 6 imperial feet, not 6 US State Plane Feet.
+	 */
+	public static double FATHOMS_TO_METERS = 1.8288;
+	
+	/**
+	 * Conversion factor for feet to meters
+	 */
+	public static double FEET_TO_METERS = 0.3048;
+	
+	/** 
+	 * Conversion factor for yards to meters.
+	 */
+	public static double YARDS_TO_METERS = 0.9144;
+	
+	/**
+	 * Conversion factor for miles to meters.
+	 */
+	public static double MILES_TO_METERS = 1609.344;
+	
 	// GRS80 value for the equatorial radius of the Earth = 6,378,138.0 meters.
 	// IERS value for the equatorial radius of the Earth =  6,378,136.3 meters.
 	// Wikipedia/Australian Geodetic Datum mean equatorial radius = 6,378,160.0 meters.

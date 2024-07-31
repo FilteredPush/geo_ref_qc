@@ -7,3 +7,5 @@ geo_ref_qc-*-cfweblib.jar
 .idea
 *.iml
 src/main/resources/org.filteredpush.kuration.services/eez_v11*
+src/main/resources/conus.las
+src/main/resources/conus.los
