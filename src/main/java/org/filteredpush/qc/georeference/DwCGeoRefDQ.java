@@ -1039,8 +1039,9 @@ public class DwCGeoRefDQ{
         } else {
         	if (GEOUtil.isEmpty(maximumDepthInMeters) && GEOUtil.isEmpty(minimumDepthInMeters)) { 
 
+        		// TODO: M not meters, probably miles
         		logger.debug(verbatimDepth);
-        		if (verbatimDepth.matches("^[0-9]+([.]{0,1}[0-9]*){0,1} *[mM](eters){0,1}$")) { 
+        		if (verbatimDepth.matches("^[0-9]+([.]{0,1}[0-9]*){0,1} *[mM](eter(s){0,1}){0,1}$")) { 
         			String cleaned = verbatimDepth.replaceAll("[ Mmetrs]+", "").trim();
         			result.addComment("Interpreted equal minimum and maximum depths in meters from dwc:verbatimDepth ["+ verbatimDepth +"] interpreted as a depth range in meters ");
         			Map<String, String> values = new HashMap<>();
@@ -1048,7 +1049,7 @@ public class DwCGeoRefDQ{
         			values.put("dwc:maximumDepthInMeters", cleaned);
         			result.setValue(new AmendmentValue(values));
         			result.setResultState(ResultState.FILLED_IN);
-        		} else if (verbatimDepth.matches("^[0-9]+([.]{0,1}[0-9]*){0,1}[ to-]{0,4}[0-9]+([.]{0,1}[0-9]*){0,1} *[mM](eters){0,1}$")) { 
+        		} else if (verbatimDepth.matches("^[0-9]+([.]{0,1}[0-9]*){0,1}[ to-]{0,4}[0-9]+([.]{0,1}[0-9]*){0,1} *[mM](eter(s{0,1})){0,1}$")) { 
         			//1-2m  1.1 to 2.2 m
         			String cleaned = verbatimDepth.replaceAll(" ", "");
         			cleaned = cleaned.replace("to","-");

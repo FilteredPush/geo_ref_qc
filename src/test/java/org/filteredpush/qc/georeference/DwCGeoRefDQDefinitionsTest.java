@@ -1569,6 +1569,17 @@ public class DwCGeoRefDQDefinitionsTest {
 	    assertEquals(result.getValue().getObject().get("dwc:maximumDepthInMeters"),"10");
 	    assertEquals(result.getValue().getObject().size(),2);
 	    
+	    verbatimDepth = "1 meter";
+		maximumDepthInMeters = "";
+		minimumDepthInMeters = "";
+		result = DwCGeoRefDQ.amendmentMindepthMaxdepthFromVerbatim(verbatimDepth, maximumDepthInMeters, minimumDepthInMeters);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+	    assertEquals(result.getValue().getObject().get("dwc:minimumDepthInMeters"),"1");
+	    assertEquals(result.getValue().getObject().get("dwc:maximumDepthInMeters"),"1");
+	    assertEquals(result.getValue().getObject().size(),2);
+	    
 	    verbatimDepth = "10 fathoms";
 		maximumDepthInMeters = "";
 		minimumDepthInMeters = "";
