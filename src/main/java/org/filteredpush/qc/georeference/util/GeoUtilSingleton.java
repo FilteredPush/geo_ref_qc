@@ -33,6 +33,8 @@ public class GeoUtilSingleton {
 	private Map<String,ArrayList<String>> gettyCountryLookup;	
 	private Map<String,ArrayList<String>> gettyPrimaryLookup;	
 	
+	private GettyLookup gettyLookup;
+	
 	private GeoUtilSingleton() { 
 		init();
 	}
@@ -145,7 +147,7 @@ public class GeoUtilSingleton {
 		
 		return retval;
 	}
-
+	
 	
 	/**
 	 * <p>getGettyCountryLookupItem.</p>
@@ -205,6 +207,17 @@ public class GeoUtilSingleton {
 	 */
 	public void addGettyPrimaryLookupItem(String stateProvince, ArrayList<String> names) {
 		gettyPrimaryLookup.put(stateProvince, names);
+	}
+
+	/** 
+	 * Obtain an instance of a shared GettyLookup class.
+	 * @return a reusable GettyLookup instance.
+	 */
+	public GettyLookup getGettyLookup() {
+		if (gettyLookup==null) { 
+			this.gettyLookup = new GettyLookup();
+		}
+		return this.gettyLookup;
 	}
 	
 	

@@ -68,7 +68,23 @@ public class GettyLookup {
 			System.out.println(response.getCount());
 			System.out.println(response.getCount());
 			if (response.getCount().compareTo(BigInteger.ONE)==0) { 
+				// idiom for line above from BigInteger docs: (x.compareTo(y) <op> 0)
+				// one match
 				retval = true;
+			} else if (response.getCount().compareTo(BigInteger.ONE)>0) {
+				// idiom for line above from BigInteger docs: (x.compareTo(y) <op> 0)
+				// found multiple possible matches
+				List<Subject> subjects = response.getSubject();
+				Iterator<Subject> i = subjects.iterator();
+				boolean matched = false;
+				while (i.hasNext() && !matched) {
+					Subject subject = i.next();
+					logger.debug(subject.getPreferredTerm().getValue());
+					if (subject.getPreferredTerm().getValue().replace("(nation)","").trim().equals(country)) { 
+						matched = true;
+					}
+				}
+				retval = matched;
 			} else { 
 				retval = false;
 			}
@@ -210,7 +226,7 @@ public class GettyLookup {
 	 *
 	 * @param primaryDivision the state/province to look up.
 	 * @return true if the secondaryDivision is found as an appropriate geopolitical entity in TGN matching
-	 * any form of the name, false if the country is not found in TGN, null on an exception querying TGN.
+	 * any form of the name, false if the primary division is not found in TGN, null on an exception querying TGN.
 	 */
 	public Boolean lookupPrimary(String primaryDivision) { 
 
@@ -252,5 +268,116 @@ public class GettyLookup {
 	
 		return retval;
 	} 
+	
+	
+	public String getPreferredCountryName(String country) { 
+
+		String retval = null;
+
+		String sovereignNationPlaceTypeID = "81011";
+		String baseURI = "http://vocabsservices.getty.edu//TGNService.asmx/TGNGetTermMatch?";
+
+		StringBuilder request = new StringBuilder();
+		request.append(baseURI);
+		request.append("name=").append(country.replace(" ", "+"));
+		request.append("&placetypeid=").append(sovereignNationPlaceTypeID);
+		request.append("&nationid=").append("");
+		logger.debug(request.toString());
+		try {
+			URL url = new URL(request.toString());
+			HttpURLConnection getty = (HttpURLConnection) url.openConnection();
+			InputStream is = getty.getInputStream();
+			JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
+			Unmarshaller unmarshaler = jc.createUnmarshaller();
+			Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
+			logger.debug(response.getCount());
+			if (response.getCount().compareTo(BigInteger.ONE)==0) { 
+				// idiom for line above from BigInteger docs: (x.compareTo(y) <op> 0)
+				// found one match
+				List<Subject> subjects = response.getSubject();
+				Iterator<Subject> i = subjects.iterator();
+				while (i.hasNext()) {
+					Subject subject = i.next();
+					logger.debug(subject.getPreferredTerm().getValue());
+					retval = subject.getPreferredTerm().getValue();
+					logger.debug(subject.getSubjectID());
+					logger.debug(subject.getPreferredParent());
+				}
+			} else if (response.getCount().compareTo(BigInteger.ONE)>0) { 
+				// idiom for line above from BigInteger docs: (x.compareTo(y) <op> 0)
+				// found multiple possible matches
+				List<Subject> subjects = response.getSubject();
+				Iterator<Subject> i = subjects.iterator();
+				boolean matched = false;
+				while (i.hasNext() && !matched) {
+					Subject subject = i.next();
+					logger.debug(subject.getPreferredTerm().getValue());
+					if (subject.getPreferredTerm().getValue().replace("(nation)","").trim().equals(country)) { 
+						retval = subject.getPreferredTerm().getValue().replace("(nation)","").trim();
+						logger.debug(subject.getSubjectID());
+						logger.debug(subject.getPreferredParent());
+						matched = true;
+					}
+				}
+			} else { 
+				logger.debug(response.getCount().toString());
+			}
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		return retval;
+	} 
+	
+	public String getParentageForPrimary(String primaryDivision) { 
+
+		String retval = null;
+
+		String placeTypeID = "81100";
+		String baseURI = "http://vocabsservices.getty.edu//TGNService.asmx/TGNGetTermMatch?";
+
+		StringBuilder request = new StringBuilder();
+		request.append(baseURI);
+		request.append("name=").append(primaryDivision);
+		request.append("&placetypeid=").append(placeTypeID);
+		request.append("&nationid=").append("");
+		try {
+			URL url = new URL(request.toString());
+			HttpURLConnection getty = (HttpURLConnection) url.openConnection();
+			InputStream is = getty.getInputStream();
+			JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
+			Unmarshaller unmarshaler = jc.createUnmarshaller();
+			Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
+			System.out.println(response.getCount());
+			if (response.getCount()==BigInteger.ONE) { 
+				// found match
+			} 
+			List<Subject> subjects = response.getSubject();
+			Iterator<Subject> i = subjects.iterator();
+			while (i.hasNext()) {
+				Subject subject = i.next();
+				System.out.println(subject.getPreferredTerm().getValue());
+				System.out.println(subject.getSubjectID());
+				System.out.println(subject.getPreferredParent());
+				retval = subject.getPreferredParent();
+			}
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		return retval;
+	}
 	
 }

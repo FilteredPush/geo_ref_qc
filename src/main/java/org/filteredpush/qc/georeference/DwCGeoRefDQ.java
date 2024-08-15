@@ -2619,38 +2619,128 @@ public class DwCGeoRefDQ{
         
 
     /**
-     * Are the combination of the values of dwc:country, dwc:stateProvince consistent with the values in the bdq:sourceAuthority?
+     *  	Are the combination of the values of dwc:country, dwc:stateProvince consistent with the values in the bdq:sourceAuthority?
      *
-     * Provides: VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT
-     * Version: 2022-12-12
+     * Provides: #200 VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT
+     * Version: 2023-09-18
      *
      * @param country the provided dwc:country to evaluate
      * @param stateProvince the provided dwc:stateProvince to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
-    @Validation(label="VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT", description="Are the combination of the values of dwc:country, dwc:stateProvince consistent with the values in the bdq:sourceAuthority?")
+    @Validation(label="VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT", description=" 	Are the combination of the values of dwc:country, dwc:stateProvince consistent with the values in the bdq:sourceAuthority?")
     @Provides("e654f562-44f8-43fd-983b-2aaba4c6dda9")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/e654f562-44f8-43fd-983b-2aaba4c6dda9/2022-12-12")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country or dwc:stateProvince are EMPTY; COMPLIANT if the value of dwc:stateProvince occurs as an administrative entity that is a child to the entity matching the value of dwc:country in the bdq:sourceAuthority, and the match to dwc:country is an ISO country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]")
-    public DQResponse<ComplianceValue> validationCountrystateprovinceConsistent(@ActedUpon("dwc:country") String country, @ActedUpon("dwc:stateProvince") String stateProvince) {
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/e654f562-44f8-43fd-983b-2aaba4c6dda9/2023-09-18")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country or dwc:stateProvince are EMPTY; COMPLIANT if the value of dwc:stateProvince occurs as an administrative entity that is a child to the entity matching the value of dwc:country in the bdq:sourceAuthority, and the match to dwc:country is an ISO country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT  	bdq:sourceAuthority default = \"The Getty Thesaurus of Geographic Names (TGN)\" {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
+    public static DQResponse<ComplianceValue> validationCountrystateprovinceConsistent(
+    		@ActedUpon("dwc:country") String country, 
+    		@ActedUpon("dwc:stateProvince") String stateProvince,
+    		@Parameter(name="bdq:sourceAuthority") String sourceAuthority
+
+    		) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // is not available; INTERNAL_PREREQUISITES_NOT_MET if the 
-        // terms dwc:country or dwc:stateProvince are EMPTY; COMPLIANT 
-        // if the value of dwc:stateProvince occurs as an administrative 
-        // entity that is a child to the entity matching the value 
-        // of dwc:country in the bdq:sourceAuthority, and the match 
-        // to dwc:country is an ISO country-like entity in the bdq:sourceAuthority; 
-        // otherwise NOT_COMPLIANT bdq:sourceAuthority default = "The 
-        // Getty Thesaurus of Geographic Names (TGN)" [https://www.getty.edu/research/tools/vocabularies/tgn/index.html] 
-        // 
+		// EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available;
+		// INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country or dwc:stateProvince
+		// are EMPTY; COMPLIANT if the value of dwc:stateProvince occurs as an
+		// administrative entity that is a child to the entity matching the value of
+		// dwc:country in the bdq:sourceAuthority, and the match to dwc:country is an
+		// ISO country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT
 
         //TODO: Parameters. This test is defined as parameterized.
-        // bdq:sourceAuthority
+		// bdq:sourceAuthority default = "The Getty Thesaurus of Geographic Names
+		// (TGN)" {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}
 
-        return result;
+        if (GEOUtil.isEmpty(sourceAuthority)) {
+        	sourceAuthority = "The Getty Thesaurus of Geographic Names (TGN)";
+        }
+
+        try {
+        	GeoRefSourceAuthority sourceAuthorityObject = new GeoRefSourceAuthority(sourceAuthority);
+        	if (sourceAuthorityObject.getAuthority().equals(EnumGeoRefSourceAuthority.INVALID)) {
+        		throw new SourceAuthorityException("Invalid Source Authority");
+        	}
+
+        	if (GEOUtil.isEmpty(country) || GEOUtil.isEmpty(stateProvince)) { 
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        		if (GEOUtil.isEmpty(country)) { 
+        			result.addComment("Provided dwc:country is empty.");
+        		} 
+        		if (GEOUtil.isEmpty(stateProvince)) { 
+        			result.addComment("Provided dwc:stateProvince is empty.");
+        		} 
+        	} else { 
+
+        		if (sourceAuthorityObject.getAuthority().equals(EnumGeoRefSourceAuthority.GETTY_TGN)) {
+        			GettyLookup lookup = GeoUtilSingleton.getInstance().getGettyLookup();
+        			String countryToLookup = country;
+        			String preferredCountry =  lookup.getPreferredCountryName(country);
+        			if (preferredCountry==null) { 
+        				List<String> names = lookup.getNamesForCountry(country);
+        				Iterator<String> i = names.iterator();
+        				boolean found = false;
+        				while (i.hasNext() && !found) {
+        					String name = i.next();
+        					preferredCountry = lookup.getPreferredCountryName(name);
+        					if (preferredCountry!=null) { 
+        						countryToLookup=preferredCountry;
+        						logger.debug(preferredCountry);
+        						found = true;
+        					}
+        				}
+        			}
+        			logger.debug(country);
+        			logger.debug(countryToLookup);
+        			if (lookup.lookupCountry(countryToLookup)) { 
+        				logger.debug(stateProvince);
+        				logger.debug(lookup.lookupPrimary(stateProvince));
+        				if (lookup.lookupPrimary(stateProvince)) {  
+        					if (preferredCountry==null) { 
+        						preferredCountry = countryToLookup;
+        					}
+        					String primaryParentage = lookup.getParentageForPrimary(stateProvince);
+        					logger.debug(primaryParentage);
+        					if (primaryParentage==null) { 
+        						result.setResultState(ResultState.RUN_HAS_RESULT);
+        						result.setValue(ComplianceValue.NOT_COMPLIANT);
+        						result.addComment("Parentage not found for dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
+        					} else { 
+        						if (primaryParentage.contains(preferredCountry)) { 
+        							result.setResultState(ResultState.RUN_HAS_RESULT);
+        							result.setValue(ComplianceValue.COMPLIANT);
+        							result.addComment("The dwc:country ["+country+"] as ["+preferredCountry+"] was found in the parentage ["+primaryParentage+"] of dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
+        						} else { 
+        							result.setResultState(ResultState.RUN_HAS_RESULT);
+        							result.setValue(ComplianceValue.NOT_COMPLIANT);
+        							result.addComment("The dwc:country ["+country+"] as ["+preferredCountry+"] was not found in the parentage ["+primaryParentage+"] of dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
+        						}
+        					}
+        				} else { 
+        					result.setResultState(ResultState.RUN_HAS_RESULT);
+        					result.setValue(ComplianceValue.NOT_COMPLIANT);
+        					result.addComment("Provided value of dwc:stateProvince ["+stateProvince+"] is not a subdivision of a nation level entity known to the Getty TGN");
+        				}
+        			} else { 
+        				result.setResultState(ResultState.RUN_HAS_RESULT);
+        				result.setValue(ComplianceValue.NOT_COMPLIANT);
+        				result.addComment("Provided value of dwc:country ["+country+"] is not a nation level entity known to the Getty TGN");
+        			}
+        		} else { 
+        			throw new SourceAuthorityException("Unsupported Source Authority");
+        		}
+
+
+        	}
+        } catch (SourceAuthorityException e) {
+        	result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("Error with specified Source Authority: " + e.getMessage());
+        } catch (GeorefServiceException e) {
+        	result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("Error with specified Source Authority: " + e.getMessage());
+        }
+
+		return result;
     }
 
     /**

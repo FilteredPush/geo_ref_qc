@@ -68,6 +68,10 @@ public class GeoRefSourceAuthority {
 		if (authorityString==null) { authorityString = ""; }
 	    if (authorityString.toUpperCase().equals("ADM1 BOUNDARIES UNION EEZ")) {
 	    	this.authority = EnumGeoRefSourceAuthority.ADM1_UNION_EEZ;	
+	    } else if (authorityString.toUpperCase().equals("THE GETTY THESAURUS OF GEOGRAPHIC NAMES (TGN)")) {
+	    	this.authority = EnumGeoRefSourceAuthority.GETTY_TGN;	
+	    } else if (authorityString.toUpperCase().equals("GETTY TGN")) {
+	    	this.authority = EnumGeoRefSourceAuthority.GETTY_TGN;	
 	    } else if (authorityString.toUpperCase().startsWith("HTTPS://INVALID/")) { 
 	    	this.authority = EnumGeoRefSourceAuthority.INVALID;	
 	    } else { 
