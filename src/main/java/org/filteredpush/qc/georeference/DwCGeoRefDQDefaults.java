@@ -220,4 +220,34 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     {
     	return validationCountrystateprovinceConsistent(country,stateProvince, null);
     }
+    
+    /**
+     * Do the geographic coordinates fall on or within the boundary from the
+     * bdq:sourceAuthority for the given dwc:stateProvince or within the distance
+     * given by bdq:spatialBufferInMeters outside that boundary?  Using the default
+     * values for source authority and spatial buffer in meters.
+     * 
+     * #56 Validation SingleRecord Consistency: coordinates state-province
+     * inconsistent
+     *
+     * Provides: VALIDATION_COORDINATES-STATEPROVINCE_CONSISTENT
+     * Version: 2024-04-16
+     *
+     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
+     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
+     * @param stateProvince the provided dwc:stateProvince to evaluate
+     * @return DQResponse the response of type ComplianceValue  to return
+     */
+    @Validation(label="VALIDATION_COORDINATES-STATEPROVINCE_CONSISTENT", description="Do the geographic coordinates fall on or within the boundary from the bdq:sourceAuthority for the given dwc:stateProvince or within the distance given by bdq:spatialBufferInMeters outside that boundary?")
+    @Provides("f18a470b-3fe1-4aae-9c65-a6d3db6b550c")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/f18a470b-3fe1-4aae-9c65-a6d3db6b550c/2024-04-16")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the values of dwc:decimalLatitude, dwc:decimalLongitude, or dwc:stateProvince are EMPTY or invalid; COMPLIANT if the geographic coordinates fall on or within the boundary from the bdq:sourceAuthority for the given dwc:stateProvince (after coordinate reference system transformations, if any, have been accounted for), or within the distance given by bdq:spatialBufferInMeters outside that boundary; otherwise NOT_COMPLIANT.")
+    public static DQResponse<ComplianceValue> validationCoordinatesStateprovinceConsistent(
+    		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
+    		@ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
+    		@ActedUpon("dwc:stateProvince") String stateProvince
+    		) 
+    {
+    	return validationCoordinatesStateprovinceConsistent(decimalLatitude, decimalLongitude, stateProvince, null, null);
+    }
 }

@@ -234,35 +234,6 @@ public class DwCGeoRefDQ_stubs {
     }
 
 
-    /**
-     * Propose amendment to the value of dwc:geodeticDatum using bdq:sourceAuthority.
-     *
-     * Provides: AMENDMENT_GEODETICDATUM_STANDARDIZED
-     * Version: 2022-03-30
-     *
-     * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
-     * @return DQResponse the response of type AmendmentValue to return
-     */
-    @Amendment(label="AMENDMENT_GEODETICDATUM_STANDARDIZED", description="Propose amendment to the value of dwc:geodeticDatum using bdq:sourceAuthority.")
-    @Provides("0345b325-836d-4235-96d0-3b5caf150fc0")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/0345b325-836d-4235-96d0-3b5caf150fc0/2022-03-30")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority was not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is EMPTY; AMENDED the value of dwc:geodeticDatum if it could be unambiguously interpreted as a value in bdq:sourceAuthority; otherwise NOT_AMENDED bdq:sourceAuthority = GBIF geodeticDatum thesaurus, when available")
-    public DQResponse<AmendmentValue> amendmentGeodeticdatumStandardized(@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
-        DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
-
-        //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // was not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum 
-        // is EMPTY; AMENDED the value of dwc:geodeticDatum if it could 
-        // be unambiguously interpreted as a value in bdq:sourceAuthority; 
-        // otherwise NOT_AMENDED bdq:sourceAuthority = GBIF geodeticDatum 
-        // thesaurus, when available 
-
-        //TODO: Parameters. This test is defined as parameterized.
-        // bdq:sourceAuthority
-
-        return result;
-    }
 
     /**
      * Propose amendment(s) to the values of dwc:minimumElevationInMeters and/or dwc:maximumElevationInMeters if they can be interpreted from dwc:verbatimElevation.

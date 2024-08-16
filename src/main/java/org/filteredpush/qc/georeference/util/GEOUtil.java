@@ -614,6 +614,39 @@ public class GEOUtil {
 		}
 		return result;
 	}
+	
+	/**
+	 * Test to see if a point is near (to a specified distance in km) or within a 
+	 * primary division (state/province) without specifying the country.
+	 *
+	 * @param primaryDivision the primary division to look up.
+	 * @param latitude a double.
+	 * @param longitude a double.
+	 * @param distanceKm a double.
+	 * @return true if latitude/longitude is inside or within distanceKm of a primary division (state/province) of a given country.
+	 */
+	public static boolean isPointNearPrimaryAllowDuplicates(String primaryDivision, double latitude, double longitude, double distanceKm) {
+		boolean result = false;
+		URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_1_states_provinces.shp");
+		FileDataStore store = null;
+		try {
+			store = FileDataStoreFinder.getDataStore(countryShapeFile);
+			SimpleFeatureSource featureSource = store.getFeatureSource();
+			double distanceD = distanceKm / 111d; // GeoTools ignores units, uses units of underlying projection (degrees in this case), fudge by dividing km by number of km in one degree of latitude (this will describe a wide ellipse far north or south).
+			Filter filter = ECQL.toFilter("name ILIKE '"+ primaryDivision.replace("'", "''") +"' AND DWITHIN(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "), "+ distanceD +", kilometers)");
+			SimpleFeatureCollection collection=featureSource.getFeatures(filter);
+			result = !collection.isEmpty();
+		} catch (IOException e) {
+			logger.debug(e.getMessage());
+		} catch (CQLException e) {
+			logger.debug(e.getMessage());
+		} finally {
+			if (store!=null) { 
+				store.dispose(); 
+			}
+		}
+		return result;
+	}
 
 	/**
 	 * <p>isCountryKnown.</p>

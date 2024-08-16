@@ -516,4 +516,42 @@ public class DwCGeoRefDQDefinitionsIT {
 		
 	}
 	
+	
+	/**
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#amendmentGeodeticdatumStandardized(java.lang.String, java.lang.String)}.
+	 */
+	@Test
+	public void testamendmentGeodeticdatumStandardized() {
+
+		String geodeticDatum = "";
+		DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentGeodeticdatumStandardized(geodeticDatum);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+		assertNull(result.getValue());
+		
+		geodeticDatum = "wgs 84";
+		result = DwCGeoRefDQ.amendmentGeodeticdatumStandardized(geodeticDatum);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.AMENDED.getLabel(), result.getResultState().getLabel());
+		assertEquals(1,result.getValue().getObject().size());
+		assertEquals("EPSG:4326",result.getValue().getObject().get("dwc:geodeticDatum"));
+		
+		geodeticDatum = "WGS84";
+		result = DwCGeoRefDQ.amendmentGeodeticdatumStandardized(geodeticDatum);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.AMENDED.getLabel(), result.getResultState().getLabel());
+		assertEquals(1,result.getValue().getObject().size());
+		assertEquals("EPSG:4326",result.getValue().getObject().get("dwc:geodeticDatum"));
+		
+		geodeticDatum = "EPSG:4326";
+		result = DwCGeoRefDQ.amendmentGeodeticdatumStandardized(geodeticDatum);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.NOT_AMENDED.getLabel(), result.getResultState().getLabel());
+		assertNull(result.getValue());
+	}
+	
 }

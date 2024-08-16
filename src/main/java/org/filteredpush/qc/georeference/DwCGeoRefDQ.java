@@ -62,6 +62,7 @@ import org.datakurator.ffdq.api.result.*;
  * #73	AMENDMENT_COUNTRYCODE_FROM_COORDINATES 8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae
  * #68	AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM 2d638c8b-4c62-44a0-a14d-fa147bf9823d
  * #55	AMENDMENT_MINDEPTH-MAXDEPTH_FROM_VERBATIM c5658b83-4471-4f57-9d94-bf7d0a96900c
+ * #60	AMENDMENT_GEODETICDATUM_STANDARDIZED 0345b325-836d-4235-96d0-3b5caf150fc0
  *
  *
  * For #72, see rec_occur_qc DwCMetadataDQ
@@ -1336,32 +1337,119 @@ public class DwCGeoRefDQ{
     }
 
     /**
-     * #56 Validation SingleRecord Consistency: coordinates state-province inconsistent
+     * Do the geographic coordinates fall on or within the boundary from the
+     * bdq:sourceAuthority for the given dwc:stateProvince or within the distance
+     * given by bdq:spatialBufferInMeters outside that boundary?
+     * 
+     * #56 Validation SingleRecord Consistency: coordinates state-province
+     * inconsistent
      *
-     * Provides: VALIDATION_COORDINATES_STATEPROVINCE_INCONSISTENT
+     * Provides: VALIDATION_COORDINATES-STATEPROVINCE_CONSISTENT
+     * Version: 2024-04-16
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
-     * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
      * @param stateProvince the provided dwc:stateProvince to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
+    @Validation(label="VALIDATION_COORDINATES-STATEPROVINCE_CONSISTENT", description="Do the geographic coordinates fall on or within the boundary from the bdq:sourceAuthority for the given dwc:stateProvince or within the distance given by bdq:spatialBufferInMeters outside that boundary?")
     @Provides("f18a470b-3fe1-4aae-9c65-a6d3db6b550c")
-    public DQResponse<ComplianceValue> validationCoordinatesStateprovinceInconsistent(@ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude, @ActedUpon("dwc:geodeticDatum") String geodeticDatum, @ActedUpon("dwc:stateProvince") String stateProvince) {
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/f18a470b-3fe1-4aae-9c65-a6d3db6b550c/2024-04-16")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the values of dwc:decimalLatitude, dwc:decimalLongitude, or dwc:stateProvince are EMPTY or invalid; COMPLIANT if the geographic coordinates fall on or within the boundary from the bdq:sourceAuthority for the given dwc:stateProvince (after coordinate reference system transformations, if any, have been accounted for), or within the distance given by bdq:spatialBufferInMeters outside that boundary; otherwise NOT_COMPLIANT.")
+    public static DQResponse<ComplianceValue> validationCoordinatesStateprovinceConsistent(
+    		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
+    		@ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
+    		@ActedUpon("dwc:stateProvince") String stateProvince,
+    		@Parameter(name="bdq:sourceAuthority") String sourceAuthority,
+    		@Parameter(name="bdq:spatialBufferInMeters") String spatialBufferInMeters
+    		) 
+    {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // service was not available; INTERNAL_PREREQUISITES_NOT_MET 
-        // if the values of dwc:decimalLatitude, dwc:decimalLongitude, 
-        // and dwc:stateProvince are EMPTY; COMPLIANT if the geographic 
-        // coordinates fall on or within the bdq:spatialBufferInMeters 
-        // boundary of the geometry of the given dwc:stateProvince; 
-        //otherwise NOT_COMPLIANT 
+		// EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available;
+		// INTERNAL_PREREQUISITES_NOT_MET if the values of dwc:decimalLatitude,
+		// dwc:decimalLongitude, or dwc:stateProvince are EMPTY or invalid; COMPLIANT if
+		// the geographic coordinates fall on or within the boundary from the
+		// bdq:sourceAuthority for the given dwc:stateProvince (after coordinate
+		// reference system transformations, if any, have been accounted for), or within
+		// the distance given by bdq:spatialBufferInMeters outside that boundary;
+		// otherwise NOT_COMPLIANT.
 
         //TODO: Parameters. This test is defined as parameterized.
-        // bdq:sourceAuthority; bdq:spatialBufferInMeters
+        // bdq:spatialBufferInMeters default = "3000"
+        // bdq:sourceAuthority default = "ADM1 boundaries" {[https://gadm.org]}
+        
+        // ADM0 is country level boundaries
+        // ADM1 is state/province level boundaries
+        // ADM2 is county level boundaries.
+ 
+		// The geographic determination service is expected to return a list of names of
+		// first-level administrative divisions for geometries that the geographic point
+		// falls on or within, including a 3 km buffer around the administrative
+		// geometry. A match on any of those names should constitute a consistency, and
+		// dwc:countryCode should not be needed to make this determination, that is,
+		// this test does not attempt to disambiguate potential duplicate first-level
+		// administrative division names. The level of buffering may be related to the
+		// scale of the underlying GIS layer being used. At a global scale, typical map
+		// scales used for borders and coastal areas are either 1:3M or 1:1M (Dooley
+		// 2005, Chapter 4). Horizontal accuracy at those scales is around 1.5-2.5km and
+		// 0.5-0.85 km respectively (Chapman & Wieczorek 2020).
+        
+        if (GEOUtil.isEmpty(sourceAuthority)) { 
+        	// TODO: Add support for GADM data (can't redistrbute).
+        	sourceAuthority = "ADM1 boundaries";
+        }
 
+        try { 
+        	GeoRefSourceAuthority sourceAuthorityObject = new GeoRefSourceAuthority(sourceAuthority);
+        	if (sourceAuthorityObject.getAuthority().equals(EnumGeoRefSourceAuthority.INVALID)) { 
+        		throw new SourceAuthorityException("Invalid Source Authority");
+        	}
+        	
+        	if (GEOUtil.isEmpty(spatialBufferInMeters)) { 
+        		spatialBufferInMeters = "3000";
+        	}
+
+        	Double buffer_km = 3d;
+        	try { 
+        		buffer_km = Double.parseDouble(spatialBufferInMeters);
+        		buffer_km = buffer_km / 1000d;
+        	} catch (Exception e) {
+        		buffer_km = 3d;
+        	}
+
+        	if (GEOUtil.isEmpty(decimalLatitude)) { 
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        		result.addComment("The value provided for dwc:decimalLatitude is empty");
+        	} else if (GEOUtil.isEmpty(decimalLongitude)) { 
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        		result.addComment("The value provided for dwc:decimalLongitude is empty");
+        	} else if (GEOUtil.isEmpty(stateProvince)) { 
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        		result.addComment("The value provided for dwc:stateProvince is empty");
+        	} else { 
+        		try { 
+        			Double lat = Double.parseDouble(decimalLatitude);
+        			Double lng = Double.parseDouble(decimalLongitude);
+        			result.setResultState(ResultState.RUN_HAS_RESULT);
+        			if (GEOUtil.isPointNearPrimaryAllowDuplicates(stateProvince, lat, lng, buffer_km)) { 
+        				result.setValue(ComplianceValue.COMPLIANT);
+        				result.addComment("Provided coordinate lies within the bounds of the provided stateProvince.");
+        			} else { 
+        				result.setValue(ComplianceValue.NOT_COMPLIANT);
+        				result.addComment("Provided coordinate decimalLatitude=["+decimalLatitude+"], decimalLongitude=["+decimalLongitude+"] lies outside the bounds of the provided stateProvince ["+stateProvince+"].");
+        			}
+        		} catch (NumberFormatException e) { 
+        			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        			result.addComment("Error parsing numeric latitude/longitude from provided dwc:decimalLatitude ["+decimalLatitude+"] or dwc:decimalLongitude ["+ decimalLongitude +"].");
+        		}
+        	}
+        } catch (SourceAuthorityException e) { 
+        	result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("Error with specified Source Authority: " + e.getMessage());
+        }
+        
         return result;
     }
 
@@ -1380,7 +1468,8 @@ public class DwCGeoRefDQ{
     @Provides("7e0c0418-fe16-4a39-98bd-80e19d95b9d1")
     @ProvidesVersion("https://rs.tdwg.org/bdq/terms/7e0c0418-fe16-4a39-98bd-80e19d95b9d1/2022-03-22")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available, INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is EMPTY; COMPLIANT if the value of dwc:geodeticDatum is a valid EPSG CRS Code (with or without the 'epsg' namespace prepended), or an unambiguous alphanumeric CRS or datum code; otherwise NOT_COMPLIANT bdq:sourceAuthority is 'epsg' [https://epsg.io]")
-    public static DQResponse<ComplianceValue> validationGeodeticdatumStandard(@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
+    public static DQResponse<ComplianceValue> validationGeodeticdatumStandard(
+    		@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
@@ -1426,27 +1515,75 @@ public class DwCGeoRefDQ{
     }
 
     /**
-     * #60 Amendment SingleRecord Conformance: geodeticdatum standardized
+     * Propose amendment to the value of dwc:geodeticDatum using bdq:sourceAuthority.
      *
-     * Provides: AMENDMENT_GEODETICDATUM_STANDARDIZED
+     * Provides: 60 AMENDMENT_GEODETICDATUM_STANDARDIZED
+     * Version:  	2024-07-24
      *
      * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
      * @return DQResponse the response of type AmendmentValue to return
      */
+    @Amendment(label="AMENDMENT_GEODETICDATUM_STANDARDIZED", description="Propose amendment to the value of dwc:geodeticDatum using bdq:sourceAuthority.")
     @Provides("0345b325-836d-4235-96d0-3b5caf150fc0")
-    public DQResponse<AmendmentValue> amendmentGeodeticdatumStandardized(@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
-        DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/0345b325-836d-4235-96d0-3b5caf150fc0/ 	2024-07-24")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority was not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is EMPTY; AMENDED the value of dwc:geodeticDatum if it could be unambiguously interpreted as a value in bdq:sourceAuthority; otherwise NOT_AMENDED bdq:sourceAuthority = \"EPSG\" {[https://epsg.org]} {API for EPSG codes [https://apps.epsg.org/api/swagger/ui/index#/Datum]}")
+    public static DQResponse<AmendmentValue> amendmentGeodeticdatumStandardized(
+    		@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
+    	DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
-        //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // service was not available; INTERNAL_PREREQUISITES_NOT_MET 
-        // if dwc:geodeticDatum is EMPTY; AMENDED if the value of dwc:geodeticDatum 
-        // has been standardized using the bdq:sourceAuthority service; 
-        //otherwise NOT_AMENDED 
+    	// Specification
+		// EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority was not available;
+		// INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is EMPTY; AMENDED the
+		// value of dwc:geodeticDatum if it could be unambiguously interpreted as a
+		// value in bdq:sourceAuthority; otherwise NOT_AMENDED 
+    	// bdq:sourceAuthority =
+		// "EPSG" {[https://epsg.org]} {API for EPSG codes
+		// [https://apps.epsg.org/api/swagger/ui/index#/Datum]}
 
-        //TODO: Parameters. This test is defined as parameterized.
-        // bdq:sourceAuthority
-
+        if (GEOUtil.isEmpty(geodeticDatum)) { 
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("Provided dwc:geodeticDatum is empty.");
+        } else { 
+        	if (geodeticDatum.trim().equals("^4326$")) {
+        		// assume EPSG code is intended
+        		result.setResultState(ResultState.AMENDED);
+        		String amended = "EPSG:4326";
+        		result.addComment("Added missing EPSG namespace to dwc:geodeticDatum ["+geodeticDatum+"] making it ["+amended+"]");
+        		Map<String,String> value = new HashMap<String,String>();
+        		value.put("dwc:geodeticDatum",amended);
+        		result.setValue(new AmendmentValue(value));
+        	} else if (geodeticDatum.trim().matches("^epsg:[0-9]+$")) {
+        		result.setResultState(ResultState.AMENDED);
+        		String amended = geodeticDatum.toUpperCase().trim();
+        		result.addComment("Corrected case in provided dwc:geodeticDatum ["+geodeticDatum+"] to ["+amended+"]");
+        		Map<String,String> value = new HashMap<String,String>();
+        		value.put("dwc:geodeticDatum",amended);
+        		result.setValue(new AmendmentValue(value));
+        	} else if (geodeticDatum.trim().matches("^epsg[0-9]+$")) {
+        		// handle missing :
+        		result.setResultState(ResultState.AMENDED);
+        		String amended = geodeticDatum.toUpperCase().trim();
+        		amended = amended.replace("EPSG", "EPSG:");
+        		result.addComment("Corrected case in provided dwc:geodeticDatum ["+geodeticDatum+"] to ["+amended+"]");
+        		Map<String,String> value = new HashMap<String,String>();
+        		value.put("dwc:geodeticDatum",amended);
+        		result.setValue(new AmendmentValue(value));
+        	} else if (geodeticDatum.trim().toUpperCase().replace(" ", "").equals("WGS84")) {
+        		// WGS84 to EPSG code for geographic SRS with WGS84 as the datum.
+        		// dwc:decimalLatitude/decimalLongitude use a coordinate system that is: 
+        		// Ellipsoidal 2D CS. Axes: latitude, longitude. Orientations: north, east. UoM: degree 
+        		result.setResultState(ResultState.AMENDED);
+        		String amended = "EPSG:4326";
+        		result.addComment("Corrected provided dwc:geodeticDatum ["+geodeticDatum+"] to ["+amended+"] applied to geographic coordinate system of dwc:decimalLatitude and dwc:decimalLongitude");
+        		Map<String,String> value = new HashMap<String,String>();
+        		value.put("dwc:geodeticDatum",amended);
+        		result.setValue(new AmendmentValue(value));
+        	} else { 
+        		result.setResultState(ResultState.NOT_AMENDED);
+        		result.addComment("Provided dwc:geodeticDatum ["+geodeticDatum+"] not interpreted to an EPSG code for a geographic CRS.");
+        	}
+        }
+        
         return result;
     }
 
@@ -2760,7 +2897,6 @@ public class DwCGeoRefDQ{
     		@ActedUpon("dwc:country") String country, 
     		@ActedUpon("dwc:stateProvince") String stateProvince,
     		@Parameter(name="bdq:sourceAuthority") String sourceAuthority
-
     		) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
