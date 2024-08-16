@@ -266,11 +266,13 @@ public class GettyLookup {
 	}
 	
 	/**
-	 * Match a secondary geopolitical entity (state/province) name in the the Getty TGN.
+	 * Match a secondary geopolitical entity (state/province) name in the the Getty TGN, returns
+	 * true if at least one such entity is found.
 	 *
 	 * @param primaryDivision the state/province to look up.
-	 * @return true if the secondaryDivision is found as an appropriate geopolitical entity in TGN matching
-	 * any form of the name, false if the primary division is not found in TGN, null on an exception querying TGN.
+	 * @return true if the secondaryDivision is found as appropriate geopolitical entity in TGN matching
+	 * any form of the name at least once, false if the primary division is not found in TGN, 
+	 * null on an exception querying TGN.
 	 */
 	public Boolean lookupPrimary(String primaryDivision) { 
 
@@ -284,7 +286,8 @@ public class GettyLookup {
 
 			StringBuilder request = new StringBuilder();
 			request.append(baseURI);
-			String primaryEncoded = URI.encodeFragment(primaryDivision, false);
+			// enclose in quotes for exact match
+			String primaryEncoded = URI.encodeFragment('"'+primaryDivision+'"', false);
 			request.append("name=").append(primaryEncoded);
 			request.append("&placetypeid=").append(placeTypeID);
 			request.append("&nationid=").append("");
@@ -298,8 +301,10 @@ public class GettyLookup {
 				Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
 				System.out.println(response.getCount());
 				System.out.println(response.getCount());
-				if (response.getCount().compareTo(BigInteger.ONE)==0) { 
+				if (response.getCount().compareTo(BigInteger.ONE) >= 0) { 
+					// idiom for line above from BigInteger docs: (x.compareTo(y) <op> 0)
 					retval = true;
+					// cache the first match
 					primaryCache.put(primaryDivision, new GettyTGNObject(response.getSubject().get(0),placeTypeID));
 				} else { 
 					retval = false;
@@ -318,6 +323,7 @@ public class GettyLookup {
 
 		return retval;
 	} 
+	
 	
 	
 	public String getPreferredCountryName(String country) { 

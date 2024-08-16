@@ -2858,6 +2858,7 @@ public class DwCGeoRefDQ{
         				result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
         			} else if (lookup.lookupPrimary(stateProvince)) { 
         				result.addComment("the value provided for dwc:stateProvince [" + stateProvince + "] exists as a primary administrative divsion in the Getty Thesaurus of Geographic Names (TGN).");
+        				result.addComment(lookup.getPrimaryObject(stateProvince).getParentageString());
         				result.setResultState(ResultState.RUN_HAS_RESULT);
         				result.setValue(ComplianceValue.COMPLIANT);
         				GeoUtilSingleton.getInstance().addTgnPrimary(stateProvince, true);
