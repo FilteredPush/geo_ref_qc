@@ -100,6 +100,64 @@ public class GeoTesterTest {
         assertFalse(geoTester.isPointNearCountry("United States", originalLat, originalLng, thresholdDistanceKmFromLand));
         
 	}
+	
+	
+	@Test
+	public void testparseVerbatimLatLongToDecimalDegree() {
+		double DELTA = 1e-10;
+		
+		String verbatim = "";
+		Double expected = null;
+		Double result = GEOUtil.parseVerbatimLatLongToDecimalDegree(verbatim);
+		assertNull(result);
+		
+		verbatim = "15.2";
+		expected = 15.2d;
+		result = GEOUtil.parseVerbatimLatLongToDecimalDegree(verbatim);
+		assertEquals(expected,result,DELTA);
+		
+		verbatim = "15.2° N";
+		expected = 15.2d;
+		result = GEOUtil.parseVerbatimLatLongToDecimalDegree(verbatim);
+		assertEquals(expected,result,DELTA);
+		
+		verbatim = "15.2°S";
+		expected = -15.2d;
+		result = GEOUtil.parseVerbatimLatLongToDecimalDegree(verbatim);
+		assertEquals(expected,result,DELTA);
+		
+		verbatim = "15° 30' N";
+		expected = 15.5d;
+		result = GEOUtil.parseVerbatimLatLongToDecimalDegree(verbatim);
+		assertEquals(expected,result,DELTA);
+		
+		verbatim = "15°30'S";
+		expected = -15.5d;
+		result = GEOUtil.parseVerbatimLatLongToDecimalDegree(verbatim);
+		assertEquals(expected,result,DELTA);
+		
+		verbatim = "15° 30' 30" + '"' + " N";
+		expected = 15.508333333333333d;
+		result = GEOUtil.parseVerbatimLatLongToDecimalDegree(verbatim);
+		assertEquals(expected,result,DELTA);
+		
+		verbatim = "82°30'30" + '"' + "S";
+		expected = -82.508333333333333d;
+		result = GEOUtil.parseVerbatimLatLongToDecimalDegree(verbatim);
+		assertEquals(expected,result,DELTA);
+		
+		verbatim = "152.555W";
+		expected = -152.555d;
+		result = GEOUtil.parseVerbatimLatLongToDecimalDegree(verbatim);
+		assertEquals(expected,result,DELTA);
+		
+		verbatim = " 23.456S ";
+		expected = -23.456;
+		result = GEOUtil.parseVerbatimLatLongToDecimalDegree(verbatim);
+		assertEquals(expected,result,DELTA);
+		
+		
+	}
 
 }
 

@@ -318,7 +318,7 @@ public class GeoUtiltsTest {
 		
 		TransformationStruct result;
 		try {
-			result = GEOUtil.externalTransforTo4326(decimalLatitude, decimalLongitude, geodeticDatum);
+			result = GEOUtil.externalTransformTo4326(decimalLatitude, decimalLongitude, geodeticDatum);
 			assertEquals(42.383783d, result.getDecimalLatitude(),delta);
 			assertEquals(-71.146916d,result.getDecimalLongitude(),delta);
 		} catch (Exception e) {

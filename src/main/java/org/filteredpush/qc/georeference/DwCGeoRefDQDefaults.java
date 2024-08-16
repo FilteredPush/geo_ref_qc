@@ -193,7 +193,31 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
     		@ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
     		@ActedUpon("dwc:countryCode") String countryCode
-    		) {
+    		) 
+    {
     	return DwCGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, "3000", null);
+    }
+    
+    /**
+     *  Are the combination of the values of dwc:country, dwc:stateProvince consistent with 
+     *  the values in the bdq:sourceAuthority?  Uses the default sourceAuthority.
+     *
+     * Provides: #200 VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT
+     * Version: 2023-09-18
+     *
+     * @param country the provided dwc:country to evaluate
+     * @param stateProvince the provided dwc:stateProvince to evaluate
+     * @return DQResponse the response of type ComplianceValue  to return
+     */
+    @Validation(label="VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT", description=" 	Are the combination of the values of dwc:country, dwc:stateProvince consistent with the values in the bdq:sourceAuthority?")
+    @Provides("e654f562-44f8-43fd-983b-2aaba4c6dda9")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/e654f562-44f8-43fd-983b-2aaba4c6dda9/2023-09-18")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country or dwc:stateProvince are EMPTY; COMPLIANT if the value of dwc:stateProvince occurs as an administrative entity that is a child to the entity matching the value of dwc:country in the bdq:sourceAuthority, and the match to dwc:country is an ISO country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT  	bdq:sourceAuthority default = \"The Getty Thesaurus of Geographic Names (TGN)\" {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
+    public static DQResponse<ComplianceValue> validationCountrystateprovinceConsistent(
+    		@ActedUpon("dwc:country") String country, 
+    		@ActedUpon("dwc:stateProvince") String stateProvince
+    		) 
+    {
+    	return validationCountrystateprovinceConsistent(country,stateProvince, null);
     }
 }

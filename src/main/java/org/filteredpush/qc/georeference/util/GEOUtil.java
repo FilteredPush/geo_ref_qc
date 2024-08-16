@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -52,6 +54,7 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.proj4j.CoordinateTransform;
+
 
 /**
  * <p>GEOUtil class.</p>
@@ -170,6 +173,7 @@ public class GEOUtil {
 		return new DegreeWithPrecision(deg,precision);
 	}
 	
+	
 	// Recognize type of string 
 	/*  D = degree
 	 *  M = minute
@@ -198,6 +202,122 @@ public class GEOUtil {
      *  [-]DDdMM'SS"
 	 */
 	
+	/**
+	 * Parse an input latitude or longitute string if it fits a recognized pattern
+	 * and return a decimal latitude or longitude value.
+	 * 
+	 * @param input a string containing a verbatim value for a latitude or longitude
+	 * @return a decimal degrees representation of the input or null if not able to 
+	 * interpret.
+	 */
+	public static Double parseVerbatimLatLongToDecimalDegree(String input) { 
+		Double retval = null;
+		
+		// TODO: support appropriate number of significant digits for d m s and d m.m
+		
+		if (!GEOUtil.isEmpty(input)) { 
+			
+			input = input.trim();
+			
+			if (input.matches("^[0-9]{1,3}([.][0-9]+){0,1}[NnEe °d]*$")) { 
+				// DD.DDDDD N
+				retval = Double.parseDouble(input.replaceAll("[NnEe °d]",""));
+				if (retval > 360d) { 
+					retval = null;
+				}
+				if (input.contains("N") || input.contains("n")) { 
+					if (retval > 90) { 
+						retval = null;
+					}
+				}
+ 			} else if (input.matches("^[-]{0,1}[0-9]{1,3}([.][0-9]+){0,1}[SsWw °d]*$")) { 
+				// DD.DDDDD S
+				retval = -Double.parseDouble(input.replaceAll("[-SsWw °d]",""));
+				if (retval < -180d) {
+					retval = null;
+				}
+				if (input.contains("S") || input.contains("s")) { 
+					if (retval < -90) { 
+						retval = null;
+					}
+				}
+ 			} else if (input.matches("^[0-9]{1,3}[ °d]+[0-9]{1,2}([.][0-9]+){0,1}['NnEe ]*$")) { 
+ 				//  DDd MM.MM'N
+ 				String degreeBit = input.split("[ °d]")[0];
+ 				String minuteBit = input.replaceFirst("^[0-9]{1,3}[ °d]+", "");
+				Double degrees = Double.parseDouble(degreeBit.replaceAll("[NnEe °d']",""));
+				Double minutes = Double.parseDouble(minuteBit.replaceAll("[NnEe °d']",""));
+				retval = degrees + (minutes/60d);
+				if (retval > 180d) {
+					retval = null;
+				}
+				if (input.contains("N") || input.contains("n")) { 
+					if (retval > 90) { 
+						retval = null;
+					}
+				}
+ 			} else if (input.matches("^[-]{0,1}[0-9]{1,3}[ °d]+[0-9]{1,2}([.][0-9]+){0,1}['SsWw ]*$")) { 
+ 				//  DDd MM.MM'S
+ 				String degreeBit = input.split("[ °d]")[0];
+ 				String minuteBit = input.replaceFirst("^[0-9]{1,3}[ °d]+", "");
+				Double degrees = Double.parseDouble(degreeBit.replaceAll("[-SsWw °d']",""));
+				Double minutes = Double.parseDouble(minuteBit.replaceAll("[-SsWw °d']",""));
+				retval = -(degrees + (minutes/60d));
+				if (retval < -180d) {
+					retval = null;
+				}
+				if (input.contains("N") || input.contains("n")) { 
+					if (retval < -90) { 
+						retval = null;
+					}
+				}
+ 			} else if (input.matches("^^([0-9]{1,3})[ °d]+([0-9]{1,2})[' ]+([0-9]{1,2}([.][0-9]+){0,1})[\"+ '\"' + \"NnEe ]*$")) { 
+ 				//  DDdMM'SS.S"N
+ 				Pattern dmsPattern = Pattern.compile("^([0-9]{1,3})[ °d]+([0-9]{1,2})[' ]+([0-9]{1,2}([.][0-9]+){0,1})["+ '"' + "NnEe ]*$");
+ 				Matcher dmsMatcher = dmsPattern.matcher(input);
+ 				System.out.println(dmsMatcher.matches());
+ 				System.out.println(dmsMatcher.group(0));
+ 				String degreeBit = dmsMatcher.group(1);
+ 				String minuteBit = dmsMatcher.group(2);
+ 				String secondBit = dmsMatcher.group(3);
+				Double degrees = Double.parseDouble(degreeBit);
+				Double minutes = Double.parseDouble(minuteBit);
+				Double seconds = Double.parseDouble(secondBit);
+				retval = degrees + (minutes/60d) + ((seconds/60d)/60d); 
+				if (retval > 180d) {
+					retval = null;
+				}
+				if (input.contains("N") || input.contains("n")) { 
+					if (retval > 90) { 
+						retval = null;
+					}
+				}
+ 			} else if (input.matches("^[-]{0,1}([0-9]{1,3})[ °d]+([0-9]{1,2})[' ]+([0-9]{1,2}([.][0-9]+){0,1})[\"+ '\"' + \"SsWw ]*$")) { 
+ 				//  DDdMM'SS.S"N
+ 				Pattern dmsPattern = Pattern.compile("^[-]{0,1}([0-9]{1,3})[ °d]+([0-9]{1,2})[' ]+([0-9]{1,2}([.][0-9]+){0,1})["+ '"' + "SsWw ]*$");
+ 				Matcher dmsMatcher = dmsPattern.matcher(input);
+ 				logger.debug(dmsMatcher.matches());
+ 				String degreeBit = dmsMatcher.group(1);
+ 				String minuteBit = dmsMatcher.group(2);
+ 				String secondBit = dmsMatcher.group(3);
+				Double degrees = Double.parseDouble(degreeBit);
+				Double minutes = Double.parseDouble(minuteBit);
+				Double seconds = Double.parseDouble(secondBit);
+				retval = - (degrees + (minutes/60d) + ((seconds/60d)/60d)); 
+				if (retval < -180d) {
+					retval = null;
+				}
+				if (input.contains("S") || input.contains("s")) { 
+					if (retval < -90) { 
+						retval = null;
+					}
+				}				
+ 			} 
+		}
+		
+		return retval;
+	}
+	 
     /**
      * Test to see if an x/y coordinate is inside any of a set of polygons.
      *
@@ -278,6 +398,7 @@ public class GEOUtil {
 		    Filter filter = ECQL.toFilter("NAME ILIKE '"+ country +"' AND CONTAINS(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "))");
 		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
 		    result = !collection.isEmpty();
+		    featureSource.getFeatures().features().close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -285,7 +406,9 @@ public class GEOUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally { 
-			if (store!=null) { store.dispose(); }			
+			if (store!=null) { 
+				store.dispose(); 
+			}			
 		}
 		return result;
 	}
@@ -341,6 +464,7 @@ public class GEOUtil {
 		    			result = aMatch;
 		    		}
 		    	}
+		    	featureSource.getDataStore().dispose();
 		    }
 		} catch (IOException e) {
 			logger.debug(e.getMessage());
@@ -374,6 +498,8 @@ public class GEOUtil {
 		    Filter filter = ECQL.toFilter("NAME ILIKE '"+ country +"' AND DWITHIN(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "), "+ distanceD +", kilometers)");
 		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
 		    result = !collection.isEmpty();
+		    SimpleFeatureIterator i = collection.features();
+		    i.close();
 		} catch (IOException e) {
 			logger.debug(e.getMessage());
 		} catch (CQLException e) {
@@ -405,12 +531,21 @@ public class GEOUtil {
 			Filter filter = ECQL.toFilter("ISO_SOV1 ILIKE '"+ countryCode +"' AND DWITHIN(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "), "+ distanceD +", kilometers)");
 			SimpleFeatureCollection collection=featureSource.getFeatures(filter);
 			result = !collection.isEmpty();
+			featureSource.getDataStore().dispose();
+		    SimpleFeatureIterator i = collection.features();
+		    i.close();
 		} catch (IOException e) {
 			logger.debug(e.getMessage());
 		} catch (CQLException e) {
 			logger.debug(e.getMessage());
 		} finally { 
-			if (store!=null) { store.dispose(); }			
+			if (store!=null) { 
+				try { 
+					store.dispose();
+				} catch (Exception e) { 
+					logger.error(e.getMessage());
+				}
+			}			
 		}		
 		return result;
 	}	
@@ -759,7 +894,7 @@ public class GEOUtil {
 	 * @return true if the geodetic datum is recognized, false otherwise
 	 * @throws org.geotools.api.referencing.FactoryException if any.
 	 */
-	public static boolean isCooridnateSystemCodeKnown(String geodeticDatum) throws FactoryException {
+	public static boolean isCoordinateSystemCodeKnown(String geodeticDatum) throws FactoryException {
 		
 		boolean retval = false;
 		
@@ -819,7 +954,7 @@ public class GEOUtil {
 	 * @param sourceSRS a {@link java.lang.String} object.
 	 * @return a {@link org.filteredpush.qc.georeference.util.TransformationStruct} object.
 	 */
-	public static TransformationStruct externalTransforTo4326(String sourceY, String sourceX, String sourceSRS) { 
+	public static TransformationStruct externalTransformTo4326(String sourceY, String sourceX, String sourceSRS) { 
 		
 		TransformationStruct retval = null;
 		String targetSRS = "EPSG:4326";
@@ -970,7 +1105,7 @@ public class GEOUtil {
 		TransformationStruct retval = null;
 		
 		if (geodeticDatum.equals("EPSG:4267") && targetGeodeticDatum.equals("EPSG:4326")) { 
-			return externalTransforTo4326(decimalLatitude, decimalLongitude, geodeticDatum);
+			return externalTransformTo4326(decimalLatitude, decimalLongitude, geodeticDatum);
 		} else { 
 		
 		DefaultCoordinateOperationFactory factory = new DefaultCoordinateOperationFactory();

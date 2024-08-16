@@ -18,6 +18,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.datakurator.ffdq.annotations.ActedUpon;
 import org.datakurator.ffdq.api.DQResponse;
 import org.datakurator.ffdq.api.result.AmendmentValue;
 import org.datakurator.ffdq.api.result.ComplianceValue;
@@ -357,6 +358,146 @@ public class DwCGeoRefDQDefinitionsIT {
 		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+	}
+	
+	
+	/**
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#amendmentCoordinatesFromVerbatim(java.lang.String, java.lang.String)}.
+	 */
+	@Test
+	public void testamendmentCoordinatesFromVerbatim() {
+
+		String decimalLatitude = "";
+		String decimalLongitude = "";
+		String verbatimCoordinates = "";
+		String verbatimLatitude = "";
+		String verbatimLongitude = "";
+		String verbatimSRS = "";
+		String verbatimCoordinateSystem = "";
+		DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+		assertNull(result.getValue());
+		
+		decimalLatitude = "56.5522";
+		decimalLongitude = "81.4677";
+		verbatimCoordinates = "56,81";
+		verbatimLatitude = "";
+		verbatimLongitude = "";
+		verbatimSRS = "";
+		verbatimCoordinateSystem = "";
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.NOT_AMENDED.getLabel(), result.getResultState().getLabel());
+		assertNull(result.getValue());
+		
+		decimalLatitude = "";
+		decimalLongitude = "";
+		verbatimCoordinates = "152.555W, 23.456S";
+		verbatimLatitude = "";
+		verbatimLongitude = "";
+		verbatimSRS = "";
+		verbatimCoordinateSystem = "";
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+		assertEquals(2,result.getValue().getObject().size());
+		assertEquals("-23.456",result.getValue().getObject().get("dwc:decimalLatitude"));
+		assertEquals("-152.555",result.getValue().getObject().get("dwc:decimalLongitude"));
+		
+		decimalLatitude = "";
+		decimalLongitude = "";
+		verbatimCoordinates = "";
+		verbatimLatitude = "19.45 N";
+		verbatimLongitude = "72.46 E";
+		verbatimSRS = "";
+		verbatimCoordinateSystem = "";
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+		assertEquals(2,result.getValue().getObject().size());
+		assertEquals("19.45",result.getValue().getObject().get("dwc:decimalLatitude"));
+		assertEquals("72.46",result.getValue().getObject().get("dwc:decimalLongitude"));
+		
+		decimalLatitude = "";
+		decimalLongitude = "";
+		verbatimCoordinates = "15° 32.49'N, 23° 15' E";
+		verbatimLatitude = "";
+		verbatimLongitude = "";
+		verbatimSRS = "";
+		verbatimCoordinateSystem = "";
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+		assertEquals(2,result.getValue().getObject().size());
+		assertEquals("15.5415",result.getValue().getObject().get("dwc:decimalLatitude"));
+		assertEquals("23.25",result.getValue().getObject().get("dwc:decimalLongitude"));
+		
+		decimalLatitude = "";
+		decimalLongitude = "";
+		verbatimCoordinates = "";
+		verbatimLatitude = "15°32.49' N";
+		verbatimLongitude = "23°15'W";
+		verbatimSRS = "";
+		verbatimCoordinateSystem = "";
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+		assertEquals(2,result.getValue().getObject().size());
+		assertEquals("15.5415",result.getValue().getObject().get("dwc:decimalLatitude"));
+		assertEquals("-23.25",result.getValue().getObject().get("dwc:decimalLongitude"));
+		
+		decimalLatitude = "";
+		decimalLongitude = "";
+		verbatimCoordinates = "45°45'30\"N, 15°20'20\"E";
+		verbatimLatitude = "";
+		verbatimLongitude = "";
+		verbatimSRS = "";
+		verbatimCoordinateSystem = "";
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+		assertEquals(2,result.getValue().getObject().size());
+		assertEquals("45.75833333",result.getValue().getObject().get("dwc:decimalLatitude").substring(0, 11));
+		assertEquals("15.33888888",result.getValue().getObject().get("dwc:decimalLongitude").substring(0, 11));
+		
+		decimalLatitude = "";
+		decimalLongitude = "";
+		verbatimCoordinates = "";
+		verbatimLatitude = "45° 45' 30\" N";
+		verbatimLongitude = "15° 20' 20\" W";
+		verbatimSRS = "";
+		verbatimCoordinateSystem = "";
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+		assertEquals(2,result.getValue().getObject().size());
+		assertEquals("45.75833333",result.getValue().getObject().get("dwc:decimalLatitude").substring(0, 11));
+		assertEquals("-15.33888888",result.getValue().getObject().get("dwc:decimalLongitude").substring(0, 12));
+		
+		decimalLatitude = "";
+		decimalLongitude = "";
+		verbatimCoordinates = "45°45'30\"n; 15°20'20\"e";
+		verbatimLatitude = "";
+		verbatimLongitude = "";
+		verbatimSRS = "";
+		verbatimCoordinateSystem = "";
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+		assertEquals(2,result.getValue().getObject().size());
+		assertEquals("45.75833333",result.getValue().getObject().get("dwc:decimalLatitude").substring(0, 11));
+		assertEquals("15.33888888",result.getValue().getObject().get("dwc:decimalLongitude").substring(0, 11));
 		
 	}
 	

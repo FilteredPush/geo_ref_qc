@@ -23,6 +23,9 @@ import org.filteredpush.qc.georeference.util.UnknownToWGS84Error;
 import org.geotools.api.referencing.FactoryException;
 import org.geotools.api.referencing.operation.TransformException;
 import org.geotools.ows.ServiceException;
+
+import edu.getty.tgn.service.GettyTGNObject;
+
 import org.datakurator.ffdq.api.result.*;
 
 /**
@@ -360,17 +363,26 @@ public class DwCGeoRefDQ{
      *
      * Provides: AMENDMENT_COORDINATES_FROM_VERBATIM
      *
-     * @param verbatimCoordinateSystem the provided dwc:verbatimCoordinateSystem to evaluate
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @param verbatimCoordinates the provided dwc:verbatimCoordinates to evaluate
+     * @param verbatimLatitude the provided dwc:verbatimLatitude to evaluate
      * @param verbatimLongitude the provided dwc:verbatimLongitude to evaluate
      * @param verbatimSRS the provided dwc:verbatimSRS to evaluate
-     * @param verbatimLatitude the provided dwc:verbatimLatitude to evaluate
+     * @param verbatimCoordinateSystem the provided dwc:verbatimCoordinateSystem to evaluate
      * @return DQResponse the response of type AmendmentValue to return
      */
     @Provides("3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e")
-    public DQResponse<AmendmentValue> amendmentCoordinatesFromVerbatim(@ActedUpon("dwc:verbatimCoordinateSystem") String verbatimCoordinateSystem, @ActedUpon("dwc:decimalLatitude") String decimalLatitude, @ActedUpon("dwc:decimalLongitude") String decimalLongitude, @ActedUpon("dwc:verbatimCoordinates") String verbatimCoordinates, @ActedUpon("dwc:verbatimLongitude") String verbatimLongitude, @ActedUpon("dwc:verbatimSRS") String verbatimSRS, @ActedUpon("dwc:verbatimLatitude") String verbatimLatitude) {
+    public static DQResponse<AmendmentValue> amendmentCoordinatesFromVerbatim(
+    		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
+    		@ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
+    		@ActedUpon("dwc:verbatimCoordinates") String verbatimCoordinates, 
+    		@ActedUpon("dwc:verbatimLatitude") String verbatimLatitude,
+    		@ActedUpon("dwc:verbatimLongitude") String verbatimLongitude, 
+    		@ActedUpon("dwc:verbatimSRS") String verbatimSRS, 
+    		@ActedUpon("dwc:verbatimCoordinateSystem") String verbatimCoordinateSystem
+    		)
+    {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
         //TODO:  Implement specification
@@ -383,7 +395,114 @@ public class DwCGeoRefDQ{
         // (dwc:verbatimCoordinates or dwc:verbatimLatitude and dwc:verbatimLongitude, 
         // plus dwc:verbatimCoordinateSystem and dwc:verbatimSRS); 
         //otherwise NOT_AMENDED 
+        
+        boolean done = false;
+        
+        if (!GEOUtil.isEmpty(decimalLatitude) || !GEOUtil.isEmpty(decimalLongitude)) { 
+        	result.setResultState(ResultState.NOT_AMENDED);
+        	result.addComment("At least one of dwc:verbatimLatitude and dwc:dacimalLongitude contain a value.");
+        	done = true;
+        } 
+        
+        if (!done && GEOUtil.isEmpty(verbatimCoordinates) && (GEOUtil.isEmpty(verbatimLatitude) || GEOUtil.isEmpty(verbatimLongitude))) { 
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        	if (GEOUtil.isEmpty(verbatimCoordinates)) { 
+        		result.addComment("No value provided for dwc:verbatimCoordinates.");
+        	} 
+        	if (GEOUtil.isEmpty(verbatimLatitude)) { 
+        		result.addComment("No value provided for dwc:verbatimLatitude.");
+        	}
+        	if (GEOUtil.isEmpty(verbatimLongitude)) { 
+        		result.addComment("No value provided for dwc:verbatimLongitude.");
+        	}
+        	done = true;
+        }
 
+        // TODO: Evaluate verbatimCoordinateSystem and verbatimSRS.
+        // if coordinates are lat/long and verbatimSRS is blank or consistent with EPSG:4326, do the transform
+        // if not, identify an available transform (none implemented yet) or fail.
+        
+        boolean interpreted = false;
+        
+        if (!done && !GEOUtil.isEmpty(verbatimCoordinates)) { 
+        	if (verbatimCoordinates.matches("^[0-9]{2}[A-Z] [A-Z]{2} [0-9]{3,5} [0-9]{3,5}")) {
+        		// MGRS, USNG
+        		result.addComment("Provided value for verbatimCoordinates ["+verbatimCoordinates+"] appears to be a MGRS or USNG coordinate, not converting.");
+        		result.setResultState(ResultState.NOT_AMENDED);
+        	} else if (verbatimCoordinates.matches("^[0-9]{2}[A-Z] [0-9]{7} [0-9]{7}")) { 
+        		// UTM
+        		result.addComment("Provided value for verbatimCoordinates ["+verbatimCoordinates+"] appears to be a UTM coordinate, not converting.");
+        		result.setResultState(ResultState.NOT_AMENDED);
+        		// TODO: Support transformation to EPSG:4326
+        	} else { 
+        		if (verbatimCoordinates.contains(";")) {
+        			verbatimCoordinates = verbatimCoordinates.replace(";", ",");
+        		}
+        		if (verbatimCoordinates.contains(",")) {
+        			logger.debug(verbatimCoordinates);
+        			String[] bits = verbatimCoordinates.split(",");
+        			if (bits.length==2) { 
+        				logger.debug(bits[0]);
+        				logger.debug(bits[1]);
+        				Double latitude = null;
+        				Double longitude = null;
+        				if (bits[0].matches(".*[NnSs].*")) { 
+        					latitude = GEOUtil.parseVerbatimLatLongToDecimalDegree(bits[0]);
+        					longitude = GEOUtil.parseVerbatimLatLongToDecimalDegree(bits[1]);
+        				} else if (bits[0].matches(".*[EeWw].*")) { 
+        					latitude = GEOUtil.parseVerbatimLatLongToDecimalDegree(bits[1]);
+        					logger.debug(latitude);
+        					longitude = GEOUtil.parseVerbatimLatLongToDecimalDegree(bits[0]);
+        					logger.debug(longitude);
+        				} else {
+        					latitude = GEOUtil.parseVerbatimLatLongToDecimalDegree(bits[1]);
+        					longitude = GEOUtil.parseVerbatimLatLongToDecimalDegree(bits[0]);
+        					if (latitude==null && longitude!=null && longitude <=90d) { 
+        						latitude = GEOUtil.parseVerbatimLatLongToDecimalDegree(bits[0]);
+        						longitude = GEOUtil.parseVerbatimLatLongToDecimalDegree(bits[1]);
+        					}
+        				}
+        	         	if (latitude!=null && latitude<=90d && latitude >= -90d &&
+        	        		longitude!=null && longitude<=180d && longitude >= -180d
+        	        		) { 
+        	        		result.setResultState(ResultState.FILLED_IN);
+        	        		String newDecimalLatitude = latitude.toString();
+        	        		String newDecimalLongitude = longitude.toString();
+        	        		Map<String,String> map = new HashMap();
+        	        		map.put("dwc:decimalLatitude", newDecimalLatitude);
+        	        		map.put("dwc:decimalLongitude", newDecimalLongitude);
+        	        		result.setValue(new AmendmentValue(map));
+        	        		result.addComment("Interpreted decimalLatitude ["+newDecimalLatitude+"] and decimalLongitude ["+newDecimalLongitude+"] from provided verbatimLatitude ["+verbatimLatitude+"] and verbatimLongtude ["+verbatimLongitude+"]");
+        	        		interpreted = true;
+        	        	}
+        			}
+        		}
+        		
+        	}
+        } else if (!done && !GEOUtil.isEmpty(verbatimLatitude) && !GEOUtil.isEmpty(verbatimLongitude)) {
+        	Double latitude = GEOUtil.parseVerbatimLatLongToDecimalDegree(verbatimLatitude);
+        	Double longitude = GEOUtil.parseVerbatimLatLongToDecimalDegree(verbatimLongitude);
+         	if (latitude!=null && latitude<=90d && latitude >= -90d &&
+        		longitude!=null && longitude<=180d && longitude >= -180d
+        		) { 
+        		result.setResultState(ResultState.FILLED_IN);
+        		String newDecimalLatitude = latitude.toString();
+        		String newDecimalLongitude = longitude.toString();
+        		Map<String,String> map = new HashMap();
+        		map.put("dwc:decimalLatitude", newDecimalLatitude);
+        		map.put("dwc:decimalLongitude", newDecimalLongitude);
+        		result.setValue(new AmendmentValue(map));
+        		result.addComment("Interpreted decimalLatitude ["+newDecimalLatitude+"] and decimalLongitude ["+newDecimalLongitude+"] from provided verbatimLatitude ["+verbatimLatitude+"] and verbatimLongtude ["+verbatimLongitude+"]");
+        	    interpreted = true;
+        	}
+        		
+        }
+        
+        if (result.getResultState().equals(ResultState.NOT_RUN) && interpreted == false) { 
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("Unable to interpret provided verbatim coordinate values: verbatimCoordinates["+verbatimCoordinates+"], verbatimLatitude ["+verbatimLatitude+"], verbatimLongitude ["+verbatimLongitude+"].");
+        }
+        
         return result;
     }
 
@@ -1279,9 +1398,9 @@ public class DwCGeoRefDQ{
 				result.setResultState(ResultState.RUN_HAS_RESULT);
 				if (geodeticDatum.matches("^[0-9]+$")) { 
 					// just a number, prepend EPSG: pseudo-namespace
-					matched = GEOUtil.isCooridnateSystemCodeKnown("EPSG:"+geodeticDatum);
+					matched = GEOUtil.isCoordinateSystemCodeKnown("EPSG:"+geodeticDatum);
 				} else { 
-					matched = GEOUtil.isCooridnateSystemCodeKnown(geodeticDatum);
+					matched = GEOUtil.isCoordinateSystemCodeKnown(geodeticDatum);
 				} 
 				if (matched) { 
 					result.setValue(ComplianceValue.COMPLIANT);
@@ -2619,13 +2738,15 @@ public class DwCGeoRefDQ{
         
 
     /**
-     *  	Are the combination of the values of dwc:country, dwc:stateProvince consistent with the values in the bdq:sourceAuthority?
+     *  Are the combination of the values of dwc:country, dwc:stateProvince consistent 
+     *  with the values in the bdq:sourceAuthority?
      *
      * Provides: #200 VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT
      * Version: 2023-09-18
      *
      * @param country the provided dwc:country to evaluate
      * @param stateProvince the provided dwc:stateProvince to evaluate
+     * @param sourceAuthority the sourceAuthority to consult
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT", description=" 	Are the combination of the values of dwc:country, dwc:stateProvince consistent with the values in the bdq:sourceAuthority?")
@@ -2648,7 +2769,7 @@ public class DwCGeoRefDQ{
 		// dwc:country in the bdq:sourceAuthority, and the match to dwc:country is an
 		// ISO country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT
 
-        //TODO: Parameters. This test is defined as parameterized.
+        // Parameters. This test is defined as parameterized.
 		// bdq:sourceAuthority default = "The Getty Thesaurus of Geographic Names
 		// (TGN)" {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}
 
@@ -2699,7 +2820,8 @@ public class DwCGeoRefDQ{
         					if (preferredCountry==null) { 
         						preferredCountry = countryToLookup;
         					}
-        					String primaryParentage = lookup.getParentageForPrimary(stateProvince);
+        					GettyTGNObject primaryObject = lookup.getPrimaryObject(stateProvince);
+        					String primaryParentage = primaryObject.getParentageString();
         					logger.debug(primaryParentage);
         					if (primaryParentage==null) { 
         						result.setResultState(ResultState.RUN_HAS_RESULT);
@@ -2747,35 +2869,148 @@ public class DwCGeoRefDQ{
      * Is the combination of the values of the terms dwc:country, dwc:stateProvince unique in the bdq:sourceAuthority?
      *
      * Provides: VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS
-     * Version: 2022-09-05
+     * Version: 2023-09-18
      *
      * @param country the provided dwc:country to evaluate
      * @param stateProvince the provided dwc:stateProvince to evaluate
+     * @param sourceAuthority the source authority to consult
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS", description="Is the combination of the values of the terms dwc:country, dwc:stateProvince unique in the bdq:sourceAuthority?")
     @Provides("d257eb98-27cb-48e5-8d3c-ab9fca4edd11")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/d257eb98-27cb-48e5-8d3c-ab9fca4edd11/2022-09-05")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/d257eb98-27cb-48e5-8d3c-ab9fca4edd11/2023-09-18")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country and dwc:stateProvince are EMPTY; COMPLIANT if the combination of values of dwc:country and dwc:stateProvince are unambiguously resolved to a single result with a child-parent relationship in the bdq:sourceAuthority and the entity matching the value of dwc:country in the bdq:sourceAuthority is an ISO country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]")
-    public DQResponse<ComplianceValue> validationCountrystateprovinceUnambiguous(@ActedUpon("dwc:country") String country, @ActedUpon("dwc:stateProvince") String stateProvince) {
+    public static DQResponse<ComplianceValue> validationCountrystateprovinceUnambiguous(
+    		@ActedUpon("dwc:country") String country, 
+    		@ActedUpon("dwc:stateProvince") String stateProvince,
+    		@Parameter(name="bdq:sourceAuthority") String sourceAuthority
+    ) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // is not available; INTERNAL_PREREQUISITES_NOT_MET if the 
-        // terms dwc:country and dwc:stateProvince are EMPTY; COMPLIANT 
-        // if the combination of values of dwc:country and dwc:stateProvince 
-        // are unambiguously resolved to a single result with a child-parent 
-        // relationship in the bdq:sourceAuthority and the entity matching 
-        // the value of dwc:country in the bdq:sourceAuthority is an 
-        // ISO country-like entity in the bdq:sourceAuthority; otherwise 
-        // NOT_COMPLIANT bdq:sourceAuthority default = "The Getty Thesaurus 
-        // of Geographic Names (TGN)" [https://www.getty.edu/research/tools/vocabularies/tgn/index.html] 
-        // 
+		// EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available;
+		// INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country and dwc:stateProvince
+		// are EMPTY; COMPLIANT if the combination of values of dwc:country and
+		// dwc:stateProvince are unambiguously resolved to a single result with a
+		// child-parent relationship in the bdq:sourceAuthority and the entity matching
+		// the value of dwc:country in the bdq:sourceAuthority is an ISO country-like
+		// entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT
 
-        //TODO: Parameters. This test is defined as parameterized.
-        // bdq:sourceAuthority default="The Getty Thesaurus of Geographic Names (TGN)"
+        // Parameters. This test is defined as parameterized.
+        // bdq:sourceAuthority default = "The Getty Thesaurus of Geographic Names (TGN)" 
+        // {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}
 
+        if (GEOUtil.isEmpty(sourceAuthority)) {
+        	sourceAuthority = "The Getty Thesaurus of Geographic Names (TGN)";
+        }
+
+        try {
+        	GeoRefSourceAuthority sourceAuthorityObject = new GeoRefSourceAuthority(sourceAuthority);
+        	if (sourceAuthorityObject.getAuthority().equals(EnumGeoRefSourceAuthority.INVALID)) {
+        		throw new SourceAuthorityException("Invalid Source Authority");
+        	}
+
+        	if (GEOUtil.isEmpty(country) && GEOUtil.isEmpty(stateProvince)) { 
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        		result.addComment("Provided dwc:country and dwc:stateProvince are both empty.");
+        	} else { 
+
+        		if (sourceAuthorityObject.getAuthority().equals(EnumGeoRefSourceAuthority.GETTY_TGN)) {
+        			GettyLookup lookup = GeoUtilSingleton.getInstance().getGettyLookup();
+        			String countryToLookup = country;
+        			String preferredCountry =  lookup.getPreferredCountryName(country);
+        			if (preferredCountry==null) { 
+        				List<String> names = lookup.getNamesForCountry(country);
+        				Iterator<String> i = names.iterator();
+        				boolean found = false;
+        				while (i.hasNext() && !found) {
+        					String name = i.next();
+        					preferredCountry = lookup.getPreferredCountryName(name);
+        					if (preferredCountry!=null) { 
+        						countryToLookup=preferredCountry;
+        						logger.debug(preferredCountry);
+        						found = true;
+        					}
+        				}
+        			}
+        			
+        			
+        			if (GEOUtil.isEmpty(country)) { 
+        				// If country is empty, does stateProvince match a single entry? 
+        				if (lookup.lookupPrimary(stateProvince)) {  
+        					result.setResultState(ResultState.RUN_HAS_RESULT);
+        					result.setValue(ComplianceValue.COMPLIANT);
+        					result.addComment("Provided value of dwc:country is empty and dwc:stateProvince ["+stateProvince+"] matches a single primary division level entity known to the Getty TGN");
+        				} else { 
+        					result.setResultState(ResultState.RUN_HAS_RESULT);
+        					result.setValue(ComplianceValue.NOT_COMPLIANT);
+        					result.addComment("Provided value of dwc:country is empty and dwc:stateProvince ["+stateProvince+"] is not a unique match to a primary division level entity known to the Getty TGN");
+        				}
+        			} else if (GEOUtil.isEmpty(stateProvince)) { 
+        				// If stateProvince is empty, does country match a single entity
+        				if (lookup.lookupCountry(countryToLookup)) { 
+        					result.setResultState(ResultState.RUN_HAS_RESULT);
+        					result.setValue(ComplianceValue.COMPLIANT);
+        					result.addComment("Provided value of dwc:stateProvince is empty and dwc:country ["+country+"] matches a single nation level entity known to the Getty TGN");
+        				} else { 
+        					result.setResultState(ResultState.RUN_HAS_RESULT);
+        					result.setValue(ComplianceValue.NOT_COMPLIANT);
+        					result.addComment("Provided value of dwc:stateProvince is empty and dwc:country ["+country+"] is not a unique match to a nation level entity known to the Getty TGN");
+        				}
+        			} else { 
+        				logger.debug(country);
+        				logger.debug(countryToLookup);
+        				if (lookup.lookupCountry(countryToLookup)) { 
+        					logger.debug(stateProvince);
+        					logger.debug(lookup.lookupPrimary(stateProvince));
+        					if (lookup.lookupPrimary(stateProvince)) {  
+        						if (preferredCountry==null) { 
+        							preferredCountry = countryToLookup;
+        						}
+        						GettyTGNObject primaryObject = lookup.getPrimaryObject(stateProvince);
+        						String primaryParentage = primaryObject.getParentageString();
+        						logger.debug(primaryParentage);
+        						if (primaryParentage==null) { 
+        							result.setResultState(ResultState.RUN_HAS_RESULT);
+        							result.setValue(ComplianceValue.NOT_COMPLIANT);
+        							result.addComment("Parentage not found for dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
+        						} else { 
+        							if (primaryParentage.contains(preferredCountry)) { 
+        								result.setResultState(ResultState.RUN_HAS_RESULT);
+        								result.setValue(ComplianceValue.COMPLIANT);
+        								result.addComment("The dwc:country ["+country+"] as ["+preferredCountry+"] was found in the parentage ["+primaryParentage+"] of dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
+        							} else { 
+        								result.setResultState(ResultState.RUN_HAS_RESULT);
+        								result.setValue(ComplianceValue.NOT_COMPLIANT);
+        								result.addComment("The dwc:country ["+country+"] as ["+preferredCountry+"] was not found in the parentage ["+primaryParentage+"] of dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
+        							}
+        						}
+        					} else { 
+        						result.setResultState(ResultState.RUN_HAS_RESULT);
+        						result.setValue(ComplianceValue.NOT_COMPLIANT);
+        						result.addComment("Provided value of dwc:stateProvince ["+stateProvince+"] is not a subdivision of a nation level entity known to the Getty TGN");
+        					}
+        				} else { 
+        					result.setResultState(ResultState.RUN_HAS_RESULT);
+        					result.setValue(ComplianceValue.NOT_COMPLIANT);
+        					result.addComment("Provided value of dwc:country ["+country+"] is not a nation level entity known to the Getty TGN");
+        				}
+        			} 
+        		} else { 
+        			throw new SourceAuthorityException("Unsupported Source Authority");
+        		}
+
+
+        	}
+        } catch (SourceAuthorityException e) {
+        	result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("Error with specified Source Authority: " + e.getMessage());
+        } catch (GeorefServiceException e) {
+        	result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("Error with specified Source Authority: " + e.getMessage());
+        }
+
+        
         return result;
     }
 

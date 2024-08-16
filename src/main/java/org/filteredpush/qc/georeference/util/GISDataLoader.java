@@ -4,8 +4,11 @@
 package org.filteredpush.qc.georeference.util;
 
 import java.io.IOException;
+import java.lang.System.Logger;
 import java.net.URL;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.geotools.api.data.FileDataStore;
 import org.geotools.api.data.FileDataStoreFinder;
 import org.geotools.api.data.SimpleFeatureSource;
@@ -21,6 +24,8 @@ import org.geotools.filter.text.ecql.ECQL;
  * @version $Id: $Id
  */
 public class GISDataLoader {
+	
+	private static final Log logger = LogFactory.getLog(GISDataLoader.class);
 	
 	/**
 	 * <p>pointIsWithinLand.</p>
@@ -51,19 +56,26 @@ public class GISDataLoader {
 		try {
 			store = FileDataStoreFinder.getDataStore(landShapeFile);
             SimpleFeatureSource featureSource = store.getFeatureSource();
-            System.out.println(featureSource.getInfo());
-            System.out.println(featureSource.getName());
+            logger.debug(featureSource.getInfo().toString());
+            logger.debug(featureSource.getName().toString());
 		    String filterString = " CONTAINS (the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "))";
-		    System.out.println(filterString);
+		    logger.debug(filterString);
 		    Filter filter = ECQL.toFilter(filterString);
 		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
 		    result = !collection.isEmpty();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		} catch (CQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
+		} finally { 
+			// close 
+			if (store!=null) { 
+				try { 
+					store.dispose();
+				} catch (Exception e) { 
+					logger.error(e.getMessage());
+				}
+			}
 		}
 		
 		if (invertSense) {
