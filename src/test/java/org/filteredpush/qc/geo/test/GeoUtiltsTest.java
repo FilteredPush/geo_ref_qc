@@ -328,6 +328,25 @@ public class GeoUtiltsTest {
 		
 		
 	}
+	
+	@Test
+	public void testsimplifyVerbatimCoordinate() { 
+		String verbatimCoordinate = null;
+		assertNull(GEOUtil.simplifyVerbatimCoordinate(verbatimCoordinate));
+		
+		verbatimCoordinate = "";
+		assertEquals("",GEOUtil.simplifyVerbatimCoordinate(verbatimCoordinate));
+		
+		verbatimCoordinate = "132.54° N";
+		assertEquals(verbatimCoordinate,GEOUtil.simplifyVerbatimCoordinate(verbatimCoordinate));
+		
+		verbatimCoordinate = "132.54 degrees north";
+		assertEquals("132.54 ° N",GEOUtil.simplifyVerbatimCoordinate(verbatimCoordinate));
+		
+		verbatimCoordinate = "132.54° North";
+		assertEquals("132.54° N",GEOUtil.simplifyVerbatimCoordinate(verbatimCoordinate));
+		
+	}
 }
 
 

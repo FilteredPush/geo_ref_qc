@@ -438,9 +438,10 @@ public class DwCGeoRefDQ{
         		if (verbatimCoordinates.contains(";")) {
         			verbatimCoordinates = verbatimCoordinates.replace(";", ",");
         		}
-        		if (verbatimCoordinates.contains(",")) {
-        			logger.debug(verbatimCoordinates);
-        			String[] bits = verbatimCoordinates.split(",");
+        		String nverbatimCoordinates = GEOUtil.simplifyVerbatimCoordinate(verbatimCoordinates);
+        		if (nverbatimCoordinates.contains(",")) {
+        			logger.debug(nverbatimCoordinates);
+        			String[] bits = nverbatimCoordinates.split(",");
         			if (bits.length==2) { 
         				logger.debug(bits[0]);
         				logger.debug(bits[1]);
@@ -472,7 +473,7 @@ public class DwCGeoRefDQ{
         	        		map.put("dwc:decimalLatitude", newDecimalLatitude);
         	        		map.put("dwc:decimalLongitude", newDecimalLongitude);
         	        		result.setValue(new AmendmentValue(map));
-        	        		result.addComment("Interpreted decimalLatitude ["+newDecimalLatitude+"] and decimalLongitude ["+newDecimalLongitude+"] from provided verbatimLatitude ["+verbatimLatitude+"] and verbatimLongtude ["+verbatimLongitude+"]");
+        	        		result.addComment("Interpreted decimalLatitude ["+newDecimalLatitude+"] and decimalLongitude ["+newDecimalLongitude+"] from provided verbatimCoordinates ["+verbatimCoordinates+"]");
         	        		interpreted = true;
         	        	}
         			}
@@ -480,8 +481,10 @@ public class DwCGeoRefDQ{
         		
         	}
         } else if (!done && !GEOUtil.isEmpty(verbatimLatitude) && !GEOUtil.isEmpty(verbatimLongitude)) {
-        	Double latitude = GEOUtil.parseVerbatimLatLongToDecimalDegree(verbatimLatitude);
-        	Double longitude = GEOUtil.parseVerbatimLatLongToDecimalDegree(verbatimLongitude);
+        	String nverbatimLatitude = GEOUtil.simplifyVerbatimCoordinate(verbatimLatitude);
+        	String nverbatimLongitude = GEOUtil.simplifyVerbatimCoordinate(verbatimLongitude);
+        	Double latitude = GEOUtil.parseVerbatimLatLongToDecimalDegree(nverbatimLatitude);
+        	Double longitude = GEOUtil.parseVerbatimLatLongToDecimalDegree(nverbatimLongitude);
          	if (latitude!=null && latitude<=90d && latitude >= -90d &&
         		longitude!=null && longitude<=180d && longitude >= -180d
         		) { 

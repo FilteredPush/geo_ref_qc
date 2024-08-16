@@ -1201,6 +1201,40 @@ public class GEOUtil {
 		
 		return retval;
 	}
+	
+	/** shorten the strings degrees, minutes, seconds, north, south, 
+	 * east, west in a verbatim geographic coordinate string to one 
+	 * character each
+	 * @param coordinate to simplify
+	 * @return input coordinate with selected words replaced by single characters.
+	 */
+	public static String simplifyVerbatimCoordinate(String coordinate) {
+		String retval = coordinate;
+		if (retval!=null) { 
+			if (retval.contains("degrees")) {
+				retval = retval.replace("degrees", "°");
+			}
+			if (retval.contains("minutes")) {
+				retval = retval.replace("minutes", "'");
+			}
+			if (retval.contains("seconds")) {
+				retval = retval.replace("seconds", "\"");
+			}
+			if (retval.toUpperCase().contains("NORTH")) { 
+				retval = retval.replaceAll("(?i)north", "N");
+			}
+			if (retval.toUpperCase().contains("SOUTH")) { 
+				retval = retval.replaceAll("(?i)south", "S");
+			}
+			if (retval.toUpperCase().contains("EAST")) { 
+				retval = retval.replaceAll("(?i)east", "E");
+			}
+			if (retval.toUpperCase().contains("WEST")) { 
+				retval = retval.replaceAll("(?i)west", "W");
+			}
+		}
+		return retval;
+	}
     
 }
 

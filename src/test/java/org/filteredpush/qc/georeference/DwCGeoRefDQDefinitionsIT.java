@@ -499,6 +499,21 @@ public class DwCGeoRefDQDefinitionsIT {
 		assertEquals("45.75833333",result.getValue().getObject().get("dwc:decimalLatitude").substring(0, 11));
 		assertEquals("15.33888888",result.getValue().getObject().get("dwc:decimalLongitude").substring(0, 11));
 		
+		decimalLatitude = "";
+		decimalLongitude = "";
+		verbatimCoordinates = "45 degrees 45 minutes 30 seconds north; 15degrees20minutes20seconds East";
+		verbatimLatitude = "";
+		verbatimLongitude = "";
+		verbatimSRS = "";
+		verbatimCoordinateSystem = "";
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+		assertEquals(2,result.getValue().getObject().size());
+		assertEquals("45.75833333",result.getValue().getObject().get("dwc:decimalLatitude").substring(0, 11));
+		assertEquals("15.33888888",result.getValue().getObject().get("dwc:decimalLongitude").substring(0, 11));
+		
 	}
 	
 }
