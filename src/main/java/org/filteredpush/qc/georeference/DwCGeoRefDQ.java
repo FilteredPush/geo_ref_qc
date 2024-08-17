@@ -754,7 +754,6 @@ public class DwCGeoRefDQ{
      * @param coordinatePrecision the provided dwc:coordinatePrecision to evaluate
      * @return DQResponse the response of type AmendmentValue to return
      */
-// TODO: Implementation of AMENDMENT_COORDINATES_CONVERTED is not up to date with current version: https://rs.tdwg.org/bdq/terms/620749b9-7d9c-4890-97d2-be3d1cde6da8/2023-06-24 see line: 593
     @Amendment(label="AMENDMENT_COORDINATES_CONVERTED", description="Propose amendment to the value of dwc:geodeticDatum and potentially to dwc:decimalLatitude and/or dwc:decimalLongitude based on a conversion between spatial reference systems.")
     @Provides("620749b9-7d9c-4890-97d2-be3d1cde6da8")
     @ProvidesVersion("https://rs.tdwg.org/bdq/terms/620749b9-7d9c-4890-97d2-be3d1cde6da8/2023-06-24")
@@ -1082,68 +1081,6 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-    /**
-     * #51 Validation SingleRecord Conformance: coordinates terrestrialmarine
-     *
-     * Provides: VALIDATION_COORDINATES_TERRESTRIALMARINE
-     *
-     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
-     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Provides("b9c184ce-a859-410c-9d12-71a338200380")
-    public DQResponse<ComplianceValue> validationCoordinatesTerrestrialmarine(
-    		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
-    		@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // service was not available; INTERNAL_PREREQUISITES_NOT_MET 
-        // if the non-marine/marine status of the taxon is not provided 
-        // or is not interpretable from bdq:sourceAuthority or the 
-        // values of dwc:decimalLatitude or dwc:decimalLongitude are 
-        // EMPTY; COMPLIANT if a taxon coded as non-marine by the bdq:sourceAuthority 
-        // has geographic coordinates that fall within non-marine boundaries 
-        // plus an exterior buffer given by bdq:spatialBufferInMeters 
-        // or a marine taxon according to the bdq:sourceAuthority has 
-        // geographic coordinates that fall within marine boundaries 
-        // plus an exterior buffer given by bdq:spatialBufferInMeters; 
-        //otherwise NOT_COMPLIANT 
-
-        //TODO: Parameters. This test is defined as parameterized.
-        // bdq:sourceAuthority; bdq:spatialBufferInMeters
-
-        return result;
-    }
-
-    /**
-     * #54 Amendment SingleRecord Consistency: coordinates transposed
-     *
-     * Provides: AMENDMENT_COORDINATES_TRANSPOSED
-     *
-     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
-     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @return DQResponse the response of type AmendmentValue to return
-     */
-    @Provides("f2b4a50a-6b2f-4930-b9df-da87b6a21082")
-    public DQResponse<AmendmentValue> amendmentCoordinatesTransposed(
-    		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
-    		@ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
-    		@Consulted("dwc:countryCode") String countryCode) {
-        DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
-
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if any of dwc:decimalLatitude 
-        // or dwc:decimalLongitude or dwc:countryCode are EMPTY; AMENDED 
-        // if the geographic coordinates were transposed or one or 
-        // more of the signs of the coordinates were reversed to place 
-        // the record in the region defined by the supplied dwc:countryCode; 
-        //otherwise NOT_AMENDED 
-
-        return result;
-    }
 
     /**
      *  Propose amendments of the values of dwc:minimumDepthInMeters and
@@ -3053,13 +2990,4 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-// TODO: Implementation of AMENDMENT_COORDINATES_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e/2023-01-13 see line: 359
-// TODO: Implementation of AMENDMENT_COUNTRYCODE_STANDARDIZED is not up to date with current version: https://rs.tdwg.org/bdq/terms/fec5ffe6-3958-4312-82d9-ebcca0efb350/2023-03-07 see line: 678
-// TODO: Implementation of VALIDATION_COORDINATES_TERRESTRIALMARINE is not up to date with current version: https://rs.tdwg.org/bdq/terms/b9c184ce-a859-410c-9d12-71a338200380/2022-03-02 see line: 745
-// TODO: Implementation of AMENDMENT_COORDINATES_TRANSPOSED is not up to date with current version: https://rs.tdwg.org/bdq/terms/f2b4a50a-6b2f-4930-b9df-da87b6a21082/2022-03-30 see line: 781
-// TODO: Implementation of AMENDMENT_MINDEPTH-MAXDEPTH_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/c5658b83-4471-4f57-9d94-bf7d0a96900c/2022-04-19 see line: 809
-// TODO: Implementation of VALIDATION_COORDINATES_STATEPROVINCE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdq/terms/f18a470b-3fe1-4aae-9c65-a6d3db6b550c/2023-03-19 see line: 835
-// TODO: Implementation of AMENDMENT_GEODETICDATUM_STANDARDIZED is not up to date with current version: https://rs.tdwg.org/bdq/terms/0345b325-836d-4235-96d0-3b5caf150fc0/2022-03-30 see line: 922
-// TODO: Implementation of AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2023-02-27 see line: 977
-// TODO: Implementation of AMENDMENT_COUNTRYCODE_FROM_COORDINATES is not up to date with current version: https://rs.tdwg.org/bdq/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2022-05-02 see line: 1004
 }
