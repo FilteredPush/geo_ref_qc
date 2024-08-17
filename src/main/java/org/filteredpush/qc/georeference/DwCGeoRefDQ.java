@@ -3107,11 +3107,11 @@ public class DwCGeoRefDQ{
         				try { 
         					Double lat = Double.parseDouble(decimalLatitude);
         					Double lng = Double.parseDouble(decimalLongitude);
-        					result.setResultState(ResultState.RUN_HAS_RESULT);
         					if (GEOUtil.isPointNearCountryPlusEEZ(countryCode3, lat, lng, buffer_km)) { 
         						result.setResultState(ResultState.NOT_AMENDED);
         						result.addComment("Provided coordinate lies within the bounds of the country specified by the country code.");
-        					} else { 
+        					} else {
+        						result.addComment("Provided decimalLatitude and decimalLongitude fall outside the bounds of the country specified by the countryCode");
         						// Point is outside country, try transpositions: 
         						if (lng <= 90 && GEOUtil.isPointNearCountryPlusEEZ(countryCode3, lng, lat, buffer_km)) { 
         							// lat/long switched
@@ -3169,7 +3169,10 @@ public class DwCGeoRefDQ{
         	        				values.put("dwc:decimalLatitude", switchedLat);
         	        				values.put("dwc:decimalLongitude", switchedLong);
         	        				result.setValue(new AmendmentValue(values));          	        				
-        						} 
+        						} else { 
+        							result.setResultState(ResultState.NOT_AMENDED);
+        							result.addComment("Transformations of provided decimalLatitude and decimalLongitude do not place the coordinate inside the boundary for the countryCode.");
+        						}
         					}
         				} catch (NumberFormatException e) { 
         					result.setResultState(ResultState.NOT_AMENDED);
