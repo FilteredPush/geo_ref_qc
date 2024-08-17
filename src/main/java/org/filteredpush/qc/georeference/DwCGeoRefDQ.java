@@ -361,20 +361,24 @@ public class DwCGeoRefDQ{
     }
 
     /**
-     * #32 Amendment SingleRecord Completeness: coordinates from verbatim
+     * Propose amendment to the values of dwc:decimalLatitude and dwc:decimalLongitude from information in the verbatim coordinates terms.
      *
-     * Provides: AMENDMENT_COORDINATES_FROM_VERBATIM
+     * Provides: 32 AMENDMENT_COORDINATES_FROM_VERBATIM
+     * Version: 2023-09-17
      *
-     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
-     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
-     * @param verbatimCoordinates the provided dwc:verbatimCoordinates to evaluate
-     * @param verbatimLatitude the provided dwc:verbatimLatitude to evaluate
-     * @param verbatimLongitude the provided dwc:verbatimLongitude to evaluate
-     * @param verbatimSRS the provided dwc:verbatimSRS to evaluate
-     * @param verbatimCoordinateSystem the provided dwc:verbatimCoordinateSystem to evaluate
+     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
+     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
+     * @param verbatimCoordinateSystem the provided dwc:verbatimCoordinateSystem to evaluate as Consulted.
+     * @param verbatimCoordinates the provided dwc:verbatimCoordinates to evaluate as Consulted.
+     * @param verbatimLongitude the provided dwc:verbatimLongitude to evaluate as Consulted.
+     * @param verbatimSRS the provided dwc:verbatimSRS to evaluate as Consulted.
+     * @param verbatimLatitude the provided dwc:verbatimLatitude to evaluate as Consulted.
      * @return DQResponse the response of type AmendmentValue to return
      */
+    @Amendment(label="AMENDMENT_COORDINATES_FROM_VERBATIM", description="Propose amendment to the values of dwc:decimalLatitude and dwc:decimalLongitude from information in the verbatim coordinates terms.")
     @Provides("3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e/2023-09-17")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if either dwc:decimalLatitude or dwc:decimalLongitude were not EMPTY, or either dwc:verbatimLatitude and dwc:verbatimLongitude, or dwc:verbatimCoordinates were not unambiguously interpretable into valid coordinates; FILLED_IN the values of dwc:decimalLatitude and dwc:decimalLongitude if unambiguous values can be interpreted from  dwc:verbatimCoordinates or dwc:verbatimLatitude and dwc:verbatimLongitude, plus dwc:verbatimCoordinateSystem and dwc:verbatimSRS; otherwise NOT_AMENDED ")
     public static DQResponse<AmendmentValue> amendmentCoordinatesFromVerbatim(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
     		@ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
@@ -387,19 +391,20 @@ public class DwCGeoRefDQ{
     {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if Verbatim coordinates (either 
-        // dwc:verbatimLatitude and dwc:verbatimLongitude or dwc:verbatimCoordinates) 
-        // were not interpretable into coordinates as decimal degrees 
-        // or either dwc:decimalLatitude or dwc:decimalLongitude was 
-        // not EMPTY; AMENDED if dwc:decimalLatitude and dwc:decimalLongitude 
-        // were populated from information in verbatim coordinate information 
-        // (dwc:verbatimCoordinates or dwc:verbatimLatitude and dwc:verbatimLongitude, 
-        // plus dwc:verbatimCoordinateSystem and dwc:verbatimSRS); 
-        //otherwise NOT_AMENDED 
+        // Specification
+        // INTERNAL_PREREQUISITES_NOT_MET if either dwc:decimalLatitude 
+        // or dwc:decimalLongitude were not EMPTY, or either dwc:verbatimLatitude 
+        // and dwc:verbatimLongitude, or dwc:verbatimCoordinates were 
+        // not unambiguously interpretable into valid coordinates; 
+        // FILLED_IN the values of dwc:decimalLatitude and dwc:decimalLongitude 
+        // if unambiguous values can be interpreted from dwc:verbatimCoordinates 
+        // or dwc:verbatimLatitude and dwc:verbatimLongitude, plus 
+        // dwc:verbatimCoordinateSystem and dwc:verbatimSRS; otherwise 
+        // NOT_AMENDED 
         
         boolean done = false;
-        
+ 
+        // TODO: Update specification to reflect this result.status
         if (!GEOUtil.isEmpty(decimalLatitude) || !GEOUtil.isEmpty(decimalLongitude)) { 
         	result.setResultState(ResultState.NOT_AMENDED);
         	result.addComment("At least one of dwc:verbatimLatitude and dwc:dacimalLongitude contain a value.");
@@ -3193,7 +3198,6 @@ public class DwCGeoRefDQ{
 // TODO: Implementation of VALIDATION_COUNTRY_FOUND is not up to date with current version: https://rs.tdwg.org/bdq/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2024-04-15 see line: 148
 // TODO: Implementation of VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH is not up to date with current version: https://rs.tdwg.org/bdq/terms/8f1e6e58-544b-4365-a569-fb781341644e/2023-09-18 see line: 247
 // TODO: Implementation of VALIDATION_DECIMALLONGITUDE_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/0949110d-c06b-450e-9649-7c1374d940d1/2023-09-17 see line: 321
-// TODO: Implementation of AMENDMENT_COORDINATES_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e/2023-09-17 see line: 377
 // TODO: Implementation of VALIDATION_MINELEVATION_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/0bb8297d-8f8a-42d2-80c1-558f29efe798/2023-09-17 see line: 539
 // TODO: Implementation of VALIDATION_LOCATION_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/58486cb6-1114-4a8a-ba1e-bd89cfe887e9/2023-09-18 see line: 630
 // TODO: Implementation of VALIDATION_COUNTRY_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/6ce2b2b4-6afe-4d13-82a0-390d31ade01c/2023-09-17 see line: 705
