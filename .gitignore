@@ -9,3 +9,4 @@ geo_ref_qc-*-cfweblib.jar
 src/main/resources/org.filteredpush.kuration.services/eez_v11*
 src/main/resources/conus.las
 src/main/resources/conus.los
+src/main/java/org/filteredpush/qc/georeference/DwCGeoRefDQ_stubs.java
