@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.datakurator.ffdq.annotations.ActedUpon;
 import org.datakurator.ffdq.annotations.Amendment;
+import org.datakurator.ffdq.annotations.Consulted;
 import org.datakurator.ffdq.annotations.Parameter;
 import org.datakurator.ffdq.annotations.Provides;
 import org.datakurator.ffdq.annotations.ProvidesVersion;
@@ -249,5 +250,31 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     		) 
     {
     	return validationCoordinatesStateprovinceConsistent(decimalLatitude, decimalLongitude, stateProvince, null, null);
+    }
+    
+    // TODO: Specification needs source authority to be added.
+    /**
+    * Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to 
+    * align the location with the dwc:countryCode.
+    * Uses the default source authority.
+    *
+    * Provides: AMENDMENT_COORDINATES_TRANSPOSED
+    * Version: 2023-09-17
+    *
+    * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
+    * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
+    * @param countryCode the provided dwc:countryCode to evaluate as Consulted.
+    * @return DQResponse the response of type AmendmentValue to return
+    */
+    @Amendment(label="AMENDMENT_COORDINATES_TRANSPOSED", description="Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to align the location with the dwc:countryCode.")
+    @Provides("f2b4a50a-6b2f-4930-b9df-da87b6a21082")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/f2b4a50a-6b2f-4930-b9df-da87b6a21082/2023-09-17")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if any of dwc:decimalLatitude or dwc:decimalLongitude or dwc:countryCode are EMPTY; AMENDED dwc:decimalLatitude and dwc:decimalLongitude if the coordinates were transposed or one or more of the signs of the coordinates were reversed to align the location with dwc:countryCode; otherwise NOT_AMENDED ")
+    public static DQResponse<AmendmentValue> amendmentCoordinatesTransposed(
+        @ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
+        @ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
+        @Consulted("dwc:countryCode") String countryCode
+    ) {
+    	return amendmentCoordinatesTransposed(decimalLatitude, decimalLongitude, countryCode, null);
     }
 }

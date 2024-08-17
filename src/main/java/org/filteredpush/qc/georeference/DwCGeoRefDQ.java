@@ -2990,4 +2990,229 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+    /**
+    * Does the marine/non-marine biome of a taxon from the bdq:sourceAuthority match the biome at the location given by the coordinates?
+    *
+    * Provides: VALIDATION_COORDINATES_TERRESTRIALMARINE
+    * Version: 2024-04-15
+    *
+    * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
+    * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
+    * @param scientificName the provided dwc:scientificName to evaluate as Consulted.
+    * @return DQResponse the response of type ComplianceValue  to return
+    */
+    @Validation(label="VALIDATION_COORDINATES_TERRESTRIALMARINE", description="Does the marine/non-marine biome of a taxon from the bdq:sourceAuthority match the biome at the location given by the coordinates?")
+    @Provides("b9c184ce-a859-410c-9d12-71a338200380")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/b9c184ce-a859-410c-9d12-71a338200380/2024-04-15")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if either bdq:taxonomyIsMarine or bdq:geospatialLand are not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:dcientificName is EMPTY or the marine/non-marine status of the taxon is not interpretable from bdq:taxonomyIsMarine or the values of dwc:decimalLatitude or dwc:decimalLongitude are EMPTY; COMPLIANT if the taxon marine/non-marine status from bdq:taxonomyIsMarine matches the marine/non-marine status of dwc:decimalLatitude and dwc:decimalLongitude on the boundaries given by bdq:geospatialLand plus an exterior buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT bdq:taxonIsMarine default = 'World Register of Marine Species (WoRMS') {[https://www.marinespecies.org/]} {Web service [https://www.marinespecies.org/aphia.php?p=webservice]},{bdq:geospatialLand default = The spatial union of 'NaturalEarth 10m-physical-vectors for Land' [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip] and 'NaturalEarth Minor Islands' [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_minor_islands.zip]},bdq:spatialBufferInMeters default = '3000'")
+    public DQResponse<ComplianceValue> validationCoordinatesTerrestrialmarine(
+        @ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
+        @ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
+        @Consulted("dwc:scientificName") String scientificName
+    ) {
+        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
+
+        //TODO:  Implement specification
+        // EXTERNAL_PREREQUISITES_NOT_MET if either bdq:taxonomyIsMarine 
+        // or bdq:geospatialLand are not available; INTERNAL_PREREQUISITES_NOT_MET 
+        // if dwc:dcientificName is EMPTY or the marine/non-marine 
+        // status of the taxon is not interpretable from bdq:taxonomyIsMarine 
+        // or the values of dwc:decimalLatitude or dwc:decimalLongitude 
+        // are EMPTY; COMPLIANT if the taxon marine/non-marine status 
+        // from bdq:taxonomyIsMarine matches the marine/non-marine 
+        // status of dwc:decimalLatitude and dwc:decimalLongitude on 
+        // the boundaries given by bdq:geospatialLand plus an exterior 
+        // buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT 
+        // bdq:taxonIsMarine default = "World Register of Marine Species 
+        // (WoRMS") {[https://www.marinespecies.org/]} {Web service 
+        // [https://www.marinespecies.org/aphia.php?p=webservice]},{bdq:geospatialLand 
+        // default = The spatial union of "NaturalEarth 10m-physical-vectors 
+        // for Land" [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip] 
+        // and "NaturalEarth Minor Islands" [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_minor_islands.zip]},bdq:spatialBufferInMeters 
+        // default = "3000" 
+
+        //TODO: Parameters. This test is defined as parameterized.
+        // bdq:taxonIsMarine,bdq:geospatialLand,bdq:spatialBufferInMeters
+
+        return result;
+    }
+
+    // TODO: Specification needs source authority to be added.
+    /**
+    * Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to align the location with the dwc:countryCode.
+    *
+    * Provides: AMENDMENT_COORDINATES_TRANSPOSED
+    * Version: 2023-09-17
+    *
+    * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
+    * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
+    * @param countryCode the provided dwc:countryCode to evaluate as Consulted.
+    * @return DQResponse the response of type AmendmentValue to return
+    */
+    @Amendment(label="AMENDMENT_COORDINATES_TRANSPOSED", description="Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to align the location with the dwc:countryCode.")
+    @Provides("f2b4a50a-6b2f-4930-b9df-da87b6a21082")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/f2b4a50a-6b2f-4930-b9df-da87b6a21082/2023-09-17")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if any of dwc:decimalLatitude or dwc:decimalLongitude or dwc:countryCode are EMPTY; AMENDED dwc:decimalLatitude and dwc:decimalLongitude if the coordinates were transposed or one or more of the signs of the coordinates were reversed to align the location with dwc:countryCode; otherwise NOT_AMENDED ")
+    public static DQResponse<AmendmentValue> amendmentCoordinatesTransposed(
+        @ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
+        @ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
+        @Consulted("dwc:countryCode") String countryCode,
+    	@Parameter(name="bdq:sourceAuthority") String sourceAuthority
+    ) {
+        DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
+
+        // Specification
+        // INTERNAL_PREREQUISITES_NOT_MET if any of dwc:decimalLatitude 
+        // or dwc:decimalLongitude or dwc:countryCode are EMPTY; AMENDED 
+        // dwc:decimalLatitude and dwc:decimalLongitude if the coordinates 
+        // were transposed or one or more of the signs of the coordinates 
+        // were reversed to align the location with dwc:countryCode; 
+        // otherwise NOT_AMENDED 
+
+        if (GEOUtil.isEmpty(sourceAuthority)) { 
+        	// TODO: Value needs to be set in the issue
+        	sourceAuthority = "ADM1 boundaries UNION EEZ";
+        }
+
+        try { 
+        	GeoRefSourceAuthority sourceAuthorityObject = new GeoRefSourceAuthority(sourceAuthority);
+        	if (sourceAuthorityObject.getAuthority().equals(EnumGeoRefSourceAuthority.INVALID)) { 
+        		throw new SourceAuthorityException("Invalid Source Authority");
+        	}
+
+        	if (GEOUtil.isEmpty(decimalLatitude)) { 
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        		result.addComment("The value provided for dwc:decimalLatitude is empty");
+        	} else if (GEOUtil.isEmpty(decimalLongitude)) { 
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        		result.addComment("The value provided for dwc:decimalLongitude is empty");
+        	} else if (GEOUtil.isEmpty(countryCode)) { 
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        		result.addComment("The value provided for dwc:countryCode is empty");
+        	} else { 
+        		if (!sourceAuthority.equals("ADM1 boundaries UNION EEZ")) { 
+        			result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        			result.addComment("Unsupported or unrecognized source authority.");
+        		} else { 
+        			String countryCode3 = countryCode;
+        			if (!countryCode.matches("^[A-Z]$")) {
+        				// expected case, two letter country code, find the three letter code used in the datasets.
+        				countryCode3 = CountryLookup.lookupCode3FromCodeName(countryCode);
+        			}
+        			if (countryCode3==null) { 
+        				result.setResultState(ResultState.NOT_AMENDED);
+        				result.addComment("Unable to look up country from provided country code ["+countryCode+"].");
+        			} else {
+        				Double buffer_km = 3d;
+        				try { 
+        					Double lat = Double.parseDouble(decimalLatitude);
+        					Double lng = Double.parseDouble(decimalLongitude);
+        					result.setResultState(ResultState.RUN_HAS_RESULT);
+        					if (GEOUtil.isPointNearCountryPlusEEZ(countryCode3, lat, lng, buffer_km)) { 
+        						result.setResultState(ResultState.NOT_AMENDED);
+        						result.addComment("Provided coordinate lies within the bounds of the country specified by the country code.");
+        					} else { 
+        						// Point is outside country, try transpositions: 
+        						if (lng <= 90 && GEOUtil.isPointNearCountryPlusEEZ(countryCode3, lng, lat, buffer_km)) { 
+        							// lat/long switched
+        							result.setResultState(ResultState.AMENDED);
+        							result.addComment("Coordinate with dwc:decimalLatitude and dwc:decimalLongitude transposed lies within the bounds of the country specified by the country code.");
+        	        				Map<String, String> values = new HashMap<>();
+        	        				values.put("dwc:decimalLatitude", decimalLongitude);
+        	        				values.put("dwc:decimalLongitude", decimalLatitude);
+        	        				result.setValue(new AmendmentValue(values));
+        						} else if (GEOUtil.isPointNearCountryPlusEEZ(countryCode3, -lat, lng, buffer_km)) {
+        							// lat sign switched
+        							result.setResultState(ResultState.AMENDED);
+        							result.addComment("Coordinate with dwc:decimalLatitude and dwc:decimalLongitude transposed lies within the bounds of the country specified by the country code.");
+        	        				Map<String, String> values = new HashMap<>();
+        	        				String switchedLat = decimalLatitude;
+        	        				if (decimalLatitude.contains("-")) { 
+        	        					switchedLat = decimalLatitude.replace("-", "");
+        	        				} else { 
+        	        					switchedLat = "-" + decimalLatitude.trim();
+        	        				}
+        	        				values.put("dwc:decimalLatitude", switchedLat);
+        	        				values.put("dwc:decimalLongitude", decimalLongitude);
+        	        				result.setValue(new AmendmentValue(values));
+        						} else if (GEOUtil.isPointNearCountryPlusEEZ(countryCode3, lat, -lng, buffer_km)) {
+        							// long sign switched
+        							result.setResultState(ResultState.AMENDED);
+        							result.addComment("Coordinate with dwc:decimalLatitude and dwc:decimalLongitude transposed lies within the bounds of the country specified by the country code.");
+        	        				Map<String, String> values = new HashMap<>();
+        	        				String switchedLong = decimalLongitude;
+        	        				if (decimalLongitude.contains("-")) { 
+        	        					switchedLong = decimalLongitude.replace("-", "");
+        	        				} else { 
+        	        					switchedLong = "-" + decimalLongitude.trim();
+        	        				}
+        	        				values.put("dwc:decimalLatitude", decimalLatitude);
+        	        				values.put("dwc:decimalLongitude", switchedLong);
+        	        				result.setValue(new AmendmentValue(values));      
+        						} else if (GEOUtil.isPointNearCountryPlusEEZ(countryCode3, -lat, -lng, buffer_km)) {
+        							// lat and long sign switched
+        							result.setResultState(ResultState.AMENDED);
+        							result.addComment("Coordinate with dwc:decimalLatitude and dwc:decimalLongitude transposed lies within the bounds of the country specified by the country code.");
+        	        				Map<String, String> values = new HashMap<>();
+        	        				String switchedLat = decimalLatitude;
+        	        				if (decimalLatitude.contains("-")) { 
+        	        					switchedLat = decimalLatitude.replace("-", "");
+        	        				} else { 
+        	        					switchedLat = "-" + decimalLatitude.trim();
+        	        				}
+        	        				String switchedLong = decimalLongitude;
+        	        				if (decimalLongitude.contains("-")) { 
+        	        					switchedLong = decimalLongitude.replace("-", "");
+        	        				} else { 
+        	        					switchedLong = "-" + decimalLongitude.trim();
+        	        				}
+        	        				values.put("dwc:decimalLatitude", switchedLat);
+        	        				values.put("dwc:decimalLongitude", switchedLong);
+        	        				result.setValue(new AmendmentValue(values));          	        				
+        						} 
+        					}
+        				} catch (NumberFormatException e) { 
+        					result.setResultState(ResultState.NOT_AMENDED);
+        					result.addComment("Error parsing numeric latitude/longitude from provided dwc:decimalLatitude ["+decimalLatitude+"] or dwc:decimalLongitude ["+ decimalLongitude +"].");
+        				}
+        			}
+        		}
+        	}
+        } catch (SourceAuthorityException e) { 
+        	result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("Error with specified Source Authority: " + e.getMessage());
+        }
+        
+        return result;
+    }
+
+// TODO: Implementation of VALIDATION_COUNTRYCODE_STANDARD is not up to date with current version: https://rs.tdwg.org/bdq/terms/0493bcfb-652e-4d17-815b-b0cce0742fbe/2024-04-15 see line: 90
+// TODO: Implementation of VALIDATION_COUNTRY_FOUND is not up to date with current version: https://rs.tdwg.org/bdq/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2024-04-15 see line: 148
+// TODO: Implementation of VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH is not up to date with current version: https://rs.tdwg.org/bdq/terms/8f1e6e58-544b-4365-a569-fb781341644e/2023-09-18 see line: 247
+// TODO: Implementation of VALIDATION_DECIMALLONGITUDE_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/0949110d-c06b-450e-9649-7c1374d940d1/2023-09-17 see line: 321
+// TODO: Implementation of AMENDMENT_COORDINATES_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e/2023-09-17 see line: 377
+// TODO: Implementation of VALIDATION_MINELEVATION_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/0bb8297d-8f8a-42d2-80c1-558f29efe798/2023-09-17 see line: 539
+// TODO: Implementation of VALIDATION_LOCATION_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/58486cb6-1114-4a8a-ba1e-bd89cfe887e9/2023-09-18 see line: 630
+// TODO: Implementation of VALIDATION_COUNTRY_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/6ce2b2b4-6afe-4d13-82a0-390d31ade01c/2023-09-17 see line: 705
+// TODO: Implementation of AMENDMENT_COORDINATES_CONVERTED is not up to date with current version: https://rs.tdwg.org/bdq/terms/620749b9-7d9c-4890-97d2-be3d1cde6da8/2023-09-18 see line: 758
+// TODO: Implementation of AMENDMENT_COUNTRYCODE_STANDARDIZED is not up to date with current version: https://rs.tdwg.org/bdq/terms/fec5ffe6-3958-4312-82d9-ebcca0efb350/2023-09-17 see line: 879
+// TODO: Implementation of VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdq/terms/adb27d29-9f0d-4d52-b760-a77ba57a69c9/2023-09-17 see line: 981
+// TODO: Implementation of AMENDMENT_MINDEPTH-MAXDEPTH_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/c5658b83-4471-4f57-9d94-bf7d0a96900c/2024-08-03 see line: 1101
+// TODO: Implementation of VALIDATION_GEODETICDATUM_STANDARD is not up to date with current version: https://rs.tdwg.org/bdq/terms/7e0c0418-fe16-4a39-98bd-80e19d95b9d1/2023-09-17 see line: 1419
+// TODO: Implementation of AMENDMENT_GEODETICDATUM_STANDARDIZED is not up to date with current version: https://rs.tdwg.org/bdq/terms/0345b325-836d-4235-96d0-3b5caf150fc0/2024-08-05 see line: 1478
+// TODO: Implementation of VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdq/terms/b23110e7-1be7-444a-a677-cdee0cf4330c/2023-09-18 see line: 1555
+// TODO: Implementation of AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2024-08-03 see line: 1650
+// TODO: Implementation of AMENDMENT_COUNTRYCODE_FROM_COORDINATES is not up to date with current version: https://rs.tdwg.org/bdq/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2024-04-16 see line: 1874
+// TODO: Implementation of VALIDATION_GEODETICDATUM_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/239ec40e-a729-4a8e-ba69-e0bf03ac1c44/2023-09-18 see line: 1951
+// TODO: Implementation of VALIDATION_DECIMALLATITUDE_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/b6ecda2a-ce36-437a-b515-3ae94948fe83/2023-09-18 see line: 1986
+// TODO: Implementation of VALIDATION_DECIMALLONGITUDE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/9beb9442-d942-4f42-8b6a-fcea01ee086a/2023-09-18 see line: 2118
+// TODO: Implementation of VALIDATION_COUNTRYCODE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/853b79a2-b314-44a2-ae46-34a1e7ed85e4/2023-09-18 see line: 2153
+// TODO: Implementation of AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT is not up to date with current version: https://rs.tdwg.org/bdq/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2023-09-18 see line: 2194
+// TODO: Implementation of VALIDATION_MINDEPTH_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/04b2c8f3-c71b-4e95-8e43-f70374c5fb92/2023-09-18 see line: 2266
+// TODO: Implementation of VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION is not up to date with current version: https://rs.tdwg.org/bdq/terms/d708526b-6561-438e-aa1a-82cd80b06396/2023-09-18 see line: 2340
+// TODO: Implementation of VALIDATION_COORDINATEUNCERTAINTY_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/c6adf2ea-3051-4498-97f4-4b2f8a105f57/2023-09-18 see line: 2405
+// TODO: Implementation of VALIDATION_MAXELEVATION_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/c971fe3f-84c1-4636-9f44-b1ec31fd63c7/2023-09-18 see line: 2468
+// TODO: Implementation of VALIDATION_DECIMALLATITUDE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/7d2485d5-1ba7-4f25-90cb-f4480ff1a275/2023-09-18 see line: 2535
+// TODO: Implementation of VALIDATION_MAXDEPTH_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/3f1db29a-bfa5-40db-9fd1-fde020d81939/2023-09-18 see line: 2574
+// TODO: Implementation of VALIDATION_STATEPROVINCE_FOUND is not up to date with current version: https://rs.tdwg.org/bdq/terms/4daa7986-d9b0-4dd5-ad17-2d7a771ea71a/2023-09-18 see line: 2647
 }
