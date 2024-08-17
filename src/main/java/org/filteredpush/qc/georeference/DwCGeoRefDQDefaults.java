@@ -301,6 +301,5 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
         @Consulted("dwc:scientificName") String scientificName
     ) {
     	return validationCoordinatesTerrestrialmarine(decimalLatitude, decimalLongitude, scientificName, null, null, null);
-    } 
     }
 }
