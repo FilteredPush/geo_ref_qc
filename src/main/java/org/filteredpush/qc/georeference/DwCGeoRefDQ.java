@@ -2,6 +2,7 @@
 
 package org.filteredpush.qc.georeference;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -24,6 +25,12 @@ import org.filteredpush.qc.georeference.util.UnknownToWGS84Error;
 import org.geotools.api.referencing.FactoryException;
 import org.geotools.api.referencing.operation.TransformException;
 import org.geotools.ows.ServiceException;
+import org.marinespecies.aphia.v1_0.api.TaxonomicDataApi;
+import org.marinespecies.aphia.v1_0.handler.ApiClient;
+import org.marinespecies.aphia.v1_0.handler.ApiException;
+import org.marinespecies.aphia.v1_0.model.AphiaRecord;
+import org.filteredpush.qc.sciname.SciNameSourceAuthority;
+import org.filteredpush.qc.sciname.services.WoRMSService;
 
 import edu.getty.tgn.service.GettyTGNObject;
 
@@ -3010,10 +3017,13 @@ public class DwCGeoRefDQ{
     @Provides("b9c184ce-a859-410c-9d12-71a338200380")
     @ProvidesVersion("https://rs.tdwg.org/bdq/terms/b9c184ce-a859-410c-9d12-71a338200380/2024-04-15")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if either bdq:taxonomyIsMarine or bdq:geospatialLand are not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:dcientificName is EMPTY or the marine/non-marine status of the taxon is not interpretable from bdq:taxonomyIsMarine or the values of dwc:decimalLatitude or dwc:decimalLongitude are EMPTY; COMPLIANT if the taxon marine/non-marine status from bdq:taxonomyIsMarine matches the marine/non-marine status of dwc:decimalLatitude and dwc:decimalLongitude on the boundaries given by bdq:geospatialLand plus an exterior buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT bdq:taxonIsMarine default = 'World Register of Marine Species (WoRMS') {[https://www.marinespecies.org/]} {Web service [https://www.marinespecies.org/aphia.php?p=webservice]},{bdq:geospatialLand default = The spatial union of 'NaturalEarth 10m-physical-vectors for Land' [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip] and 'NaturalEarth Minor Islands' [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_minor_islands.zip]},bdq:spatialBufferInMeters default = '3000'")
-    public DQResponse<ComplianceValue> validationCoordinatesTerrestrialmarine(
+    public static DQResponse<ComplianceValue> validationCoordinatesTerrestrialmarine(
         @ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
         @ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
-        @Consulted("dwc:scientificName") String scientificName
+        @Consulted("dwc:scientificName") String scientificName,
+        @Parameter(name="bdq:taxonIsMarine") String taxonIsMarine,
+        @Parameter(name="bdq:geospatialLand") String geospatialLand,
+        @Parameter(name="bdq:spatialBufferInMeters") String spatialBufferInMeters
     ) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
@@ -3028,17 +3038,142 @@ public class DwCGeoRefDQ{
         // status of dwc:decimalLatitude and dwc:decimalLongitude on 
         // the boundaries given by bdq:geospatialLand plus an exterior 
         // buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT 
-        // bdq:taxonIsMarine default = "World Register of Marine Species 
-        // (WoRMS") {[https://www.marinespecies.org/]} {Web service 
-        // [https://www.marinespecies.org/aphia.php?p=webservice]},{bdq:geospatialLand 
-        // default = The spatial union of "NaturalEarth 10m-physical-vectors 
-        // for Land" [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip] 
-        // and "NaturalEarth Minor Islands" [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_minor_islands.zip]},bdq:spatialBufferInMeters 
-        // default = "3000" 
 
         //TODO: Parameters. This test is defined as parameterized.
         // bdq:taxonIsMarine,bdq:geospatialLand,bdq:spatialBufferInMeters
+        //
+        // bdq:taxonIsMarine default = "World Register of Marine Species 
+        // (WoRMS") {[https://www.marinespecies.org/]} {Web service 
+        // [https://www.marinespecies.org/aphia.php?p=webservice]},
+        // {bdq:geospatialLand default = The spatial union of "NaturalEarth 10m-physical-vectors for Land" 
+        // [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip] 
+        // and "NaturalEarth Minor Islands" 
+        // [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_minor_islands.zip]},bdq:spatialBufferInMeters 
+        // default = "3000" 
 
+        if (GEOUtil.isEmpty(taxonIsMarine)) { 
+        	taxonIsMarine = "World Register of Marine Species (WoRMS)";
+        }
+        if (GEOUtil.isEmpty(geospatialLand)) { 
+        	geospatialLand = "Union of NaturalEarth 10m-physical-vectors for Land and NaturalEarth Minor Islands";
+        }
+        if (GEOUtil.isEmpty(spatialBufferInMeters)) { 
+        	spatialBufferInMeters = "3000";
+        }
+
+        try { 
+        	GeoRefSourceAuthority sourceAuthoritySpatial = new GeoRefSourceAuthority(geospatialLand);
+        	SciNameSourceAuthority sourceAuthorityTaxon = new SciNameSourceAuthority(taxonIsMarine);
+        	if (sourceAuthoritySpatial.getAuthority().equals(EnumGeoRefSourceAuthority.INVALID)) { 
+        		throw new SourceAuthorityException("Invalid Source Authority");
+        	}
+        	if (sourceAuthorityTaxon.getAuthority().equals(EnumGeoRefSourceAuthority.INVALID)) { 
+        		throw new SourceAuthorityException("Invalid Source Authority");
+        	}
+        	if (GEOUtil.isEmpty(scientificName)) { 
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        		result.addComment("The value provided for dwc:scientificName is empty");
+        	} else { 
+        		
+        		Boolean marine = null;
+        		Boolean nonMarine = null;
+        		try {
+					TaxonomicDataApi wormsService =  new TaxonomicDataApi();
+					wormsService.setApiClient(new ApiClient());
+					List<AphiaRecord> results = wormsService.aphiaRecordsByName(scientificName, false, false, 1);
+					if (results!=null && results.size()>0) { 
+						// We got at least one result
+						Iterator<AphiaRecord> i = results.iterator();
+						while (i.hasNext()) {
+							AphiaRecord ar = i.next();
+							WoRMSService svs = new WoRMSService(false);
+							Map<String,String> habitats = svs.lookupHabitat(ar);
+							if (habitats!=null) { 
+								// If brackish, set both marine and nonMarine as true, points near boundaries
+								if (habitats.containsKey("brackish") && habitats.get("brackish").equals("true")) { 
+										marine = true;
+										nonMarine = true;
+								} else { 
+									// marine flags marine
+									if (habitats.containsKey("marine") && habitats.get("marine")=="true") {
+										marine = true;
+									} else if (habitats.containsKey("marine") && habitats.get("marine").equals("false")) {
+										marine = false;
+									}
+									// terrestrial and freshwater flag non-marine
+									if (habitats.containsKey("freshwater") && habitats.get("freshwater")=="true") {
+										nonMarine = true;
+									} else if (habitats.containsKey("freshwater") && habitats.get("freshwater").equals("false")) {
+										if (habitats.containsKey("terrestrial") && habitats.get("terrestrial").equals("true")) { 
+											nonMarine = true;
+										} else if (habitats.containsKey("terrestrial") && habitats.get("terrestrial").equals("false")) {
+											nonMarine = false;
+										}
+									}
+								} 
+							}
+						}
+					} 
+				} catch (ApiException e) {
+					throw new SourceAuthorityException("Error accessing Source Authority: " + e.getMessage());
+				} catch (IOException e) {
+					throw new SourceAuthorityException("Error accessing Source Authority: " + e.getMessage());
+				}
+        		
+        		// For now, fail if both are null, may be stronger to fail if either is, see assumption below.
+        		if (marine==null && nonMarine==null) { 
+        			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        			result.addComment("Unable to tell from sourceAuthority taxonIsMarine if the provided dwc:scientificName ["+scientificName+"] is a marine or non-marine taxon. ");
+        		} else { 
+        			if (marine && nonMarine) { 
+        				result.setResultState(ResultState.RUN_HAS_RESULT);
+        				result.setValue(ComplianceValue.COMPLIANT);
+        				result.addComment("Provided scientificName ["+scientificName+"] known from both marine and non marine habitats, any location is consistent for this test.");
+        			} else { 
+        				// If either marine or non-marine were null, assume false, may be bad assumption
+        				if (marine==null) { 
+        					marine = false;
+        				}
+        				if (nonMarine==null) { 
+        					nonMarine = false;
+        				}
+        				// evaluate against geospatial data
+       					Double lat = Double.parseDouble(decimalLatitude);
+       					Double lon = Double.parseDouble(decimalLongitude);
+        				if (marine) { 
+        					if (GEOUtil.isOnLand(lon, lat, false)) { 
+        						result.setResultState(ResultState.RUN_HAS_RESULT);
+        						result.setValue(ComplianceValue.NOT_COMPLIANT);
+        						result.addComment("Provided scientificName ["+scientificName+"] is known from marine habitats, but the provided coordinate is non-marine.");
+        					} else { 
+        						result.setResultState(ResultState.RUN_HAS_RESULT);
+        						result.setValue(ComplianceValue.COMPLIANT);
+        						result.addComment("Provided scientificName ["+scientificName+"] is known from marine habitats and the provided coordinate is marine.");
+        					}
+        				} else { 
+        					if (GEOUtil.isOnLand(lon, lat, true)) { 
+        						// test with invert sense is:  isMarine, thus non-marine habitat and marine location
+        						result.setResultState(ResultState.RUN_HAS_RESULT);
+        						result.setValue(ComplianceValue.NOT_COMPLIANT);
+        						result.addComment("Provided scientificName ["+scientificName+"] is known from non-marine habitats, but the provided coordinate is marine.");
+        					} else { 
+        						result.setResultState(ResultState.RUN_HAS_RESULT);
+        						result.setValue(ComplianceValue.COMPLIANT);
+        						result.addComment("Provided scientificName ["+scientificName+"] is known from non-marine habitats and the provided coordinate is non-marine.");
+        					}	
+        				}
+        			}
+        		}
+        		
+        	}
+        } catch (SourceAuthorityException e) { 
+        	result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("Error with specified Source Authority geospatialLand: " + e.getMessage());
+        } catch (org.filteredpush.qc.sciname.SourceAuthorityException e) {
+        	result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("Error with specified Source Authority taxonIsMarine: " + e.getMessage());
+		}
+        		
         return result;
     }
 

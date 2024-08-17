@@ -42,6 +42,7 @@ public class GettyTGNObject {
 		this.name = name;
 		this.nameWithType = nameWithType;
 		this.subjectID = subjectID;
+		// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for list of place types
 		this.placeTypeID = placeTypeID;
 		this.parentageString = parentageString;
 	}
@@ -49,7 +50,7 @@ public class GettyTGNObject {
 	 * Construct an empty GettyTGNObject
 	 */
 	public GettyTGNObject() {
-		// TODO Auto-generated constructor stub
+		// Auto-generated constructor stub
 	}
 	
 	public GettyTGNObject(Subject subject, String placeTypeID) { 

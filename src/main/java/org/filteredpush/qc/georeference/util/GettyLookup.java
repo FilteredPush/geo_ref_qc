@@ -77,8 +77,10 @@ public class GettyLookup {
 				retval =  true;
 			} else { 
 
+				// See http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types.
 				String sovereignNationPlaceTypeID = "81011";
-				String baseURI = "http://vocabsservices.getty.edu//TGNService.asmx/TGNGetTermMatch?";
+				// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
+				String baseURI = "http://vocabsservices.getty.edu/TGNService.asmx/TGNGetTermMatch?";
 
 				StringBuilder request = new StringBuilder();
 				request.append(baseURI);
@@ -151,8 +153,10 @@ public class GettyLookup {
 			retval = false;
 		} else { 
 
+			// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
 			String sovereignNationPlaceTypeID = "81011";
-			String baseURI = "http://vocabsservices.getty.edu//TGNService.asmx/TGNGetTermMatch?";
+			// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
+			String baseURI = "http://vocabsservices.getty.edu/TGNService.asmx/TGNGetTermMatch?";
 
 			StringBuilder request = new StringBuilder();
 			request.append(baseURI);
@@ -217,8 +221,10 @@ public class GettyLookup {
 				retval = (ArrayList<String>) GeoUtilSingleton.getInstance().getGettyCountryLookupItem(country);
 			} else { 
 
+				// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
 				String sovereignNationPlaceTypeID = "81011";
-				String baseURI = "http://vocabsservices.getty.edu//TGNService.asmx/TGNGetTermMatch?";
+				// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
+				String baseURI = "http://vocabsservices.getty.edu/TGNService.asmx/TGNGetTermMatch?";
 
 				StringBuilder request = new StringBuilder();
 				request.append(baseURI);
@@ -281,8 +287,10 @@ public class GettyLookup {
 		if (GEOUtil.isEmpty(primaryDivision)) { 
 			retval = false;
 		} else { 
+			// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
 			String placeTypeID = "81100"; //first level subdivision
-			String baseURI = "http://vocabsservices.getty.edu//TGNService.asmx/TGNGetTermMatch?";
+			// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
+			String baseURI = "http://vocabsservices.getty.edu/TGNService.asmx/TGNGetTermMatch?";
 
 			StringBuilder request = new StringBuilder();
 			request.append(baseURI);
@@ -336,8 +344,10 @@ public class GettyLookup {
 				retval = countryCache.get(country).getName();
 			}
 			
+			// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
 			String sovereignNationPlaceTypeID = "81011";
-			String baseURI = "http://vocabsservices.getty.edu//TGNService.asmx/TGNGetTermMatch?";
+			// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
+			String baseURI = "http://vocabsservices.getty.edu/TGNService.asmx/TGNGetTermMatch?";
 
 			StringBuilder request = new StringBuilder();
 			request.append(baseURI);
@@ -400,7 +410,9 @@ public class GettyLookup {
 
 		String retval = null;
 
+		// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
 		String placeTypeID = "81100";
+		// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
 		String baseURI = "http://vocabsservices.getty.edu//TGNService.asmx/TGNGetTermMatch?";
 
 		StringBuilder request = new StringBuilder();
@@ -447,7 +459,9 @@ public class GettyLookup {
 			retval = primaryCache.get(primaryDivision);
 		} else { 
 
+			// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
 			String placeTypeID = "81100";
+			// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
 			String baseURI = "http://vocabsservices.getty.edu//TGNService.asmx/TGNGetTermMatch?";
 
 			StringBuilder request = new StringBuilder();
