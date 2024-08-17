@@ -16,6 +16,7 @@ import org.filteredpush.qc.georeference.util.CountryLookup;
 import org.filteredpush.qc.georeference.util.GEOUtil;
 import org.filteredpush.qc.georeference.util.GeoRefCacheValue;
 import org.filteredpush.qc.georeference.util.GeoUtilSingleton;
+import org.filteredpush.qc.georeference.util.GeolocationResult;
 import org.filteredpush.qc.georeference.util.GeorefServiceException;
 import org.filteredpush.qc.georeference.util.GettyLookup;
 import org.filteredpush.qc.georeference.util.TransformationStruct;
@@ -431,10 +432,23 @@ public class DwCGeoRefDQ{
         		result.addComment("Provided value for verbatimCoordinates ["+verbatimCoordinates+"] appears to be a MGRS or USNG coordinate, not converting.");
         		result.setResultState(ResultState.NOT_AMENDED);
         	} else if (verbatimCoordinates.matches("^[0-9]{2}[A-Z] [0-9]{7} [0-9]{7}")) { 
-        		// UTM
-        		result.addComment("Provided value for verbatimCoordinates ["+verbatimCoordinates+"] appears to be a UTM coordinate, not converting.");
-        		result.setResultState(ResultState.NOT_AMENDED);
+        		// UTM/UPS
         		// TODO: Support transformation to EPSG:4326
+        		GeolocationResult conversion =  GEOUtil.convertUTMToLatLong(verbatimCoordinates,false);
+        		if (conversion==null) { 
+        			result.addComment("Provided value for verbatimCoordinates ["+verbatimCoordinates+"] appears to be a UTM or UPS coordinate, but unable to convert.");
+        			result.setResultState(ResultState.NOT_AMENDED);
+        		} else { 
+        			result.setResultState(ResultState.FILLED_IN);
+        			String newDecimalLatitude = conversion.getLatitude().toString();
+        			String newDecimalLongitude = conversion.getLongitude().toString();
+        			Map<String,String> map = new HashMap();
+        			map.put("dwc:decimalLatitude", newDecimalLatitude);
+        			map.put("dwc:decimalLongitude", newDecimalLongitude);
+        			result.setValue(new AmendmentValue(map));
+        			result.addComment("Interpreted decimalLatitude ["+newDecimalLatitude+"] and decimalLongitude ["+newDecimalLongitude+"] from provided verbatimCoordinates ["+verbatimCoordinates+"] as UTM coordinate, assuming a WGS84 datum and MGRS zone letters");
+        			interpreted = true;
+        		}
         	} else { 
         		if (verbatimCoordinates.contains(";")) {
         			verbatimCoordinates = verbatimCoordinates.replace(";", ",");
@@ -2680,46 +2694,6 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-    /**
-     * #139 Validation SingleRecord Conformance: geography notstandard
-     *
-     * Provides: VALIDATION_GEOGRAPHY_NOTSTANDARD
-     *
-     * @param continent the provided dwc:continent to evaluate
-     * @param county the provided dwc:county to evaluate
-     * @param country the provided dwc:country to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param municipality the provided dwc:municipality to evaluate
-     * @param stateProvince the provided dwc:stateProvince to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Provides("9d6f53c0-775b-4579-b7a4-5e5f093aa512")
-    public DQResponse<ComplianceValue> validationGeographyNotstandard(
-    		@ActedUpon("dwc:continent") String continent, 
-    		@ActedUpon("dwc:country") String country, 
-    		@ActedUpon("dwc:countryCode") String countryCode, 
-    		@ActedUpon("dwc:stateProvince") String stateProvince,
-    		@ActedUpon("dwc:county") String county, 
-    		@ActedUpon("dwc:municipality") String municipality
-    		) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // service was not available; INTERNAL_PREREQUISITES_NOT_MET 
-        // if all of the terms dwc:continent, dwc:country, dwc:countryCode, 
-        // dwc:stateProvince, dwc:county, dwc:municipality are EMPTY; 
-        // COMPLIANT if the combination of dwc:continent, dwc:country, 
-        // dwc:countryCode, dwc:stateProvince, dwc:county, dwc:municipality 
-        // can be unambiguously resolved from the bdq:sourceAuthority 
-        //service; otherwise NOT_COMPLIANT 
-
-        //TODO: Parameters. This test is defined as parameterized.
-        // bdq:sourceAuthority
-
-        return result;
-    }
 
     /**
      * Is the value of dwc:maximumDepthInMeters within the Parameter range?

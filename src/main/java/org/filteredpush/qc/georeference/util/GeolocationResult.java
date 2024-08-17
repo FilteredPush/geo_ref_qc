@@ -40,7 +40,7 @@ public class GeolocationResult implements Serializable {
 	 * @param latitude a double.
 	 * @param longitude a double.
 	 * @param confidence a int.
-	 * @param parseString a {@link java.lang.String} object.
+	 * @param parseString the pattern used by geolocate to recognize the part of the text to georefence.
 	 * @param coordinateUncertainty a int.
 	 */
 	public GeolocationResult(double latitude, double longitude, int coordinateUncertainty, int confidence,
@@ -53,6 +53,21 @@ public class GeolocationResult implements Serializable {
 		this.coordinateUncertainty = coordinateUncertainty;
 	}
 
+	/**
+	 * Lightweight constructor for using object to carry only latitude and longitude.
+	 * 
+	 * @param latitude a double
+	 * @param longitude a double
+	 */
+	public GeolocationResult(double latitude, double longitude) {
+		super();
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.confidence = null;
+		this.parseString = null;
+		this.coordinateUncertainty = null;
+	}
+	
 	/**
 	 * <p>constructFromXML.</p>
 	 *
