@@ -64,12 +64,16 @@ public class GeoRefSourceAuthority {
 	 *   source authority requires the specification of an authoritySubDataset.
 	 */
 	public GeoRefSourceAuthority(String authorityString) throws SourceAuthorityException {
-		logger.debug(authorityString);
+		logger.debug(authorityString); 
 		if (authorityString==null) { authorityString = ""; }
 	    if (authorityString.toUpperCase().equals("ADM1 BOUNDARIES UNION EEZ")) {
 	    	this.authority = EnumGeoRefSourceAuthority.ADM1_UNION_EEZ;	
 	    } else if (authorityString.toUpperCase().equals("ADM1 BOUNDARIES")) {
 	    	this.authority = EnumGeoRefSourceAuthority.GADM_ADM1;	
+	    } else if (authorityString.toUpperCase().equals("UNION OF NATURALEARTH 10M-PHYSICAL-VECTORS FOR LAND AND NATURALEARTH MINOR ISLANDS")) { 
+	    	this.authority = EnumGeoRefSourceAuthority.NE_LAND_UNION_ISLANDS;
+	    } else if (authorityString.toUpperCase().equals("NE_LAND_UNION_ISLANDS")) { 
+	    	this.authority = EnumGeoRefSourceAuthority.NE_LAND_UNION_ISLANDS;
 	    } else if (authorityString.toUpperCase().equals("THE GETTY THESAURUS OF GEOGRAPHIC NAMES (TGN)")) {
 	    	this.authority = EnumGeoRefSourceAuthority.GETTY_TGN;	
 	    } else if (authorityString.toUpperCase().equals("GETTY TGN")) {

@@ -26,6 +26,7 @@ package org.filteredpush.qc.georeference;
 public enum EnumGeoRefSourceAuthority {
 
     ADM1_UNION_EEZ,
+    NE_LAND_UNION_ISLANDS,
     GADM_ADM1, 
     GETTY_TGN,
     INVALID;
