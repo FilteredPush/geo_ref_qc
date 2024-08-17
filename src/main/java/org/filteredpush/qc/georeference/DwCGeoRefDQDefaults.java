@@ -258,7 +258,7 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     * align the location with the dwc:countryCode.
     * Uses the default source authority.
     *
-    * Provides: AMENDMENT_COORDINATES_TRANSPOSED
+    * Provides: 54 AMENDMENT_COORDINATES_TRANSPOSED
     * Version: 2023-09-17
     *
     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.

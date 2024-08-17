@@ -2993,7 +2993,7 @@ public class DwCGeoRefDQ{
     /**
     * Does the marine/non-marine biome of a taxon from the bdq:sourceAuthority match the biome at the location given by the coordinates?
     *
-    * Provides: VALIDATION_COORDINATES_TERRESTRIALMARINE
+    * Provides: 51 VALIDATION_COORDINATES_TERRESTRIALMARINE
     * Version: 2024-04-15
     *
     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
@@ -3041,7 +3041,7 @@ public class DwCGeoRefDQ{
     /**
     * Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to align the location with the dwc:countryCode.
     *
-    * Provides: AMENDMENT_COORDINATES_TRANSPOSED
+    * Provides: 54 AMENDMENT_COORDINATES_TRANSPOSED
     * Version: 2023-09-17
     *
     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
