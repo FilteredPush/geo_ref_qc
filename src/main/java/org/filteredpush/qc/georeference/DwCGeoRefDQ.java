@@ -2169,41 +2169,6 @@ public class DwCGeoRefDQ{
     }
 
     /**
-     * #95 Validation SingleRecord Conformance: geography ambiguous
-     *
-     * Provides: VALIDATION_GEOGRAPHY_AMBIGUOUS
-     *
-     * @param continent the provided dwc:continent to evaluate
-     * @param county the provided dwc:county to evaluate
-     * @param country the provided dwc:country to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param municipality the provided dwc:municipality to evaluate
-     * @param stateProvince the provided dwc:stateProvince to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     */
-    @Provides("78640f09-8353-411a-800e-9b6d498fb1c9")
-    public DQResponse<ComplianceValue> validationGeographyAmbiguous(@ActedUpon("dwc:continent") String continent, @ActedUpon("dwc:county") String county, @ActedUpon("dwc:country") String country, @ActedUpon("dwc:countryCode") String countryCode, @ActedUpon("dwc:municipality") String municipality, @ActedUpon("dwc:stateProvince") String stateProvince) {
-        DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
-
-        //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // service was not available; INTERNAL_PREREQUISITES_NOT_MET 
-        // if all of the terms dwc:continent, dwc:country, dwc:countryCode, 
-        // dwc:stateProvince, dwc:county, dwc:municipality are EMPTY; 
-        // COMPLIANT if the combination of values of administrative 
-        // geographic terms (dwc:continent, dwc:country, dwc:countryCode, 
-        // dwc:stateProvince, dwc:county, dwc:municipality) can be 
-        // unambiguously resolved by the bdq:sourceAuthority service; 
-        //otherwise NOT_COMPLIANT 
-
-        //TODO: Parameters. This test is defined as parameterized.
-        // bdq:sourceAuthority
-
-        return result;
-    }
-
-    /**
      * Is there a value in dwc:decimalLongitude?
      *
      * Provides: #96 VALIDATION_DECIMALLONGITUDE_NOTEMPTY
