@@ -2586,46 +2586,6 @@ public class DwCGeoRefDQ{
     }
 
     /**
-     * #118 Amendment SingleRecord Conformance: geography standardized
-     *
-     * Provides: AMENDMENT_GEOGRAPHY_STANDARDIZED
-     *
-     * @param continent the provided dwc:continent to evaluate
-     * @param county the provided dwc:county to evaluate
-     * @param country the provided dwc:country to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param municipality the provided dwc:municipality to evaluate
-     * @param stateProvince the provided dwc:stateProvince to evaluate
-     * @return DQResponse the response of type AmendmentValue to return
-     */
-    @Provides("ba2d868c-afa3-409a-836b-fdcea9f75945")
-    public DQResponse<AmendmentValue> amendmentGeographyStandardized(
-    		@ActedUpon("dwc:continent") String continent, 
-    		@ActedUpon("dwc:county") String county, 
-    		@ActedUpon("dwc:country") String country, 
-    		@ActedUpon("dwc:countryCode") String countryCode, 
-    		@ActedUpon("dwc:municipality") String municipality, 
-    		@ActedUpon("dwc:stateProvince") String stateProvince) {
-        DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
-
-        //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
-        // service was not available or if the combination of administrative 
-        // geography terms could not be unambiguously resolved from 
-        // the bdq:sourceAuthority service; AMENDED if one or more 
-        // of the administrative geographic terms (dwc:continent, dwc:country, 
-        // dwc:countryCode, dwc:stateProvince, dwc:county, dwc:municipality) 
-        // was changed to comply with standard values from the bdq:sourceAuthority 
-        //service; otherwise NOT_AMENDED 
-
-        //TODO: Parameters. This test is defined as parameterized.
-        // bdq:sourceAuthority
-
-        return result;
-    }
-
-    /**
      * Is there a value in dwc:decimalLatitude?
      *
      * Provides: #119 VALIDATION_DECIMALLATITUDE_NOTEMPTY
