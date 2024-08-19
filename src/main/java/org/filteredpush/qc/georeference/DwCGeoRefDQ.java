@@ -317,15 +317,15 @@ public class DwCGeoRefDQ{
      *
      * #30 Validation SingleRecord Conformance: decimallongitude outofrange
      *
-     * Provides: VALIDATION_DECIMALLONGITUDE_INRANGE
-     * Version: 2022-03-22
+     * Provides: 30 VALIDATION_DECIMALLONGITUDE_INRANGE
+     * Version: 2023-09-17
      *
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_DECIMALLONGITUDE_INRANGE", description="Is the value of dwc:decimalLongitude a number between -180 and 180 inclusive?")
     @Provides("0949110d-c06b-450e-9649-7c1374d940d1")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/0949110d-c06b-450e-9649-7c1374d940d1/2022-03-22")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/0949110d-c06b-450e-9649-7c1374d940d1/2023-09-17")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLongitude is EMPTY or the value is not a number; COMPLIANT if the value of dwc:decimalLongitude is between -180 and 180 degrees, inclusive; otherwise NOT_COMPLIANT ")
     public static DQResponse<ComplianceValue> validationDecimallongitudeInrange(
     		@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
@@ -3328,7 +3328,6 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-// TODO: Implementation of VALIDATION_DECIMALLONGITUDE_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/0949110d-c06b-450e-9649-7c1374d940d1/2023-09-17 see line: 321
 // TODO: Implementation of VALIDATION_MINELEVATION_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/0bb8297d-8f8a-42d2-80c1-558f29efe798/2023-09-17 see line: 539
 // TODO: Implementation of VALIDATION_LOCATION_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/58486cb6-1114-4a8a-ba1e-bd89cfe887e9/2023-09-18 see line: 630
 // TODO: Implementation of VALIDATION_COUNTRY_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/6ce2b2b4-6afe-4d13-82a0-390d31ade01c/2023-09-17 see line: 705
