@@ -114,6 +114,7 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     
     /**
      * Is the value of dwc:minimumElevationInMeters within the Parameter range?
+     * Uses the default values for the parameters.
      *
      * Provides: #39 VALIDATION_MINELEVATION_INRANGE
      * Version: 2022-03-26
@@ -123,8 +124,8 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
      */
     @Validation(label="VALIDATION_MINELEVATION_INRANGE", description="Is the value of dwc:minimumElevationInMeters within the Parameter range?")
     @Provides("0bb8297d-8f8a-42d2-80c1-558f29efe798")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/0bb8297d-8f8a-42d2-80c1-558f29efe798/2022-03-26")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumElevationInMeters is EMPTY or the value is not a number; COMPLIANT if the value of dwc:minimumElevationInMeters is within the range of bdq:minimumValidElevationInMeters to bdq:maximumValidElevationInMeters inclusive; otherwise NOT_COMPLIANT ")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/0bb8297d-8f8a-42d2-80c1-558f29efe798/2023-09-17")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumElevationInMeters is EMPTY or the value is not a number; COMPLIANT if the value of dwc:minimumElevationInMeters is within the range of bdq:minimumValidElevationInMeters to bdq:maximumValidElevationInMeters inclusive; otherwise NOT_COMPLIANT bdq:minimumValidElevationInMeters default = '-430',bdq:maximumValidElevationInMeters default = '8850'")
     public static DQResponse<ComplianceValue> validationMinelevationInrange(
     		@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters) {
     	return DwCGeoRefDQ.validationMinelevationInrange(minimumElevationInMeters, -430d, 8850d);
