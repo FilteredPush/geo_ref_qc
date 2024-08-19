@@ -2461,14 +2461,11 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-    
     /**
      * Is the value of dwc:maximumElevationInMeters of a single record within a valid range
      *
-     * Is the value of dwc:maximumElevationInMeters within the Parameter range?
-     *
      * Provides: #112 VALIDATION_MAXELEVATION_INRANGE
-     * Version: 2022-03-26
+     * Version: 2023-09-18
      *
      * @param maximumElevationInMeters the provided dwc:maximumElevationInMeters to evaluate
      * @param minimumValidElevationInMeters minimum valid value to test against, if null, defaults to -430
@@ -2477,8 +2474,8 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_MAXELEVATION_INRANGE", description="Is the value of dwc:maximumElevationInMeters of a single record within a valid range")
     @Provides("c971fe3f-84c1-4636-9f44-b1ec31fd63c7")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/c971fe3f-84c1-4636-9f44-b1ec31fd63c7/2022-03-26")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumElevationInMeters is EMPTY or the value cannot be interpreted as a number; COMPLIANT if the value of dwc:maximumElevationInMeters is within the range of bdq:minimumValidElevationInMeters to bdq:maximumValidElevationInMeters inclusive; otherwise NOT_COMPLIANT ")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/c971fe3f-84c1-4636-9f44-b1ec31fd63c7/2023-09-18")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumElevationInMeters is EMPTY or the value cannot be interpreted as a number; COMPLIANT if the value of dwc:maximumElevationInMeters is within the range of bdq:minimumValidElevationInMeters to bdq:maximumValidElevationInMeters inclusive; otherwise NOT_COMPLIANT bdq:minimumValidElevationInMeters default = '-430',bdq:maximumValidElevationInMeters default = '8850'")
     public static DQResponse<ComplianceValue> validationMaxelevationInrange(
     		@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters,
     		@Parameter(name="bdq:minimumValidElevationInMeters") Double minimumValidElevationInMeters,
@@ -2492,11 +2489,10 @@ public class DwCGeoRefDQ{
         // COMPLIANT if the value of dwc:maximumElevationInMeters is 
         // within the range of bdq:minimumValidElevationInMeters to 
         // bdq:maximumValidElevationInMeters inclusive; otherwise NOT_COMPLIANT 
-        // 
 
         // Parameters. This test is defined as parameterized.
+        // bdq:minimumValidElevationInMeters,bdq:maximumValidElevationInMeters
         // Default values: bdq:minimumValidElevationInMeters="-430", bdq:maximumValidElevationInMeters="8850"
-
 
         if (minimumValidElevationInMeters==null) { 
         	minimumValidElevationInMeters = -430d;
@@ -3328,7 +3324,6 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-// TODO: Implementation of VALIDATION_MINELEVATION_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/0bb8297d-8f8a-42d2-80c1-558f29efe798/2023-09-17 see line: 539
 // TODO: Implementation of VALIDATION_LOCATION_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/58486cb6-1114-4a8a-ba1e-bd89cfe887e9/2023-09-18 see line: 630
 // TODO: Implementation of VALIDATION_COUNTRY_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/6ce2b2b4-6afe-4d13-82a0-390d31ade01c/2023-09-17 see line: 705
 // TODO: Implementation of AMENDMENT_COORDINATES_CONVERTED is not up to date with current version: https://rs.tdwg.org/bdq/terms/620749b9-7d9c-4890-97d2-be3d1cde6da8/2023-09-18 see line: 758
@@ -3347,7 +3342,6 @@ public class DwCGeoRefDQ{
 // TODO: Implementation of VALIDATION_MINDEPTH_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/04b2c8f3-c71b-4e95-8e43-f70374c5fb92/2023-09-18 see line: 2266
 // TODO: Implementation of VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION is not up to date with current version: https://rs.tdwg.org/bdq/terms/d708526b-6561-438e-aa1a-82cd80b06396/2023-09-18 see line: 2340
 // TODO: Implementation of VALIDATION_COORDINATEUNCERTAINTY_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/c6adf2ea-3051-4498-97f4-4b2f8a105f57/2023-09-18 see line: 2405
-// TODO: Implementation of VALIDATION_MAXELEVATION_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/c971fe3f-84c1-4636-9f44-b1ec31fd63c7/2023-09-18 see line: 2468
 // TODO: Implementation of VALIDATION_DECIMALLATITUDE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/7d2485d5-1ba7-4f25-90cb-f4480ff1a275/2023-09-18 see line: 2535
 // TODO: Implementation of VALIDATION_MAXDEPTH_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/3f1db29a-bfa5-40db-9fd1-fde020d81939/2023-09-18 see line: 2574
 // TODO: Implementation of VALIDATION_STATEPROVINCE_FOUND is not up to date with current version: https://rs.tdwg.org/bdq/terms/4daa7986-d9b0-4dd5-ad17-2d7a771ea71a/2023-09-18 see line: 2647
