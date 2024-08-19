@@ -363,6 +363,7 @@
 									<exclude>javax.mail:mail</exclude>
 									<exclude>xerces:xercesImpl</exclude>
 									<exclude>commons-logging:commons</exclude>
+									<exclude>org.filteredpush:sci_name_qc</exclude>
 								</excludes>
 							</artifactSet>
 							<transformers>
