@@ -88,30 +88,28 @@ public class DwCGeoRefDQ{
      * Is the value of dwc:countryCode a valid ISO 3166-1-alpha-2 country code?
      *
      * Provides: #20 VALIDATION_COUNTRYCODE_STANDARD
-     * Version: 2022-05-02
+     * Version: 2024-04-15
      *
      * @param countryCode the provided dwc:countryCode to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_COUNTRYCODE_STANDARD", description="Is the value of dwc:countryCode a valid ISO 3166-1-alpha-2 country code?")
     @Provides("0493bcfb-652e-4d17-815b-b0cce0742fbe")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/0493bcfb-652e-4d17-815b-b0cce0742fbe/2022-05-02")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:SourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the dwc:countryCode was EMPTY; COMPLIANT if the value of dwc:countryCode is found in bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority is 'ISO 3166-1-alpha-2' [https://restcountries.eu/#api-endpoints-list-of-codes, https://www.iso.org/obp/ui/#search]")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/0493bcfb-652e-4d17-815b-b0cce0742fbe/2024-04-15")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the dwc:countryCode is EMPTY; COMPLIANT if dwc:countryCode can be unambiguously interpreted as a valid ISO 3166-1-alpha-2 country code; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'ISO 3166 Country Codes' {[https://www.iso.org/iso-3166-country-codes.html]} {ISO 3166-1-alpha-2 Country Code search [https://www.iso.org/obp/ui/#search]}")
     public static DQResponse<ComplianceValue> validationCountrycodeStandard(
     		@ActedUpon("dwc:countryCode") String countryCode) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:SourceAuthority 
-        // is not available; INTERNAL_PREREQUISITES_NOT_MET if the 
-        // dwc:countryCode was EMPTY; COMPLIANT if the value of dwc:countryCode 
-        // is found in bdq:sourceAuthority; otherwise NOT_COMPLIANT 
-        
-        // bdq:sourceAuthority is "ISO 3166-1-alpha-2" [https://restcountries.eu/#api-endpoints-list-of-codes, 
-        // https://www.iso.org/obp/ui/#search] 
-        // https://restcountries.eu/#api-endpoints-list-of-codes is currently timing out.
-        // https://www.iso.org/obp/ui/#search appears to be an api for one item at once.
-        
+        // EXTERNAL_PREREQUISITES_NOT_MET if bdq:sourceAuthority is 
+        // not available; INTERNAL_PREREQUISITES_NOT_MET if the dwc:countryCode 
+        // is EMPTY; COMPLIANT if dwc:countryCode can be unambiguously 
+        // interpreted as a valid ISO 3166-1-alpha-2 country code; 
+        // otherwise NOT_COMPLIANT 
+        // bdq:sourceAuthority default = "ISO 
+        // 3166 Country Codes" {[https://www.iso.org/iso-3166-country-codes.html]} 
+        // {ISO 3166-1-alpha-2 Country Code search [https://www.iso.org/obp/ui/#search]}
         
         if (GEOUtil.isEmpty(countryCode)) { 
         	result.addComment("dwc:countryCode is empty");
@@ -3329,7 +3327,6 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-// TODO: Implementation of VALIDATION_COUNTRYCODE_STANDARD is not up to date with current version: https://rs.tdwg.org/bdq/terms/0493bcfb-652e-4d17-815b-b0cce0742fbe/2024-04-15 see line: 90
 // TODO: Implementation of VALIDATION_COUNTRY_FOUND is not up to date with current version: https://rs.tdwg.org/bdq/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2024-04-15 see line: 148
 // TODO: Implementation of VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH is not up to date with current version: https://rs.tdwg.org/bdq/terms/8f1e6e58-544b-4365-a569-fb781341644e/2023-09-18 see line: 247
 // TODO: Implementation of VALIDATION_DECIMALLONGITUDE_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/0949110d-c06b-450e-9649-7c1374d940d1/2023-09-17 see line: 321
