@@ -241,8 +241,8 @@ public class DwCGeoRefDQ{
      *
      * #24 Validation SingleRecord Conformance: mindepth greaterthan maxdepth
      *
-     * Provides: VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH
-     * Version: 2022-03-22
+     * Provides: 24 VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH
+     * Version: 2023-09-18
      *
      * @param maximumDepthInMeters the provided dwc:maximumDepthInMeters to evaluate
      * @param minimumDepthInMeters the provided dwc:minimumDepthInMeters to evaluate
@@ -250,7 +250,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH", description="Is the value of dwc:minimumDepthInMeters a number that is less than or equal to the value of dwc:maximumDepthInMeters?")
     @Provides("8f1e6e58-544b-4365-a569-fb781341644e")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/8f1e6e58-544b-4365-a569-fb781341644e/2022-03-22")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/8f1e6e58-544b-4365-a569-fb781341644e/2023-09-18")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters or dwc:maximumDepthInMeters is EMPTY, or if either are interpretable as not zero or a positive number; COMPLIANT if the value of dwc:minimumDepthInMeters is less than or equal to the value of dwc:maximumDepthInMeters; otherwise NOT_COMPLIANT ")
     public static DQResponse<ComplianceValue> validationMindepthLessthanMaxdepth(
     		@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters,
@@ -263,6 +263,7 @@ public class DwCGeoRefDQ{
         // as not zero or a positive number; COMPLIANT if the value 
         // of dwc:minimumDepthInMeters is less than or equal to the 
         // value of dwc:maximumDepthInMeters; otherwise NOT_COMPLIANT 
+        // 
 
         if (GEOUtil.isEmpty(maximumDepthInMeters)) { 
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
@@ -3327,7 +3328,6 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-// TODO: Implementation of VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH is not up to date with current version: https://rs.tdwg.org/bdq/terms/8f1e6e58-544b-4365-a569-fb781341644e/2023-09-18 see line: 247
 // TODO: Implementation of VALIDATION_DECIMALLONGITUDE_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/0949110d-c06b-450e-9649-7c1374d940d1/2023-09-17 see line: 321
 // TODO: Implementation of VALIDATION_MINELEVATION_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/0bb8297d-8f8a-42d2-80c1-558f29efe798/2023-09-17 see line: 539
 // TODO: Implementation of VALIDATION_LOCATION_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/58486cb6-1114-4a8a-ba1e-bd89cfe887e9/2023-09-18 see line: 630
