@@ -1980,22 +1980,21 @@ public class DwCGeoRefDQ{
 
         return result;
     }
-
     
     /**
      * Is the value of dwc:decimalLatitude a number between -90 and 90 inclusive?
      *
      * #79 Validation SingleRecord Conformance: decimallatitude outofrange
      *
-     * Provides: VALIDATION_DECIMALLATITUDE_INRANGE
-     * Version: 2022-03-26
+     * Provides: 79 VALIDATION_DECIMALLATITUDE_INRANGE
+     * Version: 2023-09-18
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_DECIMALLATITUDE_INRANGE", description="Is the value of dwc:decimalLatitude a number between -90 and 90 inclusive?")
     @Provides("b6ecda2a-ce36-437a-b515-3ae94948fe83")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/b6ecda2a-ce36-437a-b515-3ae94948fe83/2022-03-26")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/b6ecda2a-ce36-437a-b515-3ae94948fe83/2023-09-18")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is EMPTY or the value is not interpretable as a number; COMPLIANT if the value of dwc:decimalLatitude is between -90 and 90, inclusive; otherwise NOT_COMPLIANT ")
     public static DQResponse<ComplianceValue> validationDecimallatitudeInrange(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
@@ -3341,7 +3340,6 @@ public class DwCGeoRefDQ{
 // TODO: Implementation of AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2024-08-03 see line: 1650
 // TODO: Implementation of AMENDMENT_COUNTRYCODE_FROM_COORDINATES is not up to date with current version: https://rs.tdwg.org/bdq/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2024-04-16 see line: 1874
 // TODO: Implementation of VALIDATION_GEODETICDATUM_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/239ec40e-a729-4a8e-ba69-e0bf03ac1c44/2023-09-18 see line: 1951
-// TODO: Implementation of VALIDATION_DECIMALLATITUDE_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/b6ecda2a-ce36-437a-b515-3ae94948fe83/2023-09-18 see line: 1986
 // TODO: Implementation of VALIDATION_DECIMALLONGITUDE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/9beb9442-d942-4f42-8b6a-fcea01ee086a/2023-09-18 see line: 2118
 // TODO: Implementation of VALIDATION_COUNTRYCODE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/853b79a2-b314-44a2-ae46-34a1e7ed85e4/2023-09-18 see line: 2153
 // TODO: Implementation of AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT is not up to date with current version: https://rs.tdwg.org/bdq/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2023-09-18 see line: 2194
