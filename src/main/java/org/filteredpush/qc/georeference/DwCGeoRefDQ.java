@@ -135,14 +135,13 @@ public class DwCGeoRefDQ{
 
         return result;
     }
-    
     /**
      * Does the value of dwc:country occur in bdq:sourceAuthority?
      *
      * #21 Validation SingleRecord Conformance: country notstandard
      *
-     * Provides: VALIDATION_COUNTRY_FOUND
-     * Version: 2022-08-29
+     * Provides: 21 VALIDATION_COUNTRY_FOUND
+     * Version: 2024-04-15
      *
      * @param country the provided dwc:country to evaluate
      * @param sourceAuthority the source authority to consult, if null uses ""The Getty Thesaurus of Geographic Names (TGN)",
@@ -151,9 +150,10 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_COUNTRY_FOUND", description="Does the value of dwc:country occur in bdq:sourceAuthority?")
     @Provides("69b2efdc-6269-45a4-aecb-4cb99c2ae134")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2022-08-29")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:country was EMPTY; COMPLIANT if value of dwc:country is a place type equivalent to 'nation' by the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]")
-    public static DQResponse<ComplianceValue> validationCountryFound(@ActedUpon("dwc:country") String country,
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2024-04-15")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:country is EMPTY; COMPLIANT if value of dwc:country is a place type equivalent to 'nation' by the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
+    public static DQResponse<ComplianceValue> validationCountryFound(
+    		@ActedUpon("dwc:country") String country,
     		@Parameter(name="bdq:sourceAuthority") String sourceAuthority
     		) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
@@ -161,14 +161,14 @@ public class DwCGeoRefDQ{
         // Specification
         // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
         // is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:country 
-        // was EMPTY; COMPLIANT if value of dwc:country is a place 
-        // type equivalent to "nation" by the bdq:sourceAuthority; 
-        // otherwise NOT_COMPLIANT 
+        // is EMPTY; COMPLIANT if value of dwc:country is a place type 
+        // equivalent to "nation" by the bdq:sourceAuthority; otherwise 
+        // NOT_COMPLIANT 
         // 
 
         // Parameters; This test is defined as parameterized.
-        // bdq:sourceAuthority
-        // default = "The Getty Thesaurus of Geographic Names (TGN)" [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]
+        // bdq:sourceAuthority default = "The Getty Thesaurus of Geographic Names (TGN)" 
+        // {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]} 
         
         if (sourceAuthority==null) { 
         	sourceAuthority = GettyLookup.GETTY_TGN;
@@ -3327,7 +3327,6 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-// TODO: Implementation of VALIDATION_COUNTRY_FOUND is not up to date with current version: https://rs.tdwg.org/bdq/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2024-04-15 see line: 148
 // TODO: Implementation of VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH is not up to date with current version: https://rs.tdwg.org/bdq/terms/8f1e6e58-544b-4365-a569-fb781341644e/2023-09-18 see line: 247
 // TODO: Implementation of VALIDATION_DECIMALLONGITUDE_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/0949110d-c06b-450e-9649-7c1374d940d1/2023-09-17 see line: 321
 // TODO: Implementation of VALIDATION_MINELEVATION_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/0bb8297d-8f8a-42d2-80c1-558f29efe798/2023-09-17 see line: 539
