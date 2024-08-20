@@ -3392,4 +3392,26 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+// TODO: Implementation of VALIDATION_COUNTRY_FOUND is not up to date with current version: https://rs.tdwg.org/bdq/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2024-08-19 see line: 155
+// TODO: Implementation of AMENDMENT_COORDINATES_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e/2024-08-19 see line: 389
+// TODO: Implementation of VALIDATION_COUNTRY_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/6ce2b2b4-6afe-4d13-82a0-390d31ade01c/2023-09-17 see line: 743
+// TODO: Implementation of AMENDMENT_COORDINATES_CONVERTED is not up to date with current version: https://rs.tdwg.org/bdq/terms/620749b9-7d9c-4890-97d2-be3d1cde6da8/2023-09-18 see line: 796
+// TODO: Implementation of AMENDMENT_COUNTRYCODE_STANDARDIZED is not up to date with current version: https://rs.tdwg.org/bdq/terms/fec5ffe6-3958-4312-82d9-ebcca0efb350/2023-09-17 see line: 917
+// TODO: Implementation of VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdq/terms/adb27d29-9f0d-4d52-b760-a77ba57a69c9/2023-09-17 see line: 1019
+// TODO: Implementation of AMENDMENT_MINDEPTH-MAXDEPTH_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/c5658b83-4471-4f57-9d94-bf7d0a96900c/2024-08-03 see line: 1139
+// TODO: Implementation of VALIDATION_GEODETICDATUM_STANDARD is not up to date with current version: https://rs.tdwg.org/bdq/terms/7e0c0418-fe16-4a39-98bd-80e19d95b9d1/2023-09-17 see line: 1459
+// TODO: Implementation of AMENDMENT_GEODETICDATUM_STANDARDIZED is not up to date with current version: https://rs.tdwg.org/bdq/terms/0345b325-836d-4235-96d0-3b5caf150fc0/2024-08-05 see line: 1518
+// TODO: Implementation of VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdq/terms/b23110e7-1be7-444a-a677-cdee0cf4330c/2023-09-18 see line: 1599
+// TODO: Implementation of AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdq/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2024-08-03 see line: 1701
+// TODO: Implementation of AMENDMENT_COUNTRYCODE_FROM_COORDINATES is not up to date with current version: https://rs.tdwg.org/bdq/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2024-08-18 see line: 1925
+// TODO: Implementation of VALIDATION_GEODETICDATUM_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/239ec40e-a729-4a8e-ba69-e0bf03ac1c44/2023-09-18 see line: 2002
+// TODO: Implementation of VALIDATION_DECIMALLONGITUDE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/9beb9442-d942-4f42-8b6a-fcea01ee086a/2023-09-18 see line: 2168
+// TODO: Implementation of VALIDATION_COUNTRYCODE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/853b79a2-b314-44a2-ae46-34a1e7ed85e4/2023-09-18 see line: 2203
+// TODO: Implementation of AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT is not up to date with current version: https://rs.tdwg.org/bdq/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2024-08-18 see line: 2244
+// TODO: Implementation of VALIDATION_MINDEPTH_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/04b2c8f3-c71b-4e95-8e43-f70374c5fb92/2023-09-18 see line: 2316
+// TODO: Implementation of VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION is not up to date with current version: https://rs.tdwg.org/bdq/terms/d708526b-6561-438e-aa1a-82cd80b06396/2023-09-18 see line: 2390
+// TODO: Implementation of VALIDATION_COORDINATEUNCERTAINTY_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/c6adf2ea-3051-4498-97f4-4b2f8a105f57/2023-09-18 see line: 2455
+// TODO: Implementation of VALIDATION_DECIMALLATITUDE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdq/terms/7d2485d5-1ba7-4f25-90cb-f4480ff1a275/2023-09-18 see line: 2581
+// TODO: Implementation of VALIDATION_MAXDEPTH_INRANGE is not up to date with current version: https://rs.tdwg.org/bdq/terms/3f1db29a-bfa5-40db-9fd1-fde020d81939/2023-09-18 see line: 2620
+// TODO: Implementation of VALIDATION_STATEPROVINCE_FOUND is not up to date with current version: https://rs.tdwg.org/bdq/terms/4daa7986-d9b0-4dd5-ad17-2d7a771ea71a/2023-09-18 see line: 2693
 }
