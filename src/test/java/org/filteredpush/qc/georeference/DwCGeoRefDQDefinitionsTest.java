@@ -266,7 +266,7 @@ public class DwCGeoRefDQDefinitionsTest {
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountrycodeStandard(java.lang.String)}.
 	 */
 	@Test
-	public void testValidationCountrycodeStandard() {
+	public void testValidationCountrycodeStandard() {  
 		
         // Specification
         // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:SourceAuthority 
