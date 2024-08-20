@@ -209,8 +209,9 @@ public class GeoUtilSingleton {
 		gettyPrimaryLookup.put(stateProvince, names);
 	}
 
-	/** 
+	/**
 	 * Obtain an instance of a shared GettyLookup class.
+	 *
 	 * @return a reusable GettyLookup instance.
 	 */
 	public GettyLookup getGettyLookup() {

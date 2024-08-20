@@ -205,9 +205,9 @@ public class GEOUtil {
 	/**
 	 * Parse an input latitude or longitute string if it fits a recognized pattern
 	 * and return a decimal latitude or longitude value.
-	 * 
+	 *
 	 * @param input a string containing a verbatim value for a latitude or longitude
-	 * @return a decimal degrees representation of the input or null if not able to 
+	 * @return a decimal degrees representation of the input or null if not able to
 	 * interpret.
 	 */
 	public static Double parseVerbatimLatLongToDecimalDegree(String input) { 
@@ -616,7 +616,7 @@ public class GEOUtil {
 	}
 	
 	/**
-	 * Test to see if a point is near (to a specified distance in km) or within a 
+	 * Test to see if a point is near (to a specified distance in km) or within a
 	 * primary division (state/province) without specifying the country.
 	 *
 	 * @param primaryDivision the primary division to look up.
@@ -839,7 +839,10 @@ public class GEOUtil {
         // see metadata at: https://datahub.io/core/country-list
     	
     	// per wikipedia, as of 2022 Feb 16
-    	List<String > isoCodesPerWikipedia = Arrays.asList(new String[]{"AD","AE","AF","AG","AI","AL","AM","AO","AQ","AR","AS","AT","AU","AW","AX","AZ","BA","BB","BD","BE","BF","BG","BH","BI","BJ","BL","BM","BN","BO","BQ","BR","BS","BT","BV","BW","BY","BZ","CA","CC","CD","CF","CG","CH","CI","CK","CL","CM","CN","CO","CR","CU","CV","CW","CX","CY","CZ","DE","DJ","DK","DM","DO","DZ","EC","EE","EG","EH","ER","ES","ET","FI","FJ","FK","FM","FO","FR","GA","GB","GD","GE","GF","GG","GH","GI","GL","GM","GN","GP","GQ","GR","GS","GT","GU","GW","GY","HK","HM","HN","HR","HT","HU","ID","IE","IL","IM","IN","IO","IQ","IR","IS","IT","JE","JM","JO","JP","KE","KG","KH","KI","KM","KN","KP","KR","KW","KY","KZ","LA","LB","LC","LI","LK","LR","LS","LT","LU","LV","LY","MA","MC","MD","ME","MF","MG","MH","MK","ML","MM","MN","MO","MP","MQ","MR","MS","MT","MU","MV","MW","MX","MY","MZ","NA","NC","NE","NF","NG","NI","NL","NO","NP","NR","NU","NZ","OM","PA","PE","PF","PG","PH","PK","PL","PM","PN","PR","PS","PT","PW","PY","QA","RE","RO","RS","RU","RW","SA","SB","SC","SD","SE","SG","SH","SI","SJ","SK","SL","SM","SN","SO","SR","SS","ST","SV","SX","SY","SZ","TC","TD","TF","TG","TH","TJ","TK","TLa","TM","TN","TO","TR","TT","TV","TW","TZ","UA","UG","UM","US","UY","UZ","VA","VC","VE","VG","VI","VN","VU","WF","WS","YE","YT","ZA","ZM","ZW"});
+    	// List<String > isoCodesPerWikipedia = Arrays.asList(new String[]{"AD","AE","AF","AG","AI","AL","AM","AO","AQ","AR","AS","AT","AU","AW","AX","AZ","BA","BB","BD","BE","BF","BG","BH","BI","BJ","BL","BM","BN","BO","BQ","BR","BS","BT","BV","BW","BY","BZ","CA","CC","CD","CF","CG","CH","CI","CK","CL","CM","CN","CO","CR","CU","CV","CW","CX","CY","CZ","DE","DJ","DK","DM","DO","DZ","EC","EE","EG","EH","ER","ES","ET","FI","FJ","FK","FM","FO","FR","GA","GB","GD","GE","GF","GG","GH","GI","GL","GM","GN","GP","GQ","GR","GS","GT","GU","GW","GY","HK","HM","HN","HR","HT","HU","ID","IE","IL","IM","IN","IO","IQ","IR","IS","IT","JE","JM","JO","JP","KE","KG","KH","KI","KM","KN","KP","KR","KW","KY","KZ","LA","LB","LC","LI","LK","LR","LS","LT","LU","LV","LY","MA","MC","MD","ME","MF","MG","MH","MK","ML","MM","MN","MO","MP","MQ","MR","MS","MT","MU","MV","MW","MX","MY","MZ","NA","NC","NE","NF","NG","NI","NL","NO","NP","NR","NU","NZ","OM","PA","PE","PF","PG","PH","PK","PL","PM","PN","PR","PS","PT","PW","PY","QA","RE","RO","RS","RU","RW","SA","SB","SC","SD","SE","SG","SH","SI","SJ","SK","SL","SM","SN","SO","SR","SS","ST","SV","SX","SY","SZ","TC","TD","TF","TG","TH","TJ","TK","TLa","TM","TN","TO","TR","TT","TV","TW","TZ","UA","UG","UM","US","UY","UZ","VA","VC","VE","VG","VI","VN","VU","WF","WS","YE","YT","ZA","ZM","ZW"});
+    	// plus, per note in https://github.com/tdwg/bdq/issues/20 2024-08-10
+    	// Including ZZ unkn and XZ.
+    	List<String > isoCodesPerWikipedia = Arrays.asList(new String[]{"ZZ","XZ","AD","AE","AF","AG","AI","AL","AM","AO","AQ","AR","AS","AT","AU","AW","AX","AZ","BA","BB","BD","BE","BF","BG","BH","BI","BJ","BL","BM","BN","BO","BQ","BR","BS","BT","BV","BW","BY","BZ","CA","CC","CD","CF","CG","CH","CI","CK","CL","CM","CN","CO","CR","CU","CV","CW","CX","CY","CZ","DE","DJ","DK","DM","DO","DZ","EC","EE","EG","EH","ER","ES","ET","FI","FJ","FK","FM","FO","FR","GA","GB","GD","GE","GF","GG","GH","GI","GL","GM","GN","GP","GQ","GR","GS","GT","GU","GW","GY","HK","HM","HN","HR","HT","HU","ID","IE","IL","IM","IN","IO","IQ","IR","IS","IT","JE","JM","JO","JP","KE","KG","KH","KI","KM","KN","KP","KR","KW","KY","KZ","LA","LB","LC","LI","LK","LR","LS","LT","LU","LV","LY","MA","MC","MD","ME","MF","MG","MH","MK","ML","MM","MN","MO","MP","MQ","MR","MS","MT","MU","MV","MW","MX","MY","MZ","NA","NC","NE","NF","NG","NI","NL","NO","NP","NR","NU","NZ","OM","PA","PE","PF","PG","PH","PK","PL","PM","PN","PR","PS","PT","PW","PY","QA","RE","RO","RS","RU","RW","SA","SB","SC","SD","SE","SG","SH","SI","SJ","SK","SL","SM","SN","SO","SR","SS","ST","SV","SX","SY","SZ","TC","TD","TF","TG","TH","TJ","TK","TLa","TM","TN","TO","TR","TT","TV","TW","TZ","UA","UG","UM","US","UY","UZ","VA","VC","VE","VG","VI","VN","VU","WF","WS","YE","YT","ZA","ZM","ZW"});
     	
     	boolean result = false;
     	
@@ -1235,9 +1238,11 @@ public class GEOUtil {
 		return retval;
 	}
 	
-	/** shorten the strings degrees, minutes, seconds, north, south, 
-	 * east, west in a verbatim geographic coordinate string to one 
+	/**
+	 * shorten the strings degrees, minutes, seconds, north, south,
+	 * east, west in a verbatim geographic coordinate string to one
 	 * character each
+	 *
 	 * @param coordinate to simplify
 	 * @return input coordinate with selected words replaced by single characters.
 	 */
@@ -1269,16 +1274,16 @@ public class GEOUtil {
 		return retval;
 	}
     
-	/** Convert a UTM coordinate, assuming a WGS84 datum, to a latitude
+	/**
+	 * Convert a UTM coordinate, assuming a WGS84 datum, to a latitude
 	 * and longitude, EPSG:4256
-	 * 
+	 *
 	 * TODO: Add UPS support
-	 * 
+	 *
 	 * @param utmCoordinate to convert
-	 * @param useFormalNS if true, accept only N and S as hemisphere letters, 
+	 * @param useFormalNS if true, accept only N and S as hemisphere letters,
 	 * not latitude band letters C-X, if false, treat N and S as band letters.
-	 * 
-	 * @return a GeolocaitonResult object containing latitude, longitude 
+	 * @return a GeolocaitonResult object containing latitude, longitude
 	 * or null if unable to convert.
 	 */
 	public static GeolocationResult convertUTMToLatLong(String utmCoordinate, boolean useFormalNS) {

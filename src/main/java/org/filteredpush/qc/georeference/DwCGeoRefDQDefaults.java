@@ -142,8 +142,6 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
      * Version: 2024-04-15
      *
      * @param country the provided dwc:country to evaluate
-     * @param sourceAuthority the source authority to consult, if null uses ""The Getty Thesaurus of Geographic Names (TGN)",
-     * 	additional supported values for sourceAuthority are "NaturalEarth" and "datahub.io".
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_COUNTRY_FOUND", description="Does the value of dwc:country occur in bdq:sourceAuthority?")
@@ -205,7 +203,7 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     }
     
     /**
-     *  Are the combination of the values of dwc:country, dwc:stateProvince consistent with 
+     *  Are the combination of the values of dwc:country, dwc:stateProvince consistent with
      *  the values in the bdq:sourceAuthority?  Uses the default sourceAuthority.
      *
      * Provides: #200 VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT
@@ -232,7 +230,7 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
      * bdq:sourceAuthority for the given dwc:stateProvince or within the distance
      * given by bdq:spatialBufferInMeters outside that boundary?  Using the default
      * values for source authority and spatial buffer in meters.
-     * 
+     *
      * #56 Validation SingleRecord Consistency: coordinates state-province
      * inconsistent
      *
@@ -259,18 +257,18 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     
     // TODO: Specification needs source authority to be added.
     /**
-    * Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to 
-    * align the location with the dwc:countryCode.
-    * Uses the default source authority.
-    *
-    * Provides: 54 AMENDMENT_COORDINATES_TRANSPOSED
-    * Version: 2023-09-17
-    *
-    * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
-    * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
-    * @param countryCode the provided dwc:countryCode to evaluate as Consulted.
-    * @return DQResponse the response of type AmendmentValue to return
-    */
+     * Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to
+     * align the location with the dwc:countryCode.
+     * Uses the default source authority.
+     *
+     * Provides: 54 AMENDMENT_COORDINATES_TRANSPOSED
+     * Version: 2023-09-17
+     *
+     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
+     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
+     * @param countryCode the provided dwc:countryCode to evaluate as Consulted.
+     * @return DQResponse the response of type AmendmentValue to return
+     */
     @Amendment(label="AMENDMENT_COORDINATES_TRANSPOSED", description="Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to align the location with the dwc:countryCode.")
     @Provides("f2b4a50a-6b2f-4930-b9df-da87b6a21082")
     @ProvidesVersion("https://rs.tdwg.org/bdq/terms/f2b4a50a-6b2f-4930-b9df-da87b6a21082/2023-09-17")
@@ -284,27 +282,27 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     }
     
     /**
-    * Does the marine/non-marine biome of a taxon from the bdq:sourceAuthority match the 
-    * biome at the location given by the coordinates?
-    * 
-    *
-    * Provides: 51 VALIDATION_COORDINATES_TERRESTRIALMARINE
-    * Version: 2024-04-15
-    *
-    * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
-    * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
-    * @param scientificName the provided dwc:scientificName to evaluate as Consulted.
-    * @return DQResponse the response of type ComplianceValue  to return
-    */
+     * Does the marine/non-marine biome of a taxon from the bdq:sourceAuthority match the
+     * biome at the location given by the coordinates? using the default parameter values.
+     *
+     *
+     * Provides: 51 VALIDATION_COORDINATES_TERRESTRIALMARINE
+     * Version: 2024-08-19
+     *
+     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
+     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
+     * @param scientificName the provided dwc:scientificName to evaluate as Consulted.
+     * @return DQResponse the response of type ComplianceValue  to return
+     */
     @Validation(label="VALIDATION_COORDINATES_TERRESTRIALMARINE", description="Does the marine/non-marine biome of a taxon from the bdq:sourceAuthority match the biome at the location given by the coordinates?")
     @Provides("b9c184ce-a859-410c-9d12-71a338200380")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/b9c184ce-a859-410c-9d12-71a338200380/2024-04-15")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/b9c184ce-a859-410c-9d12-71a338200380/2024-08-19")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if either bdq:taxonomyIsMarine or bdq:geospatialLand are not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:dcientificName is EMPTY or the marine/non-marine status of the taxon is not interpretable from bdq:taxonomyIsMarine or the values of dwc:decimalLatitude or dwc:decimalLongitude are EMPTY; COMPLIANT if the taxon marine/non-marine status from bdq:taxonomyIsMarine matches the marine/non-marine status of dwc:decimalLatitude and dwc:decimalLongitude on the boundaries given by bdq:geospatialLand plus an exterior buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT bdq:taxonIsMarine default = 'World Register of Marine Species (WoRMS') {[https://www.marinespecies.org/]} {Web service [https://www.marinespecies.org/aphia.php?p=webservice]},{bdq:geospatialLand default = The spatial union of 'NaturalEarth 10m-physical-vectors for Land' [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip] and 'NaturalEarth Minor Islands' [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_minor_islands.zip]},bdq:spatialBufferInMeters default = '3000'")
     public static DQResponse<ComplianceValue> validationCoordinatesTerrestrialmarine(
         @ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
         @ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
         @Consulted("dwc:scientificName") String scientificName
     ) {
-    	return validationCoordinatesTerrestrialmarine(decimalLatitude, decimalLongitude, scientificName, null, null, null);
+    	return validationCoordinatesTerrestrialmarine(decimalLatitude, decimalLongitude, scientificName, null, null, null, null);
     }
 }

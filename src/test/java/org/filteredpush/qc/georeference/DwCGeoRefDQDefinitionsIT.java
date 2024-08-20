@@ -368,14 +368,16 @@ public class DwCGeoRefDQDefinitionsIT {
 	@Test
 	public void testamendmentCoordinatesFromVerbatim() {
 
+		
 		String decimalLatitude = "";
 		String decimalLongitude = "";
+		String geodeticDatum = "";
 		String verbatimCoordinates = "";
 		String verbatimLatitude = "";
 		String verbatimLongitude = "";
 		String verbatimSRS = "";
 		String verbatimCoordinateSystem = "";
-		DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, geodeticDatum, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
@@ -383,12 +385,13 @@ public class DwCGeoRefDQDefinitionsIT {
 		
 		decimalLatitude = "56.5522";
 		decimalLongitude = "81.4677";
+		geodeticDatum = "";
 		verbatimCoordinates = "56,81";
 		verbatimLatitude = "";
 		verbatimLongitude = "";
 		verbatimSRS = "";
 		verbatimCoordinateSystem = "";
-		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, geodeticDatum, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.NOT_AMENDED.getLabel(), result.getResultState().getLabel());
@@ -396,12 +399,13 @@ public class DwCGeoRefDQDefinitionsIT {
 		
 		decimalLatitude = "";
 		decimalLongitude = "";
+		geodeticDatum = "";
 		verbatimCoordinates = "152.555W, 23.456S";
 		verbatimLatitude = "";
 		verbatimLongitude = "";
 		verbatimSRS = "";
 		verbatimCoordinateSystem = "";
-		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, geodeticDatum, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
@@ -411,12 +415,13 @@ public class DwCGeoRefDQDefinitionsIT {
 		
 		decimalLatitude = "";
 		decimalLongitude = "";
+		geodeticDatum = "";
 		verbatimCoordinates = "";
 		verbatimLatitude = "19.45 N";
 		verbatimLongitude = "72.46 E";
 		verbatimSRS = "";
 		verbatimCoordinateSystem = "";
-		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, geodeticDatum, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
@@ -426,12 +431,13 @@ public class DwCGeoRefDQDefinitionsIT {
 		
 		decimalLatitude = "";
 		decimalLongitude = "";
+		geodeticDatum = "";
 		verbatimCoordinates = "15° 32.49'N, 23° 15' E";
 		verbatimLatitude = "";
 		verbatimLongitude = "";
 		verbatimSRS = "";
 		verbatimCoordinateSystem = "";
-		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, geodeticDatum, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
@@ -441,12 +447,64 @@ public class DwCGeoRefDQDefinitionsIT {
 		
 		decimalLatitude = "";
 		decimalLongitude = "";
+		geodeticDatum = "";
+		verbatimCoordinates = "15° 32.49'N, 23° 15' E";
+		verbatimLatitude = "";
+		verbatimLongitude = "";
+		verbatimSRS = "WGS84";
+		verbatimCoordinateSystem = "";
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, geodeticDatum, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+		assertEquals(3,result.getValue().getObject().size());
+		assertEquals("15.5415",result.getValue().getObject().get("dwc:decimalLatitude"));
+		assertEquals("23.25",result.getValue().getObject().get("dwc:decimalLongitude"));
+		assertEquals("WGS84",result.getValue().getObject().get("dwc:geodeticDatum"));
+		
+		decimalLatitude = "";
+		decimalLongitude = "";
+		geodeticDatum = "foo";
+		verbatimCoordinates = "15° 32.49'N, 23° 15' E";
+		verbatimLatitude = "";
+		verbatimLongitude = "";
+		verbatimSRS = "EPSG:4236";
+		verbatimCoordinateSystem = "";
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, geodeticDatum, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+		assertEquals(3,result.getValue().getObject().size());
+		assertEquals("15.5415",result.getValue().getObject().get("dwc:decimalLatitude"));
+		assertEquals("23.25",result.getValue().getObject().get("dwc:decimalLongitude"));
+		assertEquals("EPSG:4326",result.getValue().getObject().get("dwc:geodeticDatum"));
+		
+		decimalLatitude = "";
+		decimalLongitude = "";
+		geodeticDatum = "";
+		verbatimCoordinates = "15° 32.49'N, 23° 15' E";
+		verbatimLatitude = "";
+		verbatimLongitude = "";
+		verbatimSRS = "EPSG:4326";
+		verbatimCoordinateSystem = "";
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, geodeticDatum, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
+		assertEquals(3,result.getValue().getObject().size());
+		assertEquals("15.5415",result.getValue().getObject().get("dwc:decimalLatitude"));
+		assertEquals("23.25",result.getValue().getObject().get("dwc:decimalLongitude"));
+		assertEquals("EPSG:4326",result.getValue().getObject().get("dwc:geodeticDatum"));
+		
+		decimalLatitude = "";
+		decimalLongitude = "";
+		geodeticDatum = "";
 		verbatimCoordinates = "";
 		verbatimLatitude = "15°32.49' N";
 		verbatimLongitude = "23°15'W";
 		verbatimSRS = "";
 		verbatimCoordinateSystem = "";
-		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, geodeticDatum, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
@@ -456,12 +514,13 @@ public class DwCGeoRefDQDefinitionsIT {
 		
 		decimalLatitude = "";
 		decimalLongitude = "";
+		geodeticDatum = "";
 		verbatimCoordinates = "45°45'30\"N, 15°20'20\"E";
 		verbatimLatitude = "";
 		verbatimLongitude = "";
 		verbatimSRS = "";
 		verbatimCoordinateSystem = "";
-		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, geodeticDatum, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
@@ -471,12 +530,13 @@ public class DwCGeoRefDQDefinitionsIT {
 		
 		decimalLatitude = "";
 		decimalLongitude = "";
+		geodeticDatum = "";
 		verbatimCoordinates = "";
 		verbatimLatitude = "45° 45' 30\" N";
 		verbatimLongitude = "15° 20' 20\" W";
 		verbatimSRS = "";
 		verbatimCoordinateSystem = "";
-		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, geodeticDatum, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
@@ -486,12 +546,13 @@ public class DwCGeoRefDQDefinitionsIT {
 		
 		decimalLatitude = "";
 		decimalLongitude = "";
+		geodeticDatum = "";
 		verbatimCoordinates = "45°45'30\"n; 15°20'20\"e";
 		verbatimLatitude = "";
 		verbatimLongitude = "";
 		verbatimSRS = "";
 		verbatimCoordinateSystem = "";
-		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, geodeticDatum, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
@@ -501,12 +562,13 @@ public class DwCGeoRefDQDefinitionsIT {
 		
 		decimalLatitude = "";
 		decimalLongitude = "";
+		geodeticDatum = "";
 		verbatimCoordinates = "45 degrees 45 minutes 30 seconds north; 15degrees20minutes20seconds East";
 		verbatimLatitude = "";
 		verbatimLongitude = "";
 		verbatimSRS = "";
 		verbatimCoordinateSystem = "";
-		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
+		result = DwCGeoRefDQ.amendmentCoordinatesFromVerbatim(decimalLatitude, decimalLongitude, geodeticDatum, verbatimCoordinates, verbatimLatitude, verbatimLongitude, verbatimSRS, verbatimCoordinateSystem);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());

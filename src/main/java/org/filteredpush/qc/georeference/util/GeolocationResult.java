@@ -55,7 +55,7 @@ public class GeolocationResult implements Serializable {
 
 	/**
 	 * Lightweight constructor for using object to carry only latitude and longitude.
-	 * 
+	 *
 	 * @param latitude a double
 	 * @param longitude a double
 	 */

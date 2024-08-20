@@ -277,7 +277,7 @@ public class GettyLookup {
 	 *
 	 * @param primaryDivision the state/province to look up.
 	 * @return true if the secondaryDivision is found as appropriate geopolitical entity in TGN matching
-	 * any form of the name at least once, false if the primary division is not found in TGN, 
+	 * any form of the name at least once, false if the primary division is not found in TGN,
 	 * null on an exception querying TGN.
 	 */
 	public Boolean lookupPrimary(String primaryDivision) { 
@@ -334,6 +334,12 @@ public class GettyLookup {
 	
 	
 	
+	/**
+	 * <p>getPreferredCountryName.</p>
+	 *
+	 * @param country a {@link java.lang.String} object.
+	 * @return a {@link java.lang.String} object.
+	 */
 	public String getPreferredCountryName(String country) { 
 
 		String retval = null;
@@ -406,6 +412,12 @@ public class GettyLookup {
 		return retval;
 	} 
 	
+	/**
+	 * <p>getParentageForPrimary.</p>
+	 *
+	 * @param primaryDivision a {@link java.lang.String} object.
+	 * @return a {@link java.lang.String} object.
+	 */
 	public String getParentageForPrimary(String primaryDivision) { 
 
 		String retval = null;
@@ -451,6 +463,12 @@ public class GettyLookup {
 		return retval;
 	}
 	
+	/**
+	 * <p>getPrimaryObject.</p>
+	 *
+	 * @param primaryDivision a {@link java.lang.String} object.
+	 * @return a {@link edu.getty.tgn.service.GettyTGNObject} object.
+	 */
 	public GettyTGNObject getPrimaryObject(String primaryDivision) { 
 
 		GettyTGNObject retval = null;
