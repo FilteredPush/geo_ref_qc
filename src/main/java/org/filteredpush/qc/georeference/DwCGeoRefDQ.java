@@ -425,6 +425,12 @@ public class DwCGeoRefDQ{
         	done = true;
         } 
         
+        if (!GEOUtil.isEmpty(decimalLatitude) || !GEOUtil.isEmpty(decimalLongitude)) { 
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("At least one of dwc:verbatimLatitude and dwc:dacimalLongitude contain a value.");
+        	done = true;
+        } 
+        
         if (!done && GEOUtil.isEmpty(verbatimCoordinates) && (GEOUtil.isEmpty(verbatimLatitude) || GEOUtil.isEmpty(verbatimLongitude))) { 
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         	if (GEOUtil.isEmpty(verbatimCoordinates)) { 
@@ -1501,8 +1507,9 @@ public class DwCGeoRefDQ{
 				logger.debug(e.getClass());
 				logger.debug(e.getMessage());
 				// unmatched code exception is caught internally in is CoordinateSystemKnown, 
-				// other failures are likely to be database problems.
-				result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+				// other failures may be database exceptions or issues with transforms
+				result.setResultState(ResultState.RUN_HAS_RESULT);
+				result.setValue(ComplianceValue.NOT_COMPLIANT);
 				result.addComment(e.getMessage());
 			}
 		}
@@ -3119,6 +3126,8 @@ public class DwCGeoRefDQ{
         }
 
         try { 
+        	logger.debug(geospatialLand);
+        	logger.debug(taxonIsMarine);
         	GeoRefSourceAuthority sourceAuthoritySpatial = new GeoRefSourceAuthority(geospatialLand);
         	SciNameSourceAuthority sourceAuthorityTaxon = new SciNameSourceAuthority(taxonIsMarine);
         	if (sourceAuthoritySpatial.getAuthority().equals(EnumGeoRefSourceAuthority.INVALID)) { 

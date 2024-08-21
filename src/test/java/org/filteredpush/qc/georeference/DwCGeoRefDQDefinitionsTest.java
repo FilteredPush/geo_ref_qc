@@ -18,7 +18,9 @@ import org.datakurator.ffdq.api.result.ComplianceValue;
 import org.datakurator.ffdq.model.ResultState;
 import org.filteredpush.qc.georeference.util.CountryLookup;
 import org.filteredpush.qc.georeference.util.GEOUtil;
+import org.geotools.api.referencing.crs.CoordinateReferenceSystem;
 import org.geotools.api.referencing.crs.ProjectedCRS;
+import org.geotools.referencing.CRS;
 import org.geotools.referencing.ReferencingFactoryFinder;
 import org.junit.Test;
 
@@ -1165,12 +1167,27 @@ public class DwCGeoRefDQDefinitionsTest {
 			while (i.hasNext()) { 
 				String code = i.next();
 				logger.debug(code);
+				boolean exists = false;
+				try { 
+					// some codes fail to lookup with exception
+					exists = GEOUtil.isCoordinateSystemCodeKnown("EPSG:" + code);
+				} catch (Exception ex) { 
+					exists = false;
+				}
 				if (!code.equals("5820")) {
-					result = DwCGeoRefDQ.validationGeodeticdatumStandard(code);
-					logger.debug(result.getComment());
-					assertFalse(GEOUtil.isEmpty(result.getComment()));
-					assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
-					assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+					if (exists) { 
+						result = DwCGeoRefDQ.validationGeodeticdatumStandard(code);
+						logger.debug(result.getComment());
+						assertFalse(GEOUtil.isEmpty(result.getComment()));
+						assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+						assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+					} else { 
+						result = DwCGeoRefDQ.validationGeodeticdatumStandard(code);
+						logger.debug(result.getComment());
+						assertFalse(GEOUtil.isEmpty(result.getComment()));
+						assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+						assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+					}
 				} 
 			}
 		} catch (Exception e) { 

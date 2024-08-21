@@ -936,6 +936,8 @@ public class GEOUtil {
 		
 		boolean retval = false;
 		
+		logger.debug(geodeticDatum);
+		
 		//CoordinateOperationFactory factory = new DefaultCoordinateOperationFactory();
 		try {
 			CoordinateReferenceSystem crsFrom = CRS.decode(geodeticDatum);
