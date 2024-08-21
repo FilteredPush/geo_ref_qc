@@ -195,10 +195,10 @@ public class DwCGeoRefDQ{
         			}
         		} else { 
         			GettyLookup lookup = new GettyLookup();
-        			if (lookup.lookupCountryExact(country)==null) { 
+        			if (lookup.lookupCountry(country)==null) { 
         				result.addComment("Error looking up country in " + sourceAuthority);
         				result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
-        			} else if (lookup.lookupCountryExact(country)) { 
+        			} else if (lookup.lookupCountry(country)) { 
         				result.addComment("the value provided for dwc:country [" + country + "] exists as a nation in the Getty Thesaurus of Geographic Names (TGN).");
         				result.setResultState(ResultState.RUN_HAS_RESULT);
         				result.setValue(ComplianceValue.COMPLIANT);
@@ -420,7 +420,7 @@ public class DwCGeoRefDQ{
  
         // TODO: Update specification to reflect this result.status
         if (!GEOUtil.isEmpty(decimalLatitude) || !GEOUtil.isEmpty(decimalLongitude)) { 
-        	result.setResultState(ResultState.NOT_AMENDED);
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         	result.addComment("At least one of dwc:verbatimLatitude and dwc:dacimalLongitude contain a value.");
         	done = true;
         } 
@@ -474,10 +474,12 @@ public class DwCGeoRefDQ{
         		if (verbatimCoordinates.contains(";")) {
         			verbatimCoordinates = verbatimCoordinates.replace(";", ",");
         		}
-        		String nverbatimCoordinates = GEOUtil.simplifyVerbatimCoordinate(verbatimCoordinates);
-        		if (nverbatimCoordinates.contains(",")) {
-        			logger.debug(nverbatimCoordinates);
-        			String[] bits = nverbatimCoordinates.split(",");
+        		logger.debug(verbatimCoordinates);
+        		String modifiedverbatimCoordinates = GEOUtil.simplifyVerbatimCoordinate(verbatimCoordinates);
+        		logger.debug(modifiedverbatimCoordinates);
+        		if (modifiedverbatimCoordinates.contains(",")) {
+        			logger.debug(modifiedverbatimCoordinates);
+        			String[] bits = modifiedverbatimCoordinates.split(",");
         			if (bits.length==2) { 
         				logger.debug(bits[0]);
         				logger.debug(bits[1]);
@@ -533,6 +535,9 @@ public class DwCGeoRefDQ{
         		Map<String,String> map = new HashMap();
         		map.put("dwc:decimalLatitude", newDecimalLatitude);
         		map.put("dwc:decimalLongitude", newDecimalLongitude);
+        		if (!GEOUtil.isEmpty(verbatimSRS)) { 
+        	       map.put("dwc:geodeticDatum", verbatimSRS);
+        	    }
         		result.setValue(new AmendmentValue(map));
         		result.addComment("Interpreted decimalLatitude ["+newDecimalLatitude+"] and decimalLongitude ["+newDecimalLongitude+"] from provided verbatimLatitude ["+verbatimLatitude+"] and verbatimLongtude ["+verbatimLongitude+"]");
         	    interpreted = true;
@@ -541,7 +546,7 @@ public class DwCGeoRefDQ{
         }
         
         if (result.getResultState().equals(ResultState.NOT_RUN) && interpreted == false) { 
-        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        	result.setResultState(ResultState.NOT_AMENDED);
         	result.addComment("Unable to interpret provided verbatim coordinate values: verbatimCoordinates["+verbatimCoordinates+"], verbatimLatitude ["+verbatimLatitude+"], verbatimLongitude ["+verbatimLongitude+"].");
         }
         

@@ -215,6 +215,8 @@ public class GEOUtil {
 		
 		// TODO: support appropriate number of significant digits for d m s and d m.m
 		
+		logger.debug(input);
+		
 		if (!GEOUtil.isEmpty(input)) { 
 			
 			input = input.trim();
@@ -1270,6 +1272,23 @@ public class GEOUtil {
 			if (retval.toUpperCase().contains("WEST")) { 
 				retval = retval.replaceAll("(?i)west", "W");
 			}
+			logger.debug(retval);
+			if (!retval.contains(",")) {
+				logger.debug(retval);
+				// add separator if verbatim coordinates does not contain one
+				if (retval.matches(".+N [0-9].*")) { 
+					retval = retval.replace("N ", "N, ");
+				}
+				if (retval.matches(".+S [0-9].*")) { 
+					retval = retval.replace("S ", "S, ");
+				}
+				if (retval.matches(".+E [0-9].*")) { 
+					retval = retval.replace("E ", "E, ");
+				}
+				if (retval.matches(".+W [0-9].*")) { 
+					retval = retval.replace("W ", "W, ");
+				}
+			} 
 		}
 		return retval;
 	}

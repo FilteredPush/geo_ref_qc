@@ -368,7 +368,6 @@ public class DwCGeoRefDQDefinitionsIT {
 	@Test
 	public void testamendmentCoordinatesFromVerbatim() {
 
-		
 		String decimalLatitude = "";
 		String decimalLongitude = "";
 		String geodeticDatum = "";
