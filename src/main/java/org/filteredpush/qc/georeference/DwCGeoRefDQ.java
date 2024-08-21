@@ -418,16 +418,15 @@ public class DwCGeoRefDQ{
         
         boolean done = false;
  
-        // TODO: Update specification to reflect this result.status
         if (!GEOUtil.isEmpty(decimalLatitude) || !GEOUtil.isEmpty(decimalLongitude)) { 
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         	result.addComment("At least one of dwc:verbatimLatitude and dwc:dacimalLongitude contain a value.");
         	done = true;
         } 
         
-        if (!GEOUtil.isEmpty(decimalLatitude) || !GEOUtil.isEmpty(decimalLongitude)) { 
-        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
-        	result.addComment("At least one of dwc:verbatimLatitude and dwc:dacimalLongitude contain a value.");
+        if (!done) { 
+        	result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("Coordinate transformation backing not configured.");
         	done = true;
         } 
         
