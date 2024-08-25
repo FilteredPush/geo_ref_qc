@@ -19,6 +19,8 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.datakurator.ffdq.annotations.ActedUpon;
+import org.datakurator.ffdq.annotations.Consulted;
+import org.datakurator.ffdq.annotations.Parameter;
 import org.datakurator.ffdq.api.DQResponse;
 import org.datakurator.ffdq.api.result.AmendmentValue;
 import org.datakurator.ffdq.api.result.ComplianceValue;
@@ -626,4 +628,37 @@ public class DwCGeoRefDQDefinitionsIT {
 		assertNull(result.getValue());
 	}
 	
+    	/**
+    	 * Test method for org.filteredpush.qc.georeference.DwCGeoRefDQ.validationCoordinatesTerrestrialmarine()
+    	 */
+    	@Test
+    	public void testvalidationCoordinatesTerrestrialmarine() {
+    		
+    		String decimalLatitude = "";
+    		String decimalLongitude = "";
+    		String scientificName = "";
+    		String taxonIsMarine = null;
+    		String geospatialLand = null;
+    		String assumptionOnUnknownBiome = "noassumption";
+    		String spatialBufferInMeters = "3000";
+    		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCoordinatesTerrestrialmarine(decimalLatitude, decimalLongitude, scientificName, taxonIsMarine,geospatialLand,assumptionOnUnknownBiome,spatialBufferInMeters);
+    		logger.debug(result.getComment());
+    		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+    		assertNull(result.getValue());
+    		assertFalse(GEOUtil.isEmpty(result.getComment()));
+    		
+    		decimalLatitude = "-15.23";
+    		decimalLongitude = "-28.85";
+    		scientificName = "Orcinus orca";
+    		taxonIsMarine = null;
+    		geospatialLand = null;
+    		assumptionOnUnknownBiome = "noassumption";
+    		spatialBufferInMeters = "3000";
+    		result = DwCGeoRefDQ.validationCoordinatesTerrestrialmarine(decimalLatitude, decimalLongitude, scientificName, taxonIsMarine,geospatialLand,assumptionOnUnknownBiome,spatialBufferInMeters);
+    		logger.debug(result.getComment());
+    		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+    		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+    		assertFalse(GEOUtil.isEmpty(result.getComment()));
+    	}
+    	
 }

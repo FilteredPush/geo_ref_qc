@@ -30,10 +30,17 @@ import org.marinespecies.aphia.v1_0.api.TaxonomicDataApi;
 import org.marinespecies.aphia.v1_0.handler.ApiClient;
 import org.marinespecies.aphia.v1_0.handler.ApiException;
 import org.marinespecies.aphia.v1_0.model.AphiaRecord;
+import org.filteredpush.qc.sciname.EnumSciNameSourceAuthority;
 import org.filteredpush.qc.sciname.SciNameSourceAuthority;
+import org.filteredpush.qc.sciname.SciNameUtils;
+import org.filteredpush.qc.sciname.services.GBIFService;
 import org.filteredpush.qc.sciname.services.WoRMSService;
+import org.gbif.nameparser.api.UnparsableNameException;
 
 import edu.getty.tgn.service.GettyTGNObject;
+import edu.harvard.mcz.nametools.NameAuthorshipParse;
+import edu.harvard.mcz.nametools.NameComparison;
+import edu.harvard.mcz.nametools.NameUsage;
 
 import org.datakurator.ffdq.api.result.*;
 
@@ -3174,7 +3181,7 @@ public class DwCGeoRefDQ{
         	if (sourceAuthoritySpatial.getAuthority().equals(EnumGeoRefSourceAuthority.INVALID)) { 
         		throw new SourceAuthorityException("Invalid Source Authority");
         	}
-        	if (sourceAuthorityTaxon.getAuthority().equals(EnumGeoRefSourceAuthority.INVALID)) { 
+        	if (sourceAuthorityTaxon.getAuthority().equals(EnumSciNameSourceAuthority.INVALID)) { 
         		throw new SourceAuthorityException("Invalid Source Authority");
         	}
         	if (GEOUtil.isEmpty(scientificName)) { 
@@ -3185,45 +3192,114 @@ public class DwCGeoRefDQ{
         		Boolean marine = null;
         		Boolean nonMarine = null;
         		try {
-					TaxonomicDataApi wormsService =  new TaxonomicDataApi();
-					wormsService.setApiClient(new ApiClient());
-					List<AphiaRecord> results = wormsService.aphiaRecordsByName(scientificName, false, false, 1);
-					if (results!=null && results.size()>0) { 
+					// TaxonomicDataApi wormsService =  new TaxonomicDataApi();
+					// wormsService.setApiClient(new ApiClient());
+					WoRMSService wormsService = new WoRMSService(false);
+				
+					//List<AphiaRecord> results = wormsService.aphiaRecordsByName(scientificName, false, false, 1);
+					
+					NameUsage toValidate = new NameUsage();
+	        		try { 
+	        			NameAuthorshipParse parsedName = SciNameUtils.getNameWithoutAuthorship(scientificName);
+	        			toValidate.setScientificName(parsedName.getNameWithoutAuthorship());
+	        			toValidate.setAuthorship(parsedName.getAuthorship());
+	        			logger.debug(parsedName.getNameWithoutAuthorship());
+	        			logger.debug(parsedName.getAuthorship());
+	        		} catch (UnparsableNameException e) { 
+	        			result.addComment("Unable to parse authorship out of provided scientificName, trying GNI and GBIF parser service with ["+scientificName+"].");
+	        			logger.debug(e.getMessage(), e);
+	        			// If local parse fails, try a parse via the GBIF service.
+	        			// This supports embedding the library in coldfusion for MCZbase, where 
+	        			// there is a library version conflict with the guava version provided
+	        			// by coldfusion and the version needed by the GBIF name parser.
+	        			try { 
+	        				NameAuthorshipParse parsedName = GBIFService.parseAuthorshipFromNameString(scientificName);
+	        				toValidate.setScientificName(parsedName.getNameWithoutAuthorship());
+	        				toValidate.setAuthorship(parsedName.getAuthorship());
+	        			} catch (Exception ex) {
+	        				// simple failover handler, try the full name
+	        				result.addComment("Unable to parse authorship out of provided scientificName, looking up full name.");
+	        				result.addComment(e.getMessage());	
+	        				toValidate.setScientificName(scientificName);
+	        			} 
+	        		} catch (Exception e) {
+	        			// could be thrown from parser.close()
+	        			logger.error(e.getMessage(), e);
+	        			if (GEOUtil.isEmpty(toValidate.getScientificName())) { 
+	        				toValidate.setScientificName(scientificName);
+	        			}
+	        		}
+					
+	        		logger.debug(toValidate.getScientificName());
+					NameUsage validationResponse =  wormsService.validate(toValidate);
+					logger.debug(validationResponse==null);
+					
+					if (validationResponse!=null) { 
 						// We got at least one result
-						Iterator<AphiaRecord> i = results.iterator();
-						while (i.hasNext()) {
-							AphiaRecord ar = i.next();
+						logger.debug(validationResponse.getMatchDescription());
+						boolean matched = false;
+						if (validationResponse.getMatchDescription().equals(NameComparison.MATCH_EXACT)) { 
+							// exact match 
+							matched = true;
+						} else if (NameComparison.isPlausibleAuthorMatch(validationResponse.getMatchDescription())) {
+							// match where author matching is plausibly the same name, includes author added
+							matched = true;
+						} else if (validationResponse.getMatchDescription().equals(NameComparison.SNMATCH_SUBGENUS)) { 
+							// matching except subgenus added in one case
+							matched = true;
+						} else if (
+							validationResponse.getMatchDescription().startsWith(NameComparison.MATCH_MULTIPLE) 
+							&& GEOUtil.isEmpty(toValidate.getAuthorship())
+							&& validationResponse.getNameMatchDescription().equals(NameComparison.MATCH_EXACT)
+						) { 
+							matched = true;
+						}
+						
+						if (matched) { 
 							WoRMSService svs = new WoRMSService(false);
-							Map<String,String> habitats = svs.lookupHabitat(ar);
+							Map<String,String> habitats = validationResponse.getExtension();
+							
+							if (habitats==null) {
+								logger.debug("habitats returned as null");
+							}
 							if (habitats!=null) { 
+								logger.debug(habitats.size());
 								// If brackish, set both marine and nonMarine as true, points near boundaries
-								if (habitats.containsKey("brackish") && habitats.get("brackish").equals("true")) { 
-										marine = true;
-										nonMarine = true;
+								if (habitats.containsKey("brackish") && habitats.get("brackish").equals("true")) {
+									logger.debug("brackish=true, thus marine=true and nonMarine=true");
+									marine = true;
+									nonMarine = true;
 								} else { 
 									// marine flags marine
 									if (habitats.containsKey("marine") && habitats.get("marine")=="true") {
 										marine = true;
+										logger.debug("marine=true");
 									} else if (habitats.containsKey("marine") && habitats.get("marine").equals("false")) {
 										marine = false;
+										logger.debug("marine=false");
 									}
 									// terrestrial and freshwater flag non-marine
 									if (habitats.containsKey("freshwater") && habitats.get("freshwater")=="true") {
 										nonMarine = true;
+										logger.debug("nonMarine=true");
 									} else if (habitats.containsKey("freshwater") && habitats.get("freshwater").equals("false")) {
 										if (habitats.containsKey("terrestrial") && habitats.get("terrestrial").equals("true")) { 
 											nonMarine = true;
+											logger.debug("nonMarine=true (freshwater false, terrestrial true)");
 										} else if (habitats.containsKey("terrestrial") && habitats.get("terrestrial").equals("false")) {
 											nonMarine = false;
+											logger.debug("nonMarine=false (freshwater and terrestrial both false)");
 										}
 									}
 								} 
 							}
 						}
-					} 
-				} catch (ApiException e) {
-					throw new SourceAuthorityException("Error accessing Source Authority: " + e.getMessage());
+					} else {
+						logger.debug("Response from name lookup is null");
+					}
 				} catch (IOException e) {
+					throw new SourceAuthorityException("Error accessing Source Authority: " + e.getMessage());
+				} catch (org.filteredpush.qc.sciname.services.ServiceException e) {
 					throw new SourceAuthorityException("Error accessing Source Authority: " + e.getMessage());
 				}
         		
@@ -3237,6 +3313,10 @@ public class DwCGeoRefDQ{
         				nonMarine = true;
         			}
         		}
+        		logger.debug(assumptionOnUnknownBiome);
+        		logger.debug("marine=" + marine);
+        		logger.debug("nonMarine="+ nonMarine);
+        		
         		// For now, fail if both are null, may be stronger to fail if either is, see assumption below.
         		if (marine==null && nonMarine==null) { 
         			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
@@ -3257,8 +3337,10 @@ public class DwCGeoRefDQ{
         				// evaluate against geospatial data
        					Double lat = Double.parseDouble(decimalLatitude);
        					Double lon = Double.parseDouble(decimalLongitude);
+       					Double buffer_meters = Double.parseDouble(spatialBufferInMeters);
         				if (marine) { 
-        					if (GEOUtil.isOnLand(lon, lat, false)) { 
+        					
+        					if (GEOUtil.isOnOrNearLand(lon, lat, false, buffer_meters)) { 
         						result.setResultState(ResultState.RUN_HAS_RESULT);
         						result.setValue(ComplianceValue.NOT_COMPLIANT);
         						result.addComment("Provided scientificName ["+scientificName+"] is known from marine habitats, but the provided coordinate is non-marine.");
@@ -3268,7 +3350,7 @@ public class DwCGeoRefDQ{
         						result.addComment("Provided scientificName ["+scientificName+"] is known from marine habitats and the provided coordinate is marine.");
         					}
         				} else { 
-        					if (GEOUtil.isOnLand(lon, lat, true)) { 
+        					if (GEOUtil.isOnOrNearLand(lon, lat, true, buffer_meters)) { 
         						// test with invert sense is:  isMarine, thus non-marine habitat and marine location
         						result.setResultState(ResultState.RUN_HAS_RESULT);
         						result.setValue(ComplianceValue.NOT_COMPLIANT);

@@ -359,6 +359,30 @@ public class GEOUtil {
     	
     	return result;
     }
+    
+    /**
+     * Test to see if a point is on land, with a spatial buffer
+     *
+     * @param Xvalue a decimal longitude expressed as a double
+     * @param Yvalue a decimal latitude expressed as a double
+     * @param invertSense true to invert the result, false to keep the result unchanged.
+     *    that is, if invertSense is true, make this a test of is marine.
+     * @return true if the x/y value is inside land and invertSense is false
+     *         false if the x/y value is outside land and invertSense is false
+     *         false if the x/y value is inside land and invertSense is true
+     *         true if the x/y value is outside land and invertSense is true
+     */
+    public static boolean isOnOrNearLand(double Xvalue, double Yvalue, boolean invertSense, double bufferInMeters) { 
+    	boolean result = false;
+    	
+    	double bufferKm = bufferInMeters/1000;
+    	
+    	GISDataLoader loader = new GISDataLoader();
+    	
+    	result = loader.pointIsWithinOrNearLand(Xvalue, Yvalue, invertSense,bufferKm);
+    	
+    	return result;
+    }
  
     /**
      * Test to see if an x/y coordinate is inside any of a set of polygons.

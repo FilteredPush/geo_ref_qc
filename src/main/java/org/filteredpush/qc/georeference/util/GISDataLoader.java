@@ -85,6 +85,54 @@ public class GISDataLoader {
 		return result;
 	}
 	
+	/**
+	 * <p>pointIsWithinLand.</p>
+	 *
+	 * @param longitude a double.
+	 * @param latitude a double.
+	 * @param invertSense a boolean.
+	 * @return a boolean.
+	 */
+	public boolean pointIsWithinOrNearLand(double longitude, double latitude, boolean invertSense, double distanceKm) {
+		
+		boolean result = false;
+
+        URL landShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_land.shp");
+        FileDataStore store = null;
+		try {
+			store = FileDataStoreFinder.getDataStore(landShapeFile);
+            SimpleFeatureSource featureSource = store.getFeatureSource();
+            logger.debug(featureSource.getInfo().toString());
+            logger.debug(featureSource.getName().toString());
+            double distanceD = distanceKm / 111d; // GeoTools ignores units, uses units of underlying projection (degrees in this case), fudge by dividing km by number of km in one degree of latitude (this will describe a wide ellipse far north or south).
+		    StringBuffer filterString = new StringBuffer();
+		    // filterString.append(" CONTAINS (the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "))");
+		    filterString.append(" DWITHIN(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "), "+ distanceD +", kilometers)");
+		    logger.debug(filterString);
+		    Filter filter = ECQL.toFilter(filterString.toString());
+		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
+		    result = !collection.isEmpty();
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+		} catch (CQLException e) {
+			logger.error(e.getMessage(), e);
+		} finally { 
+			// close 
+			if (store!=null) { 
+				try { 
+					store.dispose();
+				} catch (Exception e) { 
+					logger.error(e.getMessage());
+				}
+			}
+		}
+		
+		if (invertSense) {
+			result = !result;
+		}
+ 		
+		return result;
+	}
 	
 	
 
