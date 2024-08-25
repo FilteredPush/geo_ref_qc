@@ -1459,15 +1459,21 @@ public class DwCGeoRefDQ{
         		result.addComment("The value provided for dwc:stateProvince is empty");
         	} else { 
         		try { 
-        			Double lat = Double.parseDouble(decimalLatitude);
-        			Double lng = Double.parseDouble(decimalLongitude);
-        			result.setResultState(ResultState.RUN_HAS_RESULT);
-        			if (GEOUtil.isPointNearPrimaryAllowDuplicates(stateProvince, lat, lng, buffer_km)) { 
-        				result.setValue(ComplianceValue.COMPLIANT);
-        				result.addComment("Provided coordinate lies within the bounds of the provided stateProvince.");
+        			logger.debug(stateProvince);
+        			if (GEOUtil.isPrimaryAloneKnown(stateProvince)) { 
+        				Double lat = Double.parseDouble(decimalLatitude);
+        				Double lng = Double.parseDouble(decimalLongitude);
+        				result.setResultState(ResultState.RUN_HAS_RESULT);
+        				if (GEOUtil.isPointNearPrimaryAllowDuplicates(stateProvince, lat, lng, buffer_km)) { 
+        					result.setValue(ComplianceValue.COMPLIANT);
+        					result.addComment("Provided coordinate lies within the bounds of the provided stateProvince ["+stateProvince+"].");
+        				} else { 
+        					result.setValue(ComplianceValue.NOT_COMPLIANT);
+        					result.addComment("Provided coordinate decimalLatitude=["+decimalLatitude+"], decimalLongitude=["+decimalLongitude+"] lies outside the bounds of the provided stateProvince ["+stateProvince+"].");
+        				}
         			} else { 
-        				result.setValue(ComplianceValue.NOT_COMPLIANT);
-        				result.addComment("Provided coordinate decimalLatitude=["+decimalLatitude+"], decimalLongitude=["+decimalLongitude+"] lies outside the bounds of the provided stateProvince ["+stateProvince+"].");
+        				result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        				result.addComment("Provided dwc:stateProvince ["+stateProvince+"] not found in primary division sourceAuthority.");
         			}
         		} catch (NumberFormatException e) { 
         			result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);

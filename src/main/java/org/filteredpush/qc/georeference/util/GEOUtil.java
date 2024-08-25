@@ -733,6 +733,36 @@ public class GEOUtil {
 		}
 		return result;
 	}
+	
+	/**
+	 * Is a primary division (state/province) name known the primary division data set.
+	 *
+	 * @param primaryDivision the state/province to look up.
+	 * @return a boolean true if found, otherwise false.
+	 */
+	public static boolean isPrimaryAloneKnown(String primaryDivision) { 
+		boolean result = false;
+        URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_1_states_provinces.shp");
+        FileDataStore store = null;
+		try {
+			store = FileDataStoreFinder.getDataStore(countryShapeFile);
+            SimpleFeatureSource featureSource = store.getFeatureSource();
+		    Filter filter = ECQL.toFilter("name ILIKE '"+ primaryDivision.replace("'", "''") +"'");
+		    // Filter filter = ECQL.toFilter("name ILIKE '"+ primaryDivision +"'");
+		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
+		    if (collection!=null && collection.size()>0) { 
+		        result = !collection.isEmpty();
+		    }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CQLException e) {
+			System.out.println("GEOUtil.isPrimaryKnown error: " + e.getMessage());
+		} finally { 
+			if (store!=null) { store.dispose(); }			
+		}
+		return result;
+	}
 
 	/**
 	 * Parse latitude from string and check that value is in range (-90 to 90 inclusive).
