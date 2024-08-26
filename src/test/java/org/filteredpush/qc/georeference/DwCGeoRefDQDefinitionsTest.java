@@ -1518,12 +1518,12 @@ public class DwCGeoRefDQDefinitionsTest {
 		String latitude = "71.295556";
 		String longitude = "-156.766389";
 		String geodeticDatum = "EPSG:4326";
-	    DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, geodeticDatum, "US", "");
+	    DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, "US", null);
 	    logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 	    assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
 	    
-	    result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, geodeticDatum, "", "");
+	    result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, "", null);
 	    logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 	    assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
@@ -1532,7 +1532,7 @@ public class DwCGeoRefDQDefinitionsTest {
 		
 		longitude = "-95.689444";
 		latitude = "39.055833";
-	    result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, geodeticDatum, "", "");
+	    result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, "", null);
 	    logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 	    assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());

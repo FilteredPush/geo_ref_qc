@@ -158,7 +158,12 @@ public class GeoTesterTest {
 		
 		
 	}
+	
+	@Test
+	public void testisPrimaryAloneKnown() {
+		assertTrue(GEOUtil.isPrimaryAloneKnown("Rio Negro"));
 
+	}
 }
 
 

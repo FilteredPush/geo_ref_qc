@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.geotools.api.data.FileDataStore;
 import org.geotools.api.data.FileDataStoreFinder;
 import org.geotools.api.data.SimpleFeatureSource;
+import org.geotools.api.feature.Property;
 import org.geotools.api.feature.simple.SimpleFeature;
 import org.geotools.api.filter.Filter;
 import org.geotools.api.metadata.quality.PositionalAccuracy;
@@ -659,7 +660,22 @@ public class GEOUtil {
 			store = FileDataStoreFinder.getDataStore(countryShapeFile);
 			SimpleFeatureSource featureSource = store.getFeatureSource();
 			double distanceD = distanceKm / 111d; // GeoTools ignores units, uses units of underlying projection (degrees in this case), fudge by dividing km by number of km in one degree of latitude (this will describe a wide ellipse far north or south).
-			Filter filter = ECQL.toFilter("name ILIKE '"+ primaryDivision.replace("'", "''") +"' AND DWITHIN(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "), "+ distanceD +", kilometers)");
+			
+            String sanitized =  primaryDivision.replace("'", "''");
+            StringBuffer filterString = new StringBuffer();
+            filterString.append("(");
+            filterString.append("name ILIKE '"+ sanitized +"' ");
+            filterString.append("OR name_alt ILIKE '"+ sanitized +"' ");
+            filterString.append("OR name_local ILIKE '"+ sanitized +"' ");
+            filterString.append("OR gn_name ILIKE '"+ sanitized +"' ");
+            filterString.append("OR gns_name ILIKE '"+ sanitized +"' ");
+            filterString.append("OR woe_label ILIKE '"+ sanitized +"%' ");
+            filterString.append("OR woe_name ILIKE '"+ sanitized +"%'");
+            filterString.append(") AND (");
+			filterString.append("DWITHIN(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "), "+ distanceD +", kilometers)");
+            filterString.append(")");
+            logger.debug(filterString);
+            Filter filter = ECQL.toFilter(filterString.toString());
 			SimpleFeatureCollection collection=featureSource.getFeatures(filter);
 			result = !collection.isEmpty();
 		} catch (IOException e) {
@@ -717,15 +733,28 @@ public class GEOUtil {
 			store = FileDataStoreFinder.getDataStore(countryShapeFile);
             SimpleFeatureSource featureSource = store.getFeatureSource();
             if (country.toLowerCase().equals("united states")) { country = "United States of America"; } 
-		    Filter filter = ECQL.toFilter("name ILIKE '"+ primaryDivision.replace("'", "''") +"' AND admin ILIKE '"+ country +"'");
+            
+            String sanitizedPrimary =  primaryDivision.replace("'", "''");
+            StringBuffer filterString = new StringBuffer();
+            filterString.append("( ");
+		    filterString.append("name ILIKE '"+ sanitizedPrimary +"' "); 
+            filterString.append("OR name_alt ILIKE '"+ sanitizedPrimary +"' ");
+            filterString.append("OR name_local ILIKE '"+ sanitizedPrimary +"' ");
+            filterString.append("OR woe_label ILIKE '"+ sanitizedPrimary +"%' ");
+            filterString.append("OR woe_name ILIKE '"+ sanitizedPrimary +"'");
+            filterString.append(") AND (");
+		    filterString.append("admin ILIKE '"+ country +"'");
+            filterString.append("OR woe_label ILIKE '%"+ country +"' ");
+            filterString.append(") ");
+            
+		    Filter filter = ECQL.toFilter(filterString.toString());
 		    // Filter filter = ECQL.toFilter("name ILIKE '"+ primaryDivision +"'");
 		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
 		    if (collection!=null && collection.size()>0) { 
 		        result = !collection.isEmpty();
 		    }
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.debug(e.getMessage(),e);
 		} catch (CQLException e) {
 			System.out.println("GEOUtil.isPrimaryKnown error: " + e.getMessage());
 		} finally { 
@@ -735,7 +764,8 @@ public class GEOUtil {
 	}
 	
 	/**
-	 * Is a primary division (state/province) name known the primary division data set.
+	 * Is a primary division (state/province) name known the primary division data set 
+	 * within any country.
 	 *
 	 * @param primaryDivision the state/province to look up.
 	 * @return a boolean true if found, otherwise false.
@@ -747,15 +777,26 @@ public class GEOUtil {
 		try {
 			store = FileDataStoreFinder.getDataStore(countryShapeFile);
             SimpleFeatureSource featureSource = store.getFeatureSource();
-		    Filter filter = ECQL.toFilter("name ILIKE '"+ primaryDivision.replace("'", "''") +"'");
+            
+            String sanitized =  primaryDivision.replace("'", "''");
+            StringBuffer filterString = new StringBuffer();
+            filterString.append("name ILIKE '"+ sanitized +"' ");
+            filterString.append("OR name_alt ILIKE '"+ sanitized +"' ");
+            filterString.append("OR name_local ILIKE '"+ sanitized +"' ");
+            filterString.append("OR gn_name ILIKE '"+ sanitized +"' ");
+            filterString.append("OR gns_name ILIKE '"+ sanitized +"' ");
+            filterString.append("OR woe_label ILIKE '"+ sanitized +"%' ");
+            filterString.append("OR woe_name ILIKE '"+ sanitized +"%'");
+            logger.debug(filterString);
+            Filter filter = ECQL.toFilter(filterString.toString());
 		    // Filter filter = ECQL.toFilter("name ILIKE '"+ primaryDivision +"'");
 		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
+		    logger.debug(collection.size());
 		    if (collection!=null && collection.size()>0) { 
 		        result = !collection.isEmpty();
 		    }
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.debug(e.getMessage(),e);
 		} catch (CQLException e) {
 			System.out.println("GEOUtil.isPrimaryKnown error: " + e.getMessage());
 		} finally { 

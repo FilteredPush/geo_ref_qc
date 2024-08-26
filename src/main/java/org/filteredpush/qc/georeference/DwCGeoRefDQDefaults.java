@@ -225,6 +225,39 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     	return validationCountrystateprovinceConsistent(country,stateProvince, null);
     }
     
+    
+    /**
+     * Do the geographic coordinates fall on or within the boundaries of the territory given in
+     * dwc:countryCode or its Exclusive Economic Zone?
+     *
+     * Uses the default value for bdq:spatialBufferInMeters, but takes a sourceAuthority
+     *
+     * #50 Validation SingleRecord Consistency: coordinates countrycode inconsistent
+     *
+     * Provides: #50 VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT
+     * Version: 2023-02-27
+     *
+     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
+     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @return DQResponse the response of type ComplianceValue  to return
+     * @param sourceAuthority a {@link java.lang.String} object.
+     */
+    @Validation(label="VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT", description="Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?")
+    @Provides("adb27d29-9f0d-4d52-b760-a77ba57a69c9")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/adb27d29-9f0d-4d52-b760-a77ba57a69c9/2023-02-27")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if one or more of dwc:decimalLatitude, dwc:decimalLongitude, or dwc:countryCode are EMPTY or invalid; COMPLIANT if the geographic coordinates fall on or within the boundary defined by the union of the boundary of the country from dwc:countryCode plus it's Exclusive Economic Zone, if any, plus an exterior buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'ADM1 boundaries' [https://gadm.org] UNION with 'EEZs' [https://marineregions.org],bdq:spatialBufferInMeters default = '3000'")
+    public static DQResponse<ComplianceValue> validationCoordinatesCountrycodeConsistent(
+    		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
+    		@ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
+    		@ActedUpon("dwc:countryCode") String countryCode,
+    		@Parameter(name="bdq:sourceAuthority") String sourceAuthority
+    		) {
+    	String spatialBufferInMeters = "3000";
+    	return validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, spatialBufferInMeters, sourceAuthority);
+    }
+    
+    
     /**
      * Do the geographic coordinates fall on or within the boundary from the
      * bdq:sourceAuthority for the given dwc:stateProvince or within the distance
@@ -305,4 +338,34 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     ) {
     	return validationCoordinatesTerrestrialmarine(decimalLatitude, decimalLongitude, scientificName, null, null, null, null);
     }
+    
+    /**
+     * Propose amendment to the value of dwc:countryCode if dwc:decimalLatitude 
+     * and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority 
+     * that is attributable to a single valid country code.  
+     * Uses the default spatial source authority.
+     *
+     * #73 Amendment SingleRecord Completeness: countrycode from coordinates
+     *
+     * Provides: AMENDMENT_COUNTRYCODE_FROM_COORDINATES
+     * Version: 2022-05-02
+     *
+     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
+     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
+     * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param coordinatePrecision the provided dwc:coordinatePrecision to evaluate
+     * @return DQResponse the response of type AmendmentValue to return
+     */
+    @Amendment(label="AMENDMENT_COUNTRYCODE_FROM_COORDINATES", description="Propose amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority that is attributable to a single valid country code.")
+    @Provides("8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae")
+    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2022-05-02")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority[countryshapes] is not available; INTERNAL_PREREQUISITES_NOT_MET if either dwc:decimalLatitude or dwc:decimalLongitude is EMPTY or uninterpretable, or if dwc:countryCode is NOT_EMPTY; FILLED_IN dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority[countryshapes] that is attributable to a single valid country code; otherwise NOT_AMENDED. bdq:sourceAuthority default = 'ADM1 boundaries' [https://gadm.org] UNION with 'EEZs' [https://marineregions.org],bdq:sourceAuthority[countryCode] is 'ISO 3166 country codes' [https://www.iso.org/iso-3166-country-codes.html]")
+    public static DQResponse<AmendmentValue> amendmentCountrycodeFromCoordinates(
+    		@Consulted("dwc:decimalLatitude") String decimalLatitude, 
+    		@Consulted("dwc:decimalLongitude") String decimalLongitude, 
+    		@ActedUpon("dwc:countryCode") String countryCode
+    	) {
+    	return DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(decimalLatitude, decimalLongitude, countryCode, null);
+    } 
 }

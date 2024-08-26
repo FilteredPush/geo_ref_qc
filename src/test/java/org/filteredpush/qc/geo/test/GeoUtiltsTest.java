@@ -134,6 +134,17 @@ public class GeoUtiltsTest {
         assertFalse(GEOUtil.isPointInCountry("United States", originalLat, originalLng));        
 	}
 	
+	@Test
+	public void testIsPrimaryKnown() { 
+		assertTrue(GEOUtil.isPrimaryKnown("United States", "Alaska"));
+		assertFalse(GEOUtil.isPrimaryKnown("United States", "ZZZZZZZZZZZZ"));
+		assertFalse(GEOUtil.isPrimaryKnown("zzzzzzzzzzzzzz", "Alaska"));
+		assertTrue(GEOUtil.isPrimaryKnown("united states", "alabama"));
+		
+		assertTrue(GEOUtil.isPrimaryKnown("Argentina", "Rio Negro"));
+		assertTrue(GEOUtil.isPrimaryKnown("Argentina", "Río Negro"));
+	}
+	
 	@Test 
 	public void testInPrimary() { 
 		assertTrue(GEOUtil.isPrimaryKnown("United States", "Alaska"));
@@ -151,7 +162,37 @@ public class GeoUtiltsTest {
         // transposed
         originalLat = -156.766389d;
         originalLng = 71.295556d;
-        assertFalse(GEOUtil.isPointInPrimary("United States", "Alaska", originalLat, originalLng));        
+        assertFalse(GEOUtil.isPointInPrimary("United States", "Alaska", originalLat, originalLng)); 
+        
+        originalLat = -41.2706d;
+        originalLng = -70.2816d;
+        assertFalse(GEOUtil.isPointInPrimary("Argentina", "Rio Negro", originalLat, originalLng));        
+        
+        originalLat = -41.0525925872862d;
+        originalLng = -71.5310546742521d;
+        assertFalse(GEOUtil.isPointInPrimary("Argentina", "Rio Negro", originalLat, originalLng));        
+	}
+	
+	@Test
+	public void testisPointNearPrimaryAllowDuplicates() { 
+		
+		double buffer_km = 3d;
+        double originalLat = -41.2706d;
+        double originalLng = -70.2816d;
+        String stateProvince = "Rio Negro";
+        assertTrue(GEOUtil.isPointNearPrimaryAllowDuplicates(stateProvince, originalLat, originalLng, buffer_km));
+	
+		buffer_km = 3d;
+        originalLat = -41.0525925872862d;
+        originalLng = -71.5310546742521d;
+        stateProvince = "Rio Negro";
+        assertTrue(GEOUtil.isPointNearPrimaryAllowDuplicates(stateProvince, originalLat, originalLng, buffer_km));
+        
+		buffer_km = 3d;
+        originalLat = 41.05d;
+        originalLng = -71.53d;
+        stateProvince = "Rio Negro";
+        assertFalse(GEOUtil.isPointNearPrimaryAllowDuplicates(stateProvince, originalLat, originalLng, buffer_km));
 	}
 	
 	@Test

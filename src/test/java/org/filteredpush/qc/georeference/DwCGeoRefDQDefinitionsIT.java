@@ -276,12 +276,12 @@ public class DwCGeoRefDQDefinitionsIT {
 		String latitude = "71.295556";
 		String longitude = "-156.766389";
 		String geodeticDatum = "EPSG:4326";
-	    DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, geodeticDatum, "US", "");
+	    DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, "US", null);
 	    logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 	    assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
 	    
-	    result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, geodeticDatum, "", "");
+	    result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, "", null);
 	    logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 	    assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
@@ -312,7 +312,7 @@ public class DwCGeoRefDQDefinitionsIT {
 				// GAB, LIE have wrong sign in data set.  
 				// CYP, MCO come up with multiple matches from buffers
 				if (countryCode!=null) { 
-				    result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, geodeticDatum, "", "");
+				    result = DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(latitude, longitude, "", null);
 				    logger.debug(result.getComment());
 					assertFalse(GEOUtil.isEmpty(result.getComment()));
 				    assertEquals(ResultState.FILLED_IN.getLabel(), result.getResultState().getLabel());
@@ -661,4 +661,29 @@ public class DwCGeoRefDQDefinitionsIT {
     		assertFalse(GEOUtil.isEmpty(result.getComment()));
     	}
     	
+    	@Test
+    	public void testvalidationCoordinatesStateprovinceConsistent() { 
+        
+    		String decimalLatitude = "";
+    		String decimalLongitude = "";
+    		String stateProvince = "";
+    		String spatialBufferInMeters = "3000";
+    		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCoordinatesStateprovinceConsistent(decimalLatitude, decimalLongitude, stateProvince, null,spatialBufferInMeters);
+    		logger.debug(result.getComment());
+    		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+    		assertNull(result.getValue());
+    		assertFalse(GEOUtil.isEmpty(result.getComment()));
+    		
+    		decimalLatitude = "-41.2706";
+    		decimalLongitude = "-70.2816";
+    		stateProvince = "Rio Negro";
+    		spatialBufferInMeters = "3000";
+    		result = DwCGeoRefDQ.validationCoordinatesStateprovinceConsistent(decimalLatitude, decimalLongitude, stateProvince, null,spatialBufferInMeters);
+    		logger.debug(result.getComment());
+    		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+    		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+    		assertFalse(GEOUtil.isEmpty(result.getComment()));
+    		
+        
+    	}
 }

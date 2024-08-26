@@ -986,37 +986,7 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-    /**
-     * Do the geographic coordinates fall on or within the boundaries of the territory given in
-     * dwc:countryCode or its Exclusive Economic Zone?
-     *
-     * Uses the default value for bdq:spatialBufferInMeters
-     *
-     * #50 Validation SingleRecord Consistency: coordinates countrycode inconsistent
-     *
-     * Provides: #50 VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT
-     * Version: 2023-02-27
-     *
-     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
-     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
-     * @param sourceAuthority a {@link java.lang.String} object.
-     */
-    @Validation(label="VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT", description="Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?")
-    @Provides("adb27d29-9f0d-4d52-b760-a77ba57a69c9")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/adb27d29-9f0d-4d52-b760-a77ba57a69c9/2023-02-27")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if one or more of dwc:decimalLatitude, dwc:decimalLongitude, or dwc:countryCode are EMPTY or invalid; COMPLIANT if the geographic coordinates fall on or within the boundary defined by the union of the boundary of the country from dwc:countryCode plus it's Exclusive Economic Zone, if any, plus an exterior buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'ADM1 boundaries' [https://gadm.org] UNION with 'EEZs' [https://marineregions.org],bdq:spatialBufferInMeters default = '3000'")
-    public static DQResponse<ComplianceValue> validationCoordinatesCountrycodeConsistent(
-    		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
-    		@ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
-    		@ActedUpon("dwc:countryCode") String countryCode,
-    		@Parameter(name="bdq:sourceAuthority") String sourceAuthority
-    		) {
-    	String spatialBufferInMeters = "3000";
-    	return validationCoordinatesCountrycodeConsistent(decimalLatitude, decimalLongitude, countryCode, spatialBufferInMeters, sourceAuthority);
-    }
-    
+
     /**
      * Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?
      *
@@ -1464,12 +1434,13 @@ public class DwCGeoRefDQ{
         				Double lat = Double.parseDouble(decimalLatitude);
         				Double lng = Double.parseDouble(decimalLongitude);
         				result.setResultState(ResultState.RUN_HAS_RESULT);
+        				logger.debug(GEOUtil.isPointNearPrimaryAllowDuplicates(stateProvince, lat, lng, buffer_km)); 
         				if (GEOUtil.isPointNearPrimaryAllowDuplicates(stateProvince, lat, lng, buffer_km)) { 
         					result.setValue(ComplianceValue.COMPLIANT);
-        					result.addComment("Provided coordinate lies within the bounds of the provided stateProvince ["+stateProvince+"].");
+        					result.addComment("Provided coordinate decimalLatitude=["+decimalLatitude+"], decimalLongitude=["+decimalLongitude+"] lies within the bounds of the provided stateProvince ["+stateProvince+"] (plus a spatial buffer of ["+spatialBufferInMeters+"]m).");
         				} else { 
         					result.setValue(ComplianceValue.NOT_COMPLIANT);
-        					result.addComment("Provided coordinate decimalLatitude=["+decimalLatitude+"], decimalLongitude=["+decimalLongitude+"] lies outside the bounds of the provided stateProvince ["+stateProvince+"].");
+        					result.addComment("Provided coordinate decimalLatitude=["+decimalLatitude+"], decimalLongitude=["+decimalLongitude+"] lies outside the bounds of the provided stateProvince ["+stateProvince+"] (plus a spatial buffer of ["+spatialBufferInMeters+"]m).");
         				}
         			} else { 
         				result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
@@ -1985,6 +1956,7 @@ public class DwCGeoRefDQ{
      * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
      * @param coordinatePrecision the provided dwc:coordinatePrecision to evaluate
+     * @param sourceAuthority the spatial source authority to consult.
      * @return DQResponse the response of type AmendmentValue to return
      */
     @Amendment(label="AMENDMENT_COUNTRYCODE_FROM_COORDINATES", description="Propose amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority that is attributable to a single valid country code.")
@@ -1994,9 +1966,9 @@ public class DwCGeoRefDQ{
     public static DQResponse<AmendmentValue> amendmentCountrycodeFromCoordinates(
     		@Consulted("dwc:decimalLatitude") String decimalLatitude, 
     		@Consulted("dwc:decimalLongitude") String decimalLongitude, 
-    		@Consulted("dwc:geodeticDatum") String geodeticDatum, 
     		@ActedUpon("dwc:countryCode") String countryCode, 
-    		@Consulted("dwc:coordinatePrecision") String coordinatePrecision) {
+    		@Consulted("dwc:sourceAuthority") String sourceAuthority
+    	) {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
         //TODO:  Implement specification
@@ -2010,46 +1982,56 @@ public class DwCGeoRefDQ{
         // NOT_AMENDED. 
 
         //TODO: Parameters. This test is defined as parameterized.
-        // bdq:sourceAuthority default = "ADM1 boundaries" 
-        // [https://gadm.org] UNION with "EEZs" [https://marineregions.org],bdq:sourceAuthority[countryCode] 
-        // is "ISO 3166 country codes" [https://www.iso.org/iso-3166-country-codes.html] 
+        // bdq:sourceAuthority 
+        // default = "bdq:sourceAuthority default = "ADM1 boundaries spatial UNION with Exclusive Economic Zones" 
+        // {[https://gadm.org] spatial UNION [https://marineregions.org]} 
 
-        if (!GEOUtil.isEmpty(countryCode)) {
-        	result.addComment("Not altering existing countryCode value.");
-        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
-        } else if (GEOUtil.isEmpty(decimalLatitude)) { 
-        	result.addComment("No value supplied for dwc:decimalLatitude, unable to propose a dwc:countryCode .");
-        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
-        } else if (GEOUtil.isEmpty(decimalLongitude)) {
-        	result.addComment("No value supplied for dwc:decimalLongitude, unable to propose a dwc:countryCode .");
-        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
-        } else { 
-        	
-        	// TODO: Parameter
-        	//551 #73 Fail got FILLED_IN expected EXTERNAL_PREREQUISITES_NOT_MET Propose filling in empty countryCode with value [AU] which contains the coordinate specified by dwc:decimalLatitude [-25.23], dwc:decimalLongitude [135.43].
-        	// TODO: uninterpretable lat/long
-        	//559 #73 Fail got NOT_AMENDED expected INTERNAL_PREREQUISITES_NOT_MET No unique dwc:contryCode found containing the coordinate specified by dwc:decimalLatitude [x], dwc:decimalLongitude [135.87].
-        	//562 #73 Fail got NOT_AMENDED expected INTERNAL_PREREQUISITES_NOT_MET No unique dwc:contryCode found containing the coordinate specified by dwc:decimalLatitude [-25.23], dwc:decimalLongitude [x].
-        	
-        	
-        	String countryCode3 = GEOUtil.getCountryForPoint(decimalLatitude, decimalLongitude);
-        	if (countryCode3== null) { 
-        		result.addComment("No unique dwc:contryCode found containing the coordinate specified by dwc:decimalLatitude ["+decimalLatitude+"], dwc:decimalLongitude ["+decimalLongitude+"].");
-        		result.setResultState(ResultState.NOT_AMENDED);
+        if (GEOUtil.isEmpty(sourceAuthority)) { 
+        	sourceAuthority = "ADM1 boundaries spatial UNION with Exclusive Economic Zones";
+        }
+        
+        try { 
+        	GeoRefSourceAuthority sourceAuthorityObject = new GeoRefSourceAuthority(sourceAuthority);
+        	if (sourceAuthorityObject.getAuthority().equals(EnumGeoRefSourceAuthority.INVALID)) { 
+        		throw new SourceAuthorityException("Invalid Source Authority");
+        	}
+
+
+        	if (!GEOUtil.isEmpty(countryCode)) {
+        		result.addComment("Not altering existing countryCode value.");
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        	} else if (GEOUtil.isEmpty(decimalLatitude)) { 
+        		result.addComment("No value supplied for dwc:decimalLatitude, unable to propose a dwc:countryCode .");
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        	} else if (GEOUtil.isEmpty(decimalLongitude)) {
+        		result.addComment("No value supplied for dwc:decimalLongitude, unable to propose a dwc:countryCode .");
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         	} else { 
-        		String countryCode2 = CountryLookup.lookupCode2FromCodeName(countryCode3);
-        		if (countryCode2==null) {  
-        			result.addComment("Error finding dwc:contryCode in ISO 2 letter form from 3 letter form ["+countryCode3+"] found containing the coordinate specified by dwc:decimalLatitude ["+decimalLatitude+"], dwc:decimalLongitude ["+decimalLongitude+"].");
+
+        		String countryCode3 = GEOUtil.getCountryForPoint(decimalLatitude, decimalLongitude);
+        		if (countryCode3== null) { 
+        			result.addComment("No unique dwc:contryCode found containing the coordinate specified by dwc:decimalLatitude ["+decimalLatitude+"], dwc:decimalLongitude ["+decimalLongitude+"].");
         			result.setResultState(ResultState.NOT_AMENDED);
         		} else { 
-        			result.addComment("Propose filling in empty countryCode with value ["+countryCode2+"] which contains the coordinate specified by dwc:decimalLatitude ["+decimalLatitude+"], dwc:decimalLongitude ["+decimalLongitude+"].");
-        			result.setResultState(ResultState.FILLED_IN);
-        			Map<String, String> values = new HashMap<>();
-        			values.put("dwc:countryCode", countryCode2) ;
-        			result.setValue(new AmendmentValue(values));
+        			String countryCode2 = CountryLookup.lookupCode2FromCodeName(countryCode3);
+        			if (countryCode2==null) {  
+        				result.addComment("Error finding dwc:contryCode in ISO 2 letter form from 3 letter form ["+countryCode3+"] found containing the coordinate specified by dwc:decimalLatitude ["+decimalLatitude+"], dwc:decimalLongitude ["+decimalLongitude+"].");
+        				result.setResultState(ResultState.NOT_AMENDED);
+        			} else { 
+        				result.addComment("Propose filling in empty countryCode with value ["+countryCode2+"] which contains the coordinate specified by dwc:decimalLatitude ["+decimalLatitude+"], dwc:decimalLongitude ["+decimalLongitude+"].");
+        				result.setResultState(ResultState.FILLED_IN);
+        				Map<String, String> values = new HashMap<>();
+        				values.put("dwc:countryCode", countryCode2) ;
+        				result.setValue(new AmendmentValue(values));
+        			}
         		}
         	}
+
+        } catch (SourceAuthorityException e) { 
+        	result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("Error with specified Source Authority: " + e.getMessage());
         }
+        
         return result;
     }
 

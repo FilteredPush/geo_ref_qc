@@ -68,6 +68,8 @@ public class GeoRefSourceAuthority {
 		if (authorityString==null) { authorityString = ""; }
 	    if (authorityString.toUpperCase().equals("ADM1 BOUNDARIES UNION EEZ")) {
 	    	this.authority = EnumGeoRefSourceAuthority.ADM1_UNION_EEZ;	
+	    } else if (authorityString.toUpperCase().equals("ADM1 BOUNDARIES SPATIAL UNION WITH EXCLUSIVE ECONOMIC ZONES")) {
+	    	this.authority = EnumGeoRefSourceAuthority.ADM1_UNION_EEZ;	
 	    } else if (authorityString.toUpperCase().equals("ADM1 BOUNDARIES")) {
 	    	this.authority = EnumGeoRefSourceAuthority.GADM_ADM1;	
 	    } else if (authorityString.toUpperCase().equals("UNION OF NATURALEARTH 10M-PHYSICAL-VECTORS FOR LAND AND NATURALEARTH MINOR ISLANDS")) { 
