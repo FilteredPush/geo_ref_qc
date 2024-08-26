@@ -648,6 +648,42 @@ public class DwCGeoRefDQ{
      * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
      * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
      * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
+     * @param higherGeographyID the provided dwc:higherGeographyID to evaluate
      * @param continent the provided dwc:continent to evaluate
      * @param waterBody the provided dwc:waterBody to evaluate
      * @param islandGroup the provided dwc:islandGroup to evaluate
@@ -656,8 +692,80 @@ public class DwCGeoRefDQ{
      * @param islandGroup the provided dwc:islandGroup to evaluate
      * @param islandGroup the provided dwc:islandGroup to evaluate
      * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
+     * @param islandGroup the provided dwc:islandGroup to evaluate
      * @param island the provided dwc:island to evaluate
      * @param country the provided dwc:country to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
@@ -1609,6 +1717,42 @@ public class DwCGeoRefDQ{
      * @param countryCode the provided dwc:countryCode to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
+     * @param countryCode the provided dwc:countryCode to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT", description="Does the ISO country code determined from the value of dwc:country equal the value of dwc:countryCode?")
@@ -1953,9 +2097,7 @@ public class DwCGeoRefDQ{
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
-     * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
-     * @param coordinatePrecision the provided dwc:coordinatePrecision to evaluate
      * @param sourceAuthority the spatial source authority to consult.
      * @return DQResponse the response of type AmendmentValue to return
      */

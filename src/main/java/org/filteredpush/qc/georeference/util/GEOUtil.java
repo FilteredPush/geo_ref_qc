@@ -372,6 +372,7 @@ public class GEOUtil {
      *         false if the x/y value is outside land and invertSense is false
      *         false if the x/y value is inside land and invertSense is true
      *         true if the x/y value is outside land and invertSense is true
+     * @param bufferInMeters a double.
      */
     public static boolean isOnOrNearLand(double Xvalue, double Yvalue, boolean invertSense, double bufferInMeters) { 
     	boolean result = false;
@@ -764,7 +765,7 @@ public class GEOUtil {
 	}
 	
 	/**
-	 * Is a primary division (state/province) name known the primary division data set 
+	 * Is a primary division (state/province) name known the primary division data set
 	 * within any country.
 	 *
 	 * @param primaryDivision the state/province to look up.

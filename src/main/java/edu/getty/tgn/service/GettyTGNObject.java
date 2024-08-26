@@ -36,6 +36,10 @@ public class GettyTGNObject {
 	 * @param name
 	 * @param nameWithType
 	 * @param nameWithType a {@link java.lang.String} object.
+	 * @param nameWithType
+	 * @param nameWithType a {@link java.lang.String} object.
+	 * @param nameWithType
+	 * @param nameWithType a {@link java.lang.String} object.
 	 * @param subjectID a {@link java.lang.String} object.
 	 * @param placeTypeID a {@link java.lang.String} object.
 	 * @param parentageString a {@link java.lang.String} object.

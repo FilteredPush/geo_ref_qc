@@ -92,6 +92,7 @@ public class GISDataLoader {
 	 * @param latitude a double.
 	 * @param invertSense a boolean.
 	 * @return a boolean.
+	 * @param distanceKm a double.
 	 */
 	public boolean pointIsWithinOrNearLand(double longitude, double latitude, boolean invertSense, double distanceKm) {
 		

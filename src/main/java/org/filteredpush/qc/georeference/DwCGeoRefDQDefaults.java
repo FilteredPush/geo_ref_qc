@@ -340,9 +340,9 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     }
     
     /**
-     * Propose amendment to the value of dwc:countryCode if dwc:decimalLatitude 
-     * and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority 
-     * that is attributable to a single valid country code.  
+     * Propose amendment to the value of dwc:countryCode if dwc:decimalLatitude
+     * and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority
+     * that is attributable to a single valid country code.
      * Uses the default spatial source authority.
      *
      * #73 Amendment SingleRecord Completeness: countrycode from coordinates
@@ -352,9 +352,7 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
-     * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
-     * @param coordinatePrecision the provided dwc:coordinatePrecision to evaluate
      * @return DQResponse the response of type AmendmentValue to return
      */
     @Amendment(label="AMENDMENT_COUNTRYCODE_FROM_COORDINATES", description="Propose amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority that is attributable to a single valid country code.")
