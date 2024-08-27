@@ -181,17 +181,17 @@ public class DwCGeoRefDQ{
         // bdq:sourceAuthority default = "The Getty Thesaurus of Geographic Names (TGN)" 
         // {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]} 
         
-        if (sourceAuthority==null) { 
+        if (GEOUtil.isEmpty(sourceAuthority)) { 
         	sourceAuthority = GettyLookup.GETTY_TGN;
         }
 
         try { 
-        	GeoRefSourceAuthority foo = new GeoRefSourceAuthority(sourceAuthority);
+        	GeoRefSourceAuthority sourceAuthorityObject = new GeoRefSourceAuthority(sourceAuthority);
         	if (GEOUtil.isEmpty(country)) { 
         		result.addComment("dwc:country is empty");
         		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         	} else { 
-        		if (sourceAuthority.equalsIgnoreCase(GettyLookup.GETTY_TGN)) {
+        		if (sourceAuthorityObject.getAuthority().equals(EnumGeoRefSourceAuthority.GETTY_TGN)) {    
         			Boolean cached = GeoUtilSingleton.getInstance().getTgnCountriesEntry(country);
         			if (cached!=null) { 
         				if (cached) {
@@ -220,7 +220,7 @@ public class DwCGeoRefDQ{
         					GeoUtilSingleton.getInstance().addTgnCountry(country, false);
         				}
         			}
-        		} else if (sourceAuthority.equalsIgnoreCase("NaturalEarth")) {
+        		} else if (sourceAuthorityObject.getAuthority().equals(EnumGeoRefSourceAuthority.NE_ADMIN_0)) {    
         			// ne_10m_admin_0_countries
         			if (GEOUtil.isCountryKnown(country)) {
         				result.addComment("the value provided for dwc:country [" + country + "] exists as a country name in the NaturalEarth admin regions.");
@@ -231,7 +231,8 @@ public class DwCGeoRefDQ{
         				result.setResultState(ResultState.RUN_HAS_RESULT);
         				result.setValue(ComplianceValue.NOT_COMPLIANT);
         			}
-        		} else if (sourceAuthority.equalsIgnoreCase("datahub.io")) {
+        		} else if (sourceAuthorityObject.getAuthority().equals(EnumGeoRefSourceAuthority.DATAHUB)) { 
+        			// datahub.io
         			if (CountryLookup.countryExistsHasCode(country)) { 
         				result.addComment("the value provided for dwc:country [" + country + "] exists as a country name in the datahub.io list of countries.");
         				result.setResultState(ResultState.RUN_HAS_RESULT);
@@ -1298,7 +1299,7 @@ public class DwCGeoRefDQ{
         			// handle the failure case above.
         			result.addComment("Unable to Interpret provided dwc:verbatimDepth into a depth range ["+ verbatimDepth +"].");
         			result.setResultState(ResultState.NOT_AMENDED);
-        		} if (simplified.matches("^[0-9]+([.]{0,1}[0-9]*){0,1} *(m|m[.]|[mM](eter(s){0,1}))$")) { 
+        		} else if (simplified.matches("^[0-9]+([.]{0,1}[0-9]*){0,1} *(m|m[.]|[mM](eter(s){0,1}))$")) { 
         			String cleaned = simplified.replaceAll("[ Mmetrs]+", "").trim();
         			cleaned = cleaned.replaceAll("[.]$","");
         			result.addComment("Interpreted equal minimum and maximum depths in meters from dwc:verbatimDepth ["+ verbatimDepth +"] interpreted as a depth range in meters ");

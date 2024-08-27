@@ -27,12 +27,12 @@ public enum EnumGeoRefSourceAuthority {
 
     ADM1_UNION_EEZ,
     NE_LAND_UNION_ISLANDS,
+    NE_ADMIN_0,
     GADM_ADM1, 
     GETTY_TGN,
+    DATAHUB,
     INVALID;
 	
-	// TODO; add datahub.io
-	// TODO: add ne_10m_admin_0_countries
 
 	/**
 	 * <p>getName.</p>

@@ -1480,7 +1480,7 @@ public class DwCGeoRefDQDefinitionsTest {
 		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountryFound(null,"datahub.io");
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
-		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET, result.getResultState());
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
 		assertNull(result.getValue());
 		
 		result = DwCGeoRefDQ.validationCountryFound("Uganda","datahub.io");
@@ -1495,13 +1495,13 @@ public class DwCGeoRefDQDefinitionsTest {
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
 		
-		result = DwCGeoRefDQ.validationCountryFound("Uganda","NaturalEarth");
+		result = DwCGeoRefDQ.validationCountryFound("Uganda","ne_10m_admin_0_countries");
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
 		
-		result = DwCGeoRefDQ.validationCountryFound("dwc:country","NaturalEarth");
+		result = DwCGeoRefDQ.validationCountryFound("dwc:country","ne_10m_admin_0_countries");
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());

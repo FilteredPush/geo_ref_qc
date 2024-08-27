@@ -72,6 +72,12 @@ public class GeoRefSourceAuthority {
 	    	this.authority = EnumGeoRefSourceAuthority.ADM1_UNION_EEZ;	
 	    } else if (authorityString.toUpperCase().equals("ADM1 BOUNDARIES")) {
 	    	this.authority = EnumGeoRefSourceAuthority.GADM_ADM1;	
+	    } else if (authorityString.toUpperCase().equals("DATAHUB.IO")) {
+	    	this.authority = EnumGeoRefSourceAuthority.DATAHUB;	
+	    } else if (authorityString.toUpperCase().equals("DATAHUB")) {
+	    	this.authority = EnumGeoRefSourceAuthority.DATAHUB;	
+	    } else if (authorityString.toUpperCase().equals("NE_10M_ADMIN_0_COUNTRIES")) {
+	    	this.authority = EnumGeoRefSourceAuthority.NE_ADMIN_0;	
 	    } else if (authorityString.toUpperCase().equals("UNION OF NATURALEARTH 10M-PHYSICAL-VECTORS FOR LAND AND NATURALEARTH MINOR ISLANDS")) { 
 	    	this.authority = EnumGeoRefSourceAuthority.NE_LAND_UNION_ISLANDS;
 	    } else if (authorityString.toUpperCase().equals("NE_LAND_UNION_ISLANDS")) { 
