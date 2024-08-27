@@ -86,6 +86,12 @@ public class GeoRefSourceAuthority {
 	    	this.authority = EnumGeoRefSourceAuthority.GETTY_TGN;	
 	    } else if (authorityString.toUpperCase().equals("GETTY TGN")) {
 	    	this.authority = EnumGeoRefSourceAuthority.GETTY_TGN;	
+	    } else if (authorityString.toUpperCase().equals("GBIF CATALOGUE OF COUNTRY CENTROIDES")) {
+	    	this.authority = EnumGeoRefSourceAuthority.GBIF_CENTROIDS;	
+	    } else if (authorityString.toUpperCase().equals("GBIF CATALOGUE OF COUNTRY CENTROIDS")) {
+	    	this.authority = EnumGeoRefSourceAuthority.GBIF_CENTROIDS;	
+	    } else if (authorityString.toUpperCase().equals("CATALOGUE-OF-CENTROIDS")) {
+	    	this.authority = EnumGeoRefSourceAuthority.GBIF_CENTROIDS;	
 	    } else if (authorityString.toUpperCase().startsWith("HTTPS://INVALID/")) { 
 	    	this.authority = EnumGeoRefSourceAuthority.INVALID;	
 	    } else { 

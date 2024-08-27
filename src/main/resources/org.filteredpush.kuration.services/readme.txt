@@ -11,3 +11,5 @@ Flanders Marine Institute (2019). Maritime Boundaries Geodatabase: Maritime Boun
 Creative Commons Attribution 4.0 International License.
 
 The files land_and_eez.shp and merged_countries_and_eez.shp are made from mergers of the above data sources.  
+
+Country Centroids: This (gbif_pcli_country_centroids.shp) is a shape file created from the Centroids for Country Codes PCLI.tsv file compiled by John Waller for GBIF see: https://github.com/jhnwllr/catalogue-of-centroids.  The shapefile was created by importing the PCLI.tsv file into QGIS, then exporting as a shapefile. 

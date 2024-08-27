@@ -15,6 +15,7 @@ import org.datakurator.ffdq.annotations.ActedUpon;
 import org.datakurator.ffdq.api.DQResponse;
 import org.datakurator.ffdq.api.result.AmendmentValue;
 import org.datakurator.ffdq.api.result.ComplianceValue;
+import org.datakurator.ffdq.api.result.IssueValue;
 import org.datakurator.ffdq.model.ResultState;
 import org.filteredpush.qc.georeference.util.CountryLookup;
 import org.filteredpush.qc.georeference.util.GEOUtil;
@@ -1953,7 +1954,74 @@ public class DwCGeoRefDQDefinitionsTest {
 		assertEquals(2,result.getValue().getObject().size());
 		assertEquals("-23.712",result.getValue().getObject().get("dwc:decimalLatitude"));
 		assertEquals("140.5",result.getValue().getObject().get("dwc:decimalLongitude"));
-	    
 	
 	}
+	
+	/**
+	 * Test method for issueCoordinatesCenterofcountry()
+	 */
+	@Test
+	public void testissueCoordinatesCenterofcountry() {
+		
+		String decimalLatitude = "foo";
+		String decimalLongitude = "";
+		String countryCode = "AU";
+		String coordinateUncertaintyInMeters = "";
+	    DQResponse<IssueValue> result = DwCGeoRefDQ.issueCoordinatesCenterofcountry(decimalLatitude,decimalLongitude,countryCode, coordinateUncertaintyInMeters, null, null);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+	
+	    decimalLatitude = "10.45";
+		decimalLongitude = "-4.5";
+		countryCode = "AU";
+		coordinateUncertaintyInMeters = "";
+	    result = DwCGeoRefDQ.issueCoordinatesCenterofcountry(decimalLatitude,decimalLongitude,countryCode, coordinateUncertaintyInMeters, null, null);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+	    assertEquals(IssueValue.NOT_ISSUE.getLabel(), result.getValue().getLabel());
+	    
+	    decimalLatitude = "41.90";
+		decimalLongitude = "12.452";
+		countryCode = "IT";  // Holy See
+		coordinateUncertaintyInMeters = "";
+	    result = DwCGeoRefDQ.issueCoordinatesCenterofcountry(decimalLatitude,decimalLongitude,countryCode, coordinateUncertaintyInMeters, null, null);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+	    assertEquals(IssueValue.POTENTIAL_ISSUE.getLabel(), result.getValue().getLabel());
+	    
+	    decimalLatitude = "42.833";
+		decimalLongitude = "12.833";
+		countryCode = "IT";  // Geolocate
+		coordinateUncertaintyInMeters = "";
+	    result = DwCGeoRefDQ.issueCoordinatesCenterofcountry(decimalLatitude,decimalLongitude,countryCode, coordinateUncertaintyInMeters, null, null);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+	    assertEquals(IssueValue.POTENTIAL_ISSUE.getLabel(), result.getValue().getLabel());
+	    
+	    decimalLatitude = "42.833";
+		decimalLongitude = "12.833";
+		countryCode = "IT";  // Geolocate
+		coordinateUncertaintyInMeters = "1500";
+	    result = DwCGeoRefDQ.issueCoordinatesCenterofcountry(decimalLatitude,decimalLongitude,countryCode, coordinateUncertaintyInMeters, null, null);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+	    assertEquals(IssueValue.POTENTIAL_ISSUE.getLabel(), result.getValue().getLabel());
+	    
+	    decimalLatitude = "42.833";
+		decimalLongitude = "12.833";
+		countryCode = "IT";  // Geolocate
+		coordinateUncertaintyInMeters = "284000";  // approximates size of country
+	    result = DwCGeoRefDQ.issueCoordinatesCenterofcountry(decimalLatitude,decimalLongitude,countryCode, coordinateUncertaintyInMeters, null, null);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+	    assertEquals(IssueValue.NOT_ISSUE.getLabel(), result.getValue().getLabel());
+	    
+	    
+	} 
 }

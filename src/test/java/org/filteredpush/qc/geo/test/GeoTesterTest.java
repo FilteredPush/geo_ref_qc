@@ -3,7 +3,10 @@
  */
 package org.filteredpush.qc.geo.test;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.filteredpush.qc.georeference.GeoTester;
+import org.filteredpush.qc.georeference.SourceAuthorityException;
 import org.filteredpush.qc.georeference.util.GEOUtil;
 import org.filteredpush.qc.georeference.util.GISDataLoader;
 import org.junit.Before;
@@ -21,6 +24,8 @@ import static org.junit.Assert.*;
  */
 public class GeoTesterTest {
     private GeoTester geoTester;
+    
+    private static final Log logger = LogFactory.getLog(GEOUtil.class);
 
     @Before
     public void init() throws IOException {
@@ -162,7 +167,39 @@ public class GeoTesterTest {
 	@Test
 	public void testisPrimaryAloneKnown() {
 		assertTrue(GEOUtil.isPrimaryAloneKnown("Rio Negro"));
-
+		assertTrue(GEOUtil.isPrimaryAloneKnown("Nevada"));
+		assertFalse(GEOUtil.isPrimaryAloneKnown("Not the name of a state"));
+	}
+	
+	@Test
+	public void testisPointNearCentroid() { 
+		String countryCode="JM";
+		double decimalLongitude = -77.250d;
+		double decimalLatitude = 18.1667d;
+		double bufferKm = 3d;
+		try {
+			assertTrue(GISDataLoader.isPointNearCentroid(decimalLongitude, decimalLatitude, countryCode, bufferKm));
+		} catch (SourceAuthorityException e) {
+			fail("Unexpected exception: " + e.getMessage());
+		}
+		
+		countryCode="JM";
+		decimalLongitude = 77.250d;
+		decimalLatitude = 18.1667d;
+		bufferKm = 3d;
+		try {
+			assertFalse(GISDataLoader.isPointNearCentroid(decimalLongitude, decimalLatitude, countryCode, bufferKm));
+		} catch (SourceAuthorityException e) {
+			fail("Unexpected exception: " + e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void testgetAreaOfCountry() { 
+		String countryCode="JM";
+		logger.debug(GISDataLoader.getAreaOfCountry(countryCode));
+		assertEquals(11032d, GISDataLoader.getAreaOfCountry(countryCode), 1d);
 	}
 }
 

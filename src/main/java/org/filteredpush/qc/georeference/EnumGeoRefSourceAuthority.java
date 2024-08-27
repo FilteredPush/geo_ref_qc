@@ -30,6 +30,7 @@ public enum EnumGeoRefSourceAuthority {
     NE_ADMIN_0,
     GADM_ADM1, 
     GETTY_TGN,
+    GBIF_CENTROIDS,
     DATAHUB,
     INVALID;
 	

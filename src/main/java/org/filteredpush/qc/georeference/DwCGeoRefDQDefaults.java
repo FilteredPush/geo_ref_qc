@@ -16,6 +16,7 @@ import org.datakurator.ffdq.annotations.Validation;
 import org.datakurator.ffdq.api.DQResponse;
 import org.datakurator.ffdq.api.result.AmendmentValue;
 import org.datakurator.ffdq.api.result.ComplianceValue;
+import org.datakurator.ffdq.api.result.IssueValue;
 import org.filteredpush.qc.georeference.util.GettyLookup;
 
 /**
@@ -388,4 +389,29 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     	) {
     	return DwCGeoRefDQ.amendmentCountrycodeFromCoordinates(decimalLatitude, decimalLongitude, countryCode, null);
     } 
+    
+    /**
+     * Are the supplied geographic coordinates within a defined buffer of the center of the country?
+     * using the default source authority and spatial buffer.
+     *
+     * Provides: 287 ISSUE_COORDINATES_CENTEROFCOUNTRY
+     * Version: 2023-09-17
+     *
+     * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
+     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
+     * @param countryCode the provided dwc:countryCode to evaluate as Consulted.
+     * @return DQResponse the response of type AmendmentValue to return
+     */
+    @Amendment(label="ISSUE_COORDINATES_CENTEROFCOUNTRY", description="Are the supplied geographic coordinates within a defined buffer of the center of the country?")
+    @Provides("256e51b3-1e08-4349-bb7e-5186631c3f8e")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/256e51b3-1e08-4349-bb7e-5186631c3f8e/2024-08-20")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if any of dwc:countryCode, dwc:decimalLatitude, dwc:decimalLongitude are EMPTY; POTENTIAL_ISSUE if the geographic coordinates are within the distance given by bdq:spatialBufferInMeters from the center (or one of the centers), of the bdq:sourceAuthority provides more than one per country code of the supplied dwc:countryCode as represented in the bdq:sourceAuthority; otherwise NOT_ISSUE.")
+    public static DQResponse<IssueValue> issueCoordinatesCenterofcountry(
+        @ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
+        @ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
+        @Consulted("dwc:countryCode") String countryCode,
+        @Consulted("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters
+    ) {
+    	return DwCGeoRefDQ.issueCoordinatesCenterofcountry(decimalLatitude, decimalLongitude, countryCode, coordinateUncertaintyInMeters, null, null);
+    }
 }

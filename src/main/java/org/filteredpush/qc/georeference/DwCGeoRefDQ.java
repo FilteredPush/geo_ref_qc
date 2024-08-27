@@ -16,6 +16,7 @@ import org.datakurator.ffdq.api.DQResponse;
 import org.datakurator.ffdq.model.ResultState;
 import org.filteredpush.qc.georeference.util.CountryLookup;
 import org.filteredpush.qc.georeference.util.GEOUtil;
+import org.filteredpush.qc.georeference.util.GISDataLoader;
 import org.filteredpush.qc.georeference.util.GeoRefCacheValue;
 import org.filteredpush.qc.georeference.util.GeoUtilSingleton;
 import org.filteredpush.qc.georeference.util.GeolocationResult;
@@ -187,6 +188,9 @@ public class DwCGeoRefDQ{
 
         try { 
         	GeoRefSourceAuthority sourceAuthorityObject = new GeoRefSourceAuthority(sourceAuthority);
+        	if (sourceAuthorityObject.getAuthority().equals(EnumGeoRefSourceAuthority.INVALID)) { 
+        		throw new SourceAuthorityException("Invalid Source Authority");
+        	}
         	if (GEOUtil.isEmpty(country)) { 
         		result.addComment("dwc:country is empty");
         		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
@@ -243,8 +247,7 @@ public class DwCGeoRefDQ{
         				result.setValue(ComplianceValue.NOT_COMPLIANT);
         			}
         		} else { 
-        			result.addComment("Unknown bdq:sourceAuthority");
-        			result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        			throw new SourceAuthorityException("Unsupported sourceAuthority: ["+sourceAuthority+"]");
         		}
         	}
         } catch (SourceAuthorityException e) { 
@@ -1036,7 +1039,8 @@ public class DwCGeoRefDQ{
     @Provides("fec5ffe6-3958-4312-82d9-ebcca0efb350")
     @ProvidesVersion("https://rs.tdwg.org/bdq/terms/fec5ffe6-3958-4312-82d9-ebcca0efb350/2023-03-07")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISTITES_NOT_MET if the value of dwc:countryCode is EMPTY; AMENDED the value of dwc:countryCode if it can be unambiguously interpreted from bdq:sourceAuthority; otherwise NOT_AMENDED bdq:sourceAuthority is 'ISO 3166-1-alpha-2' [https://restcountries.eu/#api-endpoints-list-of-codes, https://www.iso.org/obp/ui/#search]")
-    public static DQResponse<AmendmentValue> amendmentCountrycodeStandardized(@ActedUpon("dwc:countryCode") String countryCode) {
+    public static DQResponse<AmendmentValue> amendmentCountrycodeStandardized(
+    		@ActedUpon("dwc:countryCode") String countryCode) {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
         // Specification
@@ -1145,8 +1149,6 @@ public class DwCGeoRefDQ{
         		throw new SourceAuthorityException("Invalid Source Authority");
         	}
 
-
-
         	if (GEOUtil.isEmpty(spatialBufferInMeters)) { 
         		spatialBufferInMeters = "3000";
         	}
@@ -1170,8 +1172,7 @@ public class DwCGeoRefDQ{
         		result.addComment("The value provided for dwc:countryCode is empty");
         	} else { 
         		if (!sourceAuthority.equals("ADM1 boundaries UNION EEZ")) { 
-        			result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
-        			result.addComment("Unsupported or unrecognized source authority.");
+        			throw new SourceAuthorityException("Unsupported sourceAuthority: ["+sourceAuthority+"]");
         		} else { 
         			String countryCode3 = countryCode;
         			if (!countryCode.matches("^[A-Z]$")) {
@@ -2928,45 +2929,54 @@ public class DwCGeoRefDQ{
         	sourceAuthority = GettyLookup.GETTY_TGN;
         }
 
-        if (GEOUtil.isEmpty(stateProvince)) { 
-        	result.addComment("dwc:stateProvince is empty");
-        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
-        } else { 
-        	if (sourceAuthority.equalsIgnoreCase(GettyLookup.GETTY_TGN)) {
-        		Boolean cached = GeoUtilSingleton.getInstance().getTgnPrimaryEntry(stateProvince);
-        		if (cached!=null) { 
-        			if (cached) {
-        				result.addComment("the value provided for dwc:stateProvince [" + stateProvince + "] exists as a primary administrative divsion in the Getty Thesaurus of Geographic Names (TGN).");
-        				result.setResultState(ResultState.RUN_HAS_RESULT);
-        				result.setValue(ComplianceValue.COMPLIANT);
+        try { 
+        	GeoRefSourceAuthority sourceAuthorityObject = new GeoRefSourceAuthority(sourceAuthority);
+        	if (sourceAuthorityObject.getAuthority().equals(EnumGeoRefSourceAuthority.INVALID)) { 
+        		throw new SourceAuthorityException("Invalid Source Authority");
+        	}
+        	if (GEOUtil.isEmpty(stateProvince)) { 
+        		result.addComment("dwc:stateProvince is empty");
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        	} else { 
+        		if (sourceAuthority.equalsIgnoreCase(GettyLookup.GETTY_TGN)) {
+        			Boolean cached = GeoUtilSingleton.getInstance().getTgnPrimaryEntry(stateProvince);
+        			if (cached!=null) { 
+        				if (cached) {
+        					result.addComment("the value provided for dwc:stateProvince [" + stateProvince + "] exists as a primary administrative divsion in the Getty Thesaurus of Geographic Names (TGN).");
+        					result.setResultState(ResultState.RUN_HAS_RESULT);
+        					result.setValue(ComplianceValue.COMPLIANT);
+        				} else { 
+        					result.addComment("the value provided for dwc:stateProvince [" + stateProvince + "] is not a primary administrative division in the Getty Thesaurus of Geographic Names (TGN).");
+        					result.setResultState(ResultState.RUN_HAS_RESULT);
+        					result.setValue(ComplianceValue.NOT_COMPLIANT);
+        				}
         			} else { 
-        				result.addComment("the value provided for dwc:stateProvince [" + stateProvince + "] is not a primary administrative division in the Getty Thesaurus of Geographic Names (TGN).");
-        				result.setResultState(ResultState.RUN_HAS_RESULT);
-        				result.setValue(ComplianceValue.NOT_COMPLIANT);
+        				GettyLookup lookup = new GettyLookup();
+        				if (lookup.lookupPrimary(stateProvince)==null) { 
+        					result.addComment("Error looking up stateProvince in " + sourceAuthority);
+        					result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        				} else if (lookup.lookupPrimary(stateProvince)) { 
+        					result.addComment("the value provided for dwc:stateProvince [" + stateProvince + "] exists as a primary administrative divsion in the Getty Thesaurus of Geographic Names (TGN).");
+        					result.addComment(lookup.getPrimaryObject(stateProvince).getParentageString());
+        					result.setResultState(ResultState.RUN_HAS_RESULT);
+        					result.setValue(ComplianceValue.COMPLIANT);
+        					GeoUtilSingleton.getInstance().addTgnPrimary(stateProvince, true);
+        				} else { 
+        					result.addComment("the value provided for dwc:stateProvince [" + stateProvince + "] is not a primary administrative divsion in the Getty Thesaurus of Geographic Names (TGN).");
+        					result.setResultState(ResultState.RUN_HAS_RESULT);
+        					result.setValue(ComplianceValue.NOT_COMPLIANT);
+        					GeoUtilSingleton.getInstance().addTgnPrimary(stateProvince, false);
+        				}
         			}
         		} else { 
-        			GettyLookup lookup = new GettyLookup();
-        			if (lookup.lookupPrimary(stateProvince)==null) { 
-        				result.addComment("Error looking up stateProvince in " + sourceAuthority);
-        				result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
-        			} else if (lookup.lookupPrimary(stateProvince)) { 
-        				result.addComment("the value provided for dwc:stateProvince [" + stateProvince + "] exists as a primary administrative divsion in the Getty Thesaurus of Geographic Names (TGN).");
-        				result.addComment(lookup.getPrimaryObject(stateProvince).getParentageString());
-        				result.setResultState(ResultState.RUN_HAS_RESULT);
-        				result.setValue(ComplianceValue.COMPLIANT);
-        				GeoUtilSingleton.getInstance().addTgnPrimary(stateProvince, true);
-        			} else { 
-        				result.addComment("the value provided for dwc:stateProvince [" + stateProvince + "] is not a primary administrative divsion in the Getty Thesaurus of Geographic Names (TGN).");
-        				result.setResultState(ResultState.RUN_HAS_RESULT);
-        				result.setValue(ComplianceValue.NOT_COMPLIANT);
-        				GeoUtilSingleton.getInstance().addTgnPrimary(stateProvince, false);
-        			}
+        			throw new SourceAuthorityException("Unsupported bdq:sourceAuthority [" + sourceAuthority + "]");
         		}
-        	} else { 
-        		result.addComment("Unknown bdq:sourceAuthority");
-        		result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
         	}
+        } catch (SourceAuthorityException e) {
+        	result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
+        	result.addComment("Error with specified Source Authority: " + e.getMessage());
         }
+        
         return result;
     }
         
@@ -3082,7 +3092,7 @@ public class DwCGeoRefDQ{
         				result.addComment("Provided value of dwc:country ["+country+"] is not a nation level entity known to the Getty TGN");
         			}
         		} else { 
-        			throw new SourceAuthorityException("Unsupported Source Authority");
+        			throw new SourceAuthorityException("Unsupported Source Authority ["+sourceAuthority+"]");
         		}
 
 
@@ -3250,7 +3260,7 @@ public class DwCGeoRefDQ{
         				}
         			} 
         		} else { 
-        			throw new SourceAuthorityException("Unsupported Source Authority");
+        			throw new SourceAuthorityException("Unsupported Source Authority: ["+sourceAuthority+"]");
         		}
 
 
@@ -3709,22 +3719,28 @@ public class DwCGeoRefDQ{
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
      * @param countryCode the provided dwc:countryCode to evaluate as Consulted.
+     * @param spatialBufferInMeters the distance in meters within which a point must fall from 
+     *   a centroid to be considered an issue.
+     * @param sourceAuthority the spatial source authority to consult for country centroids
      * @return DQResponse the response of type AmendmentValue to return
-     * @param sourceAuthority a {@link java.lang.String} object.
      */
     @Amendment(label="ISSUE_COORDINATES_CENTEROFCOUNTRY", description="Are the supplied geographic coordinates within a defined buffer of the center of the country?")
     @Provides("256e51b3-1e08-4349-bb7e-5186631c3f8e")
     @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/256e51b3-1e08-4349-bb7e-5186631c3f8e/2024-08-20")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if any of dwc:countryCode, dwc:decimalLatitude, dwc:decimalLongitude are EMPTY; POTENTIAL_ISSUE if the geographic coordinates are within the distance given by bdq:spatialBufferInMeters from the center (or one of the centers), of the bdq:sourceAuthority provides more than one per country code of the supplied dwc:countryCode as represented in the bdq:sourceAuthority; otherwise NOT_ISSUE.")
-    public static DQResponse<AmendmentValue> issueCoordinatesCenterofcountry(
+    public static DQResponse<IssueValue> issueCoordinatesCenterofcountry(
         @ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
         @ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
         @Consulted("dwc:countryCode") String countryCode,
+        @Consulted("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters,
     	@Parameter(name="bdq:spatialBufferInMeters") String spatialBufferInMeters,
     	@Parameter(name="bdq:sourceAuthority") String sourceAuthority
     ) {
-		DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
+		DQResponse<IssueValue> result = new DQResponse<IssueValue>();
 
+		// TODO: Add coordinateUncertaintyInMeters to specification
+		// TODO: Proposed new specification
+		
 		// TODO: Specification
 		// EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available;
 		// INTERNAL_PREREQUISITES_NOT_MET if any of dwc:countryCode,
@@ -3744,9 +3760,17 @@ public class DwCGeoRefDQ{
 			sourceAuthority = "GBIF Catalogue of Country Centroides";
 		}
 		if (GEOUtil.isEmpty(spatialBufferInMeters)) {
-			sourceAuthority = "3000";
+			spatialBufferInMeters = "3000";
 		}
 
+    	Double buffer_km = 3d;
+    	try { 
+    		buffer_km = Double.parseDouble(spatialBufferInMeters);
+    		buffer_km = buffer_km / 1000d;
+    	} catch (Exception e) {
+    		buffer_km = 3d;
+    	}
+		
         try { 
         	GeoRefSourceAuthority sourceAuthorityObject = new GeoRefSourceAuthority(sourceAuthority);
         	if (sourceAuthorityObject.getAuthority().equals(EnumGeoRefSourceAuthority.INVALID)) { 
@@ -3763,9 +3787,54 @@ public class DwCGeoRefDQ{
         		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         		result.addComment("The value provided for dwc:countryCode is empty");
         	} else { 
-        		// TODO: Implementation
-        		
-        		
+
+        		if (!GEOUtil.isEmpty(coordinateUncertaintyInMeters))  {
+        			try { 
+        				Double uncertaintyRadiusMeters = Double.parseDouble(coordinateUncertaintyInMeters);
+        				Double area = GISDataLoader.getAreaOfCountry(countryCode);
+        				if (area!=null) { 
+        					Double countryRadiusMeters = (Math.sqrt(area)/2d)*1000d;
+        					logger.debug(area);
+        					logger.debug(uncertaintyRadiusMeters);
+        					logger.debug(countryRadiusMeters);
+        					if (countryRadiusMeters <= uncertaintyRadiusMeters) {
+        						result.setResultState(ResultState.RUN_HAS_RESULT);
+        						result.setValue(IssueValue.NOT_ISSUE);
+        						result.addComment("Coordinate uncertainty in meters ["+coordinateUncertaintyInMeters+"] is large relative to the size of the country ["+countryCode+"] ["+Double.toString(countryRadiusMeters)+"]");
+        					}
+        				}
+        			} catch (NumberFormatException ex) { 
+        				logger.debug(ex.getMessage());
+        				result.addComment("Unable to parse a number out of dwc:coordinateUncertaintyInMeters ["+coordinateUncertaintyInMeters+"]");
+        			}
+        		}
+
+        		if (result.getResultState()==ResultState.NOT_RUN)  { 
+        			try { 
+
+        				Double dLongitude = Double.parseDouble(decimalLongitude);
+        				Double dLatitude = Double.parseDouble(decimalLatitude);
+
+        				if (GISDataLoader.isPointNearCentroid(dLongitude, dLatitude, countryCode, buffer_km)) { 
+        					result.setResultState(ResultState.RUN_HAS_RESULT);
+        					result.setValue(IssueValue.POTENTIAL_ISSUE);
+        					result.addComment("Provided dwc:decimalLatitude ["+decimalLatitude+"] and dwc:decimalLongitude ["+decimalLongitude+"] are within ["+spatialBufferInMeters+"]m of the centroid of the dwc:countryCode ["+countryCode+"], and may reflect a georeference for the entire country.");
+        				} else { 
+        					result.setResultState(ResultState.RUN_HAS_RESULT);
+        					result.setValue(IssueValue.NOT_ISSUE);
+        					result.addComment("Provided dwc:decimalLatitude ["+decimalLatitude+"] and dwc:decimalLongitude ["+decimalLongitude+"] are not near the centroid of the dwc:countryCode ["+countryCode+"].");
+        				}
+
+        			} catch (NumberFormatException ex) { 
+        				result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        				result.addComment("Unable to interpret provided dwc:decimalLatitude ["+decimalLatitude+"] or dwc:decimalLongitude ["+decimalLongitude+"]");
+        			}
+        		}
+
+        		if (sourceAuthorityObject.getAuthority().equals(EnumGeoRefSourceAuthority.GBIF_CENTROIDS)) { 
+        		} else { 
+        			throw new SourceAuthorityException("Unsupported source authority ["+sourceAuthority+"]");
+        		}
         	}
         } catch (SourceAuthorityException e) { 
         	result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);

@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.filteredpush.qc.georeference.SourceAuthorityException;
 import org.geotools.api.data.FileDataStore;
 import org.geotools.api.data.FileDataStoreFinder;
 import org.geotools.api.data.SimpleFeatureSource;
@@ -373,8 +374,9 @@ public class GEOUtil {
      *         false if the x/y value is inside land and invertSense is true
      *         true if the x/y value is outside land and invertSense is true
      * @param bufferInMeters a double.
+     * @throws SourceAuthorityException 
      */
-    public static boolean isOnOrNearLand(double Xvalue, double Yvalue, boolean invertSense, double bufferInMeters) { 
+    public static boolean isOnOrNearLand(double Xvalue, double Yvalue, boolean invertSense, double bufferInMeters) throws SourceAuthorityException { 
     	boolean result = false;
     	
     	double bufferKm = bufferInMeters/1000;
