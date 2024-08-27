@@ -18,6 +18,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.URI;
+import org.filteredpush.qc.georeference.SourceAuthorityException;
 
 import edu.getty.tgn.objects.Vocabulary;
 import edu.getty.tgn.objects.Vocabulary.Subject;
@@ -37,8 +38,12 @@ public class GettyLookup {
 
 	private static final Log logger = LogFactory.getLog(GettyLookup.class);
 	
+	// Cache of countries found
 	private Map<String,GettyTGNObject> countryCache;
-	private Map<String,GettyTGNObject> primaryCache;
+	// Cache of first matching primary divisions found
+	private Map<String,GettyTGNObject> primaryCache; 
+	// Cache of unique primary divisions found
+	private Map<String,GettyTGNObject> uniquePrimaryCache;
 	
 	/** Constant <code>GETTY_TGN="The Getty Thesaurus of Geographic Names"{trunked}</code> */
 	public static final String GETTY_TGN = "The Getty Thesaurus of Geographic Names (TGN)";
@@ -56,6 +61,7 @@ public class GettyLookup {
 	private void init() { 
 		countryCache = new HashMap<String,GettyTGNObject>();
 		primaryCache = new HashMap<String,GettyTGNObject>();
+		uniquePrimaryCache = new HashMap<String,GettyTGNObject>();
 	}
 
 	/**
@@ -307,8 +313,8 @@ public class GettyLookup {
 				JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
 				Unmarshaller unmarshaler = jc.createUnmarshaller();
 				Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
-				System.out.println(response.getCount());
-				System.out.println(response.getCount());
+				logger.debug(response.getCount());
+				logger.debug(response.getCount());
 				if (response.getCount().compareTo(BigInteger.ONE) >= 0) { 
 					// idiom for line above from BigInteger docs: (x.compareTo(y) <op> 0)
 					retval = true;
@@ -328,10 +334,75 @@ public class GettyLookup {
 				e.printStackTrace();
 			}	
 		}
+		logger.debug(retval);
 
 		return retval;
 	} 
 	
+	
+	/**
+	 * Match a secondary geopolitical entity (state/province) name in the the Getty TGN, returns
+	 * true if exactly one such entity is found.
+	 *
+	 * @param primaryDivision the state/province to look up.
+	 * @return true if the secondaryDivision is found as appropriate geopolitical entity in TGN matching
+	 * any form of the name at least once, false if the primary division is not found in TGN,
+	 * null on an exception querying TGN.
+	 */
+	public Boolean lookupUniquePrimary(String primaryDivision) { 
+
+		Boolean retval = null;
+
+		if (GEOUtil.isEmpty(primaryDivision)) { 
+			retval = false;
+		} else { 
+			if (uniquePrimaryCache.containsKey(primaryDivision)) { 
+				logger.debug(uniquePrimaryCache.get(primaryDivision));
+				retval = true;
+			} else { 
+				// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
+				String placeTypeID = "81100"; //first level subdivision
+				// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
+				String baseURI = "http://vocabsservices.getty.edu/TGNService.asmx/TGNGetTermMatch?";
+
+				StringBuilder request = new StringBuilder();
+				request.append(baseURI);
+				// enclose in quotes for exact match
+				String primaryEncoded = URI.encodeFragment('"'+primaryDivision+'"', false);
+				request.append("name=").append(primaryEncoded);
+				request.append("&placetypeid=").append(placeTypeID);
+				request.append("&nationid=").append("");
+				logger.debug(request.toString());
+				try {
+					URL url = new URL(request.toString());
+					HttpURLConnection getty = (HttpURLConnection) url.openConnection();
+					InputStream is = getty.getInputStream();
+					JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
+					Unmarshaller unmarshaler = jc.createUnmarshaller();
+					Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
+					logger.debug(response.getCount());
+					logger.debug(response.getCount());
+					if (response.getCount().compareTo(BigInteger.ONE) == 0) { 
+						// idiom for line above from BigInteger docs: (x.compareTo(y) <op> 0)
+						retval = true;
+						// cache the match
+						uniquePrimaryCache.put(primaryDivision, new GettyTGNObject(response.getSubject().get(0),placeTypeID));
+					} else { 
+						retval = false;
+					}
+				} catch (JAXBException e) {
+					logger.debug(e.getMessage(),e);
+				} catch (MalformedURLException e) {
+					logger.debug(e.getMessage(),e);
+				} catch (IOException e) {
+					logger.debug(e.getMessage(),e);
+				}	
+			}
+		}
+		logger.debug(retval);
+
+		return retval;
+	} 
 	
 	
 	/**
@@ -514,6 +585,65 @@ public class GettyLookup {
 				logger.error(e.getMessage());
 			} catch (IOException e) {
 				logger.error(e.getMessage());
+			}	
+		} 
+		return retval;
+	}
+	
+	/**
+	 * <p>getPrimaryObject.</p>
+	 *
+	 * @param primaryDivision a {@link java.lang.String} object.
+	 * @return a {@link edu.getty.tgn.service.GettyTGNObject} object.
+	 * @throws SourceAuthorityException 
+	 */
+	public List<GettyTGNObject> getPrimaryObjects(String primaryDivision) throws SourceAuthorityException { 
+
+		List<GettyTGNObject> retval = new ArrayList<GettyTGNObject>();
+		
+		if (uniquePrimaryCache.containsKey(primaryDivision)) { 
+			logger.debug(uniquePrimaryCache.get(primaryDivision).getName());
+			retval.add(uniquePrimaryCache.get(primaryDivision));
+		} else { 
+			// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
+			String placeTypeID = "81100";
+			// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
+			String baseURI = "http://vocabsservices.getty.edu//TGNService.asmx/TGNGetTermMatch?";
+
+			StringBuilder request = new StringBuilder();
+			request.append(baseURI);
+			String primaryEncoded = URI.encodeFragment('"'+primaryDivision+'"', false);
+			request.append("name=").append(primaryEncoded);
+			request.append("&placetypeid=").append(placeTypeID);
+			request.append("&nationid=").append("");
+			try {
+				URL url = new URL(request.toString());
+				HttpURLConnection getty = (HttpURLConnection) url.openConnection();
+				InputStream is = getty.getInputStream();
+				JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
+				Unmarshaller unmarshaler = jc.createUnmarshaller();
+				Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
+				System.out.println(response.getCount());
+				if (response.getCount()==BigInteger.ONE) { 
+					// found match
+				} 
+				List<Subject> subjects = response.getSubject();
+				Iterator<Subject> i = subjects.iterator();
+				while (i.hasNext()) {
+					Subject subject = i.next();
+					logger.debug(subject.getPreferredTerm().getValue());
+					logger.debug(subject.getSubjectID());
+					logger.debug(subject.getPreferredParent());
+					retval.add(new GettyTGNObject(subject,placeTypeID));
+				}
+			} catch (JAXBException e) {
+				logger.error(e.getMessage());
+				throw new SourceAuthorityException("Error interpreting json response returned from Getty TGN:" + e.getMessage());
+			} catch (MalformedURLException e) {
+				logger.error(e.getMessage());
+			} catch (IOException e) {
+				logger.error(e.getMessage());
+				throw new SourceAuthorityException("Error accessing Getty TGN:" + e.getMessage());
 			}	
 		} 
 		return retval;

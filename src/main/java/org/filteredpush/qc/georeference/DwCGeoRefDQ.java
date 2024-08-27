@@ -449,8 +449,8 @@ public class DwCGeoRefDQ{
         }
 
         // TODO: Evaluate verbatimCoordinateSystem and verbatimSRS.
-        // if coordinates are lat/long and verbatimSRS is blank or consistent with EPSG:4326, do the transform
-        // if not, identify an available transform (none implemented yet) or fail.
+        // if verbatimSRS can be identified to be not consistent with EPSG:4326, fail
+        // if verbatimCoordinateSystem can be identified to not be geographic, fail.
         
         boolean interpreted = false;
         
@@ -885,20 +885,6 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-        //TODO:  Implement specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is 
-        // EMPTY or does not have a valid value, or dwc:decimalLongitude 
-        // is EMPTY or does not have a valid value, or dwc:geodeticDatum 
-        // is EMPTY or does not contain an interpretable value; AMENDED 
-        // if the values of dwc:decimalLatitude, dwc:decimalLongitude 
-        // and dwc:geodeticDatum are changed based on a conversion 
-        // between the coordinate reference systems as specified by 
-        // dwc:geodeticDatum and bdq:targetCRS, and, if dwc:coordinateUncertaintyInMeters 
-        // was an interpretable value, the uncertainty from the conversion 
-        // is added to it, and the value of dwc:coordinatePrecision 
-        // is provided from the conversion result; otherwise NOT_AMENDED. 
-        // bdq:targetCRS = "EPSG:4326" 
-    
     /**
      * Propose amendment to the value of dwc:geodeticDatum and potentially to dwc:decimalLatitude and/or dwc:decimalLongitude based on a conversion between spatial reference systems.
      *
@@ -1260,6 +1246,29 @@ public class DwCGeoRefDQ{
         		
         		// TODO: pattern "to {number} {units}"
         		
+        		// Test for case where only a minimum or maximum is specified, this fails.
+        		boolean failureCase = false;
+        		boolean containsMin = false;
+        		boolean containsMax = false;
+        		if (verbatimDepth.matches(".*[mM](in)(imum){0,1}[ ]*[dD]epth.*")) {
+        			containsMin = true;
+        		}
+        		if (verbatimDepth.matches(".*[mM](ax)(imum){0,1}[ ]*[dD]epth.*")) {
+        			containsMax = true;
+        		}
+        		if(containsMin ^ containsMax) { 
+        			// xor, exactly one of the two is true.
+        			if (!verbatimDepth.matches(".*[0-9].*[ ,;:-].*[0-9]")) { 
+        				// a minimum or a maximum was specified, but only one number was found
+        				failureCase = true;
+        				if (containsMin) { 
+        					result.addComment("One number, specifying minimum depth was found.");
+        				} else { 
+        					result.addComment("One number, specifying maximum depth was found.");
+        				}
+        			}
+        		}
+        		
         		String simplified = verbatimDepth;
         		if (verbatimDepth.matches(".*[mM](in|ax)(imum){0,1}[ ]*[dD]epth.*")) {
         			simplified = verbatimDepth.replaceAll("[mM](in|ax)(imum){0,1}[ ]*[dD]epth", "").trim();
@@ -1278,7 +1287,11 @@ public class DwCGeoRefDQ{
        
         		logger.debug(verbatimDepth);
         		logger.debug(simplified);
-        		if (simplified.matches("^[0-9]+([.]{0,1}[0-9]*){0,1} *(m|m[.]|[mM](eter(s){0,1}))$")) { 
+        		if (failureCase) { 
+        			// handle the failure case above.
+        			result.addComment("Unable to Interpret provided dwc:verbatimDepth into a depth range ["+ verbatimDepth +"].");
+        			result.setResultState(ResultState.NOT_AMENDED);
+        		} if (simplified.matches("^[0-9]+([.]{0,1}[0-9]*){0,1} *(m|m[.]|[mM](eter(s){0,1}))$")) { 
         			String cleaned = simplified.replaceAll("[ Mmetrs]+", "").trim();
         			cleaned = cleaned.replaceAll("[.]$","");
         			result.addComment("Interpreted equal minimum and maximum depths in meters from dwc:verbatimDepth ["+ verbatimDepth +"] interpreted as a depth range in meters ");
@@ -2109,7 +2122,7 @@ public class DwCGeoRefDQ{
     		@Consulted("dwc:decimalLatitude") String decimalLatitude, 
     		@Consulted("dwc:decimalLongitude") String decimalLongitude, 
     		@ActedUpon("dwc:countryCode") String countryCode, 
-    		@Consulted("dwc:sourceAuthority") String sourceAuthority
+    		@Parameter(name="bdq:sourceAuthority") String sourceAuthority
     	) {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
@@ -3080,7 +3093,7 @@ public class DwCGeoRefDQ{
     /**
      * Is the combination of the values of the terms dwc:country, dwc:stateProvince unique in the bdq:sourceAuthority?
      *
-     * Provides: VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS
+     * Provides: 201 VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS
      * Version: 2023-09-18
      *
      * @param country the provided dwc:country to evaluate
@@ -3146,10 +3159,10 @@ public class DwCGeoRefDQ{
         				}
         			}
         			
-        			
         			if (GEOUtil.isEmpty(country)) { 
         				// If country is empty, does stateProvince match a single entry? 
-        				if (lookup.lookupPrimary(stateProvince)) {  
+        				logger.debug(stateProvince);
+        				if (lookup.lookupUniquePrimary(stateProvince)) {  
         					result.setResultState(ResultState.RUN_HAS_RESULT);
         					result.setValue(ComplianceValue.COMPLIANT);
         					result.addComment("Provided value of dwc:country is empty and dwc:stateProvince ["+stateProvince+"] matches a single primary division level entity known to the Getty TGN");
@@ -3174,29 +3187,49 @@ public class DwCGeoRefDQ{
         				logger.debug(countryToLookup);
         				if (lookup.lookupCountry(countryToLookup)) { 
         					logger.debug(stateProvince);
-        					logger.debug(lookup.lookupPrimary(stateProvince));
-        					if (lookup.lookupPrimary(stateProvince)) {  
+        					// logger.debug(lookup.lookupPrimary(stateProvince));
+        					List<GettyTGNObject> primaryMatches = lookup.getPrimaryObjects(stateProvince);
+        					if (primaryMatches!=null && primaryMatches.size()>0) {  
         						if (preferredCountry==null) { 
         							preferredCountry = countryToLookup;
         						}
-        						GettyTGNObject primaryObject = lookup.getPrimaryObject(stateProvince);
-        						String primaryParentage = primaryObject.getParentageString();
-        						logger.debug(primaryParentage);
-        						if (primaryParentage==null) { 
+        						Iterator<GettyTGNObject> ipm  = primaryMatches.iterator();
+        						int matchCount = 0;
+        						boolean hasSomeParentage = false;
+        						StringBuffer primaryParentages = new StringBuffer();
+        						String primaryParentage = "";
+        						while (ipm.hasNext()) { 
+        							GettyTGNObject primaryObject = ipm.next();
+        							primaryParentage = primaryObject.getParentageString();
+        							logger.debug(primaryParentage);
+        							if (primaryParentage!=null) { 
+        								hasSomeParentage = true;
+        								if (primaryParentage.contains(preferredCountry)) { 
+        									matchCount++;
+        									primaryParentages.append(primaryParentage);
+        								}
+        							} 
+        						}
+        						if (hasSomeParentage==false) { 
         							result.setResultState(ResultState.RUN_HAS_RESULT);
         							result.setValue(ComplianceValue.NOT_COMPLIANT);
         							result.addComment("Parentage not found for dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
         						} else { 
-        							if (primaryParentage.contains(preferredCountry)) { 
+        							if (matchCount==1) { 
         								result.setResultState(ResultState.RUN_HAS_RESULT);
         								result.setValue(ComplianceValue.COMPLIANT);
         								result.addComment("The dwc:country ["+country+"] as ["+preferredCountry+"] was found in the parentage ["+primaryParentage+"] of dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
+        							} else if (matchCount==0) { 
+        								result.setResultState(ResultState.RUN_HAS_RESULT);
+        								result.setValue(ComplianceValue.NOT_COMPLIANT);
+        								result.addComment("The combination of dwc:country ["+country+"] as ["+preferredCountry+"] with dwc:stateProvince ["+stateProvince+"] was not found in the Getty TGN");
         							} else { 
         								result.setResultState(ResultState.RUN_HAS_RESULT);
         								result.setValue(ComplianceValue.NOT_COMPLIANT);
-        								result.addComment("The dwc:country ["+country+"] as ["+preferredCountry+"] was not found in the parentage ["+primaryParentage+"] of dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
+        								result.addComment("Non-unique match");
+        								result.addComment("The dwc:country ["+country+"] as ["+preferredCountry+"] was found in the "+matchCount+" parentages ["+primaryParentages.toString()+"] of dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
         							}
-        						}
+        						} 
         					} else { 
         						result.setResultState(ResultState.RUN_HAS_RESULT);
         						result.setValue(ComplianceValue.NOT_COMPLIANT);

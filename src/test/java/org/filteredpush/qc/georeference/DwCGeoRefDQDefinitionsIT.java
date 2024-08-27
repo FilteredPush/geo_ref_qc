@@ -326,6 +326,113 @@ public class DwCGeoRefDQDefinitionsIT {
 	}
 	
 	/**
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountrystateprovinceUnambiguous(java.lang.String, java.lang.String)}.
+	 */
+	@Test
+	public void testValidationCountrystateprovinceUnambiguous() {
+		
+		String country="United States";
+		String stateProvince = "Massachusetts";
+		String sourceAuthority = null;
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountrystateprovinceUnambiguous(country, stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		country="";
+		stateProvince = "";
+		sourceAuthority = null;
+		result = DwCGeoRefDQ.validationCountrystateprovinceUnambiguous(country, stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+		assertNull(result.getValue());
+		
+		country="";
+		stateProvince = "WA";  // Matches Washington, United States and Damaraland, Namibia 
+		sourceAuthority = null;
+		result = DwCGeoRefDQ.validationCountrystateprovinceUnambiguous(country, stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		country="";
+		stateProvince = "Florida";  // Matches Florida, United States and Florida, Uruguay
+		sourceAuthority = null;
+		result = DwCGeoRefDQ.validationCountrystateprovinceUnambiguous(country, stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		country="Uruguay";
+		stateProvince = "Florida";  // Matches Florida, United States and Florida, Uruguay
+		sourceAuthority = null;
+		result = DwCGeoRefDQ.validationCountrystateprovinceUnambiguous(country, stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		country="";
+		stateProvince = "Western Australia"; 
+		sourceAuthority = null;
+		result = DwCGeoRefDQ.validationCountrystateprovinceUnambiguous(country, stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		country="Australia";
+		stateProvince = "Western Australia"; 
+		sourceAuthority = null;
+		result = DwCGeoRefDQ.validationCountrystateprovinceUnambiguous(country, stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		country="Australia";
+		stateProvince = "Punjab"; 
+		sourceAuthority = null;
+		result = DwCGeoRefDQ.validationCountrystateprovinceUnambiguous(country, stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		country="Argentina";
+		stateProvince = "Rio Negro"; 
+		sourceAuthority = null;
+		result = DwCGeoRefDQ.validationCountrystateprovinceUnambiguous(country, stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		country="";
+		stateProvince = "Tasmania"; 
+		sourceAuthority = null;
+		result = DwCGeoRefDQ.validationCountrystateprovinceUnambiguous(country, stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		country="Uruguay";
+		stateProvince = ""; 
+		sourceAuthority = null;
+		result = DwCGeoRefDQ.validationCountrystateprovinceUnambiguous(country, stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+	}
+	
+	/**
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountrystateprovinceConsistent(java.lang.String, java.lang.String)}.
 	 */
 	@Test
