@@ -30,6 +30,9 @@ public enum EnumGeoRefSourceAuthority {
     GADM_ADM1, 
     GETTY_TGN,
     INVALID;
+	
+	// TODO; add datahub.io
+	// TODO: add ne_10m_admin_0_countries
 
 	/**
 	 * <p>getName.</p>

@@ -71,8 +71,9 @@ public class GettyLookup {
 	 * @return true if the country is found as a sovereign nation level entity in TGN matching
 	 * any form of the name, false if the country is not found as a sovereign nation lavel entity
 	 * in TGN, null on an exception querying TGN.
+	 * @throws SourceAuthorityException 
 	 */
-	public Boolean lookupCountry(String country) { 
+	public Boolean lookupCountry(String country) throws SourceAuthorityException { 
 
 		Boolean retval = null;
 
@@ -103,7 +104,6 @@ public class GettyLookup {
 					Unmarshaller unmarshaler = jc.createUnmarshaller();
 					Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
 					System.out.println(response.getCount());
-					System.out.println(response.getCount());
 					if (response.getCount().compareTo(BigInteger.ONE)==0) { 
 						// idiom for line above from BigInteger docs: (x.compareTo(y) <op> 0)
 						// one match
@@ -129,14 +129,13 @@ public class GettyLookup {
 						retval = false;
 					}
 				} catch (JAXBException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error(e.getMessage());
+					throw new SourceAuthorityException("Error interpreting json response returned from Getty TGN:" + e.getMessage());
 				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error(e.getMessage());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error(e.getMessage());
+					throw new SourceAuthorityException("Error querying the Getty TGN:" + e.getMessage());
 				}	
 			} 
 		} 
@@ -150,8 +149,9 @@ public class GettyLookup {
 	 * @param country preferred name of sovereign nation level entity to look up.
 	 * @return true if the provided country matches a preferred name of a sovereign nation level
 	 * entity in TGN, false if it does not, null on an error querying the TGN service.
+	 * @throws SourceAuthorityException 
 	 */
-	public Boolean lookupCountryExact(String country) { 
+	public Boolean lookupCountryExact(String country) throws SourceAuthorityException { 
 
 		Boolean retval = null;
 
@@ -178,8 +178,7 @@ public class GettyLookup {
 				JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
 				Unmarshaller unmarshaler = jc.createUnmarshaller();
 				Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
-				System.out.println(response.getCount());
-				System.out.println(response.getCount());
+				logger.debug(response.getCount());
 				if (response.getCount().compareTo(BigInteger.ONE)==0) { 
 					String preferredTerm = response.getSubject().get(0).getPreferredTerm().getValue();
 					String cleanedPreferredTerm = preferredTerm.replaceAll("\\([A-Za-z ]+\\)$", "").trim();
@@ -193,14 +192,13 @@ public class GettyLookup {
 					retval = false;
 				}
 			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error(e.getMessage());
+				throw new SourceAuthorityException("Error interpreting json response returned from Getty TGN:" + e.getMessage());
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error(e.getMessage());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error(e.getMessage());
+				throw new SourceAuthorityException("Error querying the Getty TGN:" + e.getMessage());
 			}	
 
 		}
