@@ -1982,6 +1982,16 @@ public class DwCGeoRefDQDefinitionsTest {
 	    assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 	    assertEquals(IssueValue.NOT_ISSUE.getLabel(), result.getValue().getLabel());
 	    
+	    decimalLatitude = "-24.973";
+		decimalLongitude = "136.188";
+		countryCode = "AU";
+		coordinateUncertaintyInMeters = "";
+	    result = DwCGeoRefDQ.issueCoordinatesCenterofcountry(decimalLatitude,decimalLongitude,countryCode, coordinateUncertaintyInMeters, null, null);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+	    assertEquals(IssueValue.POTENTIAL_ISSUE.getLabel(), result.getValue().getLabel());
+	    
 	    decimalLatitude = "41.90";
 		decimalLongitude = "12.452";
 		countryCode = "IT";  // Holy See
