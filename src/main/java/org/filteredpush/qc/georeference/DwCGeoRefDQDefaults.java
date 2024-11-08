@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.datakurator.ffdq.annotations.ActedUpon;
 import org.datakurator.ffdq.annotations.Amendment;
 import org.datakurator.ffdq.annotations.Consulted;
+import org.datakurator.ffdq.annotations.Mechanism;
 import org.datakurator.ffdq.annotations.Parameter;
 import org.datakurator.ffdq.annotations.Provides;
 import org.datakurator.ffdq.annotations.ProvidesVersion;
@@ -28,6 +29,7 @@ import org.filteredpush.qc.georeference.util.GettyLookup;
  * @author mole
  * @version $Id: $Id
  */
+@Mechanism(value="71fa3762-0dfa-43c7-a113-d59797af02e8",label="Kurator: Spatial Data Validator - DwCGeoRefDQ:v2.0.0")
 public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
 
 	private static final Log logger = LogFactory.getLog(DwCGeoRefDQDefaults.class);
