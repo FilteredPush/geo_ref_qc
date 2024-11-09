@@ -766,7 +766,7 @@ public class DwCGeoRefDQ{
         // Specification
         // COMPLIANT if dwc:country is bdq:NotEmpty or dwc:countryCode 
         // has a value of "XZ" and either dwc:country is bdq:Empty 
-        // or has a value of "High seas"; otherwise NOT_COMPLIANT ? 
+        // or has a value of "High seas"; otherwise NOT_COMPLIANT 
         //
 
         result.setResultState(ResultState.RUN_HAS_RESULT);
@@ -1090,7 +1090,7 @@ public class DwCGeoRefDQ{
         		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         		result.addComment("The value provided for dwc:countryCode is empty");
         	} else { 
-        		if (!sourceAuthority.equals("ADM1 boundaries UNION EEZ")) { 
+        		if (!sourceAuthorityObject.getAuthority().equals(EnumGeoRefSourceAuthority.ADM1_UNION_EEZ)) { 
         			throw new SourceAuthorityException("Unsupported sourceAuthority: ["+sourceAuthority+"]");
         		} else { 
         			String countryCode3 = countryCode;

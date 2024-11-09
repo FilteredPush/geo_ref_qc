@@ -1455,20 +1455,34 @@ public class DwCGeoRefDQDefinitionsTest {
 	public void testValidationCountryEmpty() {
 		
         // Specification
-        // COMPLIANT if dwc:country is not EMPTY; otherwise NOT_COMPLIANT 
+        // COMPLIANT if dwc:country is bdq:NotEmpty or dwc:countryCode 
+        // has a value of "XZ" and either dwc:country is bdq:Empty 
+        // or has a value of "High seas"; otherwise NOT_COMPLIANT 
         //
 		
-		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountryNotempty(null);
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountryNotempty(null, null);
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 		
-		result = DwCGeoRefDQ.validationCountryNotempty("foo");
+		result = DwCGeoRefDQ.validationCountryNotempty("foo", "");
 		logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationCountryNotempty("", "XZ");
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
+		
+		result = DwCGeoRefDQ.validationCountryNotempty("", "AU");
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
 		
 	}
 	
