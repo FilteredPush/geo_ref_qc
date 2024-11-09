@@ -404,7 +404,7 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
      * @param countryCode the provided dwc:countryCode to evaluate as Consulted.
-     * @param sourceAuthority the spatial source authority to consult for country centroids
+     * @param coordinateUncertaintyInMeters the provided dwc:coordinateUncertaintyInMeters to evaluate as Consulted.
      * @return DQResponse the response of type AmendmentValue to return
      */
     @Issue(label="ISSUE_COORDINATES_CENTEROFCOUNTRY", description="Are the supplied geographic coordinates within a defined buffer of the center of the country?")
