@@ -90,28 +90,28 @@ public class DwCGeoRefDQ{
      * Is the value of dwc:countryCode a valid ISO 3166-1-alpha-2 country code?
      *
      * Provides: #20 VALIDATION_COUNTRYCODE_STANDARD
-     * Version: 2024-04-15
+     * Version: 2024-09-19
      *
      * @param countryCode the provided dwc:countryCode to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_COUNTRYCODE_STANDARD", description="Is the value of dwc:countryCode a valid ISO 3166-1-alpha-2 country code?")
     @Provides("0493bcfb-652e-4d17-815b-b0cce0742fbe")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/0493bcfb-652e-4d17-815b-b0cce0742fbe/2024-04-15")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the dwc:countryCode is EMPTY; COMPLIANT if dwc:countryCode can be unambiguously interpreted as a valid ISO 3166-1-alpha-2 country code; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'ISO 3166 Country Codes' {[https://www.iso.org/iso-3166-country-codes.html]} {ISO 3166-1-alpha-2 Country Code search [https://www.iso.org/obp/ui/#search]}")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/0493bcfb-652e-4d17-815b-b0cce0742fbe/2024-09-19")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the dwc:countryCode is bdq:Empty; COMPLIANT if dwc:countryCode can be unambiguously interpreted as a valid ISO 3166-1-alpha-2 country code in the bdq:sourceAuthority; otherwise NOT_COMPLIANT. bdq:sourceAuthority default = 'ISO 3166 Country Codes' {[https://www.iso.org/iso-3166-country-codes.html]} {ISO 3166-1-alpha-2 Country Code search [https://www.iso.org/obp/ui/#search]}")
     public static DQResponse<ComplianceValue> validationCountrycodeStandard(
     		@ActedUpon("dwc:countryCode") String countryCode) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if bdq:sourceAuthority is 
-        // not available; INTERNAL_PREREQUISITES_NOT_MET if the dwc:countryCode 
-        // is EMPTY; COMPLIANT if dwc:countryCode can be unambiguously 
-        // interpreted as a valid ISO 3166-1-alpha-2 country code; 
-        // otherwise NOT_COMPLIANT 
-        // bdq:sourceAuthority default = "ISO 
-        // 3166 Country Codes" {[https://www.iso.org/iso-3166-country-codes.html]} 
-        // {ISO 3166-1-alpha-2 Country Code search [https://www.iso.org/obp/ui/#search]}
+        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
+        // is not available; INTERNAL_PREREQUISITES_NOT_MET if the 
+        // dwc:countryCode is bdq:Empty; COMPLIANT if dwc:countryCode 
+        // can be unambiguously interpreted as a valid ISO 3166-1-alpha-2 
+        // country code in the bdq:sourceAuthority; otherwise NOT_COMPLIANT 
+        //
+        // bdq:sourceAuthority default = "ISO 3166 Country Codes" {[https://www.iso.org/iso-3166-country-codes.html]} 
+        // {ISO 3166-1-alpha-2 Country Code search [https://www.iso.org/obp/ui/#search]} 
         
         // ZZ (unknown) and XZ (High Seas) in User defined codes should
         // be treated as compliant.
@@ -140,23 +140,34 @@ public class DwCGeoRefDQ{
 
         return result;
     }
+    
     /**
-     * Does the value of dwc:country occur in bdq:sourceAuthority?
+    *
+    * Provides: VALIDATION_COUNTRY_FOUND
+    *
+    * @param country the provided dwc:country to evaluate as ActedUpon.
+    * @param sourceAuthority the provided parameter bdq:sourceAuthority use null for default value.
+    * @return DQResponse the response of type ComplianceValue  to return
+    */
+    
+    
+    /**
+     * Does the value of dwc:country occur in the bdq:sourceAuthority?
      *
      * #21 Validation SingleRecord Conformance: country notstandard
      *
      * Provides: 21 VALIDATION_COUNTRY_FOUND
-     * Version: 2024-04-15
+     * Version: 2024-08-19
      *
      * @param country the provided dwc:country to evaluate
      * @param sourceAuthority the source authority to consult, if null uses ""The Getty Thesaurus of Geographic Names (TGN)",
      * 	additional supported values for sourceAuthority are "NaturalEarth" and "datahub.io".
      * @return DQResponse the response of type ComplianceValue  to return
      */
-    @Validation(label="VALIDATION_COUNTRY_FOUND", description="Does the value of dwc:country occur in bdq:sourceAuthority?")
+    @Validation(label="VALIDATION_COUNTRY_FOUND", description="Does the value of dwc:country occur in the bdq:sourceAuthority?")
     @Provides("69b2efdc-6269-45a4-aecb-4cb99c2ae134")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2024-04-15")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:country is EMPTY; COMPLIANT if value of dwc:country is a place type equivalent to 'nation' by the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2024-08-19")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:country is bdq:Empty; COMPLIANT if value of dwc:country is a place type equivalent to administrative entity of 'nation' in the bdq:sourceAuthority; otherwise NOT_COMPLIANT. bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
     public static DQResponse<ComplianceValue> validationCountryFound(
     		@ActedUpon("dwc:country") String country,
     		@Parameter(name="bdq:sourceAuthority") String sourceAuthority
@@ -166,9 +177,9 @@ public class DwCGeoRefDQ{
         // Specification
         // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
         // is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:country 
-        // is EMPTY; COMPLIANT if value of dwc:country is a place type 
-        // equivalent to "nation" by the bdq:sourceAuthority; otherwise 
-        // NOT_COMPLIANT 
+        // is bdq:Empty; COMPLIANT if value of dwc:country is a place 
+        // type equivalent to administrative entity of "nation" in 
+        // the bdq:sourceAuthority; otherwise NOT_COMPLIANT 
         // 
 
         // Parameters; This test is defined as parameterized.
@@ -3838,8 +3849,6 @@ public class DwCGeoRefDQ{
     }
     
 
-// TODO: Implementation of VALIDATION_COUNTRYCODE_STANDARD is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/0493bcfb-652e-4d17-815b-b0cce0742fbe/2024-09-19 see line: 99
-// TODO: Implementation of VALIDATION_COUNTRY_FOUND is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2024-08-19 see line: 157
 // TODO: Implementation of AMENDMENT_COORDINATES_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e/2024-08-20 see line: 401
 // TODO: Implementation of VALIDATION_COUNTRY_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/6ce2b2b4-6afe-4d13-82a0-390d31ade01c/2024-09-27 see line: 869
 // TODO: Implementation of AMENDMENT_COUNTRYCODE_STANDARDIZED is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/fec5ffe6-3958-4312-82d9-ebcca0efb350/2024-09-18 see line: 1032

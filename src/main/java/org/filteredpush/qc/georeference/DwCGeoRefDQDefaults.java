@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.datakurator.ffdq.annotations.ActedUpon;
 import org.datakurator.ffdq.annotations.Amendment;
 import org.datakurator.ffdq.annotations.Consulted;
+import org.datakurator.ffdq.annotations.Issue;
 import org.datakurator.ffdq.annotations.Mechanism;
 import org.datakurator.ffdq.annotations.Parameter;
 import org.datakurator.ffdq.annotations.Provides;
@@ -135,22 +136,24 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     	return DwCGeoRefDQ.validationMinelevationInrange(minimumElevationInMeters, -430d, 8850d);
     }
     
+    
     /**
-     * Does the value of dwc:country occur in bdq:sourceAuthority?
+     * Does the value of dwc:country occur in the bdq:sourceAuthority?
      * Using the default source authority "The Getty Thesaurus of Geographic Names (TGN)"
      *
      * #21 Validation SingleRecord Conformance: country notstandard
      *
      * Provides: 21 VALIDATION_COUNTRY_FOUND
-     * Version: 2024-04-15
+     * Version: 2024-08-19
      *
      * @param country the provided dwc:country to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
-    @Validation(label="VALIDATION_COUNTRY_FOUND", description="Does the value of dwc:country occur in bdq:sourceAuthority?")
+    @Validation(label="VALIDATION_COUNTRY_FOUND", description="Does the value of dwc:country occur in the bdq:sourceAuthority?")
     @Provides("69b2efdc-6269-45a4-aecb-4cb99c2ae134")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2024-04-15")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:country is EMPTY; COMPLIANT if value of dwc:country is a place type equivalent to 'nation' by the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2024-08-19")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:country is bdq:Empty; COMPLIANT if value of dwc:country is a place type equivalent to administrative entity of 'nation' in the bdq:sourceAuthority; otherwise NOT_COMPLIANT. bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
+   
     public static DQResponse<ComplianceValue> validationCountryFound(@ActedUpon("dwc:country") String country) { 
     	return DwCGeoRefDQ.validationCountryFound(country, GettyLookup.GETTY_TGN);
     }
@@ -394,20 +397,20 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     
     /**
      * Are the supplied geographic coordinates within a defined buffer of the center of the country?
-     * using the default source authority and spatial buffer.
      *
      * Provides: 287 ISSUE_COORDINATES_CENTEROFCOUNTRY
-     * Version: 2023-09-17
+     * Version: 2024-08-28
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
      * @param countryCode the provided dwc:countryCode to evaluate as Consulted.
+     * @param sourceAuthority the spatial source authority to consult for country centroids
      * @return DQResponse the response of type AmendmentValue to return
      */
-    @Amendment(label="ISSUE_COORDINATES_CENTEROFCOUNTRY", description="Are the supplied geographic coordinates within a defined buffer of the center of the country?")
+    @Issue(label="ISSUE_COORDINATES_CENTEROFCOUNTRY", description="Are the supplied geographic coordinates within a defined buffer of the center of the country?")
     @Provides("256e51b3-1e08-4349-bb7e-5186631c3f8e")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/256e51b3-1e08-4349-bb7e-5186631c3f8e/2024-08-20")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if any of dwc:countryCode, dwc:decimalLatitude, dwc:decimalLongitude are EMPTY; POTENTIAL_ISSUE if the geographic coordinates are within the distance given by bdq:spatialBufferInMeters from the center (or one of the centers), of the bdq:sourceAuthority provides more than one per country code of the supplied dwc:countryCode as represented in the bdq:sourceAuthority; otherwise NOT_ISSUE.")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/256e51b3-1e08-4349-bb7e-5186631c3f8e/2024-08-28")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if any of dwc:countryCode, dwc:decimalLatitude, dwc:decimalLongitude are bdq:Empty; POTENTIAL_ISSUE if (1) the geographic coordinates are within the distance given by bdq:spatialBufferInMeters from the center of the supplied dwc:countryCode as represented in the bdq:sourceAuthority (or one of the centers, if the bdq:sourceAuthority provides more than one per country code) and (2) the dwc:coordinateUncertaintyInMeters is bdq:Empty or less than half the square root of the area of the country; otherwise NOT_ISSUE.. bdq:spatialBufferInMeters default = '5000',bdq:sourceAuthority default = 'GBIF Catalogue of Country Centroides' {[https://raw.githubusercontent.com/jhnwllr/catalogue-of-centroids/master/PCLI.tsv]}")
     public static DQResponse<IssueValue> issueCoordinatesCenterofcountry(
         @ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
         @ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
