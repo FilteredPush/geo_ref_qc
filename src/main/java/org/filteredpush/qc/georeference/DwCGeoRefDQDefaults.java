@@ -232,27 +232,25 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     }
     
     
+    
     /**
-     * Do the geographic coordinates fall on or within the boundaries of the territory given in
-     * dwc:countryCode or its Exclusive Economic Zone?
-     *
-     * Uses the default value for bdq:spatialBufferInMeters, but takes a sourceAuthority
+     * Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?
+     * Using the default parameter values.
      *
      * #50 Validation SingleRecord Consistency: coordinates countrycode inconsistent
      *
-     * Provides: #50 VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT
-     * Version: 2023-02-27
+     * Provides: #50 VALIDATION_COORDINATESCOUNTRYCODE_CONSISTENT
+     * Version: 2024-08-30
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
-     * @param sourceAuthority a {@link java.lang.String} object.
      */
-    @Validation(label="VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT", description="Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?")
+    @Validation(label="VALIDATION_COORDINATESCOUNTRYCODE_CONSISTENT", description="Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?")
     @Provides("adb27d29-9f0d-4d52-b760-a77ba57a69c9")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/adb27d29-9f0d-4d52-b760-a77ba57a69c9/2023-02-27")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if one or more of dwc:decimalLatitude, dwc:decimalLongitude, or dwc:countryCode are EMPTY or invalid; COMPLIANT if the geographic coordinates fall on or within the boundary defined by the union of the boundary of the country from dwc:countryCode plus it's Exclusive Economic Zone, if any, plus an exterior buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'ADM1 boundaries' [https://gadm.org] UNION with 'EEZs' [https://marineregions.org],bdq:spatialBufferInMeters default = '3000'")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/adb27d29-9f0d-4d52-b760-a77ba57a69c9/2024-08-30")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if one or more of dwc:decimalLatitude, dwc:decimalLongitude, or dwc:countryCode are bdq:Empty or invalid; COMPLIANT if the geographic coordinates fall on or within the boundary defined by the union of the boundary of the country from dwc:countryCode plus it's Exclusive Economic Zone as found in the bdq:sourceAuthority, if any, plus an exterior buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT. bdq:sourceAuthority default = '10m-admin-1 boundaries UNION with Exclusive Economic Zones' {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/] spatial UNION [https://www.marineregions.org/downloads.php#marbound]},bdq:spatialBufferInMeters default = '3000'")
     public static DQResponse<ComplianceValue> validationCoordinatesCountrycodeConsistent(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
     		@ActedUpon("dwc:decimalLongitude") String decimalLongitude, 

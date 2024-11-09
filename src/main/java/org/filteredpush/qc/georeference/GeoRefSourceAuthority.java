@@ -70,6 +70,8 @@ public class GeoRefSourceAuthority {
 	    	this.authority = EnumGeoRefSourceAuthority.ADM1_UNION_EEZ;	
 	    } else if (authorityString.toUpperCase().equals("ADM1 BOUNDARIES SPATIAL UNION WITH EXCLUSIVE ECONOMIC ZONES")) {
 	    	this.authority = EnumGeoRefSourceAuthority.ADM1_UNION_EEZ;	
+	    } else if (authorityString.toUpperCase().equals("10M-ADMIN-1 BOUNDARIES UNION WITH EXCLUSIVE ECONOMIC ZONES")) {
+	    	this.authority = EnumGeoRefSourceAuthority.ADM1_UNION_EEZ;	
 	    } else if (authorityString.toUpperCase().equals("ADM1 BOUNDARIES")) {
 	    	this.authority = EnumGeoRefSourceAuthority.GADM_ADM1;	
 	    } else if (authorityString.toUpperCase().equals("DATAHUB.IO")) {
