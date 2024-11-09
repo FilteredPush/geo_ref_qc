@@ -45,7 +45,9 @@ public class GettyLookup {
 	// Cache of unique primary divisions found
 	private Map<String,GettyTGNObject> uniquePrimaryCache;
 	
-	/** Constant <code>GETTY_TGN="The Getty Thesaurus of Geographic Names"{trunked}</code> */
+	/** 
+	 * Constant GETTY_TGN="The Getty Thesaurus of Geographic Names"
+	 */
 	public static final String GETTY_TGN = "The Getty Thesaurus of Geographic Names (TGN)";
 	
 	/**

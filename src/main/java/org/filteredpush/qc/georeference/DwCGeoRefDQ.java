@@ -2811,19 +2811,28 @@ public class DwCGeoRefDQ{
     }
 
     /**
-     * Does the value of dwc:stateProvince occur in bdq:sourceAuthority?
+    *
+    * Provides: VALIDATION_STATEPROVINCE_FOUND
+    *
+    * @param stateProvince the provided dwc:stateProvince to evaluate as ActedUpon.
+    * @return DQResponse the response of type ComplianceValue  to return
+    */
+   
+    
+    /**
+     * Does the value of dwc:stateProvince occur in the bdq:sourceAuthority?
      *
      * Provides: #199 VALIDATION_STATEPROVINCE_FOUND
-     * Version: 2022-09-05
+     * Version: 2024-09-18
      *
      * @param stateProvince the provided dwc:stateProvince to evaluate
+     * @param sourceAuthority the provided parameter bdq:sourceAuthority use null for default value.
      * @return DQResponse the response of type ComplianceValue  to return
-     * @param sourceAuthority a {@link java.lang.String} object.
      */
-    @Validation(label="VALIDATION_STATEPROVINCE_FOUND", description="Does the value of dwc:stateProvince occur in bdq:sourceAuthority?")
+    @Validation(label="VALIDATION_STATEPROVINCE_FOUND", description="Does the value of dwc:stateProvince occur in the bdq:sourceAuthority?")
     @Provides("4daa7986-d9b0-4dd5-ad17-2d7a771ea71a")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/4daa7986-d9b0-4dd5-ad17-2d7a771ea71a/2022-09-05")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:stateProvince is EMPTY; COMPLIANT if the value of dwc:stateProvince occurs as an administrative entity that is a child to at least one entity representing an ISO country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/4daa7986-d9b0-4dd5-ad17-2d7a771ea71a/2024-09-18")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:stateProvince is bdq:Empty; COMPLIANT if the value of dwc:stateProvince occurs as an administrative entity that is a child to at least one entity representing an ISO 3166 country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT. bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
     public static DQResponse<ComplianceValue> validationStateprovinceFound(
     		@ActedUpon("dwc:stateProvince") String stateProvince,
     		@Parameter(name="bdq:sourceAuthority") String sourceAuthority
@@ -2833,16 +2842,15 @@ public class DwCGeoRefDQ{
         // Specification
         // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
         // is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:stateProvince 
-        // is EMPTY; COMPLIANT if the value of dwc:stateProvince occurs 
-        // as an administrative entity that is a child to at least 
-        // one entity representing an ISO country-like entity in the 
-        // bdq:sourceAuthority; otherwise NOT_COMPLIANT
+        // is bdq:Empty; COMPLIANT if the value of dwc:stateProvince 
+        // occurs as an administrative entity that is a child to at 
+        // least one entity representing an ISO 3166 country-like entity 
+        // in the bdq:sourceAuthority; otherwise NOT_COMPLIANT 
         // 
 
         // Parameters. This test is defined as parameterized.
-        // bdq:sourceAuthority
-        // default = "The Getty Thesaurus of Geographic Names (TGN)" 
-        // [https://www.getty.edu/research/tools/vocabularies/tgn/index.html] 
+        // bdq:sourceAuthority default = "The Getty Thesaurus of Geographic 
+        // Names (TGN)" {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]} 
 
         if (sourceAuthority==null) { 
         	sourceAuthority = GettyLookup.GETTY_TGN;
@@ -3781,6 +3789,5 @@ public class DwCGeoRefDQ{
 // TODO: Implementation of VALIDATION_COORDINATEUNCERTAINTY_INRANGE is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/c6adf2ea-3051-4498-97f4-4b2f8a105f57/2023-09-18 see line: 2660
 // TODO: Implementation of VALIDATION_DECIMALLATITUDE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/7d2485d5-1ba7-4f25-90cb-f4480ff1a275/2023-09-18 see line: 2786
 // TODO: Implementation of VALIDATION_MAXDEPTH_INRANGE is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/3f1db29a-bfa5-40db-9fd1-fde020d81939/2023-09-18 see line: 2825
-// TODO: Implementation of VALIDATION_STATEPROVINCE_FOUND is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/4daa7986-d9b0-4dd5-ad17-2d7a771ea71a/2024-09-18 see line: 2898
 // TODO: Implementation of VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/d257eb98-27cb-48e5-8d3c-ab9fca4edd11/2024-09-18 see line: 3116
 }
