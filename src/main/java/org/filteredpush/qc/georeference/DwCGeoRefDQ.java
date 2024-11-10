@@ -142,16 +142,6 @@ public class DwCGeoRefDQ{
     }
     
     /**
-    *
-    * Provides: VALIDATION_COUNTRY_FOUND
-    *
-    * @param country the provided dwc:country to evaluate as ActedUpon.
-    * @param sourceAuthority the provided parameter bdq:sourceAuthority use null for default value.
-    * @return DQResponse the response of type ComplianceValue  to return
-    */
-    
-    
-    /**
      * Does the value of dwc:country occur in the bdq:sourceAuthority?
      *
      * #21 Validation SingleRecord Conformance: country notstandard
@@ -921,15 +911,6 @@ public class DwCGeoRefDQ{
     }
 
     /**
-    *
-    * Provides: AMENDMENT_COUNTRYCODE_STANDARDIZED
-    *
-    * @param countryCode the provided dwc:countryCode to evaluate as ActedUpon.
-    * @return DQResponse the response of type AmendmentValue to return
-    */
-   
-    
-    /**
      * Proposes an amendment to the value of dwc:countryCode if it can 
      * be interpreted as an ISO 3166-1-alpha-2 country code.
      *
@@ -1000,17 +981,6 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-    /**
-    *
-    *
-    * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
-    * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
-    * @param countryCode the provided dwc:countryCode to evaluate as ActedUpon.
-    * @param spatialBufferInMeters the provided parameter bdq:spatialBufferInMeters use null for default value.
-    * @param sourceAuthority the provided parameter bdq:sourceAuthority use null for default value.
-    * @return DQResponse the response of type ComplianceValue  to return
-    */
-    
     /**
      * Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?
      *
@@ -1665,47 +1635,6 @@ public class DwCGeoRefDQ{
      * Version: 2022-05-02
      *
      * @param country the provided dwc:country to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
-     * @param countryCode the provided dwc:countryCode to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
@@ -2377,12 +2306,12 @@ public class DwCGeoRefDQ{
      * Provides: 102 AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT
      * Version: 2023-06-23
      *
+     * @param coordinateUncertaintyInMeters the provided dwc:cooordinateUncertaintyInMeters to evaluate.
      * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @param defaultGeodeticDatum to use as default, if not specified, uses EPSG:4326
      * @return DQResponse the response of type AmendmentValue to return
-     * @param coordinateUncertaintyInMeters a {@link java.lang.String} object.
      */
     @Amendment(label="AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT", description="Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty. If dwc:coordinateUncertaintyInMeters is not empty and there are not empty values for dwc:latitude and dwc:longitude, amend dwc:coordinateUncertaintyInMeters by adding a maximum datum shift.")
     @Provides("7498ca76-c4d4-42e2-8103-acacccbdffa7")
@@ -2453,9 +2382,9 @@ public class DwCGeoRefDQ{
      * Version: 2023-09-18
      *
      * @param minimumDepthInMeters the provided dwc:minimumDepthInMeters to evaluate
-     * @return DQResponse the response of type ComplianceValue  to return
      * @param minimumValidDepthInMeters a {@link java.lang.Double} object.
      * @param maximumValidDepthInMeters a {@link java.lang.Double} object.
+     * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_MINDEPTH_INRANGE", description="Is the value of dwc:minimumDepthInMeters within the Parameter range?")
     @Provides("04b2c8f3-c71b-4e95-8e43-f70374c5fb92")
@@ -2522,11 +2451,12 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+    
     /**
      * Is the value of dwc:minimumElevationInMeters a number less than or equal to the value of dwc:maximumElevationInMeters?
      *
      * Provides: #108 VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION
-     * Version: 2022-03-22
+     * Version: 2023-09-18
      *
      * @param minimumElevationInMeters the provided dwc:minimumElevationInMeters to evaluate
      * @param maximumElevationInMeters the provided dwc:maximumElevationInMeters to evaluate
@@ -2534,8 +2464,8 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION", description="Is the value of dwc:minimumElevationInMeters a number less than or equal to the value of dwc:maximumElevationInMeters?")
     @Provides("d708526b-6561-438e-aa1a-82cd80b06396")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/d708526b-6561-438e-aa1a-82cd80b06396/2022-03-22")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumlevationInMeters or dwc:minimumElevationInMeters is EMPTY, or if either is not a number; COMPLIANT if the value of dwc:minimumElevationInMeters is a number less than or equal to the value of the number dwc:maximumElevationInMeters, otherwise NOT_COMPLIANT ")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/d708526b-6561-438e-aa1a-82cd80b06396/2023-09-18")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumlevationInMeters or dwc:minimumElevationInMeters is bdq:Empty, or if either is not a number; COMPLIANT if the value of dwc:minimumElevationInMeters is a number less than or equal to the value of the number dwc:maximumElevationInMeters, otherwise NOT_COMPLIANT. ")
     public static DQResponse<ComplianceValue> validationMinelevationLessthanMaxelevation(
     		@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters, 
     		@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters) {
@@ -2543,8 +2473,8 @@ public class DwCGeoRefDQ{
         
         // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumlevationInMeters 
-        // or dwc:minimumElevationInMeters is EMPTY, or if either is 
-        // not a number; COMPLIANT if the value of dwc:minimumElevationInMeters 
+        // or dwc:minimumElevationInMeters is bdq:Empty, or if either 
+        // is not a number; COMPLIANT if the value of dwc:minimumElevationInMeters 
         // is a number less than or equal to the value of the number 
         // dwc:maximumElevationInMeters, otherwise NOT_COMPLIANT 
         
@@ -2827,15 +2757,6 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-    /**
-    *
-    * Provides: VALIDATION_STATEPROVINCE_FOUND
-    *
-    * @param stateProvince the provided dwc:stateProvince to evaluate as ActedUpon.
-    * @return DQResponse the response of type ComplianceValue  to return
-    */
-   
-    
     /**
      * Does the value of dwc:stateProvince occur in the bdq:sourceAuthority?
      *
@@ -3514,8 +3435,8 @@ public class DwCGeoRefDQ{
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
      * @param countryCode the provided dwc:countryCode to evaluate as Consulted.
+     * @param sourceAuthority the spatial source authority for countries.
      * @return DQResponse the response of type AmendmentValue to return
-     * @param sourceAuthority a {@link java.lang.String} object.
      */
     @Amendment(label="AMENDMENT_COORDINATES_TRANSPOSED", description="Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to align the location with the dwc:countryCode.")
     @Provides("f2b4a50a-6b2f-4930-b9df-da87b6a21082")
@@ -3800,6 +3721,5 @@ public class DwCGeoRefDQ{
 // TODO: Implementation of VALIDATION_DECIMALLONGITUDE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/9beb9442-d942-4f42-8b6a-fcea01ee086a/2023-09-18 see line: 2373
 // TODO: Implementation of VALIDATION_COUNTRYCODE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/853b79a2-b314-44a2-ae46-34a1e7ed85e4/2024-09-27 see line: 2408
 // TODO: Implementation of AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2024-08-18 see line: 2449
-// TODO: Implementation of VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/d708526b-6561-438e-aa1a-82cd80b06396/2023-09-18 see line: 2595
 
 }
