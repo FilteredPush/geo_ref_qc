@@ -330,14 +330,13 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
       return validationCountrystateprovinceUnambiguous(country,stateProvince, null);
     }
     
-    // TODO: Specification needs source authority to be added.
     /**
-     * Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to
-     * align the location with the dwc:countryCode.
+     * Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude 
+     * to align the location with the dwc:countryCode.
      * Uses the default source authority.
      *
      * Provides: 54 AMENDMENT_COORDINATES_TRANSPOSED
-     * Version: 2023-09-17
+     * Version: 2024-11-11
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
@@ -346,8 +345,8 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
      */
     @Amendment(label="AMENDMENT_COORDINATES_TRANSPOSED", description="Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to align the location with the dwc:countryCode.")
     @Provides("f2b4a50a-6b2f-4930-b9df-da87b6a21082")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/f2b4a50a-6b2f-4930-b9df-da87b6a21082/2023-09-17")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if any of dwc:decimalLatitude or dwc:decimalLongitude or dwc:countryCode are EMPTY; AMENDED dwc:decimalLatitude and dwc:decimalLongitude if the coordinates were transposed or one or more of the signs of the coordinates were reversed to align the location with dwc:countryCode; otherwise NOT_AMENDED ")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/f2b4a50a-6b2f-4930-b9df-da87b6a21082/2023-11-11")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if any of dwc:decimalLatitude or dwc:decimalLongitude or dwc:countryCode are bdq:Empty; AMENDED dwc:decimalLatitude and dwc:decimalLongitude if the coordinates were transposed or one or more of the signs of the coordinates were reversed to align the location with dwc:countryCode according to the bdq:sourceAuthority; otherwise NOT_AMENDED. bdq:sourceAuthority default = \"10m-admin-1 boundaries UNION with Exclusive Economic Zones\" {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/] spatial UNION [https://www.marineregions.org/downloads.php#marbound]} ")
     public static DQResponse<AmendmentValue> amendmentCoordinatesTransposed(
         @ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
         @ActedUpon("dwc:decimalLongitude") String decimalLongitude, 

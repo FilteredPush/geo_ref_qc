@@ -1552,18 +1552,18 @@ public class DwCGeoRefDQ{
     }
 
     /**
-     * Propose amendment to the value of dwc:geodeticDatum using bdq:sourceAuthority.
+     * Proposes an amendment to the value of dwc:geodeticDatum using the bdq:sourceAuthority.
      *
      * Provides: 60 AMENDMENT_GEODETICDATUM_STANDARDIZED
-     * Version:  	2024-07-24
+     * Version: 2024-7-24
      *
      * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
      * @return DQResponse the response of type AmendmentValue to return
      */
-    @Amendment(label="AMENDMENT_GEODETICDATUM_STANDARDIZED", description="Propose amendment to the value of dwc:geodeticDatum using bdq:sourceAuthority.")
+    @Amendment(label="AMENDMENT_GEODETICDATUM_STANDARDIZED", description="Proposes an amendment to the value of dwc:geodeticDatum using the bdq:sourceAuthority.")
     @Provides("0345b325-836d-4235-96d0-3b5caf150fc0")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/0345b325-836d-4235-96d0-3b5caf150fc0/ 	2024-07-24")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority was not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is EMPTY; AMENDED the value of dwc:geodeticDatum if it could be unambiguously interpreted as a value in bdq:sourceAuthority; otherwise NOT_AMENDED bdq:sourceAuthority = \"EPSG\" {[https://epsg.org]} {API for EPSG codes [https://apps.epsg.org/api/swagger/ui/index#/Datum]}")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/0345b325-836d-4235-96d0-3b5caf150fc0/2024-7-24")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is bdq:Empty; AMENDED the value of dwc:geodeticDatum if it could be unambiguously interpreted as a value in the bdq:sourceAuthority; otherwise NOT_AMENDED. bdq:sourceAuthority = 'EPSG' {[https://epsg.org]} {API for EPSG codes [https://apps.epsg.org/api/swagger/ui/index#/Datum]}")
     public static DQResponse<AmendmentValue> amendmentGeodeticdatumStandardized(
     		@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
     	DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
@@ -1577,8 +1577,6 @@ public class DwCGeoRefDQ{
 		// "EPSG" {[https://epsg.org]} {API for EPSG codes
 		// [https://apps.epsg.org/api/swagger/ui/index#/Datum]}
 
-    	// TODO:  Likely needs to add support for "unknown".
-    	
         if (GEOUtil.isEmpty(geodeticDatum)) { 
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         	result.addComment("Provided dwc:geodeticDatum is empty.");
@@ -1614,6 +1612,13 @@ public class DwCGeoRefDQ{
         		result.setResultState(ResultState.AMENDED);
         		String amended = "EPSG:4326";
         		result.addComment("Corrected provided dwc:geodeticDatum ["+geodeticDatum+"] to ["+amended+"] applied to geographic coordinate system of dwc:decimalLatitude and dwc:decimalLongitude");
+        		Map<String,String> value = new HashMap<String,String>();
+        		value.put("dwc:geodeticDatum",amended);
+        		result.setValue(new AmendmentValue(value));
+        	} else if (!geodeticDatum.equals("not recorded") && geodeticDatum.trim().toUpperCase().replace(" ", "").equals("NOTRECORDED")) {
+        		result.setResultState(ResultState.AMENDED);
+        		String amended = "not recorded";
+        		result.addComment("Corrected provided dwc:geodeticDatum ["+geodeticDatum+"] to ["+amended+"] for value expected by the guide to georeferencing best practices.");
         		Map<String,String> value = new HashMap<String,String>();
         		value.put("dwc:geodeticDatum",amended);
         		result.setValue(new AmendmentValue(value));
@@ -3424,12 +3429,11 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-    // TODO: Specification needs source authority to be added.
     /**
      * Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to align the location with the dwc:countryCode.
      *
      * Provides: 54 AMENDMENT_COORDINATES_TRANSPOSED
-     * Version: 2023-09-17
+     * Version: 2024-11-11
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
@@ -3439,8 +3443,8 @@ public class DwCGeoRefDQ{
      */
     @Amendment(label="AMENDMENT_COORDINATES_TRANSPOSED", description="Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to align the location with the dwc:countryCode.")
     @Provides("f2b4a50a-6b2f-4930-b9df-da87b6a21082")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/f2b4a50a-6b2f-4930-b9df-da87b6a21082/2023-09-17")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if any of dwc:decimalLatitude or dwc:decimalLongitude or dwc:countryCode are EMPTY; AMENDED dwc:decimalLatitude and dwc:decimalLongitude if the coordinates were transposed or one or more of the signs of the coordinates were reversed to align the location with dwc:countryCode; otherwise NOT_AMENDED ")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/f2b4a50a-6b2f-4930-b9df-da87b6a21082/2023-11-11")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if any of dwc:decimalLatitude or dwc:decimalLongitude or dwc:countryCode are bdq:Empty; AMENDED dwc:decimalLatitude and dwc:decimalLongitude if the coordinates were transposed or one or more of the signs of the coordinates were reversed to align the location with dwc:countryCode according to the bdq:sourceAuthority; otherwise NOT_AMENDED. bdq:sourceAuthority default = \"10m-admin-1 boundaries UNION with Exclusive Economic Zones\" {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/] spatial UNION [https://www.marineregions.org/downloads.php#marbound]} ")
     public static DQResponse<AmendmentValue> amendmentCoordinatesTransposed(
         @ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
         @ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
@@ -3450,16 +3454,19 @@ public class DwCGeoRefDQ{
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
         // Specification
-        // INTERNAL_PREREQUISITES_NOT_MET if any of dwc:decimalLatitude 
-        // or dwc:decimalLongitude or dwc:countryCode are EMPTY; AMENDED 
-        // dwc:decimalLatitude and dwc:decimalLongitude if the coordinates 
-        // were transposed or one or more of the signs of the coordinates 
-        // were reversed to align the location with dwc:countryCode; 
-        // otherwise NOT_AMENDED 
+        // INTERNAL_PREREQUISITES_NOT_MET if any of dwc:decimalLatitude
+        // or dwc:decimalLongitude or dwc:countryCode are bdq:Empty; AMENDED
+        // dwc:decimalLatitude and dwc:decimalLongitude if the coordinates
+        // were transposed or one or more of the signs of the coordinates
+        // were reversed to align the location with dwc:countryCode 
+        // according to the bdq:sourceAuthority; otherwise NOT_AMENDED 
+        
+        // Parameters
+        // bdq:sourceAuthority default = "10m-admin-1 boundaries UNION with Exclusive Economic Zones" 
+        // {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/] spatial UNION [https://www.marineregions.org/downloads.php#marbound]}
 
         if (GEOUtil.isEmpty(sourceAuthority)) { 
-        	// TODO: Value needs to be set in the issue
-        	sourceAuthority = "ADM1 boundaries UNION EEZ";
+        	sourceAuthority = "10m-admin-1 boundaries UNION with Exclusive Economic Zones";
         }
 
         try { 
@@ -3711,7 +3718,6 @@ public class DwCGeoRefDQ{
         return result;
     }
     
-// TODO: Implementation of AMENDMENT_GEODETICDATUM_STANDARDIZED is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/0345b325-836d-4235-96d0-3b5caf150fc0/2024-7-24 see line: 1657
 // TODO: Implementation of VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/b23110e7-1be7-444a-a677-cdee0cf4330c/2024-09-25 see line: 1774
 // TODO: Implementation of AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2024-08-30 see line: 1876
 // TODO: Implementation of AMENDMENT_COUNTRYCODE_FROM_COORDINATES is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2024-08-18 see line: 2120
