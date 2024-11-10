@@ -2297,14 +2297,14 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-    
     /**
-     * Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty.
+     * Proposes an amendment to fill in dwc:geodeticDatum using a prameterized value if the dwc:geodeticDatum is empty.
+     * 
      * If dwc:coordinateUncertaintyInMeters is not empty and there are not empty values for dwc:latitude and dwc:longitude,
      * amend dwc:coordinateUncertaintyInMeters by adding a maximum datum shift.
      *
      * Provides: 102 AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT
-     * Version: 2023-06-23
+     * Version: 2024-08-18
      *
      * @param coordinateUncertaintyInMeters the provided dwc:cooordinateUncertaintyInMeters to evaluate.
      * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
@@ -2313,10 +2313,10 @@ public class DwCGeoRefDQ{
      * @param defaultGeodeticDatum to use as default, if not specified, uses EPSG:4326
      * @return DQResponse the response of type AmendmentValue to return
      */
-    @Amendment(label="AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT", description="Propose amendment to dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum if dwc:geodeticDatum is empty. If dwc:coordinateUncertaintyInMeters is not empty and there are not empty values for dwc:latitude and dwc:longitude, amend dwc:coordinateUncertaintyInMeters by adding a maximum datum shift.")
+    @Amendment(label="AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT", description="Proposes an amendment to fill in dwc:geodeticDatum using a prameterized value if the dwc:geodeticDatum is empty.")
     @Provides("7498ca76-c4d4-42e2-8103-acacccbdffa7")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2023-06-23")
-    @Specification("If dwc:geodeticDatum is EMPTY, fill in the value of dwc:geodeticDatum with the value of bdq:defaultGeodeticDatum, report FILLED_IN and, if dwc:coordinateUncertaintyInMeters, dwc:decimalLatitude and dwc:decimalLongitude are NOT_EMPTY, amend the value of dwc:coordinateUncertaintyInMeters by adding the maximum datum shift between the specified bdq:defaultGeodeticDatum and any other datum at the provided dwc:decimalLatitude and dwc:decimalLongitude and instead report AMENDED; otherwise NOT_AMENDED. bdq:defaultGeodeticDatum default='EPSG:4326'")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2024-08-18")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is bdq:NotEmpty; FILLED_IN dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum, report FILLED_IN and, if dwc:coordinateUncertaintyInMeters, dwc:decimalLatitude and dwc:decimalLongitude are bdq:NotEmpty, amend the value of dwc:coordinateUncertaintyInMeters by adding the maximum datum shift between the specified bdq:defaultGeodeticDatum and any other datum at the provided dwc:decimalLatitude and dwc:decimalLongitude and instead report AMENDED; otherwise NOT_AMENDED.. bdq:defaultGeodeticDatum default = 'EPSG:4326'")
     public static DQResponse<AmendmentValue> amendmentGeodeticdatumAssumeddefault(
     		@ActedUpon("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters, 
     		@ActedUpon("dwc:geodeticDatum") String geodeticDatum,
@@ -2326,19 +2326,18 @@ public class DwCGeoRefDQ{
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
         // Specification
-        // If dwc:geodeticDatum is EMPTY, fill in the value of dwc:geodeticDatum 
-        // with the value of bdq:defaultGeodeticDatum, report FILLED_IN 
-        // and, if dwc:coordinateUncertaintyInMeters, dwc:decimalLatitude 
-        // and dwc:decimalLongitude are NOT_EMPTY, amend the value 
-        // of dwc:coordinateUncertaintyInMeters by adding the maximum 
-        // datum shift between the specified bdq:defaultGeodeticDatum 
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is bdq:NotEmpty; 
+        // FILLED_IN dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum, 
+        // report FILLED_IN and, if dwc:coordinateUncertaintyInMeters, 
+        // dwc:decimalLatitude and dwc:decimalLongitude are bdq:NotEmpty, 
+        // amend the value of dwc:coordinateUncertaintyInMeters by 
+        // adding the maximum datum shift between the specified bdq:defaultGeodeticDatum 
         // and any other datum at the provided dwc:decimalLatitude 
         // and dwc:decimalLongitude and instead report AMENDED; otherwise 
         // NOT_AMENDED. 
-        // 
 
         // Parameters. This test is defined as parameterized.
-        // bdq:defaultGeodeticDatum default="EPSG:4326" 
+        // bdq:defaultGeodeticDatum default = "EPSG:4326" 
 
         if (GEOUtil.isEmpty(defaultGeodeticDatum)) {
         	defaultGeodeticDatum = "EPSG:4326";
@@ -2368,7 +2367,7 @@ public class DwCGeoRefDQ{
     		}
         } else { 
         	result.addComment("The provided geodeticDatum contains a value, not proposing a change");
-        	result.setResultState(ResultState.NOT_AMENDED);
+        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         }
         
         return result;
@@ -3712,7 +3711,6 @@ public class DwCGeoRefDQ{
         return result;
     }
     
-
 // TODO: Implementation of AMENDMENT_GEODETICDATUM_STANDARDIZED is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/0345b325-836d-4235-96d0-3b5caf150fc0/2024-7-24 see line: 1657
 // TODO: Implementation of VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/b23110e7-1be7-444a-a677-cdee0cf4330c/2024-09-25 see line: 1774
 // TODO: Implementation of AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2024-08-30 see line: 1876
@@ -3720,6 +3718,5 @@ public class DwCGeoRefDQ{
 // TODO: Implementation of VALIDATION_GEODETICDATUM_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/239ec40e-a729-4a8e-ba69-e0bf03ac1c44/2023-09-18 see line: 2207
 // TODO: Implementation of VALIDATION_DECIMALLONGITUDE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/9beb9442-d942-4f42-8b6a-fcea01ee086a/2023-09-18 see line: 2373
 // TODO: Implementation of VALIDATION_COUNTRYCODE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/853b79a2-b314-44a2-ae46-34a1e7ed85e4/2024-09-27 see line: 2408
-// TODO: Implementation of AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2024-08-18 see line: 2449
 
 }
