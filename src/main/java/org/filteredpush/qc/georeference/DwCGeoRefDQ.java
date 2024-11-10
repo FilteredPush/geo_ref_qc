@@ -1510,8 +1510,8 @@ public class DwCGeoRefDQ{
         // {API for // EPSG codes [https://apps.epsg.org/api/swagger/ui/index#/Datum]} 
         // 
         
-        // TODO: Address "not recorded" in specification, but dwc:geodeticDatum comment
-        // asserts "unknown".
+        // TODO: Address "not recorded" in specification, per georeferencing 
+        // best practices guide, but dwc:geodeticDatum comment asserts "unknown".
         
         if (GEOUtil.isEmpty(geodeticDatum)) { 
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
@@ -2233,26 +2233,27 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+    
     /**
      * Is there a value in dwc:decimalLongitude?
      *
      * Provides: #96 VALIDATION_DECIMALLONGITUDE_NOTEMPTY
-     * Version: 2022-03-22
+     * Version: 2023-09-18
      *
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_DECIMALLONGITUDE_NOTEMPTY", description="Is there a value in dwc:decimalLongitude?")
     @Provides("9beb9442-d942-4f42-8b6a-fcea01ee086a")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/9beb9442-d942-4f42-8b6a-fcea01ee086a/2022-03-22")
-    @Specification("COMPLIANT if dwc:decimalLongitude is not EMPTY; otherwise NOT_COMPLIANT ")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/9beb9442-d942-4f42-8b6a-fcea01ee086a/2023-09-18")
+    @Specification("COMPLIANT if dwc:decimalLongitude is bdq:NotEmpty; otherwise NOT_COMPLIANT. ")
     public static DQResponse<ComplianceValue> validationDecimallongitudeNotempty(
     		@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
-        // COMPLIANT if dwc:decimalLongitude is not EMPTY; otherwise 
-        // NOT_COMPLIANT 
+        // COMPLIANT if dwc:decimalLongitude is bdq:NotEmpty; otherwise 
+        // NOT_COMPLIANT
         
         result.setResultState(ResultState.RUN_HAS_RESULT);
         if (GEOUtil.isEmpty(decimalLongitude))
@@ -2272,21 +2273,21 @@ public class DwCGeoRefDQ{
      * Is there a value in dwc:countryCode?
      *
      * Provides: #98 VALIDATION_COUNTRYCODE_NOTEMPTY
-     * Version: 2022-03-22
+     * Version: 2024-11-10
      *
      * @param countryCode the provided dwc:countryCode to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_COUNTRYCODE_NOTEMPTY", description="Is there a value in dwc:countryCode?")
     @Provides("853b79a2-b314-44a2-ae46-34a1e7ed85e4")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/853b79a2-b314-44a2-ae46-34a1e7ed85e4/2022-03-22")
-    @Specification("COMPLIANT if dwc:countryCode is not EMPTY; otherwise NOT_COMPLIANT ")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/853b79a2-b314-44a2-ae46-34a1e7ed85e4/2024-11-10")
+    @Specification("COMPLIANT if dwc:countryCode is bdq:NotEmpty; otherwise NOT_COMPLIANT.")
     public static DQResponse<ComplianceValue> validationCountrycodeNotempty(
     		@ActedUpon("dwc:countryCode") String countryCode) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
-        // COMPLIANT if dwc:countryCode is not EMPTY; otherwise NOT_COMPLIANT 
+        // COMPLIANT if dwc:countryCode is bdq:NotEmpty; otherwise NOT_COMPLIANT 
         //
         
         result.setResultState(ResultState.RUN_HAS_RESULT);
@@ -3722,7 +3723,5 @@ public class DwCGeoRefDQ{
 // TODO: Implementation of AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2024-08-30 see line: 1876
 // TODO: Implementation of AMENDMENT_COUNTRYCODE_FROM_COORDINATES is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2024-08-18 see line: 2120
 // TODO: Implementation of VALIDATION_GEODETICDATUM_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/239ec40e-a729-4a8e-ba69-e0bf03ac1c44/2023-09-18 see line: 2207
-// TODO: Implementation of VALIDATION_DECIMALLONGITUDE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/9beb9442-d942-4f42-8b6a-fcea01ee086a/2023-09-18 see line: 2373
-// TODO: Implementation of VALIDATION_COUNTRYCODE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/853b79a2-b314-44a2-ae46-34a1e7ed85e4/2024-09-27 see line: 2408
 
 }
