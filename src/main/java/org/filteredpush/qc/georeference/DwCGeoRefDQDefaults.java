@@ -96,14 +96,11 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
      *
      * @param minimumDepthInMeters the provided dwc:minimumDepthInMeters to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
-     * @param minimumValidDepthInMeters a {@link java.lang.Double} object.
-     * @param maximumValidDepthInMeters a {@link java.lang.Double} object.
      */
     @Validation(label="VALIDATION_MINDEPTH_INRANGE", description="Is the value of dwc:minimumDepthInMeters within the Parameter range?")
     @Provides("04b2c8f3-c71b-4e95-8e43-f70374c5fb92")
     @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/04b2c8f3-c71b-4e95-8e43-f70374c5fb92/2023-09-18")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters is bdq:Empty, or the value is not interpretable as number greater than or equal to zero; COMPLIANT if the value of dwc:minimumDepthInMeters is within the range of bdq:minimumValidDepthInMeters to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT. bdq:minimumValidDepthInMeters default='0',bdq:maximumValidDepthInMeters default='11000'")
-    
     public static DQResponse<ComplianceValue> validationMindepthInrange(
     		@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters) { 
     	return DwCGeoRefDQ.validationMindepthInrange(minimumDepthInMeters, 0d, 11000d);
@@ -381,25 +378,25 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     }
     
     /**
-     * Propose amendment to the value of dwc:countryCode if dwc:decimalLatitude
-     * and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority
-     * that is attributable to a single valid country code.
+     * Proposes an amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:countryShapes that is attributable to a single valid country code.
      * Uses the default spatial source authority.
      *
      * #73 Amendment SingleRecord Completeness: countrycode from coordinates
      *
      * Provides: AMENDMENT_COUNTRYCODE_FROM_COORDINATES
-     * Version: 2022-05-02
+     * Version: 2024-08-18
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
+     * @param sourceAuthority the spatial source authority to consult.
      * @return DQResponse the response of type AmendmentValue to return
      */
-    @Amendment(label="AMENDMENT_COUNTRYCODE_FROM_COORDINATES", description="Propose amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority that is attributable to a single valid country code.")
+    @Amendment(label="AMENDMENT_COUNTRYCODE_FROM_COORDINATES", description="Proposes an amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:countryShapes that is attributable to a single valid country code.")
     @Provides("8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2022-05-02")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority[countryshapes] is not available; INTERNAL_PREREQUISITES_NOT_MET if either dwc:decimalLatitude or dwc:decimalLongitude is EMPTY or uninterpretable, or if dwc:countryCode is NOT_EMPTY; FILLED_IN dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority[countryshapes] that is attributable to a single valid country code; otherwise NOT_AMENDED. bdq:sourceAuthority default = 'ADM1 boundaries' [https://gadm.org] UNION with 'EEZs' [https://marineregions.org],bdq:sourceAuthority[countryCode] is 'ISO 3166 country codes' [https://www.iso.org/iso-3166-country-codes.html]")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2024-08-18")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if either dwc:decimalLatitude or dwc:decimalLongitude is bdq:Empty, or if dwc:countryCode is bdq:NotEmpty; FILLED_IN dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary in the bdq:sourceAuthority that is attributable to a single valid country code; otherwise NOT_AMENDED.. bdq:sourceAuthority default = '10m-admin-1 boundaries UNION with Exclusive Economic Zones' {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/] spatial UNION [https://www.marineregions.org/downloads.php#marbound]}")
+    
     public static DQResponse<AmendmentValue> amendmentCountrycodeFromCoordinates(
     		@Consulted("dwc:decimalLatitude") String decimalLatitude, 
     		@Consulted("dwc:decimalLongitude") String decimalLongitude, 

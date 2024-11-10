@@ -1974,14 +1974,13 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-
     /**
-     * Propose amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority that is attributable to a single valid country code.
+     * Proposes an amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:countryShapes that is attributable to a single valid country code.
      *
      * #73 Amendment SingleRecord Completeness: countrycode from coordinates
      *
      * Provides: AMENDMENT_COUNTRYCODE_FROM_COORDINATES
-     * Version: 2022-05-02
+     * Version: 2024-08-18
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
@@ -1989,10 +1988,10 @@ public class DwCGeoRefDQ{
      * @param sourceAuthority the spatial source authority to consult.
      * @return DQResponse the response of type AmendmentValue to return
      */
-    @Amendment(label="AMENDMENT_COUNTRYCODE_FROM_COORDINATES", description="Propose amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority that is attributable to a single valid country code.")
+    @Amendment(label="AMENDMENT_COUNTRYCODE_FROM_COORDINATES", description="Proposes an amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:countryShapes that is attributable to a single valid country code.")
     @Provides("8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2022-05-02")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority[countryshapes] is not available; INTERNAL_PREREQUISITES_NOT_MET if either dwc:decimalLatitude or dwc:decimalLongitude is EMPTY or uninterpretable, or if dwc:countryCode is NOT_EMPTY; FILLED_IN dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:sourceAuthority[countryshapes] that is attributable to a single valid country code; otherwise NOT_AMENDED. bdq:sourceAuthority default = 'ADM1 boundaries' [https://gadm.org] UNION with 'EEZs' [https://marineregions.org],bdq:sourceAuthority[countryCode] is 'ISO 3166 country codes' [https://www.iso.org/iso-3166-country-codes.html]")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2024-08-18")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if either dwc:decimalLatitude or dwc:decimalLongitude is bdq:Empty, or if dwc:countryCode is bdq:NotEmpty; FILLED_IN dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary in the bdq:sourceAuthority that is attributable to a single valid country code; otherwise NOT_AMENDED.. bdq:sourceAuthority default = '10m-admin-1 boundaries UNION with Exclusive Economic Zones' {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/] spatial UNION [https://www.marineregions.org/downloads.php#marbound]}")
     public static DQResponse<AmendmentValue> amendmentCountrycodeFromCoordinates(
     		@Consulted("dwc:decimalLatitude") String decimalLatitude, 
     		@Consulted("dwc:decimalLongitude") String decimalLongitude, 
@@ -2001,23 +2000,23 @@ public class DwCGeoRefDQ{
     	) {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
-        //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority[countryshapes] 
+        // Specification
+        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
         // is not available; INTERNAL_PREREQUISITES_NOT_MET if either 
-        // dwc:decimalLatitude or dwc:decimalLongitude is EMPTY or 
-        // uninterpretable, or if dwc:countryCode is NOT_EMPTY; FILLED_IN 
-        // dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude 
-        // fall within a boundary from the bdq:sourceAuthority[countryshapes] 
-        // that is attributable to a single valid country code; otherwise 
-        // NOT_AMENDED. 
+        // dwc:decimalLatitude or dwc:decimalLongitude is bdq:Empty, 
+        // or if dwc:countryCode is bdq:NotEmpty; FILLED_IN dwc:countryCode 
+        // if dwc:decimalLatitude and dwc:decimalLongitude fall within 
+        // a boundary in the bdq:sourceAuthority that is attributable 
+        // to a single valid country code; otherwise NOT_AMENDED. 
+        // 
 
-        //TODO: Parameters. This test is defined as parameterized.
-        // bdq:sourceAuthority 
-        // default = "bdq:sourceAuthority default = "ADM1 boundaries spatial UNION with Exclusive Economic Zones" 
-        // {[https://gadm.org] spatial UNION [https://marineregions.org]} 
+        // Parameters. This test is defined as parameterized.
+        // bdq:sourceAuthority default = "10m-admin-1 boundaries UNION with Exclusive Economic Zones" 
+        // {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/] 
+        // spatial UNION [https://www.marineregions.org/downloads.php#marbound]} 
 
         if (GEOUtil.isEmpty(sourceAuthority)) { 
-        	sourceAuthority = "ADM1 boundaries spatial UNION with Exclusive Economic Zones";
+        	sourceAuthority = "10m-admin-1 boundaries UNION with Exclusive Economic Zones";
         }
         
         try { 
@@ -2025,7 +2024,6 @@ public class DwCGeoRefDQ{
         	if (sourceAuthorityObject.getAuthority().equals(EnumGeoRefSourceAuthority.INVALID)) { 
         		throw new SourceAuthorityException("Invalid Source Authority");
         	}
-
 
         	if (!GEOUtil.isEmpty(countryCode)) {
         		result.addComment("Not altering existing countryCode value.");
@@ -2071,20 +2069,21 @@ public class DwCGeoRefDQ{
      * #78 Validation SingleRecord Completeness: geodeticdatum empty
      *
      * Provides: VALIDATION_GEODETICDATUM_NOTEMPTY
-     * Version: 2022-03-22
+     * Version: 2023-09-18
      *
      * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_GEODETICDATUM_NOTEMPTY", description="Is there a value in dwc:geodeticDatum?")
     @Provides("239ec40e-a729-4a8e-ba69-e0bf03ac1c44")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/239ec40e-a729-4a8e-ba69-e0bf03ac1c44/2022-03-22")
-    @Specification("COMPLIANT if dwc:geodeticDatum is not EMPTY; otherwise NOT_COMPLIANT ")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/239ec40e-a729-4a8e-ba69-e0bf03ac1c44/2023-09-18")
+    @Specification("COMPLIANT if dwc:geodeticDatum is bdq:NotEmpty; otherwise NOT_COMPLIANT. ")
     public static DQResponse<ComplianceValue> validationGeodeticdatumNotempty(@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
-        // COMPLIANT if dwc:geodeticDatum is not EMPTY; otherwise NOT_COMPLIANT 
+        // COMPLIANT if dwc:geodeticDatum is bdq:NotEmpty; otherwise 
+        // NOT_COMPLIANT 
         
         result.setResultState(ResultState.RUN_HAS_RESULT);
         if (GEOUtil.isEmpty(geodeticDatum))
@@ -3721,7 +3720,5 @@ public class DwCGeoRefDQ{
     
 // TODO: Implementation of VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/b23110e7-1be7-444a-a677-cdee0cf4330c/2024-09-25 see line: 1774
 // TODO: Implementation of AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2024-08-30 see line: 1876
-// TODO: Implementation of AMENDMENT_COUNTRYCODE_FROM_COORDINATES is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2024-08-18 see line: 2120
-// TODO: Implementation of VALIDATION_GEODETICDATUM_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/239ec40e-a729-4a8e-ba69-e0bf03ac1c44/2023-09-18 see line: 2207
 
 }
