@@ -1128,25 +1128,24 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-
     /**
-     *  Propose amendments of the values of dwc:minimumDepthInMeters and
-     *  dwc:maximumDepthInMeters if they can be interpreted from dwc:verbatimDepth
+     *  Proposes amendments of the values of dwc:minimumDepthInMeters and
+     *  dwc:maximumDepthInMeters if they can be interpreted from dwc:verbatimDepth.
      *
      * #55 Amendment SingleRecord Completeness: mindepth-maxdepth from verbatim
      *
-     * Provides: AMENDMENT_MINDEPTH-MAXDEPTH_FROM_VERBATIM
-     * Version: 2024-07-31
+     * Provides: 55 AMENDMENT_MINDEPTHMAXDEPTH_FROM_VERBATIM
+     * Version: 2024-08-30
      *
      * @param verbatimDepth the provided dwc:verbatimDepth to evaluate
      * @param maximumDepthInMeters the provided dwc:maximumDepthInMeters to evaluate
      * @param minimumDepthInMeters the provided dwc:minimumDepthInMeters to evaluate
      * @return DQResponse the response of type AmendmentValue to return
      */
-    @Validation(label="AMENDMENT_MINDEPTH-MAXDEPTH_FROM_VERBATIM", description="Propose amendments of the values of dwc:minimumDepthInMeters and dwc:maximumDepthInMeters if they can be interpreted from dwc:verbatimDepth.")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters and dwc:maximumDepthInMeters are EMPTY and either dwc:verbatimDepth is EMPTY or the value is not unambiguously interpretable; FILLED_IN the value of dwc:minimumDepthInMeters and dwc:maximumDepthInMeters if they are EMPTY and could be unambiguously determined from dwc:verbatimDepth; otherwise NOT_AMENDED.")
+    @Amendment(label="AMENDMENT_MINDEPTHMAXDEPTH_FROM_VERBATIM", description="Proposes amendments of the values of dwc:minimumDepthInMeters and dwc:maximumDepthInMeters if they can be interpreted from dwc:verbatimDepth.")
     @Provides("c5658b83-4471-4f57-9d94-bf7d0a96900c")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/c5658b83-4471-4f57-9d94-bf7d0a96900c/2024-07-31")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/c5658b83-4471-4f57-9d94-bf7d0a96900c/2024-08-30")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters or dwc:maximumDepthInMeters are bdq:NotEmpty or dwc:verbatimDepth is bdq:Empty; FILLED_IN the value of dwc:minimumDepthInMeters and dwc:maximumDepthInMeters if they can be unambiguously interpreted from dwc:verbatimDepth; otherwise NOT_AMENDED.. ")
     public static DQResponse<AmendmentValue> amendmentMindepthMaxdepthFromVerbatim(
     		@ActedUpon("dwc:verbatimDepth") String verbatimDepth, 
     		@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters, 
@@ -1154,12 +1153,11 @@ public class DwCGeoRefDQ{
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
         // Specification
-		// INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters and
-		// dwc:maximumDepthInMeters are EMPTY and either dwc:verbatimDepth is EMPTY or
-		// the value is not unambiguously interpretable; FILLED_IN the value of
-		// dwc:minimumDepthInMeters and dwc:maximumDepthInMeters if they are EMPTY and
-		// could be unambiguously determined from dwc:verbatimDepth; otherwise
-		// NOT_AMENDED.
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters 
+        // or dwc:maximumDepthInMeters are bdq:NotEmpty or dwc:verbatimDepth 
+        // is bdq:Empty; FILLED_IN the value of dwc:minimumDepthInMeters 
+        // and dwc:maximumDepthInMeters if they can be unambiguously 
+        // interpreted from dwc:verbatimDepth; otherwise NOT_AMENDED. 
 
         if (GEOUtil.isEmpty(verbatimDepth)) { 
         	result.addComment("No Value provided for dwc:verbatimDepth");
@@ -3208,22 +3206,22 @@ public class DwCGeoRefDQ{
      * Does the marine/non-marine biome of a taxon from the bdq:sourceAuthority
      * match the biome at the location given by the coordinates?
      *
-     * Provides: 51 VALIDATION_COORDINATES_TERRESTRIALMARINE
-     * Version: 2024-08-19
+     * Provides: 51 VALIDATION_COORDINATESTERRESTRIALMARINE_CONSISTENT
+     * Version: 2024-08-30
      *
      * @param decimalLatitude  the provided dwc:decimalLatitude to evaluate as ActedUpon.
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
      * @param scientificName   the provided dwc:scientificName to evaluate as Consulted.
+     * @param taxonIsMarine the provided parameter bdq:taxonIsMarine use null for default value.
+     * @param geospatialLand the provided parameter bdq:geospatialLand use null for default value.
+     * @param assumptionOnUnknownBiome the provided parameter bdq:assumptionOnUnknownBiome use null for default value.
+     * @param spatialBufferInMeters the provided parameter bdq:spatialBufferInMeters use null for default value.
      * @return DQResponse the response of type ComplianceValue to return
-     * @param taxonIsMarine a {@link java.lang.String} object.
-     * @param geospatialLand a {@link java.lang.String} object.
-     * @param assumptionOnUnknownBiome a {@link java.lang.String} object.
-     * @param spatialBufferInMeters a {@link java.lang.String} object.
      */
-    @Validation(label="VALIDATION_COORDINATES_TERRESTRIALMARINE", description="Does the marine/non-marine biome of a taxon from the bdq:sourceAuthority match the biome at the location given by the coordinates?")
+    @Validation(label="VALIDATION_COORDINATESTERRESTRIALMARINE_CONSISTENT", description="Does the marine/non-marine biome of a taxon from the bdq:sourceAuthority match the biome at the location given by the coordinates?")
     @Provides("b9c184ce-a859-410c-9d12-71a338200380")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/b9c184ce-a859-410c-9d12-71a338200380/2024-08-19")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if either bdq:taxonomyIsMarine or bdq:geospatialLand are not available; INTERNAL_PREREQUISITES_NOT_MET if (1) dwc:scientificName is EMPTY or (2) the values of dwc:decimalLatitude or dwc:decimalLongitude are EMPTY or (3) if bdq:assumptionOnUnknownBiome is NoAssumption and the marine/non-marine status of the taxon is not interpretable from bdq:taxonomyIsMarine; COMPLIANT if (1) the taxon marine/non-marine status from bdq:taxonomyIsMarine matches the marine/non-marine status of dwc:decimalLatitude and dwc:decimalLongitude on the boundaries given by bdq:geospatialLand plus an exterior buffer given by bdq:spatialBufferInMeters or (2) if the marine/non-marine status of the taxon is not interpretable from bdq:taxonomyIsMarine and bdq:assumptionOnUnknownBiome matches the marine/non-marine status of dwc:decimalLatitude and dwc:decimalLongitude on the boundaries given by bdq:geospatialLand plus an exterior buffer given by bdq:spatialBufferInMeters ; otherwise NOT_COMPLIANT")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/b9c184ce-a859-410c-9d12-71a338200380/2024-08-30")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if either bdq:taxonIsMarine or bdq:geospatialLand are not available; INTERNAL_PREREQUISITES_NOT_MET if (1) dwc:scientificName is bdq:Empty or (2)  the values of dwc:decimalLatitude or dwc:decimalLongitude are bdq:Empty or (3) if bdq:assumptionOnUnknownBiome is noassumption and the marine/nonmarine status of the taxon is not interpretable from bdq:taxonIsMarine; COMPLIANT if (1) the taxon marine/nonmarine status from bdq:taxonIsMarine matches the marine/nonmarine status of dwc:decimalLatitude and dwc:decimalLongitude on the boundaries given by bdq:geospatialLand plus an exterior buffer given by bdq:spatialBufferInMeters or (2)  if the marine/nonmarine status of the taxon is not interpretable from bdq:taxonIsMarine and bdq:assumptionOnUnknownBiome matches the marine/nonmarine status of dwc:decimalLatitude and dwc:decimalLongitude on the boundaries given by bdq:geospatialLand plus an exterior buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT. bdq:taxonIsMarine default = 'World Register of Marine Species (WoRMS)' {[https://www.marinespecies.org/]} {Web service [https://www.marinespecies.org/aphia.php?p=webservice]},bdq:geospatialLand default = 'Union of NaturalEarth 10m-physical-vectors for Land and NaturalEarth Minor Islands' {[https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip], [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_minor_islands.zip]},bdq:spatialBufferInMeters default = '3000',bdq:assumptionOnUnknownBiome default = 'noassumption'")
     public static DQResponse<ComplianceValue> validationCoordinatesTerrestrialmarine(
         @ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
         @ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
@@ -3235,38 +3233,37 @@ public class DwCGeoRefDQ{
     ) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
-        // EXTERNAL_PREREQUISITES_NOT_MET if either bdq:taxonomyIsMarine 
-        // or bdq:geospatialLand are not available; 
-        // INTERNAL_PREREQUISITES_NOT_MET if (1) dwc:scientificName is EMPTY 
-        // or (2) the values of dwc:decimalLatitude or dwc:decimalLongitude are 
-        // EMPTY or (3) if bdq:assumptionOnUnknownBiome is noassumption and 
+        // Specification
+        // EXTERNAL_PREREQUISITES_NOT_MET if either bdq:taxonIsMarine 
+        // or bdq:geospatialLand are not available; INTERNAL_PREREQUISITES_NOT_MET 
+        // if (1) dwc:scientificName is bdq:Empty or (2) the values 
+        // of dwc:decimalLatitude or dwc:decimalLongitude are bdq:Empty 
+        // or (3) if bdq:assumptionOnUnknownBiome is noassumption and 
         // the marine/nonmarine status of the taxon is not interpretable 
-        // from bdq:taxonomyIsMarine; COMPLIANT if (1) the taxon 
-        // marine/nonmarine status from bdq:taxonomyIsMarine matches the 
-        // marine/nonmarine status of dwc:decimalLatitude and dwc:decimalLongitude 
-        // on the boundaries given by bdq:geospatialLand plus an exterior buffer 
-        // given by bdq:spatialBufferInMeters or (2) if the marine/nonmarine 
-        // status of the taxon is not interpretable from bdq:taxonomyIsMarine 
-        // and bdq:assumptionOnUnknownBiome matches the marine/nonmarine status 
-        // of dwc:decimalLatitude and dwc:decimalLongitude on the boundaries 
-        // given by bdq:geospatialLand plus an exterior buffer given by 
-        // bdq:spatialBufferInMeters ; otherwise NOT_COMPLIANT
+        // from bdq:taxonIsMarine; COMPLIANT if (1) the taxon marine/nonmarine 
+        // status from bdq:taxonIsMarine matches the marine/nonmarine 
+        // status of dwc:decimalLatitude and dwc:decimalLongitude on 
+        // the boundaries given by bdq:geospatialLand plus an exterior 
+        // buffer given by bdq:spatialBufferInMeters or (2) if the 
+        // marine/nonmarine status of the taxon is not interpretable 
+        // from bdq:taxonIsMarine and bdq:assumptionOnUnknownBiome 
+        // matches the marine/nonmarine status of dwc:decimalLatitude 
+        // and dwc:decimalLongitude on the boundaries given by bdq:geospatialLand 
+        // plus an exterior buffer given by bdq:spatialBufferInMeters; 
+        // otherwise NOT_COMPLIANT 
         
-        
-        //TODO: Parameters. This test is defined as parameterized.
+        // Parameters. This test is defined as parameterized.
         // bdq:taxonIsMarine,bdq:geospatialLand,bdq:spatialBufferInMeters,
         // bdq:assumptionOnUnknownBiome
         //
-        // bdq:taxonIsMarine default = "World Register of Marine Species 
-        // (WoRMS") {[https://www.marinespecies.org/]} {Web service 
+        // bdq:taxonIsMarine default = "World Register of Marine Species (WoRMS)" 
+        // {[https://www.marinespecies.org/]} {Web service 
         // [https://www.marinespecies.org/aphia.php?p=webservice]},
-        // {bdq:geospatialLand default = The spatial union of "NaturalEarth 10m-physical-vectors for Land" 
-        // [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip] 
-        // and "NaturalEarth Minor Islands" 
+        // bdq:geospatialLand default = "Union of NaturalEarth 10m-physical-vectors for Land and NaturalEarth Minor Islands" 
+        // {[https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip], 
         // [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_minor_islands.zip]},
-        // bdq:spatialBufferInMeters  default = "3000" 
-        // bdq:assumptionOnUnknownBiome default = "noassumtion"
+        // bdq:spatialBufferInMeters default = "3000",
+        // bdq:assumptionOnUnknownBiome default = "noassumption" 
 
         if (GEOUtil.isEmpty(taxonIsMarine)) { 
         	taxonIsMarine = "World Register of Marine Species (WoRMS)";
@@ -3772,8 +3769,6 @@ public class DwCGeoRefDQ{
     }
     
 
-// TODO: Implementation of VALIDATION_COORDINATESTERRESTRIALMARINE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/b9c184ce-a859-410c-9d12-71a338200380/2024-08-30 see line: 3290
-// TODO: Implementation of AMENDMENT_MINDEPTHMAXDEPTH_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/c5658b83-4471-4f57-9d94-bf7d0a96900c/2024-08-30 see line: 1222
 // TODO: Implementation of VALIDATION_COORDINATESSTATEPROVINCE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/f18a470b-3fe1-4aae-9c65-a6d3db6b550c/2024-08-30 see line: 1478
 // TODO: Implementation of VALIDATION_GEODETICDATUM_STANDARD is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/7e0c0418-fe16-4a39-98bd-80e19d95b9d1/2023-09-17 see line: 1597
 // TODO: Implementation of AMENDMENT_GEODETICDATUM_STANDARDIZED is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/0345b325-836d-4235-96d0-3b5caf150fc0/2024-7-24 see line: 1657
