@@ -297,11 +297,12 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     
     
     /**
-     * Is the combination of the values of the terms dwc:country, dwc:stateProvince unique in the bdq:sourceAuthority?
-     * Uses the default source authority.
+     * Is the combination of the values of the terms dwc:country, 
+     * dwc:stateProvince unique in the bdq:sourceAuthority?  Uses
+     * the default source authority.
      *
      * Provides: 201 VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS
-     * Version: 2023-09-18
+     * Version: 2024-09-18
      *
      * @param country the provided dwc:country to evaluate
      * @param stateProvince the provided dwc:stateProvince to evaluate
@@ -309,14 +310,15 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
      */
     @Validation(label="VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS", description="Is the combination of the values of the terms dwc:country, dwc:stateProvince unique in the bdq:sourceAuthority?")
     @Provides("d257eb98-27cb-48e5-8d3c-ab9fca4edd11")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/d257eb98-27cb-48e5-8d3c-ab9fca4edd11/2023-09-18")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country and dwc:stateProvince are EMPTY; COMPLIANT if the combination of values of dwc:country and dwc:stateProvince are unambiguously resolved to a single result with a child-parent relationship in the bdq:sourceAuthority and the entity matching the value of dwc:country in the bdq:sourceAuthority is an ISO country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/d257eb98-27cb-48e5-8d3c-ab9fca4edd11/2024-09-18")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country and dwc:stateProvince are bdq:Empty; COMPLIANT if the combination of values of dwc:country and dwc:stateProvince are unambiguously resolved to a single result with a child-parent relationship in the bdq:sourceAuthority and the entity matching the value of dwc:country in the bdq:sourceAuthority is an ISO 3166 country-like administrative entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT. bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
     public static DQResponse<ComplianceValue> validationCountrystateprovinceUnambiguous(
     		@ActedUpon("dwc:country") String country, 
     		@ActedUpon("dwc:stateProvince") String stateProvince
     ) {
       return validationCountrystateprovinceUnambiguous(country,stateProvince, null);
     }
+    
     // TODO: Specification needs source authority to be added.
     /**
      * Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to

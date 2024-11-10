@@ -1380,16 +1380,6 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-    /**
-    * Do the geographic coordinates fall on or within the boundary from the bdq:sourceAuthority for the given dwc:stateProvince or within the distance given by bdq:spatialBufferInMeters outside that boundary?
-    *
-    *
-    * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
-    * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
-    * @param stateProvince the provided dwc:stateProvince to evaluate as ActedUpon.
-    * @return DQResponse the response of type ComplianceValue  to return
-    */
-    
     
     /**
      * Do the geographic coordinates fall on or within the boundary from the
@@ -3064,17 +3054,17 @@ public class DwCGeoRefDQ{
      * Is the combination of the values of the terms dwc:country, dwc:stateProvince unique in the bdq:sourceAuthority?
      *
      * Provides: 201 VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS
-     * Version: 2023-09-18
+     * Version: 2024-09-18
      *
      * @param country the provided dwc:country to evaluate
      * @param stateProvince the provided dwc:stateProvince to evaluate
-     * @param sourceAuthority the source authority to consult
+     * @param sourceAuthority the source authority to consult, use null for the default value.
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS", description="Is the combination of the values of the terms dwc:country, dwc:stateProvince unique in the bdq:sourceAuthority?")
     @Provides("d257eb98-27cb-48e5-8d3c-ab9fca4edd11")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/d257eb98-27cb-48e5-8d3c-ab9fca4edd11/2023-09-18")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country and dwc:stateProvince are EMPTY; COMPLIANT if the combination of values of dwc:country and dwc:stateProvince are unambiguously resolved to a single result with a child-parent relationship in the bdq:sourceAuthority and the entity matching the value of dwc:country in the bdq:sourceAuthority is an ISO country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' [https://www.getty.edu/research/tools/vocabularies/tgn/index.html]")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/d257eb98-27cb-48e5-8d3c-ab9fca4edd11/2024-09-18")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country and dwc:stateProvince are bdq:Empty; COMPLIANT if the combination of values of dwc:country and dwc:stateProvince are unambiguously resolved to a single result with a child-parent relationship in the bdq:sourceAuthority and the entity matching the value of dwc:country in the bdq:sourceAuthority is an ISO 3166 country-like administrative entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT. bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
     public static DQResponse<ComplianceValue> validationCountrystateprovinceUnambiguous(
     		@ActedUpon("dwc:country") String country, 
     		@ActedUpon("dwc:stateProvince") String stateProvince,
@@ -3082,18 +3072,22 @@ public class DwCGeoRefDQ{
     ) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
-		// EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available;
-		// INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country and dwc:stateProvince
-		// are EMPTY; COMPLIANT if the combination of values of dwc:country and
-		// dwc:stateProvince are unambiguously resolved to a single result with a
-		// child-parent relationship in the bdq:sourceAuthority and the entity matching
-		// the value of dwc:country in the bdq:sourceAuthority is an ISO country-like
-		// entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT
+        // Specification
+        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
+        // is not available; INTERNAL_PREREQUISITES_NOT_MET if the 
+        // terms dwc:country and dwc:stateProvince are bdq:Empty; COMPLIANT 
+        // if the combination of values of dwc:country and dwc:stateProvince 
+        // are unambiguously resolved to a single result with a child-parent 
+        // relationship in the bdq:sourceAuthority and the entity matching 
+        // the value of dwc:country in the bdq:sourceAuthority is an 
+        // ISO 3166 country-like administrative entity in the bdq:sourceAuthority; 
+        // otherwise NOT_COMPLIANT 
+        // 
 
         // Parameters. This test is defined as parameterized.
+        // bdq:sourceAuthority
         // bdq:sourceAuthority default = "The Getty Thesaurus of Geographic Names (TGN)" 
-        // {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}
+        // {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]} 
 
         if (GEOUtil.isEmpty(sourceAuthority)) {
         	sourceAuthority = "The Getty Thesaurus of Geographic Names (TGN)";
@@ -3808,5 +3802,5 @@ public class DwCGeoRefDQ{
 // TODO: Implementation of VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/d708526b-6561-438e-aa1a-82cd80b06396/2023-09-18 see line: 2595
 // TODO: Implementation of VALIDATION_COORDINATEUNCERTAINTY_INRANGE is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/c6adf2ea-3051-4498-97f4-4b2f8a105f57/2023-09-18 see line: 2660
 // TODO: Implementation of VALIDATION_DECIMALLATITUDE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/7d2485d5-1ba7-4f25-90cb-f4480ff1a275/2023-09-18 see line: 2786
-// TODO: Implementation of VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/d257eb98-27cb-48e5-8d3c-ab9fca4edd11/2024-09-18 see line: 3116
+
 }
