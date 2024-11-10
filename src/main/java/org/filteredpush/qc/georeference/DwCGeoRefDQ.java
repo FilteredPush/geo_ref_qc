@@ -2445,11 +2445,12 @@ public class DwCGeoRefDQ{
         return result;
     }
 
+    
     /**
      * Is the value of dwc:minimumDepthInMeters within the Parameter range?
      *
      * Provides: #107 VALIDATION_MINDEPTH_INRANGE
-     * Version: 2022-03-26
+     * Version: 2023-09-18
      *
      * @param minimumDepthInMeters the provided dwc:minimumDepthInMeters to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
@@ -2458,8 +2459,8 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_MINDEPTH_INRANGE", description="Is the value of dwc:minimumDepthInMeters within the Parameter range?")
     @Provides("04b2c8f3-c71b-4e95-8e43-f70374c5fb92")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/04b2c8f3-c71b-4e95-8e43-f70374c5fb92/2022-03-26")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters is EMPTY, or the value is not interpretable as number greater than or equal to zero; COMPLIANT if the value of dwc:minimumDepthInMeters is within the range of bdq:minimumValidDepthInMeters to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT ")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/04b2c8f3-c71b-4e95-8e43-f70374c5fb92/2023-09-18")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters is bdq:Empty, or the value is not interpretable as number greater than or equal to zero; COMPLIANT if the value of dwc:minimumDepthInMeters is within the range of bdq:minimumValidDepthInMeters to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT. bdq:minimumValidDepthInMeters default='0',bdq:maximumValidDepthInMeters default='11000'")
     public static DQResponse<ComplianceValue> validationMindepthInrange(
     		@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters,
     		@Parameter(name="bdq:minimumValidDepthInMeters") Double minimumValidDepthInMeters,
@@ -2469,14 +2470,15 @@ public class DwCGeoRefDQ{
 
         // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters 
-        // is EMPTY, or the value is not interpretable as number greater 
-        // than or equal to zero; COMPLIANT if the value of dwc:minimumDepthInMeters 
-        // is within the range of bdq:minimumValidDepthInMeters to 
-        // bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT 
+        // is bdq:Empty, or the value is not interpretable as number 
+        // greater than or equal to zero; COMPLIANT if the value of 
+        // dwc:minimumDepthInMeters is within the range of bdq:minimumValidDepthInMeters 
+        // to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT 
         // 
 
         // Parameters. This test is defined as parameterized.
-        // Default values: bdq:minimumValidDepthInMeters="0" ; bdq:maximumValidDepthInMeters="11000"
+        // bdq:minimumValidDepthInMeters default="0",
+        // bdq:maximumValidDepthInMeters default="11000" 
         
         if (minimumValidDepthInMeters==null) { 
         	minimumValidDepthInMeters = 0d;
@@ -2590,23 +2592,23 @@ public class DwCGeoRefDQ{
      * Is the value of dwc:coordinateUncertaintyInMeters a number between 1 and 20,037,509?
      *
      * Provides: #109 VALIDATION_COORDINATEUNCERTAINTY_INRANGE
-     * Version: 2022-03-22
+     * Version: 2023-09-18
      *
      * @param coordinateUncertaintyInMeters the provided dwc:coordinateUncertaintyInMeters to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_COORDINATEUNCERTAINTY_INRANGE", description="Is the value of dwc:coordinateUncertaintyInMeters a number between 1 and 20,037,509?")
     @Provides("c6adf2ea-3051-4498-97f4-4b2f8a105f57")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/c6adf2ea-3051-4498-97f4-4b2f8a105f57/2022-03-22")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:coordinateUncertaintyInMeters is EMPTY; COMPLIANT if the value of  dwc:coordinateUncertaintyInMeters can be interpreted as a number between 1 and 20037509 inclusive; otherwise NOT_COMPLIANT ")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/c6adf2ea-3051-4498-97f4-4b2f8a105f57/2023-09-18")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:coordinateUncertaintyInMeters is bdq:Empty; COMPLIANT if the value of  dwc:coordinateUncertaintyInMeters is interpreted as a number between 1 and 20037509 inclusive; otherwise NOT_COMPLIANT. ")
     public static DQResponse<ComplianceValue> validationCoordinateuncertaintyInrange(
     		@ActedUpon("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:coordinateUncertaintyInMeters 
-        // is EMPTY; COMPLIANT if the value of dwc:coordinateUncertaintyInMeters 
-        // can be interpreted as a number between 1 and 20037509 inclusive; 
+        // is bdq:Empty; COMPLIANT if the value of dwc:coordinateUncertaintyInMeters 
+        // is interpreted as a number between 1 and 20037509 inclusive; 
         // otherwise NOT_COMPLIANT 
 
     	if (GEOUtil.isEmpty(coordinateUncertaintyInMeters)) { 
@@ -2716,21 +2718,21 @@ public class DwCGeoRefDQ{
      * Is there a value in dwc:decimalLatitude?
      *
      * Provides: #119 VALIDATION_DECIMALLATITUDE_NOTEMPTY
-     * Version: 2020-04-09
+     * Version: 2023-09-18
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_DECIMALLATITUDE_NOTEMPTY", description="Is there a value in dwc:decimalLatitude?")
     @Provides("7d2485d5-1ba7-4f25-90cb-f4480ff1a275")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/7d2485d5-1ba7-4f25-90cb-f4480ff1a275/2020-04-09")
-    @Specification("COMPLIANT if dwc:decimalLatitude is not EMPTY; otherwise NOT_COMPLIANT ")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/7d2485d5-1ba7-4f25-90cb-f4480ff1a275/2023-09-18")
+    @Specification("COMPLIANT if dwc:decimalLatitude is bdq:NotEmpty; otherwise NOT_COMPLIANT. ")
     public static DQResponse<ComplianceValue> validationDecimallatitudeNotempty(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
         // Specification
-        // COMPLIANT if dwc:decimalLatitude is not EMPTY; otherwise 
+        // COMPLIANT if dwc:decimalLatitude is bdq:NotEmpty; otherwise 
         // NOT_COMPLIANT 
 
         result.setResultState(ResultState.RUN_HAS_RESULT);
@@ -3798,9 +3800,6 @@ public class DwCGeoRefDQ{
 // TODO: Implementation of VALIDATION_DECIMALLONGITUDE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/9beb9442-d942-4f42-8b6a-fcea01ee086a/2023-09-18 see line: 2373
 // TODO: Implementation of VALIDATION_COUNTRYCODE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/853b79a2-b314-44a2-ae46-34a1e7ed85e4/2024-09-27 see line: 2408
 // TODO: Implementation of AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2024-08-18 see line: 2449
-// TODO: Implementation of VALIDATION_MINDEPTH_INRANGE is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/04b2c8f3-c71b-4e95-8e43-f70374c5fb92/2023-09-18 see line: 2521
 // TODO: Implementation of VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/d708526b-6561-438e-aa1a-82cd80b06396/2023-09-18 see line: 2595
-// TODO: Implementation of VALIDATION_COORDINATEUNCERTAINTY_INRANGE is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/c6adf2ea-3051-4498-97f4-4b2f8a105f57/2023-09-18 see line: 2660
-// TODO: Implementation of VALIDATION_DECIMALLATITUDE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/7d2485d5-1ba7-4f25-90cb-f4480ff1a275/2023-09-18 see line: 2786
 
 }
