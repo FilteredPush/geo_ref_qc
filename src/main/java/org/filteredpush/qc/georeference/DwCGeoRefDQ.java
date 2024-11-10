@@ -786,6 +786,8 @@ public class DwCGeoRefDQ{
      * Propose amendment to the value of dwc:geodeticDatum and potentially to dwc:decimalLatitude and/or dwc:decimalLongitude based on a conversion between spatial reference systems.
      *
      * #43 Amendment SingleRecord Conformance: coordinates converted
+     * 
+     * Tagged as imature/incomplete.  This implementation is not working.
      *
      * Provides: AMENDMENT_COORDINATES_CONVERTED
      * Version: 2023-06-24
@@ -862,6 +864,8 @@ public class DwCGeoRefDQ{
         if (1==1) { 
         	result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
         	result.addComment("Coordinate transformation backing not configured.");
+        }
+        /*
         } else if (GEOUtil.isEmpty(geodeticDatum)) { 
         	result.addComment("Unable to convert coordinates to EPSG:4326, no value provided for dwc:geodeticDatum.");
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
@@ -907,6 +911,7 @@ public class DwCGeoRefDQ{
         		result.setResultState(ResultState.NOT_AMENDED); 
         	}
         } 
+        */
         return result;
     }
 
@@ -1632,7 +1637,7 @@ public class DwCGeoRefDQ{
     }
 
     /**
-     * Does the ISO country code determined from the value of dwc:country equal the value of dwc:countryCode?
+     * Does the ISO country code, determined from the value of dwc:country, equal the value of dwc:countryCode?
      *
      * #62 Validation SingleRecord Consistency: country countrycode inconsistent
      *
@@ -1643,10 +1648,10 @@ public class DwCGeoRefDQ{
      * @param countryCode the provided dwc:countryCode to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
-    @Validation(label="VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT", description="Does the ISO country code determined from the value of dwc:country equal the value of dwc:countryCode?")
+    @Validation(label="VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT", description="Does the ISO country code, determined from the value of dwc:country, equal the value of dwc:countryCode?")
     @Provides("b23110e7-1be7-444a-a677-cdee0cf4330c")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/b23110e7-1be7-444a-a677-cdee0cf4330c/2022-05-02")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if either of the terms dwc:country or dwc:countryCode are EMPTY; COMPLIANT if the value of the country code determined from the value of dwc:country is equal to the value of dwc:countryCode; otherwise NOT_COMPLIANT bdq:sourceAuthority is 'ISO 3166-1-alpha-2' [https://restcountries.eu/#api-endpoints-list-of-codes, https://www.iso.org/obp/ui/#search]")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/b23110e7-1be7-444a-a677-cdee0cf4330c/2024-09-25")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if either of the terms dwc:country or dwc:countryCode are bdq:Empty; COMPLIANT if the values of dwc:country and dwc:countryCode match national-level country name and matching country code respectively in the bdq:sourceAuthority. bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
     public static DQResponse<ComplianceValue> validationCountryCountrycodeConsistent(
     		@ActedUpon("dwc:country") String country, 
     		@ActedUpon("dwc:countryCode") String countryCode) 
@@ -1656,18 +1661,20 @@ public class DwCGeoRefDQ{
         // Specification
         // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
         // is not available; INTERNAL_PREREQUISITES_NOT_MET if either 
-        // of the terms dwc:country or dwc:countryCode are EMPTY; COMPLIANT 
-        // if the value of the country code determined from the value 
-        // of dwc:country is equal to the value of dwc:countryCode; 
-        // otherwise NOT_COMPLIANT 
-        // bdq:sourceAuthority is "ISO 3166-1-alpha-2" 
-        // [https://restcountries.eu/#api-endpoints-list-of-codes, 
-        // https://www.iso.org/obp/ui/#search] 
+        // of the terms dwc:country or dwc:countryCode are bdq:Empty; 
+        // COMPLIANT if the values of dwc:country and dwc:countryCode 
+        // match national-level country name and matching country code 
+        // respectively in the bdq:sourceAuthority 
+        // bdq:sourceAuthority default = "The Getty Thesaurus of Geographic 
+        // Names (TGN)" {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]} 
+        // 
         
         // Notes
         // The country code determination service should be able to match the name of a country 
-        // in the original language. This test will fail if there is leading or trailing 
-        // whitespace or there are leading or trailing non-printing characters.
+        // in the original or any language in the source authority. When dwc:countryCode="XZ" to 
+        // mark the high seas, country should be empty until a time when a dwc:country="High seas" 
+        // or similar is adopted. This test must return NOT_COMPLIANT if there is leading or 
+        // trailing whitespace or there are leading or trailing non-printing characters.
         
         if (GEOUtil.isEmpty(countryCode)) { 
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
@@ -1678,11 +1685,12 @@ public class DwCGeoRefDQ{
         } else if (countryCode.equals("XZ") && !GEOUtil.isEmpty(country)) { 
         		result.setResultState(ResultState.RUN_HAS_RESULT);
         		result.setValue(ComplianceValue.NOT_COMPLIANT);
-        		result.addComment("the provided value for dwc:country is not empty, but dwc:countryCod=XZ for high seas");
-        } else if (countryCode.equals("ZZ") && GEOUtil.isEmpty(country)) { 
-        		result.setResultState(ResultState.RUN_HAS_RESULT);
-        		result.setValue(ComplianceValue.COMPLIANT);
-        		result.addComment("the provided value for dwc:country is empty, and dwc:countryCod=ZZ for empty");
+        		result.addComment("the provided value for dwc:country is not empty, but dwc:countryCode=XZ for high seas");
+        // ZZ not included in specification, commenting out.
+        //} else if (countryCode.equals("ZZ") && GEOUtil.isEmpty(country)) { 
+        //		result.setResultState(ResultState.RUN_HAS_RESULT);
+        //		result.setValue(ComplianceValue.COMPLIANT);
+        //		result.addComment("the provided value for dwc:country is empty, and dwc:countryCode=ZZ for empty");
         } else { 
         	String foundName = CountryLookup.lookupCountryFromCode(countryCode);
         	if (foundName==null) { 
@@ -1726,28 +1734,24 @@ public class DwCGeoRefDQ{
     }
 
     /**
-     * Propose amendment(s) to the values of dwc:minimumElevationInMeters and
-     * dwc:maximumElevationInMeters if they can be interpreted from
-     * dwc:verbatimElevation.
+     * Proposes an amendment or amendments to the values of dwc:minimumElevationInMeters
+     * and dwc:maximumElevationInMeters if they can be interpreted from dwc:verbatimElevation.
      *
      * #68 Amendment SingleRecord Completeness: minelevation-maxelevation from
      * verbatim
      *
      * Provides: 68 AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM
-     * Version: 2024-07-31
+     * Version: 2024-08-30
      *
-     * @param minimumElevationInMeters the provided dwc:minimumElevationInMeters to
-     *                                 evaluate
-     * @param maximumElevationInMeters the provided dwc:maximumElevationInMeters to
-     *                                 evaluate
-     * @param verbatimElevation        the provided dwc:verbatimElevation to
-     *                                 evaluate
+     * @param minimumElevationInMeters the provided dwc:minimumElevationInMeters to evaluate as ActedUpon.
+     * @param maximumElevationInMeters the provided dwc:maximumElevationInMeters to evaluate as ActedUpon.
+     * @param verbatimElevation the provided dwc:verbatimElevation to evaluate as Consulted.
      * @return DQResponse the response of type AmendmentValue to return
      */
-    @Validation(label="AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM", description="Propose amendment(s) to the values of dwc:minimumElevationInMeters and dwc:maximumElevationInMeters if they can be interpreted from dwc:verbatimElevation.")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumElevationInMeters and dwc:maximumElevationInMeters are EMPTY and either dwc:verbatimElevation is EMPTY or the value is not unambiguously interpretable; FILLED_IN the values of dwc:minimumElevationInMeters and dwc:maximumElevationInMeters if they are EMPTY and could be unambiguously interpreted from dwc:verbatimElevation; otherwise NOT_AMENDED")
+    @Amendment(label="AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM", description="Proposes an amendment or amendments to the values of dwc:minimumElevationInMeters and dwc:maximumElevationInMeters if they can be interpreted from dwc:verbatimElevation.")
     @Provides("2d638c8b-4c62-44a0-a14d-fa147bf9823d")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2024-07-31")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2024-08-30")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumElevationInMeters or dwc:maximumElevationInMeters are bdq:NotEmpty or dwc:verbatimElevation is bdq:Empty; FILLED_IN the values of dwc:minimumElevationInMeters and dwc:maximumElevationInMeters if they can be unambiguously interpreted from dwc:verbatimElevation; otherwise NOT_AMENDED. ")
     public static DQResponse<AmendmentValue> amendmentMinelevationMaxelevationFromVerbatim(
     		@ActedUpon("dwc:verbatimElevation") String verbatimElevation,
     		@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters, 
@@ -1756,12 +1760,12 @@ public class DwCGeoRefDQ{
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
         // Specification
-		// INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumElevationInMeters and
-		// dwc:maximumElevationInMeters are EMPTY and either dwc:verbatimElevation is
-		// EMPTY or the value is not unambiguously interpretable; FILLED_IN the values
-		// of dwc:minimumElevationInMeters and dwc:maximumElevationInMeters if they are
-		// EMPTY and could be unambiguously interpreted from dwc:verbatimElevation;
-		// otherwise NOT_AMENDED
+        // INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumElevationInMeters 
+        // or dwc:maximumElevationInMeters are bdq:NotEmpty or dwc:verbatimElevation 
+        // is bdq:Empty; FILLED_IN the values of dwc:minimumElevationInMeters 
+        // and dwc:maximumElevationInMeters if they can be unambiguously 
+        // interpreted from dwc:verbatimElevation; otherwise NOT_AMENDED 
+        //
 
         if (GEOUtil.isEmpty(verbatimElevation)) {
         	result.addComment("No Value provided for dwc:verbatimElevation");
@@ -2873,7 +2877,7 @@ public class DwCGeoRefDQ{
     		) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
+        // Specification
 		// EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available;
 		// INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country or dwc:stateProvince
 		// are EMPTY; COMPLIANT if the value of dwc:stateProvince occurs as an
@@ -3717,8 +3721,5 @@ public class DwCGeoRefDQ{
         
         return result;
     }
-    
-// TODO: Implementation of VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/b23110e7-1be7-444a-a677-cdee0cf4330c/2024-09-25 see line: 1774
-// TODO: Implementation of AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2024-08-30 see line: 1876
 
 }

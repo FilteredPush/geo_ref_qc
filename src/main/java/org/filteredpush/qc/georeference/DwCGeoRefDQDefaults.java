@@ -389,7 +389,6 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @param countryCode the provided dwc:countryCode to evaluate
-     * @param sourceAuthority the spatial source authority to consult.
      * @return DQResponse the response of type AmendmentValue to return
      */
     @Amendment(label="AMENDMENT_COUNTRYCODE_FROM_COORDINATES", description="Proposes an amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:countryShapes that is attributable to a single valid country code.")
