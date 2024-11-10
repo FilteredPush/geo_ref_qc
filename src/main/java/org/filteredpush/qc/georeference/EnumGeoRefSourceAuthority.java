@@ -28,6 +28,7 @@ public enum EnumGeoRefSourceAuthority {
     ADM1_UNION_EEZ,
     NE_LAND_UNION_ISLANDS,
     NE_ADMIN_0,
+    NE_ADMIN_1,
     GADM_ADM1, 
     GETTY_TGN,
     GBIF_CENTROIDS,

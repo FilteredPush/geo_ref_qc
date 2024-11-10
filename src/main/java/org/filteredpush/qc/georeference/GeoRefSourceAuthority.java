@@ -73,6 +73,7 @@ public class GeoRefSourceAuthority {
 	    } else if (authorityString.toUpperCase().equals("10M-ADMIN-1 BOUNDARIES UNION WITH EXCLUSIVE ECONOMIC ZONES")) {
 	    	this.authority = EnumGeoRefSourceAuthority.ADM1_UNION_EEZ;	
 	    } else if (authorityString.toUpperCase().equals("ADM1 BOUNDARIES")) {
+	    	// TODO: Add support, unable to distribute.
 	    	this.authority = EnumGeoRefSourceAuthority.GADM_ADM1;	
 	    } else if (authorityString.toUpperCase().equals("DATAHUB.IO")) {
 	    	this.authority = EnumGeoRefSourceAuthority.DATAHUB;	
@@ -80,6 +81,8 @@ public class GeoRefSourceAuthority {
 	    	this.authority = EnumGeoRefSourceAuthority.DATAHUB;	
 	    } else if (authorityString.toUpperCase().equals("NE_10M_ADMIN_0_COUNTRIES")) {
 	    	this.authority = EnumGeoRefSourceAuthority.NE_ADMIN_0;	
+	    } else if (authorityString.toUpperCase().equals("10M-ADMIN-1 BOUNDARIES")) {
+	    	this.authority = EnumGeoRefSourceAuthority.NE_ADMIN_1;	
 	    } else if (authorityString.toUpperCase().equals("UNION OF NATURALEARTH 10M-PHYSICAL-VECTORS FOR LAND AND NATURALEARTH MINOR ISLANDS")) { 
 	    	this.authority = EnumGeoRefSourceAuthority.NE_LAND_UNION_ISLANDS;
 	    } else if (authorityString.toUpperCase().equals("NE_LAND_UNION_ISLANDS")) { 

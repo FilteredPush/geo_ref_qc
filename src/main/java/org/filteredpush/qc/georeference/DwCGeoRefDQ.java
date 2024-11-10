@@ -1381,6 +1381,17 @@ public class DwCGeoRefDQ{
     }
 
     /**
+    * Do the geographic coordinates fall on or within the boundary from the bdq:sourceAuthority for the given dwc:stateProvince or within the distance given by bdq:spatialBufferInMeters outside that boundary?
+    *
+    *
+    * @param decimalLatitude the provided dwc:decimalLatitude to evaluate as ActedUpon.
+    * @param decimalLongitude the provided dwc:decimalLongitude to evaluate as ActedUpon.
+    * @param stateProvince the provided dwc:stateProvince to evaluate as ActedUpon.
+    * @return DQResponse the response of type ComplianceValue  to return
+    */
+    
+    
+    /**
      * Do the geographic coordinates fall on or within the boundary from the
      * bdq:sourceAuthority for the given dwc:stateProvince or within the distance
      * given by bdq:spatialBufferInMeters outside that boundary?
@@ -1388,20 +1399,20 @@ public class DwCGeoRefDQ{
      * #56 Validation SingleRecord Consistency: coordinates state-province
      * inconsistent
      *
-     * Provides: VALIDATION_COORDINATES-STATEPROVINCE_CONSISTENT
-     * Version: 2024-04-16
+     * Provides: 56 VALIDATION_COORDINATESSTATEPROVINCE_CONSISTENT
+     * Version: 2024-08-30
      *
      * @param decimalLatitude the provided dwc:decimalLatitude to evaluate
      * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
      * @param stateProvince the provided dwc:stateProvince to evaluate
+     * @param sourceAuthority the provided parameter bdq:sourceAuthority use null for default value.
+     * @param spatialBufferInMeters the provided parameter bdq:spatialBufferInMeters use null for default value.
      * @return DQResponse the response of type ComplianceValue  to return
-     * @param sourceAuthority a {@link java.lang.String} object.
-     * @param spatialBufferInMeters a {@link java.lang.String} object.
      */
-    @Validation(label="VALIDATION_COORDINATES-STATEPROVINCE_CONSISTENT", description="Do the geographic coordinates fall on or within the boundary from the bdq:sourceAuthority for the given dwc:stateProvince or within the distance given by bdq:spatialBufferInMeters outside that boundary?")
+    @Validation(label="VALIDATION_COORDINATESSTATEPROVINCE_CONSISTENT", description="Do the geographic coordinates fall on or within the boundary from the bdq:sourceAuthority for the given dwc:stateProvince or within the distance given by bdq:spatialBufferInMeters outside that boundary?")
     @Provides("f18a470b-3fe1-4aae-9c65-a6d3db6b550c")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/f18a470b-3fe1-4aae-9c65-a6d3db6b550c/2024-04-16")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the values of dwc:decimalLatitude, dwc:decimalLongitude, or dwc:stateProvince are EMPTY or invalid; COMPLIANT if the geographic coordinates fall on or within the boundary from the bdq:sourceAuthority for the given dwc:stateProvince (after coordinate reference system transformations, if any, have been accounted for), or within the distance given by bdq:spatialBufferInMeters outside that boundary; otherwise NOT_COMPLIANT.")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/f18a470b-3fe1-4aae-9c65-a6d3db6b550c/2024-08-30")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the values of dwc:decimalLatitude or dwc:decimalLongitude are bdq:Empty or invalid, or dwc:stateProvince is bdq:Empty or not found in the bdq:sourceAuthority; COMPLIANT if the geographic coordinates fall on or within the boundary in the bdq:sourceAuthority for the given dwc:stateProvince (after coordinate reference system transformations, if any, have been accounted for), or within the distance given by bdq:spatialBufferInMeters outside that boundary; otherwise NOT_COMPLIANT.. bdq:sourceAuthority default = '10m-admin-1 boundaries' {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/]},bdq:spatialBufferInMeters default = '3000'")
     public static DQResponse<ComplianceValue> validationCoordinatesStateprovinceConsistent(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
     		@ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
@@ -1412,24 +1423,26 @@ public class DwCGeoRefDQ{
     {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
 
-        //TODO:  Implement specification
-		// EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available;
-		// INTERNAL_PREREQUISITES_NOT_MET if the values of dwc:decimalLatitude,
-		// dwc:decimalLongitude, or dwc:stateProvince are EMPTY or invalid; COMPLIANT if
-		// the geographic coordinates fall on or within the boundary from the
-		// bdq:sourceAuthority for the given dwc:stateProvince (after coordinate
-		// reference system transformations, if any, have been accounted for), or within
-		// the distance given by bdq:spatialBufferInMeters outside that boundary;
-		// otherwise NOT_COMPLIANT.
+        // Specification
+        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
+        // is not available; INTERNAL_PREREQUISITES_NOT_MET if the 
+        // values of dwc:decimalLatitude or dwc:decimalLongitude are 
+        // bdq:Empty or invalid, or dwc:stateProvince is bdq:Empty 
+        // or not found in the bdq:sourceAuthority; COMPLIANT if the 
+        // geographic coordinates fall on or within the boundary in 
+        // the bdq:sourceAuthority for the given dwc:stateProvince 
+        // (after coordinate reference system transformations, if any, 
+        // have been accounted for), or within the distance given by 
+        // bdq:spatialBufferInMeters outside that boundary; otherwise 
+        // NOT_COMPLIANT. 
 
-        //TODO: Parameters. This test is defined as parameterized.
-        // bdq:spatialBufferInMeters default = "3000"
-        // bdq:sourceAuthority default = "ADM1 boundaries" {[https://gadm.org]}
+        // Parameters. This test is defined as parameterized.
+        // bdq:sourceAuthority
+        // bdq:spatialBufferInMeters
+        // bdq:sourceAuthority default = "10m-admin-1 boundaries" 
+        // {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/]},
+        // bdq:spatialBufferInMeters default = "3000" 
         
-        // ADM0 is country level boundaries
-        // ADM1 is state/province level boundaries
-        // ADM2 is county level boundaries.
- 
 		// The geographic determination service is expected to return a list of names of
 		// first-level administrative divisions for geometries that the geographic point
 		// falls on or within, including a 3 km buffer around the administrative
@@ -1443,8 +1456,7 @@ public class DwCGeoRefDQ{
 		// 0.5-0.85 km respectively (Chapman & Wieczorek 2020).
         
         if (GEOUtil.isEmpty(sourceAuthority)) { 
-        	// TODO: Add support for GADM data (can't redistrbute).
-        	sourceAuthority = "ADM1 boundaries";
+        	sourceAuthority = "10m-admin-1 boundaries";
         }
 
         try { 
@@ -1507,20 +1519,21 @@ public class DwCGeoRefDQ{
     }
 
     /**
-     * Does the value of dwc:geodeticDatum occur in bdq:sourceAuthority?
+     * Does the value of dwc:geodeticDatum occur as a valid geographic CRS, 
+     * geodetic Datum or ellipsoid in bdq:sourceAuthority?
      *
      * #59 Validation SingleRecord Conformance: geodeticdatum notstandard
      *
-     * Provides: VALIDATION_GEODETICDATUM_STANDARD
-     * Version: 2022-03-22
+     * Provides: 59 VALIDATION_GEODETICDATUM_STANDARD
+     * Version: 2023-09-17
      *
      * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
-    @Validation(label="VALIDATION_GEODETICDATUM_STANDARD", description="Does the value of dwc:geodeticDatum occur in bdq:sourceAuthority?")
+    @Validation(label="VALIDATION_GEODETICDATUM_STANDARD", description="Does the value of dwc:geodeticDatum occur as a valid geographic CRS, geodetic Datum or ellipsoid in bdq:sourceAuthority?")
     @Provides("7e0c0418-fe16-4a39-98bd-80e19d95b9d1")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/7e0c0418-fe16-4a39-98bd-80e19d95b9d1/2022-03-22")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available, INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is EMPTY; COMPLIANT if the value of dwc:geodeticDatum is a valid EPSG CRS Code (with or without the 'epsg' namespace prepended), or an unambiguous alphanumeric CRS or datum code; otherwise NOT_COMPLIANT bdq:sourceAuthority is 'epsg' [https://epsg.io]")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/7e0c0418-fe16-4a39-98bd-80e19d95b9d1/2023-09-17")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available, INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is bdq:Empty; COMPLIANT if the value of dwc:geodeticDatum is (1) 'not recorded' or (2) a valid geographic EPSG code for a CRS, Datum, or ellipsoid in the bdq:sourceAuthority; otherwise NOT_COMPLIANT. bdq:sourceAuthority = 'EPSG' {[https://epsg.org]} {API for EPSG codes [https://apps.epsg.org/api/swagger/ui/index#/Datum]}")
     public static DQResponse<ComplianceValue> validationGeodeticdatumStandard(
     		@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
@@ -1528,15 +1541,25 @@ public class DwCGeoRefDQ{
         // Specification
         // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
         // is not available, INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum 
-        // is EMPTY; COMPLIANT if the value of dwc:geodeticDatum is 
-        // a valid EPSG CRS Code (with or without the "epsg" namespace 
-        // prepended), or an unambiguous alphanumeric CRS or datum 
-        // code; otherwise NOT_COMPLIANT 
-        // bdq:sourceAuthority is "epsg" [https://epsg.io] 
+        // is bdq:Empty; COMPLIANT if the value of dwc:geodeticDatum 
+        // is (1) "not recorded" or (2) a valid geographic EPSG code 
+        // for a CRS, Datum, or ellipsoid in the bdq:sourceAuthority; 
+        // otherwise NOT_COMPLIANT 
+        // bdq:sourceAuthority = "EPSG" 
+        // {[https://epsg.org]} 
+        // {API for // EPSG codes [https://apps.epsg.org/api/swagger/ui/index#/Datum]} 
+        // 
+        
+        // TODO: Address "not recorded" in specification, but dwc:geodeticDatum comment
+        // asserts "unknown".
         
         if (GEOUtil.isEmpty(geodeticDatum)) { 
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
 			result.addComment("The value provided for dwc:geodeticDatum is empty");
+        } else if (geodeticDatum.equals("not recorded")) { 
+			result.setResultState(ResultState.RUN_HAS_RESULT);
+			result.setValue(ComplianceValue.COMPLIANT);
+			result.addComment("The value of dwc:geodeticDatum is the value 'not recorded'.");
 		} else { 
 			try { 
 				boolean matched = false;
@@ -1594,6 +1617,8 @@ public class DwCGeoRefDQ{
 		// "EPSG" {[https://epsg.org]} {API for EPSG codes
 		// [https://apps.epsg.org/api/swagger/ui/index#/Datum]}
 
+    	// TODO:  Likely needs to add support for "unknown".
+    	
         if (GEOUtil.isEmpty(geodeticDatum)) { 
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         	result.addComment("Provided dwc:geodeticDatum is empty.");
@@ -2731,14 +2756,13 @@ public class DwCGeoRefDQ{
         return result;
     }
 
-
     /**
      * Is the value of dwc:maximumDepthInMeters within the Parameter range?
      *
      * #187 Is the value of dwc:maximumDepthInMeters within the specified Parameter range?
      *
-     * Provides: VALIDATION_MAXDEPTH_INRANGE
-     * Version: 2022-09-08
+     * Provides: 187 VALIDATION_MAXDEPTH_INRANGE
+     * Version: 2023-09-18
      *
      * @param maximumDepthInMeters the provided dwc:maximumDepthInMeters to evaluate
      * @param minimumValidDepthInMeters the minimum valid depth, defaults to 0 if null.
@@ -2747,8 +2771,8 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_MAXDEPTH_INRANGE", description="Is the value of dwc:maximumDepthInMeters within the Parameter range?")
     @Provides("3f1db29a-bfa5-40db-9fd1-fde020d81939")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/3f1db29a-bfa5-40db-9fd1-fde020d81939/2022-09-08")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumDepthInMeters is EMPTY or is not interpretable as a number greater than or equal to zero; COMPLIANT if the value of dwc:maximumDepthInMeters is within the range of bdq:minimumValidDepthInMeters to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT ")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/3f1db29a-bfa5-40db-9fd1-fde020d81939/2023-09-18")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumDepthInMeters is bdq:Empty or is not interpretable as a number greater than or equal to zero; COMPLIANT if the value of dwc:maximumDepthInMeters is within the range of bdq:minimumValidDepthInMeters to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT. bdq:minimumValidDepthInMeters default='0',bdq:maximumValidDepthInMeters default='11000'")
     public static DQResponse<ComplianceValue> validationMaxdepthInrange(
     		@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters, 
     		@Parameter(name="bdq:minimumValidDepthInMeters") Double minimumValidDepthInMeters,
@@ -2758,12 +2782,15 @@ public class DwCGeoRefDQ{
 
         // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumDepthInMeters 
-        // is EMPTY or is not interpretable as a number greater than 
-        // or equal to zero; COMPLIANT if the value of dwc:maximumDepthInMeters 
+        // is bdq:Empty or is not interpretable as a number greater 
+        // than or equal to zero; COMPLIANT if the value of dwc:maximumDepthInMeters 
         // is within the range of bdq:minimumValidDepthInMeters to 
         // bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT 
+        // 
 
         // Parameters. This test is defined as parameterized.
+        // bdq:minimumValidDepthInMeters
+        // bdq:maximumValidDepthInMeters
         // Default values: bdq:minimumValidDepthInMeters="0"; bdq:maximumValidDepthInMeters="11000"
         
         if (minimumValidDepthInMeters==null) { 
@@ -3769,8 +3796,6 @@ public class DwCGeoRefDQ{
     }
     
 
-// TODO: Implementation of VALIDATION_COORDINATESSTATEPROVINCE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/f18a470b-3fe1-4aae-9c65-a6d3db6b550c/2024-08-30 see line: 1478
-// TODO: Implementation of VALIDATION_GEODETICDATUM_STANDARD is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/7e0c0418-fe16-4a39-98bd-80e19d95b9d1/2023-09-17 see line: 1597
 // TODO: Implementation of AMENDMENT_GEODETICDATUM_STANDARDIZED is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/0345b325-836d-4235-96d0-3b5caf150fc0/2024-7-24 see line: 1657
 // TODO: Implementation of VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/b23110e7-1be7-444a-a677-cdee0cf4330c/2024-09-25 see line: 1774
 // TODO: Implementation of AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2024-08-30 see line: 1876
@@ -3783,6 +3808,5 @@ public class DwCGeoRefDQ{
 // TODO: Implementation of VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/d708526b-6561-438e-aa1a-82cd80b06396/2023-09-18 see line: 2595
 // TODO: Implementation of VALIDATION_COORDINATEUNCERTAINTY_INRANGE is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/c6adf2ea-3051-4498-97f4-4b2f8a105f57/2023-09-18 see line: 2660
 // TODO: Implementation of VALIDATION_DECIMALLATITUDE_NOTEMPTY is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/7d2485d5-1ba7-4f25-90cb-f4480ff1a275/2023-09-18 see line: 2786
-// TODO: Implementation of VALIDATION_MAXDEPTH_INRANGE is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/3f1db29a-bfa5-40db-9fd1-fde020d81939/2023-09-18 see line: 2825
 // TODO: Implementation of VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS is not up to date with current version: https://rs.tdwg.org/bdqcore/terms/d257eb98-27cb-48e5-8d3c-ab9fca4edd11/2024-09-18 see line: 3116
 }
