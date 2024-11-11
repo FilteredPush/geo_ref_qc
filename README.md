@@ -3,6 +3,11 @@ Data Quality library for dwc:decimalLatitude, dwc:decimalLongitude and other Loc
 
 Tools for working with georeferences in forms found in biodiversity data.
 
+DOI: 10.5281/zenodo.14064324
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14064325.svg)](https://doi.org/10.5281/zenodo.14064325)
+
+
 ## BDQ Core Tests
 
 The geo_ref_qc library implements the following BDQ Core tests:
