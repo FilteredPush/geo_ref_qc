@@ -74,6 +74,7 @@ import org.datakurator.ffdq.api.result.*;
  * #68	AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM 2d638c8b-4c62-44a0-a14d-fa147bf9823d
  * #55	AMENDMENT_MINDEPTH-MAXDEPTH_FROM_VERBATIM c5658b83-4471-4f57-9d94-bf7d0a96900c
  * #60	AMENDMENT_GEODETICDATUM_STANDARDIZED 0345b325-836d-4235-96d0-3b5caf150fc0
+ * #54	AMENDMENT_COORDINATES_TRANSPOSED f2b4a50a-6b2f-4930-b9df-da87b6a21082
  *
  * For #72, see rec_occur_qc DwCMetadataDQ
  * #72 ISSUE_DATAGENERALIZATIONS_NOTEMPTY 13d5a10e-188e-40fd-a22c-dbaa87b91df2
@@ -3489,7 +3490,7 @@ public class DwCGeoRefDQ{
         		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         		result.addComment("The value provided for dwc:countryCode is empty");
         	} else { 
-        		if (!sourceAuthority.equals("ADM1 boundaries UNION EEZ")) { 
+        		if (!sourceAuthority.equals("10m-admin-1 boundaries UNION with Exclusive Economic Zones")) { 
         			result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
         			result.addComment("Unsupported or unrecognized source authority.");
         		} else { 
