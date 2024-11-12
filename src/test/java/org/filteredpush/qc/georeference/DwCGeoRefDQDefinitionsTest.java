@@ -442,7 +442,7 @@ public class DwCGeoRefDQDefinitionsTest {
 	    DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentGeodeticdatumAssumeddefault(coordinateUncertantyInMeters, geodeticDatum, "30", "50", null);
 	    logger.debug(result.getComment());
 		assertFalse(GEOUtil.isEmpty(result.getComment()));
-	    assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+	    assertEquals(ResultState.NOT_AMENDED.getLabel(), result.getResultState().getLabel());
 	    
 	    coordinateUncertantyInMeters = "";
 		geodeticDatum = "";
