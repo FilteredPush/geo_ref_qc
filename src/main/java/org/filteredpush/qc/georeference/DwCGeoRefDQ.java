@@ -3470,8 +3470,9 @@ public class DwCGeoRefDQ{
         // bdq:sourceAuthority default = "10m-admin-1 boundaries UNION with Exclusive Economic Zones" 
         // {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/] spatial UNION [https://www.marineregions.org/downloads.php#marbound]}
 
+        String DEFAULT_SOURCE_AUTHORITY =  "10m-admin-1 boundaries UNION with Exclusive Economic Zones";
         if (GEOUtil.isEmpty(sourceAuthority)) { 
-        	sourceAuthority = "10m-admin-1 boundaries UNION with Exclusive Economic Zones";
+        	sourceAuthority = DEFAULT_SOURCE_AUTHORITY;
         }
 
         try { 
@@ -3490,7 +3491,7 @@ public class DwCGeoRefDQ{
         		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         		result.addComment("The value provided for dwc:countryCode is empty");
         	} else { 
-        		if (!sourceAuthority.equals("10m-admin-1 boundaries UNION with Exclusive Economic Zones")) { 
+        		if (!sourceAuthorityObject.getAuthority().equals(EnumGeoRefSourceAuthority.ADM1_UNION_EEZ)) { 
         			result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
         			result.addComment("Unsupported or unrecognized source authority.");
         		} else { 

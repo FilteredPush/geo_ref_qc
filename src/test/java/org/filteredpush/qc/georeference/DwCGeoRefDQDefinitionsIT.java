@@ -325,6 +325,25 @@ public class DwCGeoRefDQDefinitionsIT {
 		}
 	}
 	
+	@Test
+	public void testAmendmentCoordinatesTransposed() {
+		
+		String latitude = "71.295556";
+		String longitude = "-156.766389";
+	    DQResponse<AmendmentValue> result = DwCGeoRefDQ.amendmentCoordinatesTransposed(latitude, longitude, "US", null);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.NOT_AMENDED.getLabel(), result.getResultState().getLabel());
+		
+		longitude = "71.295556";
+		latitude = "-156.766389";
+	    result = DwCGeoRefDQ.amendmentCoordinatesTransposed(latitude, longitude, "US", null);
+	    logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+	    assertEquals(ResultState.AMENDED.getLabel(), result.getResultState().getLabel());
+	    assertEquals(2,result.getValue().getObject().size());
+	    
+	} 
 	/**
 	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCountrystateprovinceUnambiguous(java.lang.String, java.lang.String)}.
 	 */
