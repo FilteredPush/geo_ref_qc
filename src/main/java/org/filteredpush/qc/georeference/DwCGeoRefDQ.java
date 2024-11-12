@@ -2335,6 +2335,8 @@ public class DwCGeoRefDQ{
     		@Parameter(name="bdq:defaultGeodeticDatum") String defaultGeodeticDatum) {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
+        // TODO: Update to current specification.
+        
         // Specification
         // INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is bdq:NotEmpty; 
         // FILLED_IN dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum, 
@@ -2377,7 +2379,7 @@ public class DwCGeoRefDQ{
     		}
         } else { 
         	result.addComment("The provided geodeticDatum contains a value, not proposing a change");
-        	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        	result.setResultState(ResultState.NOT_AMENDED);
         }
         
         return result;
