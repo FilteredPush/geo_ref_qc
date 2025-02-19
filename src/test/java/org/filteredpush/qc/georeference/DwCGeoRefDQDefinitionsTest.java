@@ -1161,6 +1161,13 @@ public class DwCGeoRefDQDefinitionsTest {
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
+		geodeticDatum = "EPSG:32618";   // UTM zone 18, projected CRS.
+		result = DwCGeoRefDQ.validationGeodeticdatumStandard(geodeticDatum);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
 		try { 
 			Set<String> codes = ReferencingFactoryFinder.getCRSAuthorityFactory("EPSG", null).getAuthorityCodes(ProjectedCRS.class);
 			logger.debug(codes.size());
@@ -1176,7 +1183,7 @@ public class DwCGeoRefDQDefinitionsTest {
 					exists = false;
 				}
 				if (!code.equals("5820")) {
-					if (exists) { 
+					if (exists && GEOUtil.isValidEPSGCodeForDwCgeodeticDatum("EPSG:"+code)) { 
 						result = DwCGeoRefDQ.validationGeodeticdatumStandard(code);
 						logger.debug(result.getComment());
 						assertFalse(GEOUtil.isEmpty(result.getComment()));

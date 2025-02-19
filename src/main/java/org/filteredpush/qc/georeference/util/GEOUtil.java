@@ -7,15 +7,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.measure.Unit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -38,16 +43,21 @@ import org.geotools.geometry.Position3D;
 import org.geotools.api.referencing.FactoryException;
 import org.geotools.api.referencing.NoSuchAuthorityCodeException;
 import org.geotools.api.referencing.ReferenceIdentifier;
+import org.geotools.api.referencing.crs.CRSAuthorityFactory;
 import org.geotools.api.referencing.crs.CoordinateReferenceSystem;
+import org.geotools.api.referencing.crs.GeographicCRS;
+import org.geotools.api.referencing.datum.Ellipsoid;
 import org.geotools.api.referencing.operation.CoordinateOperation;
 import org.geotools.api.referencing.operation.TransformException;
 import org.geotools.api.referencing.operation.MathTransform;
+import org.geotools.api.util.GenericName;
 import org.geotools.api.util.Record;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.filter.text.cql2.CQLException;
 import org.geotools.filter.text.ecql.ECQL;
 import org.geotools.geometry.jts.JTS;
+import org.geotools.measure.Units;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.GeodeticCalculator;
 import org.geotools.referencing.operation.DefaultCoordinateOperationFactory;
@@ -56,6 +66,7 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.proj4j.CoordinateTransform;
+import org.locationtech.proj4j.CoordinateTransformFactory;
 
 
 /**
@@ -101,6 +112,20 @@ public class GEOUtil {
 	 * Mean radius of the Earth in meters (CRC).
 	 */
 	private static double EARTH_MEAN_RADIUS_METERS = 6370949.0d;  // Mean radius, from CRC
+	
+	/** 
+	 * List of codes that apply to geographic coordinate reference systems
+	 */
+	public static Set<String> geographicCodes;
+	
+	/**
+	 * Map of names for geographic coordinate reference systems and their EPSG codes.
+	 */
+	public static Map<String,String> geographicEPSGNamesCodes;
+	
+	public static Map<String,String> geographicDatumEPSGNamesCodes;
+	
+	public static Map<String,String> geographicEllipsoidEPSGNamesCodes;
 	
 	/**
 	 * <p>getDistanceKm.</p>
@@ -1019,6 +1044,151 @@ public class GEOUtil {
 				logger.debug(e.getMessage());
 			}
 		} 
+		return retval;
+	}
+	
+	public static boolean isValidEPSGCodeForDwCgeodeticDatum(String geodeticDatum) { 
+		boolean retval = false;
+		
+		if (geographicCodes==null) { 
+			setupGeographicEPSGCodesList();
+		}
+		
+		if (geographicEPSGNamesCodes.containsValue(geodeticDatum) || 
+				geographicDatumEPSGNamesCodes.containsValue(geodeticDatum) || 
+				geographicEllipsoidEPSGNamesCodes.containsValue(geodeticDatum)) 
+		{ 
+			retval = true;
+		}
+		return retval;
+	}
+	
+	/** 
+	 * setup a list of known EPSG codes for geographic coordinate
+     * references systems and their names, sets up the Map geographicEPSGNamesCodes,
+     * which is a map of the names of the geographic CRSs to their EPSG codes.
+	 * 
+	 */
+	public static final void setupGeographicEPSGCodesList() { 
+
+		geographicEPSGNamesCodes = new HashMap<String,String>();
+		geographicDatumEPSGNamesCodes = new HashMap<String,String>();
+		geographicEllipsoidEPSGNamesCodes = new HashMap<String,String>();
+		
+		CRSAuthorityFactory factory = CRS.getAuthorityFactory(true);
+		try {
+			geographicCodes = factory.getAuthorityCodes(GeographicCRS.class);
+			Iterator<String> itt = geographicCodes.iterator()	;
+			while (itt.hasNext()) { 
+				String code = itt.next();
+				if (code.startsWith("EPSG:")) { 
+					try { 
+						GeographicCRS epsgGeoCRS = factory.createGeographicCRS(code);
+						ReferenceIdentifier name = epsgGeoCRS.getName();
+						if (epsgGeoCRS.getCoordinateSystem().getDimension()==2 && epsgGeoCRS.getCoordinateSystem().getAxis(0).getUnit()==Units.DEGREE_ANGLE ) { 
+							if (!geographicEPSGNamesCodes.containsKey(name.toString())) { 
+								geographicEPSGNamesCodes.put(name.toString(),code);
+								//System.out.println(code + " " + name.toString().replace("EPSG:", ""));
+							}
+							String ellipsoid = epsgGeoCRS.getDatum().getEllipsoid().getName().toString();
+						    String ellipsoidCode = epsgGeoCRS.getDatum().getEllipsoid().getIdentifiers().toArray()[0].toString();
+							if (!geographicEllipsoidEPSGNamesCodes.containsKey(ellipsoid)) { 
+								geographicEllipsoidEPSGNamesCodes.put(ellipsoid, ellipsoidCode);
+								//System.out.println(ellipsoidCode + " " + ellipsoid.replace("EPSG:", ""));
+							}
+							String datum = epsgGeoCRS.getDatum().getName().toString();
+						    String datumCode = epsgGeoCRS.getDatum().getIdentifiers().toArray()[0].toString();
+							if (!geographicDatumEPSGNamesCodes.containsKey(datum)) { 
+								geographicDatumEPSGNamesCodes.put(datum, datumCode);
+								System.out.println(datumCode + " " + datum.replace("EPSG:", ""));
+							}
+						}
+					} catch (FactoryException fe) { 
+						// deprecated codes with units degree minute hemisphere
+						// throw unsuported unit exception
+					}
+				}
+			}
+		} catch (FactoryException e) {
+			logger.error(e.getMessage());
+		}
+
+		
+		
+	}
+	
+	/**
+	 * get the EPSG code for a geodetic datum.
+	 *
+	 * @param geodeticDatum string containing a representation of a 
+	 *  geographic coordinate reference system (CRS) or datum
+ 	 *  as would be found as a value of dwc:geodeticDatum,
+	 *  in the form of a text string such as 'WGS84'.
+	 * @return the EPSG code for the geodetic datum if it is known, null otherwise.
+	 */
+	public static String getEPSGCodeForString(String geodeticDatum) { 
+		String retval = null;
+
+		CRSAuthorityFactory factory = CRS.getAuthorityFactory(true);
+		if (geographicCodes==null) { 
+			setupGeographicEPSGCodesList();
+		}
+		Iterator<String> i = geographicEPSGNamesCodes.keySet().iterator();
+		while (i.hasNext()) { 
+			String namest = i.next();
+			String prefixed = "EPSG:" + geodeticDatum;
+			if (namest.equals(prefixed) && retval == null) { 
+				retval = geographicEPSGNamesCodes.get(namest);
+			} 
+			if (retval == null && namest.toLowerCase().replace(" ","").matches(prefixed.toLowerCase().replace(" ", ""))) { 
+				retval = geographicEPSGNamesCodes.get(namest);
+			}
+		}
+
+		return retval;
+	}
+	
+    /**
+	 * isGeographicCRSCode, test if a dwc:geodeticDatum value is a
+	 * known geographic CRS code.
+	 *
+	 * @param geodeticDatum a {@link java.lang.String} object containing an EPSG code, in the
+     * form authority:number, that is prefixed with "EPSG:"
+	 * @return true if the geodetic datum is a known geographic CRS code, false otherwise
+	 * @throws org.geotools.api.referencing.FactoryException if any.
+	 */
+	public static boolean isGeographicCRSCode(String geodeticDatum) throws FactoryException {
+		boolean retval = false;
+		try { 
+			CoordinateReferenceSystem crsFrom = CRS.decode(geodeticDatum);
+		    retval = crsFrom instanceof GeographicCRS;
+		    logger.debug(crsFrom.getCoordinateSystem().getAxis(0).getUnit().toString());
+		} catch (NoSuchAuthorityCodeException e) { 
+			logger.debug(e.getMessage());
+		}
+		return retval;
+	}
+	
+    /**
+	 * isGeographicCRSCodeDegrees, test if a dwc:geodeticDatum value is a
+	 * known CRS code for a geographic coordinate reference system with 
+     * units of degrees.
+	 *
+	 * @param geodeticDatum a {@link java.lang.String} object containing an EPSG code, in the
+     * form authority:number, that is prefixed with "EPSG:"
+	 * @return true if the geodetic datum is a known geographic CRS code who's units are degreees, false otherwise
+	 * @throws org.geotools.api.referencing.FactoryException if any.
+	 */
+	public static boolean isGeographicCRSCodeDegrees(String geodeticDatum) throws FactoryException {
+		boolean retval = false;
+		try { 
+			CoordinateReferenceSystem crsFrom = CRS.decode(geodeticDatum);
+		    if (crsFrom instanceof GeographicCRS && crsFrom.getCoordinateSystem().getAxis(0).getUnit()==Units.DEGREE_ANGLE ) { 
+		    	retval=true;
+		    }
+		} catch (NoSuchAuthorityCodeException e) { 
+			logger.debug(e.getMessage());
+		}
 		return retval;
 	}
 	

@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -44,6 +46,42 @@ public class GeoUtiltsTest {
 	
 	}
 
+	/** 
+	 * Test method for {@link org.filteredpush.kuration.util.GEOUtil.getEPSGCodeForString(String)).
+	 */
+    @Test
+    public void testGetEPSGCodeForString() {
+        String geodeticDatum = "WGS 84";
+        String epsgCode = GEOUtil.getEPSGCodeForString(geodeticDatum);
+        assertEquals("EPSG:4326", epsgCode);
+        geodeticDatum = "WGS84";
+        epsgCode = GEOUtil.getEPSGCodeForString(geodeticDatum);
+        assertEquals("EPSG:4326", epsgCode);
+        geodeticDatum = " wgs 84";
+        epsgCode = GEOUtil.getEPSGCodeForString(geodeticDatum);
+        assertEquals("EPSG:4326", epsgCode);
+        geodeticDatum = "INVALID_CODE";
+        epsgCode = GEOUtil.getEPSGCodeForString(geodeticDatum);
+        assertNull(epsgCode);
+        
+        Map<String,String> testMap = new HashMap();
+        testMap.put("EPSG:4269","NAD83");
+        testMap.put("EPSG:4283","GDA94");
+        testMap.put("EPSG:4167","NZGD2000");
+        testMap.put("EPSG:4258","ETRS89");
+        testMap.put("EPSG:7844","GDA2020");
+        testMap.put("EPSG:4283","GDA94");
+        Iterator<String> i = testMap.keySet().iterator();
+        while (i.hasNext()) { 
+        	String code = i.next();
+        	String text = testMap.get(code);
+        	epsgCode = GEOUtil.getEPSGCodeForString(text);
+        	assertEquals(code,epsgCode);
+        }
+        
+    }
+	
+	
 	@Test
 	public void testIsGeodeticDatumKnown() { 
 		String geodeticDatum = "";

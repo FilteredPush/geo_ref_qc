@@ -1530,19 +1530,26 @@ public class DwCGeoRefDQ{
 			try { 
 				boolean matched = false;
 				result.setResultState(ResultState.RUN_HAS_RESULT);
+				String lookup = geodeticDatum;
 				if (geodeticDatum.matches("^[0-9]+$")) { 
 					// just a number, prepend EPSG: pseudo-namespace
-					matched = GEOUtil.isCoordinateSystemCodeKnown("EPSG:"+geodeticDatum);
-				} else { 
-					matched = GEOUtil.isCoordinateSystemCodeKnown(geodeticDatum);
+					lookup = "EPSG:" + geodeticDatum;
 				} 
+				matched = GEOUtil.isCoordinateSystemCodeKnown(lookup);
 				if (matched) { 
-					result.setValue(ComplianceValue.COMPLIANT);
 					result.addComment("The value of dwc:geodeticDatum is a known EPSG code.");
+					matched = GEOUtil.isValidEPSGCodeForDwCgeodeticDatum(lookup);
+					if (matched) { 
+						result.setValue(ComplianceValue.COMPLIANT);
+						result.addComment("The value of dwc:geodeticDatum is consistent the definition of dwc:geodeticDatum.");
+					} else { 
+						result.setValue(ComplianceValue.NOT_COMPLIANT);
+						result.addComment("The value of dwc:geodeticDatum [" + geodeticDatum + "] is an EPSG code but not consistent with the definition of dwc:geodeticDatum");
+					} 
 				} else { 
 					result.setValue(ComplianceValue.NOT_COMPLIANT);
-					result.addComment("The value of dwc:geodeticDatum [" + geodeticDatum + "] is not a known EPSG code");
-				} 
+					result.addComment("The value of dwc:geodeticDatum [" + geodeticDatum + "] is not an EPSG code");
+				}
 			} catch (FactoryException e) { 
 				logger.debug(e.getClass());
 				logger.debug(e.getMessage());
