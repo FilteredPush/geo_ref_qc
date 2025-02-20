@@ -1517,7 +1517,10 @@ public class DwCGeoRefDQ{
         // 
         
         // TODO: Address "not recorded" in specification, per georeferencing 
-        // best practices guide, but dwc:geodeticDatum comment asserts "unknown".
+        // best practices guide.
+        // Note that dwc:geodeticDatum comment asserts "unknown", but a change 
+        // request has been filed against Darwin Core to make this consistent
+        // with "not recorded" to follow the best practices guide.
         
         if (GEOUtil.isEmpty(geodeticDatum)) { 
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
@@ -1590,6 +1593,11 @@ public class DwCGeoRefDQ{
 		// "EPSG" {[https://epsg.org]} {API for EPSG codes
 		// [https://apps.epsg.org/api/swagger/ui/index#/Datum]}
 
+    	
+    	// NOTE: "not recorded" is an acceptable value, per the georeferencing best practicices guide.
+    	// However, the suggested "unknown" in the notes on dwc:geodeticDatum should not be used, and
+    	// and has a change request filed against Darwin Core for consistency with the best practices guide.
+    	
         if (GEOUtil.isEmpty(geodeticDatum)) { 
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         	result.addComment("Provided dwc:geodeticDatum is empty.");
@@ -1636,8 +1644,23 @@ public class DwCGeoRefDQ{
         		value.put("dwc:geodeticDatum",amended);
         		result.setValue(new AmendmentValue(value));
         	} else { 
-        		result.setResultState(ResultState.NOT_AMENDED);
-        		result.addComment("Provided dwc:geodeticDatum ["+geodeticDatum+"] not interpreted to an EPSG code for a geographic CRS.");
+        		if(GEOUtil.isValidEPSGCodeForDwCgeodeticDatum(geodeticDatum)) {
+        			String amended = GEOUtil.getEPSGCodeForString(geodeticDatum);
+        			if (amended == null) { 
+        				// failover case, shouldn't end up here as test above should catch this.
+        				result.setResultState(ResultState.NOT_AMENDED);
+        				result.addComment("Provided dwc:geodeticDatum ["+geodeticDatum+"] unable to be interpreted to an EPSG code for a geographic CRS.");
+        			} else { 
+        				result.setResultState(ResultState.AMENDED);
+        				result.addComment("Corrected provided dwc:geodeticDatum ["+geodeticDatum+"] to ["+amended+"] from EPSG code to name mapping assuming 2D geographic CRS.");
+        				Map<String,String> value = new HashMap<String,String>();
+        				value.put("dwc:geodeticDatum",amended);
+        				result.setValue(new AmendmentValue(value));
+        			}
+        		} else { 
+        			result.setResultState(ResultState.NOT_AMENDED);
+        			result.addComment("Provided dwc:geodeticDatum ["+geodeticDatum+"] not interpreted to an EPSG code for a geographic CRS.");
+        		}
         	}
         }
         
@@ -2948,7 +2971,8 @@ public class DwCGeoRefDQ{
         					}
         					GettyTGNObject primaryObject = lookup.getPrimaryObject(stateProvince);
         					String primaryParentage = primaryObject.getParentageString();
-        					logger.debug(primaryParentage);
+        					logger.debug("[" + primaryParentage + "]");
+        					
         					if (primaryParentage==null) { 
         						result.setResultState(ResultState.RUN_HAS_RESULT);
         						result.setValue(ComplianceValue.NOT_COMPLIANT);
