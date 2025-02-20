@@ -1644,7 +1644,7 @@ public class DwCGeoRefDQ{
         		value.put("dwc:geodeticDatum",amended);
         		result.setValue(new AmendmentValue(value));
         	} else { 
-        		if(GEOUtil.isValidEPSGCodeForDwCgeodeticDatum(geodeticDatum)) {
+        		if(GEOUtil.isKnownNameForDwCgeodeticDatumCaseInsensitive(geodeticDatum)) {
         			String amended = GEOUtil.getEPSGCodeForString(geodeticDatum);
         			if (amended == null) { 
         				// failover case, shouldn't end up here as test above should catch this.

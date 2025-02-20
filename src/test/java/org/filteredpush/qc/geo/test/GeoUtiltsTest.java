@@ -47,6 +47,73 @@ public class GeoUtiltsTest {
 	}
 
 	/** 
+	 * Test method for {@link org.filteredpush.kuration.util.GEOUtil.isValidEPSGCodeForDwCgeodeticDatum(String)).
+	 */
+    @Test
+    public void testisValidEPSGCodeForDwCgeodeticDatum() {
+        String geodeticDatum = "EPSG:4326";
+        boolean result = GEOUtil.isValidEPSGCodeForDwCgeodeticDatum(geodeticDatum);
+        assertTrue(result);
+        
+        geodeticDatum = "EPSG:1";
+        result = GEOUtil.isValidEPSGCodeForDwCgeodeticDatum(geodeticDatum);
+        assertFalse(result);
+        
+        geodeticDatum = "foo";
+        result = GEOUtil.isValidEPSGCodeForDwCgeodeticDatum(geodeticDatum);
+        assertFalse(result);
+        
+    }
+    
+	/** 
+	 * Test method for {@link org.filteredpush.kuration.util.GEOUtil.isValidEPSGCodeForDwCgeodeticDatum(String)).
+	 */
+    @Test
+    public void testisKnownNameForDwCgeodeticDatum() {
+        String geodeticDatum = "WGS 84";
+        boolean result = GEOUtil.isKnownNameForDwCgeodeticDatum(geodeticDatum);
+        assertTrue(result);
+        
+        geodeticDatum = "ED50";
+        result = GEOUtil.isKnownNameForDwCgeodeticDatum(geodeticDatum);
+        assertTrue(result);
+        
+        geodeticDatum = "ED 50";
+        result = GEOUtil.isKnownNameForDwCgeodeticDatum(geodeticDatum);
+        assertFalse(result);  // ED50 is exact match
+
+        geodeticDatum = "invalid_datum_value";
+        result = GEOUtil.isKnownNameForDwCgeodeticDatum(geodeticDatum);
+        assertFalse(result);
+    }
+    
+	/** 
+	 * Test method for {@link org.filteredpush.kuration.util.GEOUtil.isKnownNameForDwCgeodeticDatumCaseInsensitive(String)).
+	 */
+    @Test
+    public void testisKnownNameForDwCgeodeticDatumCaseInsensitive() {
+        String geodeticDatum = "WGS 84";
+        boolean result = GEOUtil.isKnownNameForDwCgeodeticDatumCaseInsensitive(geodeticDatum);
+        assertTrue(result);
+        
+        geodeticDatum = "WGS84";
+        result = GEOUtil.isKnownNameForDwCgeodeticDatumCaseInsensitive(geodeticDatum);
+        assertTrue(result);
+        
+        geodeticDatum = "ED50";
+        result = GEOUtil.isKnownNameForDwCgeodeticDatumCaseInsensitive(geodeticDatum);
+        assertTrue(result);
+        
+        geodeticDatum = "ED 50";
+        result = GEOUtil.isKnownNameForDwCgeodeticDatumCaseInsensitive(geodeticDatum);
+        assertTrue(result);  // ED50 is exact match
+
+        geodeticDatum = "invalid_datum_value";
+        result = GEOUtil.isKnownNameForDwCgeodeticDatumCaseInsensitive(geodeticDatum);
+        assertFalse(result);
+    }
+        
+	/** 
 	 * Test method for {@link org.filteredpush.kuration.util.GEOUtil.getEPSGCodeForString(String)).
 	 */
     @Test
@@ -71,6 +138,7 @@ public class GeoUtiltsTest {
         testMap.put("EPSG:4258","ETRS89");
         testMap.put("EPSG:7844","GDA2020");
         testMap.put("EPSG:4283","GDA94");
+        testMap.put("EPSG:4230","ED50");
         Iterator<String> i = testMap.keySet().iterator();
         while (i.hasNext()) { 
         	String code = i.next();

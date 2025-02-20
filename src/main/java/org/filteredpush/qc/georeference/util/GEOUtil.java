@@ -127,6 +127,12 @@ public class GEOUtil {
 	
 	public static Map<String,String> geographicEllipsoidEPSGNamesCodes;
 	
+	public static Map<String,String> geographicEPSGNamesCodesCI;
+	
+	public static Map<String,String> geographicDatumEPSGNamesCodesCI;
+	
+	public static Map<String,String> geographicEllipsoidEPSGNamesCodesCI;
+	
 	/**
 	 * <p>getDistanceKm.</p>
 	 *
@@ -1054,9 +1060,60 @@ public class GEOUtil {
 			setupGeographicEPSGCodesList();
 		}
 		
+		logger.debug(geodeticDatum);
+		
 		if (geographicEPSGNamesCodes.containsValue(geodeticDatum) || 
 				geographicDatumEPSGNamesCodes.containsValue(geodeticDatum) || 
 				geographicEllipsoidEPSGNamesCodes.containsValue(geodeticDatum)) 
+		{ 
+			retval = true;
+		}
+		return retval;
+	}
+	
+	public static boolean isKnownNameForDwCgeodeticDatum(String geodeticDatum) { 
+		boolean retval = false;
+		
+		if (geographicCodes==null) { 
+			setupGeographicEPSGCodesList();
+		}
+		
+		if (!geodeticDatum.startsWith("EPSG:")) { 
+			geodeticDatum = "EPSG:"+geodeticDatum;
+		}
+		
+		if (geographicEPSGNamesCodes.containsKey(geodeticDatum) || 
+				geographicDatumEPSGNamesCodes.containsKey(geodeticDatum) || 
+				geographicEllipsoidEPSGNamesCodes.containsKey(geodeticDatum)) 
+		{ 
+			retval = true;
+		}
+		return retval;
+	}
+	
+	/**
+	 * Check if a text string is a case and space insensitive match for the name of an EPSG code 
+	 * appropriate for dwc:geodeticDatum (Geographic CRS, or datum or ellipsoid thereof).
+	 * 
+	 * @param geodeticDatum to test
+	 * @return true if matched to a name, ignoring case and spaces, otherwise false.
+	 */
+	public static boolean isKnownNameForDwCgeodeticDatumCaseInsensitive(String geodeticDatum) { 
+		boolean retval = false;
+		
+		if (geographicCodes==null) { 
+			setupGeographicEPSGCodesList();
+		}
+		
+		if (!geodeticDatum.startsWith("EPSG:")) { 
+			geodeticDatum = "EPSG:"+geodeticDatum;
+		}
+		
+		geodeticDatum = geodeticDatum.toUpperCase().replace(" ","");
+		
+		if (geographicEPSGNamesCodesCI.containsKey(geodeticDatum) || 
+				geographicDatumEPSGNamesCodesCI.containsKey(geodeticDatum) || 
+				geographicEllipsoidEPSGNamesCodesCI.containsKey(geodeticDatum)) 
 		{ 
 			retval = true;
 		}
@@ -1074,6 +1131,9 @@ public class GEOUtil {
 		geographicEPSGNamesCodes = new HashMap<String,String>();
 		geographicDatumEPSGNamesCodes = new HashMap<String,String>();
 		geographicEllipsoidEPSGNamesCodes = new HashMap<String,String>();
+		geographicEPSGNamesCodesCI = new HashMap<String,String>();
+		geographicDatumEPSGNamesCodesCI = new HashMap<String,String>();
+		geographicEllipsoidEPSGNamesCodesCI = new HashMap<String,String>();
 		
 		CRSAuthorityFactory factory = CRS.getAuthorityFactory(true);
 		try {
@@ -1088,19 +1148,24 @@ public class GEOUtil {
 						if (epsgGeoCRS.getCoordinateSystem().getDimension()==2 && epsgGeoCRS.getCoordinateSystem().getAxis(0).getUnit()==Units.DEGREE_ANGLE ) { 
 							if (!geographicEPSGNamesCodes.containsKey(name.toString())) { 
 								geographicEPSGNamesCodes.put(name.toString(),code);
-								//System.out.println(code + " " + name.toString().replace("EPSG:", ""));
+								geographicEPSGNamesCodesCI.put(name.toString().toUpperCase().replace(" ", ""),code);
+								if (name.toString().contains("84")) { 
+								System.out.println(code + " " + name.toString().replace("EPSG:", ""));
+								}
 							}
 							String ellipsoid = epsgGeoCRS.getDatum().getEllipsoid().getName().toString();
 						    String ellipsoidCode = epsgGeoCRS.getDatum().getEllipsoid().getIdentifiers().toArray()[0].toString();
 							if (!geographicEllipsoidEPSGNamesCodes.containsKey(ellipsoid)) { 
 								geographicEllipsoidEPSGNamesCodes.put(ellipsoid, ellipsoidCode);
+								geographicEllipsoidEPSGNamesCodesCI.put(ellipsoid.toUpperCase().replace(" ", "") , ellipsoidCode);
 								//System.out.println(ellipsoidCode + " " + ellipsoid.replace("EPSG:", ""));
 							}
 							String datum = epsgGeoCRS.getDatum().getName().toString();
 						    String datumCode = epsgGeoCRS.getDatum().getIdentifiers().toArray()[0].toString();
 							if (!geographicDatumEPSGNamesCodes.containsKey(datum)) { 
 								geographicDatumEPSGNamesCodes.put(datum, datumCode);
-								System.out.println(datumCode + " " + datum.replace("EPSG:", ""));
+								geographicDatumEPSGNamesCodesCI.put(datum.toUpperCase().replace(" ", "") , datumCode);
+								//System.out.println(datumCode + " " + datum.replace("EPSG:", ""));
 							}
 						}
 					} catch (FactoryException fe) { 

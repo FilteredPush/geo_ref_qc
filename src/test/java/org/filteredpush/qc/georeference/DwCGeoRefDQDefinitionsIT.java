@@ -752,6 +752,23 @@ public class DwCGeoRefDQDefinitionsIT {
 		assertFalse(GEOUtil.isEmpty(result.getComment()));;
 		assertEquals(ResultState.NOT_AMENDED.getLabel(), result.getResultState().getLabel());
 		assertNull(result.getValue());
+		
+		geodeticDatum = "ED50";
+		result = DwCGeoRefDQ.amendmentGeodeticdatumStandardized(geodeticDatum);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.AMENDED.getLabel(), result.getResultState().getLabel());
+		assertEquals(1,result.getValue().getObject().size());
+		assertEquals("EPSG:4230",result.getValue().getObject().get("dwc:geodeticDatum"));
+		
+		geodeticDatum = "ED 50";
+		result = DwCGeoRefDQ.amendmentGeodeticdatumStandardized(geodeticDatum);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.AMENDED.getLabel(), result.getResultState().getLabel());
+		assertEquals(1,result.getValue().getObject().size());
+		assertEquals("EPSG:4230",result.getValue().getObject().get("dwc:geodeticDatum"));
+		
 	}
 	
     	/**
