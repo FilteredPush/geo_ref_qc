@@ -74,6 +74,14 @@ public class GettyTGNObject {
 			this.subjectID = subject.getSubjectID().toString();
 			this.placeTypeID = placeTypeID;
 			this.parentageString = subject.getPreferredParent();
+			
+			//  TODO: If empty, do a lookup recursing up the subject ID values and getting names of each entity.
+			//  See: http://vocabsservices.getty.edu/TGNService.asmx
+        	if (parentageString == null || parentageString.trim().equals("") || parentageString.replaceAll("[^A-Za-z]", "").equals("")) {
+			
+        		//foo
+        	}
+			
 			logger.debug(subjectID);
 			logger.debug(placeTypeID);
 		}
