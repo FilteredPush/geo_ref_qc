@@ -3,15 +3,12 @@
  */
 package edu.getty.tgn.service;
 
-import java.math.BigInteger;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.filteredpush.qc.georeference.util.GeoUtilSingleton;
+import org.filteredpush.qc.georeference.util.GettyLookup;
 
-import edu.getty.tgn.objects.Vocabulary;
 import edu.getty.tgn.objects.Vocabulary.Subject;
-import jakarta.xml.bind.annotation.XmlElement;
 
 /**
  * A structure to hold information about a Getty Thesaurus of geographic names record
@@ -79,7 +76,11 @@ public class GettyTGNObject {
 			//  See: http://vocabsservices.getty.edu/TGNService.asmx
         	if (parentageString == null || parentageString.trim().equals("") || parentageString.replaceAll("[^A-Za-z]", "").equals("")) {
 			
-        		//foo
+        		GettyLookup lookup = GeoUtilSingleton.getInstance().getGettyLookup();
+        		String parent = lookup.lookupParent(this.subjectID);
+        		if (parent!=null) { 
+        			this.parentageString = parent;
+        		}
         	}
 			
 			logger.debug(subjectID);

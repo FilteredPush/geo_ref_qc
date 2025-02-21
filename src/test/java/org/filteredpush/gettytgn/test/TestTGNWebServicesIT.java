@@ -5,6 +5,7 @@ package org.filteredpush.gettytgn.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,8 +16,14 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.filteredpush.qc.georeference.util.GeoUtilSingleton;
+import org.filteredpush.qc.georeference.util.GettyLookup;
 
 import edu.getty.tgn.objects.Vocabulary;
 import edu.getty.tgn.objects.Vocabulary.Subject;
@@ -27,6 +34,9 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 
 import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * @author mole
@@ -122,5 +132,80 @@ public class TestTGNWebServicesIT {
 			e.printStackTrace();
 		}	
 	}
+	
+	@Test
+	public void testLookupParent() { 
+		String subjectid = "7007517"; // Massachusetts
+		GettyLookup lookup = GeoUtilSingleton.getInstance().getGettyLookup();
+		String result = lookup.lookupParent(subjectid);
+		assertEquals("United States",result);
+		
+	}
+	
+	@Test
+	public void testLookupParentage() { 
+	
+		String subjectid = "7007517"; // Massachusetts
+		
+		String baseURI = "http://vocabsservices.getty.edu/TGNService.asmx/TGNGetParents?";
+		
+		StringBuilder request = new StringBuilder();
+		request.append(baseURI);
+		request.append("subjectID=").append(subjectid);
+		logger.debug(request);
+    	try {
+    		URL url = new URL(request.toString());
+    		HttpURLConnection getty = (HttpURLConnection) url.openConnection();
+    		InputStream is = getty.getInputStream();
+    		
+    		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			try {
+				DocumentBuilder builder = factory.newDocumentBuilder();
+				Document document = builder.parse(is);
+				NodeList nodes = document.getElementsByTagName("Parent_Subject_ID");
+				if (nodes.getLength() > 0) { 
+					logger.debug(nodes.item(0).getTextContent());
+					String parentid = nodes.item(0).getTextContent();
 
+					baseURI = "http://vocabsservices.getty.edu/TGNService.asmx/TGNGetSubject?";
+					request = new StringBuilder();
+					request.append(baseURI);
+					request.append("subjectID=").append(parentid);
+					url = new URL(request.toString());
+					getty = (HttpURLConnection) url.openConnection();
+					is = getty.getInputStream();
+					builder = factory.newDocumentBuilder();
+					document = builder.parse(is);
+					nodes = document.getElementsByTagName("Term_Text");
+					if (nodes.getLength()>0) { 
+						logger.debug(nodes.item(0).getTextContent());
+
+						assertEquals("United States",nodes.item(0).getTextContent());
+					} else { 
+						logger.debug(nodes.getLength());
+						fail();
+					}
+				} else { 
+					logger.debug(nodes.getLength());
+					fail();
+				}
+			} catch (ParserConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SAXException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		
+	}
+	
 }
