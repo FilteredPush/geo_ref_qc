@@ -493,6 +493,24 @@ public class DwCGeoRefDQDefinitionsIT {
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.NOT_COMPLIANT.getLabel(), result.getValue().getLabel());
 		
+		country="Australia";
+		stateProvince = "Tasmania";
+		sourceAuthority = null;
+		result = DwCGeoRefDQ.validationCountrystateprovinceConsistent(country, stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		country="Brazil";
+		stateProvince = "Ceará";
+		sourceAuthority = null;
+		result = DwCGeoRefDQ.validationCountrystateprovinceConsistent(country, stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
 	}
 	
 	
