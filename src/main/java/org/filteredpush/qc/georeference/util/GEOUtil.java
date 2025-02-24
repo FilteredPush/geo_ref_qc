@@ -46,6 +46,7 @@ import org.geotools.api.referencing.ReferenceIdentifier;
 import org.geotools.api.referencing.crs.CRSAuthorityFactory;
 import org.geotools.api.referencing.crs.CoordinateReferenceSystem;
 import org.geotools.api.referencing.crs.GeographicCRS;
+import org.geotools.api.referencing.datum.Datum;
 import org.geotools.api.referencing.datum.Ellipsoid;
 import org.geotools.api.referencing.operation.CoordinateOperation;
 import org.geotools.api.referencing.operation.TransformException;
@@ -1138,6 +1139,7 @@ public class GEOUtil {
 		CRSAuthorityFactory factory = CRS.getAuthorityFactory(true);
 		try {
 			geographicCodes = factory.getAuthorityCodes(GeographicCRS.class);
+			
 			Iterator<String> itt = geographicCodes.iterator()	;
 			while (itt.hasNext()) { 
 				String code = itt.next();
@@ -1149,9 +1151,9 @@ public class GEOUtil {
 							if (!geographicEPSGNamesCodes.containsKey(name.toString())) { 
 								geographicEPSGNamesCodes.put(name.toString(),code);
 								geographicEPSGNamesCodesCI.put(name.toString().toUpperCase().replace(" ", ""),code);
-								if (name.toString().contains("84")) { 
-								System.out.println(code + " " + name.toString().replace("EPSG:", ""));
-								}
+								//if (name.toString().contains("84")) { 
+								//    System.out.println(code + " " + name.toString().replace("EPSG:", ""));
+								//}
 							}
 							String ellipsoid = epsgGeoCRS.getDatum().getEllipsoid().getName().toString();
 						    String ellipsoidCode = epsgGeoCRS.getDatum().getEllipsoid().getIdentifiers().toArray()[0].toString();
@@ -1174,6 +1176,8 @@ public class GEOUtil {
 					}
 				}
 			}
+			//logger.debug(geographicDatumEPSGNamesCodes.size());
+			//logger.debug(geographicEllipsoidEPSGNamesCodes.size());
 		} catch (FactoryException e) {
 			logger.error(e.getMessage());
 		}
