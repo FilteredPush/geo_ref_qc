@@ -1546,8 +1546,14 @@ public class DwCGeoRefDQ{
 						result.setValue(ComplianceValue.COMPLIANT);
 						result.addComment("The value of dwc:geodeticDatum is consistent the definition of dwc:geodeticDatum.");
 					} else { 
-						result.setValue(ComplianceValue.NOT_COMPLIANT);
-						result.addComment("The value of dwc:geodeticDatum [" + geodeticDatum + "] is an EPSG code but not consistent with the definition of dwc:geodeticDatum");
+						boolean caseMatch = GEOUtil.isValidEPSGCodeForDwCgeodeticDatum(lookup.toUpperCase());
+						if (caseMatch) { 
+							result.setValue(ComplianceValue.NOT_COMPLIANT);
+							result.addComment("The value of dwc:geodeticDatum [" + geodeticDatum + "] appears to be an EPSG code consistent with the definition of dwc:geodeticDatum, but should be ["+lookup.toUpperCase()+"].");
+						} else { 
+							result.setValue(ComplianceValue.NOT_COMPLIANT);
+							result.addComment("The value of dwc:geodeticDatum [" + geodeticDatum + "] is an EPSG code but not consistent with the definition of dwc:geodeticDatum");
+						}
 					} 
 				} else { 
 					result.setValue(ComplianceValue.NOT_COMPLIANT);

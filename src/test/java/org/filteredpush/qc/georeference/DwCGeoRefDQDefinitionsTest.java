@@ -1161,6 +1161,13 @@ public class DwCGeoRefDQDefinitionsTest {
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
+		geodeticDatum = "epsg:4326";
+		result = DwCGeoRefDQ.validationGeodeticdatumStandard(geodeticDatum);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());		
+		
 		geodeticDatum = "EPSG:32618";   // UTM zone 18, projected CRS.
 		result = DwCGeoRefDQ.validationGeodeticdatumStandard(geodeticDatum);
 		logger.debug(result.getComment());
