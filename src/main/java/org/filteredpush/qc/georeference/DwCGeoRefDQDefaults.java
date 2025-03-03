@@ -58,14 +58,14 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
 	
     
    /**
-    * Proposes an amendment to fill in dwc:geodeticDatum using a prameterized value if the dwc:geodeticDatum is empty.
+    * Proposes an amendment to fill in dwc:geodeticDatum using a parmeterized value if the dwc:geodeticDatum is empty.
     * Uses the default parameter value.
     * 
     * If dwc:coordinateUncertaintyInMeters is not empty and there are not empty values for dwc:latitude and dwc:longitude,
     * amend dwc:coordinateUncertaintyInMeters by adding a maximum datum shift.
     *
     * Provides: 102 AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT
-    * Version: 2024-08-18
+    * Version: 2024-11-12
     *
     * @param coordinateUncertaintyInMeters the provided dwc:cooordinateUncertaintyInMeters to evaluate.
     * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
@@ -73,11 +73,10 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
     * @param decimalLongitude the provided dwc:decimalLongitude to evaluate
     * @return DQResponse the response of type AmendmentValue to return
     */
-   @Amendment(label="AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT", description="Proposes an amendment to fill in dwc:geodeticDatum using a prameterized value if the dwc:geodeticDatum is empty.")
+   @Amendment(label="AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT", description="Proposes an amendment to fill in dwc:geodeticDatum using a parmeterized value if the dwc:geodeticDatum is empty.")
    @Provides("7498ca76-c4d4-42e2-8103-acacccbdffa7")
-   @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2024-08-18")
-   @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is bdq:NotEmpty; FILLED_IN dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum, report FILLED_IN and, if dwc:coordinateUncertaintyInMeters, dwc:decimalLatitude and dwc:decimalLongitude are bdq:NotEmpty, amend the value of dwc:coordinateUncertaintyInMeters by adding the maximum datum shift between the specified bdq:defaultGeodeticDatum and any other datum at the provided dwc:decimalLatitude and dwc:decimalLongitude and instead report AMENDED; otherwise NOT_AMENDED.. bdq:defaultGeodeticDatum default = 'EPSG:4326'")
-   
+   @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2024-11-12")
+   @Specification("If dwc:geodeticDatum is bdq:Empty, fill in dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum, report FILLED_IN and, if dwc:coordinateUncertaintyInMeters, dwc:decimalLatitude and dwc:decimalLongitude are bdq:NotEmpty, amend the value of dwc:coordinateUncertaintyInMeters by adding the maximum datum shift between the specified bdq:defaultGeodeticDatum and any other datum at the provided dwc:decimalLatitude and dwc:decimalLongitude and instead report AMENDED; otherwise NOT_AMENDED.. bdq:defaultGeodeticDatum default = 'EPSG:4326'")
    public DQResponse<AmendmentValue> amendmentGeodeticdatumAssumeddefault(
    		@ActedUpon("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters, 
    		@ActedUpon("dwc:geodeticDatum") String geodeticDatum,
@@ -342,8 +341,8 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
      */
     @Amendment(label="AMENDMENT_COORDINATES_TRANSPOSED", description="Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to align the location with the dwc:countryCode.")
     @Provides("f2b4a50a-6b2f-4930-b9df-da87b6a21082")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/f2b4a50a-6b2f-4930-b9df-da87b6a21082/2023-11-11")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if any of dwc:decimalLatitude or dwc:decimalLongitude or dwc:countryCode are bdq:Empty; AMENDED dwc:decimalLatitude and dwc:decimalLongitude if the coordinates were transposed or one or more of the signs of the coordinates were reversed to align the location with dwc:countryCode according to the bdq:sourceAuthority; otherwise NOT_AMENDED. bdq:sourceAuthority default = \"10m-admin-1 boundaries UNION with Exclusive Economic Zones\" {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/] spatial UNION [https://www.marineregions.org/downloads.php#marbound]} ")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/f2b4a50a-6b2f-4930-b9df-da87b6a21082/2024-11-11")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if any of dwc:decimalLatitude or dwc:decimalLongitude or dwc:countryCode are bdq:Empty; AMENDED dwc:decimalLatitude and dwc:decimalLongitude if the coordinates were transposed or one or more of the signs of the coordinates were reversed to align the location with dwc:countryCode according to the bdq:sourceAuthority; otherwise NOT_AMENDED. bdq:sourceAuthority default = '10m-admin-1 boundaries UNION with Exclusive Economic Zones' {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/] spatial UNION [https://www.marineregions.org/downloads.php#marbound]}")
     public static DQResponse<AmendmentValue> amendmentCoordinatesTransposed(
         @ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
         @ActedUpon("dwc:decimalLongitude") String decimalLongitude, 

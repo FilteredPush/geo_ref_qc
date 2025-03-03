@@ -1485,21 +1485,22 @@ public class DwCGeoRefDQ{
     }
 
     /**
+    * Is the value of dwc:geodeticDatum valid according to the bdq:sourceAuthority?
      * Does the value of dwc:geodeticDatum occur as a valid geographic CRS, 
      * geodetic Datum or ellipsoid in bdq:sourceAuthority?
      *
      * #59 Validation SingleRecord Conformance: geodeticdatum notstandard
      *
      * Provides: 59 VALIDATION_GEODETICDATUM_STANDARD
-     * Version: 2023-09-17
+     * Version: 2025-03-03
      *
      * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
      * @return DQResponse the response of type ComplianceValue  to return
      */
     @Validation(label="VALIDATION_GEODETICDATUM_STANDARD", description="Does the value of dwc:geodeticDatum occur as a valid geographic CRS, geodetic Datum or ellipsoid in bdq:sourceAuthority?")
     @Provides("7e0c0418-fe16-4a39-98bd-80e19d95b9d1")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/7e0c0418-fe16-4a39-98bd-80e19d95b9d1/2023-09-17")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available, INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is bdq:Empty; COMPLIANT if the value of dwc:geodeticDatum is (1) 'not recorded' or (2) a valid geographic EPSG code for a CRS, Datum, or ellipsoid in the bdq:sourceAuthority; otherwise NOT_COMPLIANT. bdq:sourceAuthority = 'EPSG' {[https://epsg.org]} {API for EPSG codes [https://apps.epsg.org/api/swagger/ui/index#/Datum]}")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/7e0c0418-fe16-4a39-98bd-80e19d95b9d1/2025-03-03")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available, INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is bdq:Empty; COMPLIANT if the value of dwc:geodeticDatum is a valid code from the bdq:sourceAuthority (in the form Authority:Number) for a Datum, or ellipsoid, or for a CRS appropriate for a 2D geographic coordinate in degrees, or is the value 'not recorded'; otherwise NOT_COMPLIANT. bdq:sourceAuthority = 'EPSG' {[https://epsg.org]} {API for EPSG codes [https://apps.epsg.org/api/swagger/ui/index]}")
     public static DQResponse<ComplianceValue> validationGeodeticdatumStandard(
     		@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
@@ -1508,19 +1509,13 @@ public class DwCGeoRefDQ{
         // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
         // is not available, INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum 
         // is bdq:Empty; COMPLIANT if the value of dwc:geodeticDatum 
-        // is (1) "not recorded" or (2) a valid geographic EPSG code 
-        // for a CRS, Datum, or ellipsoid in the bdq:sourceAuthority; 
-        // otherwise NOT_COMPLIANT 
-        // bdq:sourceAuthority = "EPSG" 
-        // {[https://epsg.org]} 
-        // {API for // EPSG codes [https://apps.epsg.org/api/swagger/ui/index#/Datum]} 
-        // 
-        
-        // TODO: Address "not recorded" in specification, per georeferencing 
-        // best practices guide.
-        // Note that dwc:geodeticDatum comment asserts "unknown", but a change 
-        // request has been filed against Darwin Core to make this consistent
-        // with "not recorded" to follow the best practices guide.
+        // is a valid code from the bdq:sourceAuthority (in the form 
+        // Authority:Number) for a Datum, or ellipsoid, or for a CRS 
+        // appropriate for a 2D geographic coordinate in degrees, or 
+        // is the value "not recorded"; otherwise NOT_COMPLIANT 
+        //
+        // bdq:sourceAuthority = "EPSG" {[https://epsg.org]} {API for 
+        // EPSG codes [https://apps.epsg.org/api/swagger/ui/index]} 
         
         if (GEOUtil.isEmpty(geodeticDatum)) { 
         	result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
@@ -1529,14 +1524,19 @@ public class DwCGeoRefDQ{
 			result.setResultState(ResultState.RUN_HAS_RESULT);
 			result.setValue(ComplianceValue.COMPLIANT);
 			result.addComment("The value of dwc:geodeticDatum is the value 'not recorded'.");
+        } else if (geodeticDatum.equals("unknown")) { 
+			result.setResultState(ResultState.RUN_HAS_RESULT);
+			result.setValue(ComplianceValue.NOT_COMPLIANT);
+			result.addComment("The value of dwc:geodeticDatum [unknown] is not compliant, for unknowns the value 'not recorded' may apply.");
         } else { 
         	boolean matched = false;
         	result.setResultState(ResultState.RUN_HAS_RESULT);
         	String lookup = geodeticDatum;
-        	if (geodeticDatum.matches("^[0-9]+$")) { 
+        	// Specification indicates the code must be in the form Authority:number
+        	//if (geodeticDatum.matches("^[0-9]+$")) { 
         		// just a number, prepend EPSG: pseudo-namespace
-        		lookup = "EPSG:" + geodeticDatum;
-        	} 
+        	//	lookup = "EPSG:" + geodeticDatum;
+        	//} 
         	matched = GEOUtil.isValidEPSGCodeForDwCgeodeticDatum(lookup);
         	if (matched) { 
         		result.setValue(ComplianceValue.COMPLIANT);
@@ -1560,28 +1560,32 @@ public class DwCGeoRefDQ{
      * Proposes an amendment to the value of dwc:geodeticDatum using the bdq:sourceAuthority.
      *
      * Provides: 60 AMENDMENT_GEODETICDATUM_STANDARDIZED
-     * Version: 2024-7-24
+     * Version: 2025-03-03
      *
      * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
      * @return DQResponse the response of type AmendmentValue to return
      */
     @Amendment(label="AMENDMENT_GEODETICDATUM_STANDARDIZED", description="Proposes an amendment to the value of dwc:geodeticDatum using the bdq:sourceAuthority.")
     @Provides("0345b325-836d-4235-96d0-3b5caf150fc0")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/0345b325-836d-4235-96d0-3b5caf150fc0/2024-7-24")
-    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is bdq:Empty; AMENDED the value of dwc:geodeticDatum if it could be unambiguously interpreted as a value in the bdq:sourceAuthority; otherwise NOT_AMENDED. bdq:sourceAuthority = 'EPSG' {[https://epsg.org]} {API for EPSG codes [https://apps.epsg.org/api/swagger/ui/index#/Datum]}")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/0345b325-836d-4235-96d0-3b5caf150fc0/2025-03-03")
+    @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is bdq:Empty; AMENDED the value of dwc:geodeticDatum if it could be unambiguously interpreted as a valid code from the bdq:sourceAuthority (in the form Authority:Number) for a Datum, Ellipsoid or a CRS appropriate for a 2D geographic coordinate in degrees, or as the value 'not recorded'; otherwise NOT_AMENDED. bdq:sourceAuthority = 'EPSG' {[https://epsg.org]} {API for EPSG codes [https://apps.epsg.org/api/swagger/ui/index#/Datum]}")
     public static DQResponse<AmendmentValue> amendmentGeodeticdatumStandardized(
     		@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
     	DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
     	// Specification
-		// EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority was not available;
-		// INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is EMPTY; AMENDED the
-		// value of dwc:geodeticDatum if it could be unambiguously interpreted as a
-		// value in bdq:sourceAuthority; otherwise NOT_AMENDED 
-    	// bdq:sourceAuthority =
-		// "EPSG" {[https://epsg.org]} {API for EPSG codes
-		// [https://apps.epsg.org/api/swagger/ui/index#/Datum]}
-
+        // EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority 
+        // is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum 
+        // is bdq:Empty; AMENDED the value of dwc:geodeticDatum if 
+        // it could be unambiguously interpreted as a valid code from 
+        // the bdq:sourceAuthority (in the form Authority:Number) for 
+        // a Datum, Ellipsoid or a CRS appropriate for a 2D geographic 
+        // coordinate in degrees, or as the value "not recorded"; otherwise 
+        // NOT_AMENDED 
+    	// 
+        // bdq:sourceAuthority = "EPSG" {[https://epsg.org]} {API for 
+        // EPSG codes [https://apps.epsg.org/api/swagger/ui/index#/Datum]} 
+        // 
     	
     	// NOTE: "not recorded" is an acceptable value, per the georeferencing best practicices guide.
     	// However, the suggested "unknown" in the notes on dwc:geodeticDatum should not be used, and
@@ -2327,13 +2331,13 @@ public class DwCGeoRefDQ{
     }
 
     /**
-     * Proposes an amendment to fill in dwc:geodeticDatum using a prameterized value if the dwc:geodeticDatum is empty.
+     * Proposes an amendment to fill in dwc:geodeticDatum using a parmeterized value if the dwc:geodeticDatum is empty.
      * 
      * If dwc:coordinateUncertaintyInMeters is not empty and there are not empty values for dwc:latitude and dwc:longitude,
      * amend dwc:coordinateUncertaintyInMeters by adding a maximum datum shift.
      *
      * Provides: 102 AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT
-     * Version: 2024-08-18
+     * Version: 2024-11-12
      *
      * @param coordinateUncertaintyInMeters the provided dwc:cooordinateUncertaintyInMeters to evaluate.
      * @param geodeticDatum the provided dwc:geodeticDatum to evaluate
@@ -2344,8 +2348,8 @@ public class DwCGeoRefDQ{
      */
     @Amendment(label="AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT", description="Proposes an amendment to fill in dwc:geodeticDatum using a prameterized value if the dwc:geodeticDatum is empty.")
     @Provides("7498ca76-c4d4-42e2-8103-acacccbdffa7")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2024-08-18")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is bdq:NotEmpty; FILLED_IN dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum, report FILLED_IN and, if dwc:coordinateUncertaintyInMeters, dwc:decimalLatitude and dwc:decimalLongitude are bdq:NotEmpty, amend the value of dwc:coordinateUncertaintyInMeters by adding the maximum datum shift between the specified bdq:defaultGeodeticDatum and any other datum at the provided dwc:decimalLatitude and dwc:decimalLongitude and instead report AMENDED; otherwise NOT_AMENDED.. bdq:defaultGeodeticDatum default = 'EPSG:4326'")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2024-11-12")
+    @Specification("If dwc:geodeticDatum is bdq:Empty, fill in dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum, report FILLED_IN and, if dwc:coordinateUncertaintyInMeters, dwc:decimalLatitude and dwc:decimalLongitude are bdq:NotEmpty, amend the value of dwc:coordinateUncertaintyInMeters by adding the maximum datum shift between the specified bdq:defaultGeodeticDatum and any other datum at the provided dwc:decimalLatitude and dwc:decimalLongitude and instead report AMENDED; otherwise NOT_AMENDED.. bdq:defaultGeodeticDatum default = 'EPSG:4326'")
     public static DQResponse<AmendmentValue> amendmentGeodeticdatumAssumeddefault(
     		@ActedUpon("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters, 
     		@ActedUpon("dwc:geodeticDatum") String geodeticDatum,
@@ -2354,15 +2358,13 @@ public class DwCGeoRefDQ{
     		@Parameter(name="bdq:defaultGeodeticDatum") String defaultGeodeticDatum) {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
 
-        // TODO: Update to current specification.
-        
         // Specification
-        // INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is bdq:NotEmpty; 
-        // FILLED_IN dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum, 
-        // report FILLED_IN and, if dwc:coordinateUncertaintyInMeters, 
-        // dwc:decimalLatitude and dwc:decimalLongitude are bdq:NotEmpty, 
-        // amend the value of dwc:coordinateUncertaintyInMeters by 
-        // adding the maximum datum shift between the specified bdq:defaultGeodeticDatum 
+        // If dwc:geodeticDatum is bdq:Empty, fill in dwc:geodeticDatum 
+        // using the value of bdq:defaultGeodeticDatum, report FILLED_IN 
+        // and, if dwc:coordinateUncertaintyInMeters, dwc:decimalLatitude 
+        // and dwc:decimalLongitude are bdq:NotEmpty, amend the value 
+        // of dwc:coordinateUncertaintyInMeters by adding the maximum 
+        // datum shift between the specified bdq:defaultGeodeticDatum 
         // and any other datum at the provided dwc:decimalLatitude 
         // and dwc:decimalLongitude and instead report AMENDED; otherwise 
         // NOT_AMENDED. 
@@ -3470,8 +3472,8 @@ public class DwCGeoRefDQ{
      */
     @Amendment(label="AMENDMENT_COORDINATES_TRANSPOSED", description="Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to align the location with the dwc:countryCode.")
     @Provides("f2b4a50a-6b2f-4930-b9df-da87b6a21082")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/f2b4a50a-6b2f-4930-b9df-da87b6a21082/2023-11-11")
-    @Specification("INTERNAL_PREREQUISITES_NOT_MET if any of dwc:decimalLatitude or dwc:decimalLongitude or dwc:countryCode are bdq:Empty; AMENDED dwc:decimalLatitude and dwc:decimalLongitude if the coordinates were transposed or one or more of the signs of the coordinates were reversed to align the location with dwc:countryCode according to the bdq:sourceAuthority; otherwise NOT_AMENDED. bdq:sourceAuthority default = \"10m-admin-1 boundaries UNION with Exclusive Economic Zones\" {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/] spatial UNION [https://www.marineregions.org/downloads.php#marbound]} ")
+    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/f2b4a50a-6b2f-4930-b9df-da87b6a21082/2024-11-11")
+    @Specification("INTERNAL_PREREQUISITES_NOT_MET if any of dwc:decimalLatitude or dwc:decimalLongitude or dwc:countryCode are bdq:Empty; AMENDED dwc:decimalLatitude and dwc:decimalLongitude if the coordinates were transposed or one or more of the signs of the coordinates were reversed to align the location with dwc:countryCode according to the bdq:sourceAuthority; otherwise NOT_AMENDED. bdq:sourceAuthority default = '10m-admin-1 boundaries UNION with Exclusive Economic Zones' {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/] spatial UNION [https://www.marineregions.org/downloads.php#marbound]}")
     public static DQResponse<AmendmentValue> amendmentCoordinatesTransposed(
         @ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
         @ActedUpon("dwc:decimalLongitude") String decimalLongitude, 

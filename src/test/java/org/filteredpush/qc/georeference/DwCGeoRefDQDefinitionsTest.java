@@ -1161,6 +1161,13 @@ public class DwCGeoRefDQDefinitionsTest {
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
+		geodeticDatum = "4326";  // missing authority
+		result = DwCGeoRefDQ.validationGeodeticdatumStandard(geodeticDatum);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.NOT_COMPLIANT, result.getValue());
+		
 		geodeticDatum = "epsg:4326";
 		result = DwCGeoRefDQ.validationGeodeticdatumStandard(geodeticDatum);
 		logger.debug(result.getComment());
@@ -1212,7 +1219,7 @@ public class DwCGeoRefDQDefinitionsTest {
 				}
 				if (!code.equals("5820")) {
 					if (exists && GEOUtil.isValidEPSGCodeForDwCgeodeticDatum("EPSG:"+code)) { 
-						result = DwCGeoRefDQ.validationGeodeticdatumStandard(code);
+						result = DwCGeoRefDQ.validationGeodeticdatumStandard("EPSG:"+code);
 						logger.debug(result.getComment());
 						assertFalse(GEOUtil.isEmpty(result.getComment()));
 						assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
