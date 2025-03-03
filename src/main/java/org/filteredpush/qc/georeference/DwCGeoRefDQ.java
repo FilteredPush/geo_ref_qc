@@ -1529,46 +1529,29 @@ public class DwCGeoRefDQ{
 			result.setResultState(ResultState.RUN_HAS_RESULT);
 			result.setValue(ComplianceValue.COMPLIANT);
 			result.addComment("The value of dwc:geodeticDatum is the value 'not recorded'.");
-		} else { 
-			try { 
-				boolean matched = false;
-				result.setResultState(ResultState.RUN_HAS_RESULT);
-				String lookup = geodeticDatum;
-				if (geodeticDatum.matches("^[0-9]+$")) { 
-					// just a number, prepend EPSG: pseudo-namespace
-					lookup = "EPSG:" + geodeticDatum;
-				} 
-				matched = GEOUtil.isCoordinateSystemCodeKnown(lookup);
-				if (matched) { 
-					result.addComment("The value of dwc:geodeticDatum is a known EPSG code.");
-					matched = GEOUtil.isValidEPSGCodeForDwCgeodeticDatum(lookup);
-					if (matched) { 
-						result.setValue(ComplianceValue.COMPLIANT);
-						result.addComment("The value of dwc:geodeticDatum is consistent the definition of dwc:geodeticDatum.");
-					} else { 
-						boolean caseMatch = GEOUtil.isValidEPSGCodeForDwCgeodeticDatum(lookup.toUpperCase());
-						if (caseMatch) { 
-							result.setValue(ComplianceValue.NOT_COMPLIANT);
-							result.addComment("The value of dwc:geodeticDatum [" + geodeticDatum + "] appears to be an EPSG code consistent with the definition of dwc:geodeticDatum, but should be ["+lookup.toUpperCase()+"].");
-						} else { 
-							result.setValue(ComplianceValue.NOT_COMPLIANT);
-							result.addComment("The value of dwc:geodeticDatum [" + geodeticDatum + "] is an EPSG code but not consistent with the definition of dwc:geodeticDatum");
-						}
-					} 
-				} else { 
-					result.setValue(ComplianceValue.NOT_COMPLIANT);
-					result.addComment("The value of dwc:geodeticDatum [" + geodeticDatum + "] is not an EPSG code");
-				}
-			} catch (FactoryException e) { 
-				logger.debug(e.getClass());
-				logger.debug(e.getMessage());
-				// unmatched code exception is caught internally in is CoordinateSystemKnown, 
-				// other failures may be database exceptions or issues with transforms
-				result.setResultState(ResultState.RUN_HAS_RESULT);
-				result.setValue(ComplianceValue.NOT_COMPLIANT);
-				result.addComment(e.getMessage());
-			}
-		}
+        } else { 
+        	boolean matched = false;
+        	result.setResultState(ResultState.RUN_HAS_RESULT);
+        	String lookup = geodeticDatum;
+        	if (geodeticDatum.matches("^[0-9]+$")) { 
+        		// just a number, prepend EPSG: pseudo-namespace
+        		lookup = "EPSG:" + geodeticDatum;
+        	} 
+        	matched = GEOUtil.isValidEPSGCodeForDwCgeodeticDatum(lookup);
+        	if (matched) { 
+        		result.setValue(ComplianceValue.COMPLIANT);
+        		result.addComment("The value of dwc:geodeticDatum is consistent the definition of dwc:geodeticDatum.");
+        	} else { 
+        		boolean caseMatch = GEOUtil.isValidEPSGCodeForDwCgeodeticDatum(lookup.toUpperCase());
+        		if (caseMatch) { 
+        			result.setValue(ComplianceValue.NOT_COMPLIANT);
+        			result.addComment("The value of dwc:geodeticDatum [" + geodeticDatum + "] appears to be an EPSG code consistent with the definition of dwc:geodeticDatum, but should be ["+lookup.toUpperCase()+"].");
+        		} else { 
+        			result.setValue(ComplianceValue.NOT_COMPLIANT);
+        			result.addComment("The value of dwc:geodeticDatum [" + geodeticDatum + "] is an EPSG code but not consistent with the definition of dwc:geodeticDatum");
+        		}
+        	} 
+        }
 
         return result;
     }
