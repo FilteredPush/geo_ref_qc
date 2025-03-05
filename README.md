@@ -1,5 +1,6 @@
 # geo_ref_qc
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.filteredpush/geo_ref_qc/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.filteredpush/geo_ref_qc)
+
 Data Quality library for dwc:decimalLatitude, dwc:decimalLongitude and other Locality terms.
 
 DOI: 10.5281/zenodo.14064324
