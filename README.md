@@ -1,12 +1,12 @@
 # geo_ref_qc
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.filteredpush/geo_ref_qc/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.filteredpush/geo_ref_qc)
 Data Quality library for dwc:decimalLatitude, dwc:decimalLongitude and other Locality terms.
-
-Tools for working with georeferences in forms found in biodiversity data.
 
 DOI: 10.5281/zenodo.14064324
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14064325.svg)](https://doi.org/10.5281/zenodo.14064325)
 
+Tools for working with georeferences in forms found in biodiversity data.  This library provides tools for validating and correcting georeferences in biodiversity data.  It is designed to support the tests defined in the (draft) [BDQ Core](https://github.com/tdwg/bdq/blob/master/tg2/_review/index.md) standard for biodiversity data quality, and supports data quality assertions framed using the bdqffdq vocabulary.  The library is designed to be used in a variety of contexts, including as a standalone library, within a a data quality service, or as part of a a data quality workflow.  It takes inputs expressed using Darwin Core terms for spatial concepts, but can be used for quality control of spatial data in other contexts.
 
 ## BDQ Core Tests
 
@@ -54,7 +54,7 @@ Available in Maven Central.
     <dependency>
         <groupId>org.filteredpush</groupId>
         <artifactId>geo_ref_qc</artifactId>
-        <version>2.0.0</version>
+        <version>2.0.1</version>
     </dependency>
 
 
