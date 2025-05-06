@@ -13,7 +13,7 @@ Obtain relevant tests from term-version file csv into the geo_ref_qc/generation 
 
     cd geo_ref_qc/generation
     head -n 1 ../../bdq/tg2/core/TG2_tests.csv > space_tests.csv
-    grep SPACE ../../bdq/tg2/core/TG2_tests.csv  | grep -v AllDarwinCoreTerms | grep -v AllValidationTestsRunOnSingleRecord | grep -v "AllAmendmentTestsRunOnSingleRecord"  >> space_tests.csv
+    grep SPACE ../../bdq/tg2/core/TG2_tests.csv  | grep -v AllDarwinCoreTerms | grep -v AllValidationTestsRunOnSingleRecord | grep -v "AllAmendmentTestsRunOnSingleRecord" | grep -v DATAGENERALIZATIONS  >> space_tests.csv
 
 From this, RDF can be generated to use to obtain test metadata from the test IRIs, or Java code can be generated or marked as needing updates using kurator-ffdq.
 
