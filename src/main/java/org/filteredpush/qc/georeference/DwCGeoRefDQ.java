@@ -98,7 +98,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_COUNTRYCODE_STANDARD", description="Is the value of dwc:countryCode a valid ISO 3166-1-alpha-2 country code?")
     @Provides("0493bcfb-652e-4d17-815b-b0cce0742fbe")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/0493bcfb-652e-4d17-815b-b0cce0742fbe/2024-09-19")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/0493bcfb-652e-4d17-815b-b0cce0742fbe/2024-09-19")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the dwc:countryCode is bdq:Empty; COMPLIANT if dwc:countryCode can be unambiguously interpreted as a valid ISO 3166-1-alpha-2 country code in the bdq:sourceAuthority; otherwise NOT_COMPLIANT. bdq:sourceAuthority default = 'ISO 3166 Country Codes' {[https://www.iso.org/iso-3166-country-codes.html]} {ISO 3166-1-alpha-2 Country Code search [https://www.iso.org/obp/ui/#search]}")
     public static DQResponse<ComplianceValue> validationCountrycodeStandard(
     		@ActedUpon("dwc:countryCode") String countryCode) {
@@ -157,7 +157,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_COUNTRY_FOUND", description="Does the value of dwc:country occur in the bdq:sourceAuthority?")
     @Provides("69b2efdc-6269-45a4-aecb-4cb99c2ae134")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2024-08-19")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/69b2efdc-6269-45a4-aecb-4cb99c2ae134/2024-08-19")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:country is bdq:Empty; COMPLIANT if value of dwc:country is a place type equivalent to administrative entity of 'nation' in the bdq:sourceAuthority; otherwise NOT_COMPLIANT. bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
     public static DQResponse<ComplianceValue> validationCountryFound(
     		@ActedUpon("dwc:country") String country,
@@ -267,7 +267,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH", description="Is the value of dwc:minimumDepthInMeters a number that is less than or equal to the value of dwc:maximumDepthInMeters?")
     @Provides("8f1e6e58-544b-4365-a569-fb781341644e")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/8f1e6e58-544b-4365-a569-fb781341644e/2023-09-18")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/8f1e6e58-544b-4365-a569-fb781341644e/2023-09-18")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters or dwc:maximumDepthInMeters is EMPTY, or if either are interpretable as not zero or a positive number; COMPLIANT if the value of dwc:minimumDepthInMeters is less than or equal to the value of dwc:maximumDepthInMeters; otherwise NOT_COMPLIANT ")
     public static DQResponse<ComplianceValue> validationMindepthLessthanMaxdepth(
     		@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters,
@@ -342,7 +342,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_DECIMALLONGITUDE_INRANGE", description="Is the value of dwc:decimalLongitude a number between -180 and 180 inclusive?")
     @Provides("0949110d-c06b-450e-9649-7c1374d940d1")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/0949110d-c06b-450e-9649-7c1374d940d1/2023-09-17")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/0949110d-c06b-450e-9649-7c1374d940d1/2023-09-17")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLongitude is EMPTY or the value is not a number; COMPLIANT if the value of dwc:decimalLongitude is between -180 and 180 degrees, inclusive; otherwise NOT_COMPLIANT ")
     public static DQResponse<ComplianceValue> validationDecimallongitudeInrange(
     		@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
@@ -401,17 +401,17 @@ public class DwCGeoRefDQ{
      */
     @Amendment(label="AMENDMENT_COORDINATES_FROM_VERBATIM", description="Proposes an amendment to the values of dwc:decimalLatitude, dwc:decimalLongitude, and dwc:geodeticDatum from geographic coordinate information in the verbatim coordinates terms.")
     @Provides("3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e/2024-08-20")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e/2024-08-20")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if 1) either dwc:decimalLatitude or dwc:decimalLongitude are bdq:NotEmpty, or 2) dwc:verbatimCoordinates and one of dwc:verbatimLatitude and dwc:verbatimLongitude are bdq:Empty; FILLED_IN the values of dwc:decimalLatitude, dwc:decimalLongitude and dwc:geodeticDatum (provided that the dwc:verbatimCoordinates can be unambiguously interpreted as geographic coordinates) from 1) dwc:verbatimLatitude, dwc:verbatimLongitude and dwc:verbatimSRS or 2) dwc:verbatimCoordinates and dwc:verbatimSRS; otherwise NOT_AMENDED.. ")
     public static DQResponse<AmendmentValue> amendmentCoordinatesFromVerbatim(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
     		@ActedUpon("dwc:decimalLongitude") String decimalLongitude, 
     		@ActedUpon("dwc:geodeticDatum") String geodeticDatum, 
-    		@ActedUpon("dwc:verbatimCoordinates") String verbatimCoordinates, 
-    		@ActedUpon("dwc:verbatimLatitude") String verbatimLatitude,
-    		@ActedUpon("dwc:verbatimLongitude") String verbatimLongitude, 
-    		@ActedUpon("dwc:verbatimSRS") String verbatimSRS, 
-    		@ActedUpon("dwc:verbatimCoordinateSystem") String verbatimCoordinateSystem
+    		@Consulted("dwc:verbatimCoordinates") String verbatimCoordinates, 
+    		@Consulted("dwc:verbatimLatitude") String verbatimLatitude,
+    		@Consulted("dwc:verbatimLongitude") String verbatimLongitude, 
+    		@Consulted("dwc:verbatimSRS") String verbatimSRS, 
+    		@Consulted("dwc:verbatimCoordinateSystem") String verbatimCoordinateSystem
     		)
     {
         DQResponse<AmendmentValue> result = new DQResponse<AmendmentValue>();
@@ -581,7 +581,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_MINELEVATION_INRANGE", description="Is the value of dwc:minimumElevationInMeters within the Parameter range?")
     @Provides("0bb8297d-8f8a-42d2-80c1-558f29efe798")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/0bb8297d-8f8a-42d2-80c1-558f29efe798/2023-09-17")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/0bb8297d-8f8a-42d2-80c1-558f29efe798/2023-09-17")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumElevationInMeters is EMPTY or the value is not a number; COMPLIANT if the value of dwc:minimumElevationInMeters is within the range of bdq:minimumValidElevationInMeters to bdq:maximumValidElevationInMeters inclusive; otherwise NOT_COMPLIANT bdq:minimumValidElevationInMeters default = '-430',bdq:maximumValidElevationInMeters default = '8850'")
     public static DQResponse<ComplianceValue> validationMinelevationInrange(
     		@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters,
@@ -671,7 +671,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_LOCATION_NOTEMPTY", description="Is there a value in any of the Darwin Core spatial terms that could specify a location?")
     @Provides("58486cb6-1114-4a8a-ba1e-bd89cfe887e9")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/58486cb6-1114-4a8a-ba1e-bd89cfe887e9/2023-09-18")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/58486cb6-1114-4a8a-ba1e-bd89cfe887e9/2023-09-18")
     @Specification("COMPLIANT if at least one term needed to determine the location of the entity exists and is not EMPTY; otherwise NOT_COMPLIANT ")
     public static DQResponse<ComplianceValue> validationLocationNotempty(
     		@ActedUpon("dwc:higherGeography") String higherGeography, 
@@ -746,7 +746,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_COUNTRY_NOTEMPTY", description="Is there a value in dwc:country?")
     @Provides("6ce2b2b4-6afe-4d13-82a0-390d31ade01c")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/6ce2b2b4-6afe-4d13-82a0-390d31ade01c/2024-09-27")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/6ce2b2b4-6afe-4d13-82a0-390d31ade01c/2024-09-27")
     @Specification("COMPLIANT if dwc:country is bdq:NotEmpty or dwc:countryCode has a value of 'XZ' and either dwc:country is bdq:Empty or has a value of 'High seas'; otherwise NOT_COMPLIANT ?. ")
     public static DQResponse<ComplianceValue> validationCountryNotempty(
     		@ActedUpon("dwc:country") String country,
@@ -802,7 +802,7 @@ public class DwCGeoRefDQ{
      */
     @Amendment(label="AMENDMENT_COORDINATES_CONVERTED", description="Propose amendment to the value of dwc:geodeticDatum and potentially to dwc:decimalLatitude and/or dwc:decimalLongitude based on a conversion between spatial reference systems.")
     @Provides("620749b9-7d9c-4890-97d2-be3d1cde6da8")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/620749b9-7d9c-4890-97d2-be3d1cde6da8/2023-06-24")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/620749b9-7d9c-4890-97d2-be3d1cde6da8/2023-06-24")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is EMPTY or does not have a valid value, or dwc:decimalLongitude is EMPTY or does not have a valid value, or dwc:geodeticDatum is EMPTY or does not contain an interpretable value; AMENDED if the values of dwc:decimalLatitude, dwc:decimalLongitude and dwc:geodeticDatum are changed based on a conversion between the coordinate reference systems as specified by dwc:geodeticDatum and bdq:targetCRS, and, if dwc:coordinateUncertaintyInMeters was an interpretable value, the uncertainty from the conversion is added to it, and the value of dwc:coordinatePrecision is provided from the conversion result; otherwise NOT_AMENDED. bdq:targetCRS = 'EPSG:4326'")
     public static DQResponse<AmendmentValue> amendmentCoordinatesConverted(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
@@ -930,7 +930,7 @@ public class DwCGeoRefDQ{
      */
     @Amendment(label="AMENDMENT_COUNTRYCODE_STANDARDIZED", description="Proposes an amendment to the value of dwc:countryCode if it can be interpreted as an ISO 3166-1-alpha-2 country code.")
     @Provides("fec5ffe6-3958-4312-82d9-ebcca0efb350")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/fec5ffe6-3958-4312-82d9-ebcca0efb350/2024-11-09")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/fec5ffe6-3958-4312-82d9-ebcca0efb350/2024-11-09")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISTITES_NOT_MET if the value of dwc:countryCode is bdq:Empty; AMENDED the value of dwc:countryCode if it can be unambiguously interpreted to a value in the bdq:sourceAuthority; otherwise NOT_AMENDED. bdq:sourceAuthority default = 'ISO 3166-1-alpha-2' {[https://www.iso.org/iso-3166-country-codes.html]} {ISO 3166-1-alpha-2 Country Code search [https://www.iso.org/obp/ui/#search]}")
     public static DQResponse<AmendmentValue> amendmentCountrycodeStandardized(
     		@ActedUpon("dwc:countryCode") String countryCode) {
@@ -1004,7 +1004,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_COORDINATESCOUNTRYCODE_CONSISTENT", description="Do the geographic coordinates fall on or within the boundaries of the territory given in dwc:countryCode or its Exclusive Economic Zone?")
     @Provides("adb27d29-9f0d-4d52-b760-a77ba57a69c9")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/adb27d29-9f0d-4d52-b760-a77ba57a69c9/2024-08-30")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/adb27d29-9f0d-4d52-b760-a77ba57a69c9/2024-08-30")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if one or more of dwc:decimalLatitude, dwc:decimalLongitude, or dwc:countryCode are bdq:Empty or invalid; COMPLIANT if the geographic coordinates fall on or within the boundary defined by the union of the boundary of the country from dwc:countryCode plus it's Exclusive Economic Zone as found in the bdq:sourceAuthority, if any, plus an exterior buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT. bdq:sourceAuthority default = '10m-admin-1 boundaries UNION with Exclusive Economic Zones' {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/] spatial UNION [https://www.marineregions.org/downloads.php#marbound]},bdq:spatialBufferInMeters default = '3000'")
     public static DQResponse<ComplianceValue> validationCoordinatesCountrycodeConsistent(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
@@ -1120,7 +1120,7 @@ public class DwCGeoRefDQ{
      */
     @Amendment(label="AMENDMENT_MINDEPTHMAXDEPTH_FROM_VERBATIM", description="Proposes amendments of the values of dwc:minimumDepthInMeters and dwc:maximumDepthInMeters if they can be interpreted from dwc:verbatimDepth.")
     @Provides("c5658b83-4471-4f57-9d94-bf7d0a96900c")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/c5658b83-4471-4f57-9d94-bf7d0a96900c/2024-08-30")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/c5658b83-4471-4f57-9d94-bf7d0a96900c/2024-08-30")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters or dwc:maximumDepthInMeters are bdq:NotEmpty or dwc:verbatimDepth is bdq:Empty; FILLED_IN the value of dwc:minimumDepthInMeters and dwc:maximumDepthInMeters if they can be unambiguously interpreted from dwc:verbatimDepth; otherwise NOT_AMENDED.. ")
     public static DQResponse<AmendmentValue> amendmentMindepthMaxdepthFromVerbatim(
     		@ActedUpon("dwc:verbatimDepth") String verbatimDepth, 
@@ -1377,7 +1377,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_COORDINATESSTATEPROVINCE_CONSISTENT", description="Do the geographic coordinates fall on or within the boundary from the bdq:sourceAuthority for the given dwc:stateProvince or within the distance given by bdq:spatialBufferInMeters outside that boundary?")
     @Provides("f18a470b-3fe1-4aae-9c65-a6d3db6b550c")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/f18a470b-3fe1-4aae-9c65-a6d3db6b550c/2024-08-30")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/f18a470b-3fe1-4aae-9c65-a6d3db6b550c/2024-08-30")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the values of dwc:decimalLatitude or dwc:decimalLongitude are bdq:Empty or invalid, or dwc:stateProvince is bdq:Empty or not found in the bdq:sourceAuthority; COMPLIANT if the geographic coordinates fall on or within the boundary in the bdq:sourceAuthority for the given dwc:stateProvince (after coordinate reference system transformations, if any, have been accounted for), or within the distance given by bdq:spatialBufferInMeters outside that boundary; otherwise NOT_COMPLIANT.. bdq:sourceAuthority default = '10m-admin-1 boundaries' {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/]},bdq:spatialBufferInMeters default = '3000'")
     public static DQResponse<ComplianceValue> validationCoordinatesStateprovinceConsistent(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
@@ -1499,7 +1499,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_GEODETICDATUM_STANDARD", description="Does the value of dwc:geodeticDatum occur as a valid geographic CRS, geodetic Datum or ellipsoid in bdq:sourceAuthority?")
     @Provides("7e0c0418-fe16-4a39-98bd-80e19d95b9d1")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/7e0c0418-fe16-4a39-98bd-80e19d95b9d1/2025-03-03")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/7e0c0418-fe16-4a39-98bd-80e19d95b9d1/2025-03-03")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available, INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is bdq:Empty; COMPLIANT if the value of dwc:geodeticDatum is a valid code from the bdq:sourceAuthority (in the form Authority:Number) for a Datum, or ellipsoid, or for a CRS appropriate for a 2D geographic coordinate in degrees, or is the value 'not recorded'; otherwise NOT_COMPLIANT. bdq:sourceAuthority = 'EPSG' {[https://epsg.org]} {API for EPSG codes [https://apps.epsg.org/api/swagger/ui/index]}")
     public static DQResponse<ComplianceValue> validationGeodeticdatumStandard(
     		@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
@@ -1567,7 +1567,7 @@ public class DwCGeoRefDQ{
      */
     @Amendment(label="AMENDMENT_GEODETICDATUM_STANDARDIZED", description="Proposes an amendment to the value of dwc:geodeticDatum using the bdq:sourceAuthority.")
     @Provides("0345b325-836d-4235-96d0-3b5caf150fc0")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/0345b325-836d-4235-96d0-3b5caf150fc0/2025-03-03")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/0345b325-836d-4235-96d0-3b5caf150fc0/2025-03-03")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:geodeticDatum is bdq:Empty; AMENDED the value of dwc:geodeticDatum if it could be unambiguously interpreted as a valid code from the bdq:sourceAuthority (in the form Authority:Number) for a Datum, Ellipsoid or a CRS appropriate for a 2D geographic coordinate in degrees, or as the value 'not recorded'; otherwise NOT_AMENDED. bdq:sourceAuthority = 'EPSG' {[https://epsg.org]} {API for EPSG codes [https://apps.epsg.org/api/swagger/ui/index#/Datum]}")
     public static DQResponse<AmendmentValue> amendmentGeodeticdatumStandardized(
     		@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
@@ -1674,7 +1674,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT", description="Does the ISO country code, determined from the value of dwc:country, equal the value of dwc:countryCode?")
     @Provides("b23110e7-1be7-444a-a677-cdee0cf4330c")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/b23110e7-1be7-444a-a677-cdee0cf4330c/2024-09-25")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/b23110e7-1be7-444a-a677-cdee0cf4330c/2024-09-25")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if either of the terms dwc:country or dwc:countryCode are bdq:Empty; COMPLIANT if the values of dwc:country and dwc:countryCode match national-level country name and matching country code respectively in the bdq:sourceAuthority. bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
     public static DQResponse<ComplianceValue> validationCountryCountrycodeConsistent(
     		@ActedUpon("dwc:country") String country, 
@@ -1774,7 +1774,7 @@ public class DwCGeoRefDQ{
      */
     @Amendment(label="AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM", description="Proposes an amendment or amendments to the values of dwc:minimumElevationInMeters and dwc:maximumElevationInMeters if they can be interpreted from dwc:verbatimElevation.")
     @Provides("2d638c8b-4c62-44a0-a14d-fa147bf9823d")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2024-08-30")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/2d638c8b-4c62-44a0-a14d-fa147bf9823d/2024-08-30")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumElevationInMeters or dwc:maximumElevationInMeters are bdq:NotEmpty or dwc:verbatimElevation is bdq:Empty; FILLED_IN the values of dwc:minimumElevationInMeters and dwc:maximumElevationInMeters if they can be unambiguously interpreted from dwc:verbatimElevation; otherwise NOT_AMENDED. ")
     public static DQResponse<AmendmentValue> amendmentMinelevationMaxelevationFromVerbatim(
     		@ActedUpon("dwc:verbatimElevation") String verbatimElevation,
@@ -2018,7 +2018,7 @@ public class DwCGeoRefDQ{
      */
     @Amendment(label="AMENDMENT_COUNTRYCODE_FROM_COORDINATES", description="Proposes an amendment to the value of dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary from the bdq:countryShapes that is attributable to a single valid country code.")
     @Provides("8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2024-08-18")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae/2024-08-18")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if either dwc:decimalLatitude or dwc:decimalLongitude is bdq:Empty, or if dwc:countryCode is bdq:NotEmpty; FILLED_IN dwc:countryCode if dwc:decimalLatitude and dwc:decimalLongitude fall within a boundary in the bdq:sourceAuthority that is attributable to a single valid country code; otherwise NOT_AMENDED.. bdq:sourceAuthority default = '10m-admin-1 boundaries UNION with Exclusive Economic Zones' {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/] spatial UNION [https://www.marineregions.org/downloads.php#marbound]}")
     public static DQResponse<AmendmentValue> amendmentCountrycodeFromCoordinates(
     		@Consulted("dwc:decimalLatitude") String decimalLatitude, 
@@ -2104,7 +2104,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_GEODETICDATUM_NOTEMPTY", description="Is there a value in dwc:geodeticDatum?")
     @Provides("239ec40e-a729-4a8e-ba69-e0bf03ac1c44")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/239ec40e-a729-4a8e-ba69-e0bf03ac1c44/2023-09-18")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/239ec40e-a729-4a8e-ba69-e0bf03ac1c44/2023-09-18")
     @Specification("COMPLIANT if dwc:geodeticDatum is bdq:NotEmpty; otherwise NOT_COMPLIANT. ")
     public static DQResponse<ComplianceValue> validationGeodeticdatumNotempty(@ActedUpon("dwc:geodeticDatum") String geodeticDatum) {
         DQResponse<ComplianceValue> result = new DQResponse<ComplianceValue>();
@@ -2139,7 +2139,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_DECIMALLATITUDE_INRANGE", description="Is the value of dwc:decimalLatitude a number between -90 and 90 inclusive?")
     @Provides("b6ecda2a-ce36-437a-b515-3ae94948fe83")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/b6ecda2a-ce36-437a-b515-3ae94948fe83/2023-09-18")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/b6ecda2a-ce36-437a-b515-3ae94948fe83/2023-09-18")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is EMPTY or the value is not interpretable as a number; COMPLIANT if the value of dwc:decimalLatitude is between -90 and 90, inclusive; otherwise NOT_COMPLIANT ")
     public static DQResponse<ComplianceValue> validationDecimallatitudeInrange(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
@@ -2192,7 +2192,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_COORDINATES_NOTZERO", description="Are the values of either dwc:decimalLatitude or dwc:decimalLongitude numbers that are not equal to 0?")
     @Provides("1bf0e210-6792-4128-b8cc-ab6828aa4871")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/1bf0e210-6792-4128-b8cc-ab6828aa4871/2023-06-20")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/1bf0e210-6792-4128-b8cc-ab6828aa4871/2023-06-20")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is EMPTY or is not interpretable as a number, or dwc:decimalLongitude is EMPTY or is not interpretable as a number; COMPLIANT if either the value of dwc:decimalLatitude is not = 0 or the value of dwc:decimalLongitude is not = 0; otherwise NOT_COMPLIANT ")
     public static DQResponse<ComplianceValue> validationCoordinatesNotzero(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
@@ -2272,7 +2272,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_DECIMALLONGITUDE_NOTEMPTY", description="Is there a value in dwc:decimalLongitude?")
     @Provides("9beb9442-d942-4f42-8b6a-fcea01ee086a")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/9beb9442-d942-4f42-8b6a-fcea01ee086a/2023-09-18")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/9beb9442-d942-4f42-8b6a-fcea01ee086a/2023-09-18")
     @Specification("COMPLIANT if dwc:decimalLongitude is bdq:NotEmpty; otherwise NOT_COMPLIANT. ")
     public static DQResponse<ComplianceValue> validationDecimallongitudeNotempty(
     		@ActedUpon("dwc:decimalLongitude") String decimalLongitude) {
@@ -2307,7 +2307,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_COUNTRYCODE_NOTEMPTY", description="Is there a value in dwc:countryCode?")
     @Provides("853b79a2-b314-44a2-ae46-34a1e7ed85e4")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/853b79a2-b314-44a2-ae46-34a1e7ed85e4/2024-11-10")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/853b79a2-b314-44a2-ae46-34a1e7ed85e4/2024-11-10")
     @Specification("COMPLIANT if dwc:countryCode is bdq:NotEmpty; otherwise NOT_COMPLIANT.")
     public static DQResponse<ComplianceValue> validationCountrycodeNotempty(
     		@ActedUpon("dwc:countryCode") String countryCode) {
@@ -2348,7 +2348,7 @@ public class DwCGeoRefDQ{
      */
     @Amendment(label="AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT", description="Proposes an amendment to fill in dwc:geodeticDatum using a prameterized value if the dwc:geodeticDatum is empty.")
     @Provides("7498ca76-c4d4-42e2-8103-acacccbdffa7")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2024-11-12")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/7498ca76-c4d4-42e2-8103-acacccbdffa7/2024-11-12")
     @Specification("If dwc:geodeticDatum is bdq:Empty, fill in dwc:geodeticDatum using the value of bdq:defaultGeodeticDatum, report FILLED_IN and, if dwc:coordinateUncertaintyInMeters, dwc:decimalLatitude and dwc:decimalLongitude are bdq:NotEmpty, amend the value of dwc:coordinateUncertaintyInMeters by adding the maximum datum shift between the specified bdq:defaultGeodeticDatum and any other datum at the provided dwc:decimalLatitude and dwc:decimalLongitude and instead report AMENDED; otherwise NOT_AMENDED.. bdq:defaultGeodeticDatum default = 'EPSG:4326'")
     public static DQResponse<AmendmentValue> amendmentGeodeticdatumAssumeddefault(
     		@ActedUpon("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters, 
@@ -2420,7 +2420,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_MINDEPTH_INRANGE", description="Is the value of dwc:minimumDepthInMeters within the Parameter range?")
     @Provides("04b2c8f3-c71b-4e95-8e43-f70374c5fb92")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/04b2c8f3-c71b-4e95-8e43-f70374c5fb92/2023-09-18")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/04b2c8f3-c71b-4e95-8e43-f70374c5fb92/2023-09-18")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:minimumDepthInMeters is bdq:Empty, or the value is not interpretable as number greater than or equal to zero; COMPLIANT if the value of dwc:minimumDepthInMeters is within the range of bdq:minimumValidDepthInMeters to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT. bdq:minimumValidDepthInMeters default='0',bdq:maximumValidDepthInMeters default='11000'")
     public static DQResponse<ComplianceValue> validationMindepthInrange(
     		@ActedUpon("dwc:minimumDepthInMeters") String minimumDepthInMeters,
@@ -2496,7 +2496,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION", description="Is the value of dwc:minimumElevationInMeters a number less than or equal to the value of dwc:maximumElevationInMeters?")
     @Provides("d708526b-6561-438e-aa1a-82cd80b06396")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/d708526b-6561-438e-aa1a-82cd80b06396/2023-09-18")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/d708526b-6561-438e-aa1a-82cd80b06396/2023-09-18")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumlevationInMeters or dwc:minimumElevationInMeters is bdq:Empty, or if either is not a number; COMPLIANT if the value of dwc:minimumElevationInMeters is a number less than or equal to the value of the number dwc:maximumElevationInMeters, otherwise NOT_COMPLIANT. ")
     public static DQResponse<ComplianceValue> validationMinelevationLessthanMaxelevation(
     		@ActedUpon("dwc:minimumElevationInMeters") String minimumElevationInMeters, 
@@ -2561,7 +2561,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_COORDINATEUNCERTAINTY_INRANGE", description="Is the value of dwc:coordinateUncertaintyInMeters a number between 1 and 20,037,509?")
     @Provides("c6adf2ea-3051-4498-97f4-4b2f8a105f57")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/c6adf2ea-3051-4498-97f4-4b2f8a105f57/2023-09-18")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/c6adf2ea-3051-4498-97f4-4b2f8a105f57/2023-09-18")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:coordinateUncertaintyInMeters is bdq:Empty; COMPLIANT if the value of  dwc:coordinateUncertaintyInMeters is interpreted as a number between 1 and 20037509 inclusive; otherwise NOT_COMPLIANT. ")
     public static DQResponse<ComplianceValue> validationCoordinateuncertaintyInrange(
     		@ActedUpon("dwc:coordinateUncertaintyInMeters") String coordinateUncertaintyInMeters) {
@@ -2621,7 +2621,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_MAXELEVATION_INRANGE", description="Is the value of dwc:maximumElevationInMeters of a single record within a valid range")
     @Provides("c971fe3f-84c1-4636-9f44-b1ec31fd63c7")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/c971fe3f-84c1-4636-9f44-b1ec31fd63c7/2023-09-18")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/c971fe3f-84c1-4636-9f44-b1ec31fd63c7/2023-09-18")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumElevationInMeters is EMPTY or the value cannot be interpreted as a number; COMPLIANT if the value of dwc:maximumElevationInMeters is within the range of bdq:minimumValidElevationInMeters to bdq:maximumValidElevationInMeters inclusive; otherwise NOT_COMPLIANT bdq:minimumValidElevationInMeters default = '-430',bdq:maximumValidElevationInMeters default = '8850'")
     public static DQResponse<ComplianceValue> validationMaxelevationInrange(
     		@ActedUpon("dwc:maximumElevationInMeters") String maximumElevationInMeters,
@@ -2687,7 +2687,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_DECIMALLATITUDE_NOTEMPTY", description="Is there a value in dwc:decimalLatitude?")
     @Provides("7d2485d5-1ba7-4f25-90cb-f4480ff1a275")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/7d2485d5-1ba7-4f25-90cb-f4480ff1a275/2023-09-18")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/7d2485d5-1ba7-4f25-90cb-f4480ff1a275/2023-09-18")
     @Specification("COMPLIANT if dwc:decimalLatitude is bdq:NotEmpty; otherwise NOT_COMPLIANT. ")
     public static DQResponse<ComplianceValue> validationDecimallatitudeNotempty(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude) {
@@ -2725,7 +2725,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_MAXDEPTH_INRANGE", description="Is the value of dwc:maximumDepthInMeters within the Parameter range?")
     @Provides("3f1db29a-bfa5-40db-9fd1-fde020d81939")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/3f1db29a-bfa5-40db-9fd1-fde020d81939/2023-09-18")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/3f1db29a-bfa5-40db-9fd1-fde020d81939/2023-09-18")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:maximumDepthInMeters is bdq:Empty or is not interpretable as a number greater than or equal to zero; COMPLIANT if the value of dwc:maximumDepthInMeters is within the range of bdq:minimumValidDepthInMeters to bdq:maximumValidDepthInMeters inclusive; otherwise NOT_COMPLIANT. bdq:minimumValidDepthInMeters default='0',bdq:maximumValidDepthInMeters default='11000'")
     public static DQResponse<ComplianceValue> validationMaxdepthInrange(
     		@ActedUpon("dwc:maximumDepthInMeters") String maximumDepthInMeters, 
@@ -2801,7 +2801,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_STATEPROVINCE_FOUND", description="Does the value of dwc:stateProvince occur in the bdq:sourceAuthority?")
     @Provides("4daa7986-d9b0-4dd5-ad17-2d7a771ea71a")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/4daa7986-d9b0-4dd5-ad17-2d7a771ea71a/2024-09-18")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/4daa7986-d9b0-4dd5-ad17-2d7a771ea71a/2024-09-18")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if dwc:stateProvince is bdq:Empty; COMPLIANT if the value of dwc:stateProvince occurs as an administrative entity that is a child to at least one entity representing an ISO 3166 country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT. bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
     public static DQResponse<ComplianceValue> validationStateprovinceFound(
     		@ActedUpon("dwc:stateProvince") String stateProvince,
@@ -2892,7 +2892,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT", description=" 	Are the combination of the values of dwc:country, dwc:stateProvince consistent with the values in the bdq:sourceAuthority?")
     @Provides("e654f562-44f8-43fd-983b-2aaba4c6dda9")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/e654f562-44f8-43fd-983b-2aaba4c6dda9/2023-09-18")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/e654f562-44f8-43fd-983b-2aaba4c6dda9/2023-09-18")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country or dwc:stateProvince are EMPTY; COMPLIANT if the value of dwc:stateProvince occurs as an administrative entity that is a child to the entity matching the value of dwc:country in the bdq:sourceAuthority, and the match to dwc:country is an ISO country-like entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT  	bdq:sourceAuthority default = \"The Getty Thesaurus of Geographic Names (TGN)\" {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
     public static DQResponse<ComplianceValue> validationCountrystateprovinceConsistent(
     		@ActedUpon("dwc:country") String country, 
@@ -3019,7 +3019,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS", description="Is the combination of the values of the terms dwc:country, dwc:stateProvince unique in the bdq:sourceAuthority?")
     @Provides("d257eb98-27cb-48e5-8d3c-ab9fca4edd11")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/d257eb98-27cb-48e5-8d3c-ab9fca4edd11/2024-09-18")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/d257eb98-27cb-48e5-8d3c-ab9fca4edd11/2024-09-18")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country and dwc:stateProvince are bdq:Empty; COMPLIANT if the combination of values of dwc:country and dwc:stateProvince are unambiguously resolved to a single result with a child-parent relationship in the bdq:sourceAuthority and the entity matching the value of dwc:country in the bdq:sourceAuthority is an ISO 3166 country-like administrative entity in the bdq:sourceAuthority; otherwise NOT_COMPLIANT. bdq:sourceAuthority default = 'The Getty Thesaurus of Geographic Names (TGN)' {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
     public static DQResponse<ComplianceValue> validationCountrystateprovinceUnambiguous(
     		@ActedUpon("dwc:country") String country, 
@@ -3197,7 +3197,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_COORDINATESTERRESTRIALMARINE_CONSISTENT", description="Does the marine/non-marine biome of a taxon from the bdq:sourceAuthority match the biome at the location given by the coordinates?")
     @Provides("b9c184ce-a859-410c-9d12-71a338200380")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/b9c184ce-a859-410c-9d12-71a338200380/2024-08-30")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/b9c184ce-a859-410c-9d12-71a338200380/2024-08-30")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if either bdq:taxonIsMarine or bdq:geospatialLand are not available; INTERNAL_PREREQUISITES_NOT_MET if (1) dwc:scientificName is bdq:Empty or (2)  the values of dwc:decimalLatitude or dwc:decimalLongitude are bdq:Empty or (3) if bdq:assumptionOnUnknownBiome is noassumption and the marine/nonmarine status of the taxon is not interpretable from bdq:taxonIsMarine; COMPLIANT if (1) the taxon marine/nonmarine status from bdq:taxonIsMarine matches the marine/nonmarine status of dwc:decimalLatitude and dwc:decimalLongitude on the boundaries given by bdq:geospatialLand plus an exterior buffer given by bdq:spatialBufferInMeters or (2)  if the marine/nonmarine status of the taxon is not interpretable from bdq:taxonIsMarine and bdq:assumptionOnUnknownBiome matches the marine/nonmarine status of dwc:decimalLatitude and dwc:decimalLongitude on the boundaries given by bdq:geospatialLand plus an exterior buffer given by bdq:spatialBufferInMeters; otherwise NOT_COMPLIANT. bdq:taxonIsMarine default = 'World Register of Marine Species (WoRMS)' {[https://www.marinespecies.org/]} {Web service [https://www.marinespecies.org/aphia.php?p=webservice]},bdq:geospatialLand default = 'Union of NaturalEarth 10m-physical-vectors for Land and NaturalEarth Minor Islands' {[https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip], [https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_minor_islands.zip]},bdq:spatialBufferInMeters default = '3000',bdq:assumptionOnUnknownBiome default = 'noassumption'")
     public static DQResponse<ComplianceValue> validationCoordinatesTerrestrialmarine(
         @ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
@@ -3472,7 +3472,7 @@ public class DwCGeoRefDQ{
      */
     @Amendment(label="AMENDMENT_COORDINATES_TRANSPOSED", description="Propose amendment of the signs of dwc:decimalLatitude and/or dwc:decimalLongitude to align the location with the dwc:countryCode.")
     @Provides("f2b4a50a-6b2f-4930-b9df-da87b6a21082")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/f2b4a50a-6b2f-4930-b9df-da87b6a21082/2024-11-11")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/f2b4a50a-6b2f-4930-b9df-da87b6a21082/2024-11-11")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if any of dwc:decimalLatitude or dwc:decimalLongitude or dwc:countryCode are bdq:Empty; AMENDED dwc:decimalLatitude and dwc:decimalLongitude if the coordinates were transposed or one or more of the signs of the coordinates were reversed to align the location with dwc:countryCode according to the bdq:sourceAuthority; otherwise NOT_AMENDED. bdq:sourceAuthority default = '10m-admin-1 boundaries UNION with Exclusive Economic Zones' {[https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/] spatial UNION [https://www.marineregions.org/downloads.php#marbound]}")
     public static DQResponse<AmendmentValue> amendmentCoordinatesTransposed(
         @ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
@@ -3631,7 +3631,7 @@ public class DwCGeoRefDQ{
      */
     @Issue(label="ISSUE_COORDINATES_CENTEROFCOUNTRY", description="Are the supplied geographic coordinates within a defined buffer of the center of the country?")
     @Provides("256e51b3-1e08-4349-bb7e-5186631c3f8e")
-    @ProvidesVersion("https://rs.tdwg.org/bdqcore/terms/256e51b3-1e08-4349-bb7e-5186631c3f8e/2024-08-28")
+    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/256e51b3-1e08-4349-bb7e-5186631c3f8e/2024-08-28")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdq:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if any of dwc:countryCode, dwc:decimalLatitude, dwc:decimalLongitude are bdq:Empty; POTENTIAL_ISSUE if (1) the geographic coordinates are within the distance given by bdq:spatialBufferInMeters from the center of the supplied dwc:countryCode as represented in the bdq:sourceAuthority (or one of the centers, if the bdq:sourceAuthority provides more than one per country code) and (2) the dwc:coordinateUncertaintyInMeters is bdq:Empty or less than half the square root of the area of the country; otherwise NOT_ISSUE.. bdq:spatialBufferInMeters default = '5000',bdq:sourceAuthority default = 'GBIF Catalogue of Country Centroides' {[https://raw.githubusercontent.com/jhnwllr/catalogue-of-centroids/master/PCLI.tsv]}")
     public static DQResponse<IssueValue> issueCoordinatesCenterofcountry(
         @ActedUpon("dwc:decimalLatitude") String decimalLatitude, 

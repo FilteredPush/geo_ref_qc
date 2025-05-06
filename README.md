@@ -7,11 +7,11 @@ DOI: 10.5281/zenodo.14064324
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14064324.svg)](https://doi.org/10.5281/zenodo.14064324)
 
-Tools for working with georeferences in forms found in biodiversity data.  This library provides tools for validating and correcting georeferences in biodiversity data.  It is designed to support the tests defined in the (draft) [BDQ Core](https://github.com/tdwg/bdq/blob/master/tg2/_review/index.md) standard for biodiversity data quality, and supports data quality assertions framed using the bdqffdq vocabulary.  The library is designed to be used in a variety of contexts, including as a standalone library, within a a data quality service, or as part of a a data quality workflow.  It takes inputs expressed using Darwin Core terms for spatial concepts, but can be used for quality control of spatial data in other contexts.
+Tools for working with georeferences in forms found in biodiversity data.  This library provides tools for validating and correcting georeferences in biodiversity data.  It is designed to support the tests defined in the (draft) [BDQ Standard](https://github.com/tdwg/bdq/blob/master/tg2/_review/index.md) for biodiversity data quality, and supports data quality assertions framed using the bdqffdq vocabulary.  The library is designed to be used in a variety of contexts, including as a standalone library, within a a data quality service, or as part of a a data quality workflow.  It takes inputs expressed using Darwin Core terms for spatial concepts, but can be used for quality control of spatial data in other contexts.
 
-## BDQ Core Tests
+## BDQ Standard Tests
 
-The geo_ref_qc library implements the following BDQ Core tests:
+The geo_ref_qc library implements the following BDQ Standard tests:
 
 - AMENDMENT_MINDEPTH-MAXDEPTH_FROM_VERBATIM 
 - AMENDMENT_COUNTRYCODE_STANDARDIZED 
