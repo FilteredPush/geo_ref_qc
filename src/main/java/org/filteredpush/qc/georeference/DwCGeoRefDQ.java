@@ -82,7 +82,7 @@ import org.datakurator.ffdq.api.result.*;
  * @author mole
  * @version $Id: $Id
  */
-@Mechanism(value="71fa3762-0dfa-43c7-a113-d59797af02e8",label="Kurator: Spatial Data Validator - DwCGeoRefDQ:v2.0.2-SNAPSHOT")
+@Mechanism(value="71fa3762-0dfa-43c7-a113-d59797af02e8",label="Kurator: Spatial Data Validator - DwCGeoRefDQ:v2.1.0")
 public class DwCGeoRefDQ{
 	
 	private static final Log logger = LogFactory.getLog(DwCGeoRefDQ.class);
