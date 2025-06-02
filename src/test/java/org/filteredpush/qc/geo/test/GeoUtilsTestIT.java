@@ -31,6 +31,30 @@ public class GeoUtilsTestIT {
 	private static final Log logger = LogFactory.getLog(GeoUtilsTestIT.class);
 
 	@Test
+	public void testPointInHighSeas() { 
+		String latitude = "-38.280937";
+		String longitude = "72.047790";
+		try {
+			assertEquals(true, GEOUtil.isHighSeas(latitude, longitude));
+
+			latitude = "71.295556";
+			longitude = "-156.766389";
+			assertEquals(false, GEOUtil.isHighSeas(latitude, longitude));
+
+			latitude = "x";
+			longitude = "y";
+			assertEquals(false, GEOUtil.isHighSeas(latitude, longitude));
+
+			latitude = "";
+			longitude = "";
+			assertEquals(false, GEOUtil.isHighSeas(latitude, longitude));
+
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+	
+	@Test
 	public void testGetCountryForPoint() { 
 
 		String latitude = "71.295556";

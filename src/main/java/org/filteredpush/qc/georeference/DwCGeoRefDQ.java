@@ -2066,8 +2066,16 @@ public class DwCGeoRefDQ{
 
         		String countryCode3 = GEOUtil.getCountryForPoint(decimalLatitude, decimalLongitude);
         		if (countryCode3== null) { 
-        			result.addComment("No unique dwc:contryCode found containing the coordinate specified by dwc:decimalLatitude ["+decimalLatitude+"], dwc:decimalLongitude ["+decimalLongitude+"].");
-        			result.setResultState(ResultState.NOT_AMENDED);
+        			if (GEOUtil.isHighSeas(decimalLatitude, decimalLongitude)) { 
+						result.addComment("Propose filling in empty countryCode with value XZ for high seas, which contains the coordinate specified by dwc:decimalLatitude ["+decimalLatitude+"], dwc:decimalLongitude ["+decimalLongitude+"].");
+						result.setResultState(ResultState.FILLED_IN);
+						Map<String, String> values = new HashMap<>();
+        				values.put("dwc:countryCode", "XZ") ;
+						result.setValue(new AmendmentValue(values));
+					} else { 
+						result.addComment("No unique dwc:contryCode found containing the coordinate specified by dwc:decimalLatitude ["+decimalLatitude+"], dwc:decimalLongitude ["+decimalLongitude+"].");
+						result.setResultState(ResultState.NOT_AMENDED);
+					}
         		} else { 
         			String countryCode2 = CountryLookup.lookupCode2FromCodeName(countryCode3);
         			if (countryCode2==null) {  

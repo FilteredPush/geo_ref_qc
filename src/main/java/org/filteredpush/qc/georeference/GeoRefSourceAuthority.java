@@ -111,11 +111,6 @@ public class GeoRefSourceAuthority {
 	 *
 	 * @param authority the authority to use
 	 * @param authoritySubDataset the specific authority to use.
-	 * @param authoritySubDataset the specific authority to use.
-	 * @param authoritySubDataset the specific authority to use.
-	 * @param authoritySubDataset the specific authority to use.
-	 * @param authoritySubDataset the specific authority to use.
-	 * @param authoritySubDataset the specific authority to use.
 	 */
 	public GeoRefSourceAuthority(EnumGeoRefSourceAuthority authority, String authoritySubDataset) {
 		this.authority = authority;

@@ -1703,6 +1703,68 @@ public class GEOUtil {
 		}
 
 		return retval;
+	}
+
+	/**
+	 * Determine if a coordinate is in the high seas, i.e. not within any
+	 * country or exclusive economic zone.
+	 *
+	 * @param decimalLatitude latitude of the coordinate to check
+	 * @param decimalLongitude longitude of the coordinate to check
+	 * @return true if the coordinate is in the high seas, false otherwise including if empty or invalid coordinates were supplied
+	 * @throws SourceAuthorityException if there is a problem accessing the shape file
+	 */
+	public static boolean isHighSeas(String decimalLatitude, String decimalLongitude) throws SourceAuthorityException {
+		boolean retval = false;
+		if (!GEOUtil.isEmpty(decimalLatitude) && !GEOUtil.isEmpty(decimalLongitude)) { 
+			// check if decimalLatitude and decimalLongitude are numeric coordinates
+			try {
+				Double.parseDouble(decimalLatitude);
+				Double.parseDouble(decimalLongitude);
+			} catch (NumberFormatException e) {
+				logger.debug("Invalid coordinate format: " + decimalLatitude + ", " + decimalLongitude);
+				// if either coordinate is not a valid number, return false
+				return false;
+			}
+			// check if decimalLatitude and decimalLongitude are in valid range
+			double lat = Double.parseDouble(decimalLatitude);
+			double lon = Double.parseDouble(decimalLongitude);
+			if (lat < -90 || lat > 90 || lon < -180 || lon > 180) {
+				// if either coordinate is not in valid range, return false
+				logger.debug("Invalid coordinates out of range: " + decimalLatitude + ", " + decimalLongitude);
+				return false;
+			}
+			// check if coordinate is in high seas, i.e. not within any country or exclusive economic zone
+			URL combinedShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/merged_countries_and_eez.shp");
+	        FileDataStore store = null;
+			try {
+				store = FileDataStoreFinder.getDataStore(combinedShapeFile);
+	            SimpleFeatureSource featureSource = store.getFeatureSource();
+			    Filter filter = ECQL.toFilter("CONTAINS(the_geom, POINT(" + decimalLongitude + " " + decimalLatitude + "))");
+			    logger.debug(filter.toString());
+			    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
+			    logger.debug(collection.size());
+			    // if the collection is empty, the coordinate is not within any country or exclusive economic zone
+			    // and thus in the high seas.
+			    if (collection.isEmpty()) {
+			    	// high seas are outside any features in combined shape file, so high seas.
+			    	retval=true;
+			    }
+			} catch (CQLException ex) {
+				logger.info(ex.getMessage());
+				// CQLException is thrown if the filter is not valid, e.g. if the decimalLatitude or decimalLongitude are not numbers.
+				retval = false;
+			} catch (IOException e) {
+				logger.error(e.getMessage());
+				throw new SourceAuthorityException("Failed to determine if coordinate is in high seas: " + e.getMessage());
+			}
+			finally {
+				if (store!=null) { 
+					store.dispose();
+				}
+			}
+		}
+		return retval;
 	} 
 	
 }
