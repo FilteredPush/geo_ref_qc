@@ -55,7 +55,7 @@ Available in Maven Central.
     <dependency>
         <groupId>org.filteredpush</groupId>
         <artifactId>geo_ref_qc</artifactId>
-        <version>2.1.0</version>
+        <version>2.1.1</version>
     </dependency>
 
 
