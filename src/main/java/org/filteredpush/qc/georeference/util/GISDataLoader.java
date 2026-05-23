@@ -4,7 +4,6 @@
 package org.filteredpush.qc.georeference.util;
 
 import java.io.IOException;
-import java.lang.System.Logger;
 import java.net.URL;
 
 import org.apache.commons.logging.Log;
