@@ -721,4 +721,64 @@ public class GettyLookup {
     	
 	}
 	
+	/**
+	 * <p>getPrimaryObject.</p>
+	 *
+	 * @param country a {@link java.lang.String} object.
+	 * @return a {@link edu.getty.tgn.service.GettyTGNObject} object.
+	 * @throws SourceAuthorityException 
+	 */
+	public List<GettyTGNObject> getCountryObjects(String country) throws SourceAuthorityException { 
+
+		List<GettyTGNObject> retval = new ArrayList<GettyTGNObject>();
+		
+		if (uniquePrimaryCache.containsKey(country)) { 
+			logger.debug(uniquePrimaryCache.get(country).getName());
+			retval.add(uniquePrimaryCache.get(country));
+		} else { 
+			// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
+			String placeTypeID = "81011";
+			// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
+			String baseURI = "http://vocabsservices.getty.edu//TGNService.asmx/TGNGetTermMatch?";
+
+			StringBuilder request = new StringBuilder();
+			request.append(baseURI);
+			String primaryEncoded = URI.encodeFragment('"'+country+'"', false);
+			request.append("name=").append(primaryEncoded);
+			request.append("&placetypeid=").append(placeTypeID);
+			request.append("&nationid=").append("");
+			try {
+				URL url = new URL(request.toString());
+				HttpURLConnection getty = (HttpURLConnection) url.openConnection();
+				InputStream is = getty.getInputStream();
+				JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
+				Unmarshaller unmarshaler = jc.createUnmarshaller();
+				Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
+				System.out.println(response.getCount());
+				if (response.getCount()==BigInteger.ONE) { 
+					// found match
+				} 
+				List<Subject> subjects = response.getSubject();
+				Iterator<Subject> i = subjects.iterator();
+				while (i.hasNext()) {
+					Subject subject = i.next();
+					logger.debug(subject.getPreferredTerm().getValue());
+					logger.debug(subject.getSubjectID());
+					logger.debug(subject.getPreferredParent());
+					retval.add(new GettyTGNObject(subject,placeTypeID));
+				}
+			} catch (JAXBException e) {
+				logger.error(e.getMessage());
+				throw new SourceAuthorityException("Error interpreting json response returned from Getty TGN:" + e.getMessage());
+			} catch (MalformedURLException e) {
+				logger.error(e.getMessage());
+			} catch (IOException e) {
+				logger.error(e.getMessage());
+				throw new SourceAuthorityException("Error accessing Getty TGN:" + e.getMessage());
+			}	
+		} 
+		return retval;
+	}
+		
+	
 }

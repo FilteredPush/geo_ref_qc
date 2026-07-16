@@ -2971,6 +2971,8 @@ public class DwCGeoRefDQ{
         					GettyTGNObject primaryObject = lookup.getPrimaryObject(stateProvince);
         					String primaryParentage = primaryObject.getParentageString();
         					logger.debug("[" + primaryParentage + "]");
+        					logger.debug("preferredCountry: [" + preferredCountry + "]");
+        					logger.debug("country: [" + country + "]");
         					
         					if (primaryParentage==null) { 
         						result.setResultState(ResultState.RUN_HAS_RESULT);
@@ -2981,10 +2983,30 @@ public class DwCGeoRefDQ{
         							result.setResultState(ResultState.RUN_HAS_RESULT);
         							result.setValue(ComplianceValue.COMPLIANT);
         							result.addComment("The dwc:country ["+country+"] as ["+preferredCountry+"] was found in the parentage ["+primaryParentage+"] of dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
-        						} else { 
+        						} else if (primaryParentage.contains(country)) { 
         							result.setResultState(ResultState.RUN_HAS_RESULT);
-        							result.setValue(ComplianceValue.NOT_COMPLIANT);
-        							result.addComment("The dwc:country ["+country+"] as ["+preferredCountry+"] was not found in the parentage ["+primaryParentage+"] of dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
+        							result.setValue(ComplianceValue.COMPLIANT);
+        							result.addComment("The dwc:country ["+country+"] as ["+country+"] was found in the parentage ["+primaryParentage+"] of dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
+        						} else { 
+        							// Getty parentage string may not be in sync with the country name, so try by subjectID.
+        							// Try to get the subjectID for the country and see if that is in the parentage
+        							List<GettyTGNObject> countryObject = lookup.getCountryObjects(country);
+        							if (countryObject!=null && countryObject.size()>0) { 
+										String countrySubjectID = countryObject.get(0).getSubjectID();
+										if (primaryParentage.contains("["+countrySubjectID+"]")) { 
+											result.setResultState(ResultState.RUN_HAS_RESULT);
+											result.setValue(ComplianceValue.COMPLIANT);
+											result.addComment("The dwc:country ["+country+"] id ["+countrySubjectID+"] was found in the parentage ["+primaryParentage+"] of dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
+										} else { 
+											result.setResultState(ResultState.RUN_HAS_RESULT);
+											result.setValue(ComplianceValue.NOT_COMPLIANT);
+											result.addComment("The dwc:country ["+country+"] as ["+preferredCountry+"] or ["+country+"] or ["+countrySubjectID+"] was not found in the parentage ["+primaryParentage+"] of dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
+										}
+									} else { 
+										result.setResultState(ResultState.RUN_HAS_RESULT);
+										result.setValue(ComplianceValue.NOT_COMPLIANT);
+										result.addComment("The dwc:country ["+country+"] as ["+preferredCountry+"] or ["+country+"] was not found in the parentage ["+primaryParentage+"] of dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
+									}
         						}
         					}
         				} else { 

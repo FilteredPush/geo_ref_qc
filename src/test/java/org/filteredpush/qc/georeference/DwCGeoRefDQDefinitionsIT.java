@@ -30,6 +30,8 @@ import org.filteredpush.qc.georeference.util.GEOUtil;
 import org.filteredpush.qc.georeference.util.GeoUtilSingleton;
 import org.junit.Test;
 
+import edu.getty.tgn.service.GettyTGNObject;
+
 /**
  * Integration tests for DwCGeoRefDQ
  * 
@@ -503,6 +505,15 @@ public class DwCGeoRefDQDefinitionsIT {
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
 		
 		country="Brazil";
+		stateProvince = "Ceará";
+		sourceAuthority = null;
+		result = DwCGeoRefDQ.validationCountrystateprovinceConsistent(country, stateProvince, sourceAuthority);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+		
+		country="Brasil";
 		stateProvince = "Ceará";
 		sourceAuthority = null;
 		result = DwCGeoRefDQ.validationCountrystateprovinceConsistent(country, stateProvince, sourceAuthority);

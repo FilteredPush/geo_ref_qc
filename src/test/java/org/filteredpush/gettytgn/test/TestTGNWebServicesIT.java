@@ -22,12 +22,14 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.filteredpush.qc.georeference.SourceAuthorityException;
 import org.filteredpush.qc.georeference.util.GeoUtilSingleton;
 import org.filteredpush.qc.georeference.util.GettyLookup;
 
 import edu.getty.tgn.objects.Vocabulary;
 import edu.getty.tgn.objects.Vocabulary.Subject;
 import edu.getty.tgn.objects.Vocabulary.Subject.Term;
+import edu.getty.tgn.service.GettyTGNObject;
 import edu.getty.tgn.service.TGNWebServices;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -206,6 +208,53 @@ public class TestTGNWebServicesIT {
 			e.printStackTrace();
 		}	
 		
+	}
+	
+	/** 
+	 * Test the getCountryObjects method of GettyLookup
+ 	 * public List<GettyTGNObject> getCountryObjects(String country) throws SourceAuthorityException { 
+	 */
+	@Test
+	public void testGetCountryObjects() {
+		
+		GettyLookup lookup = GeoUtilSingleton.getInstance().getGettyLookup();
+		String country="United States";
+		List<GettyTGNObject> result;
+		try {
+			result = lookup.getCountryObjects(country);
+			logger.debug(result.size());
+			assertTrue(result.size()>0);
+		} catch (SourceAuthorityException e) {
+			fail(e.getMessage());
+		}
+		
+		country="foo";
+		try {
+			result = lookup.getCountryObjects(country);
+			logger.debug(result.size());
+			assertEquals(0,result.size());
+		} catch (SourceAuthorityException e) {
+			fail(e.getMessage());
+		}
+		
+		country="";
+		try {
+			result = lookup.getCountryObjects(country);
+			logger.debug(result.size());
+			assertEquals(0,result.size());
+		} catch (SourceAuthorityException e) {
+			fail(e.getMessage());
+		}
+		
+		country="Brazil";  // subjectID=1000047
+		try {
+			result = lookup.getCountryObjects(country);
+			logger.debug(result.size());
+			assertTrue(result.size()==1);
+			assertEquals("1000047",result.get(0).getSubjectID());
+		} catch (SourceAuthorityException e) {
+			fail(e.getMessage());
+		}
 	}
 	
 }
