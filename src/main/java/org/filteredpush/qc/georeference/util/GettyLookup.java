@@ -14,6 +14,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -56,6 +60,11 @@ public class GettyLookup {
 	 * Constant GETTY_TGN="The Getty Thesaurus of Geographic Names"
 	 */
 	public static final String GETTY_TGN = "The Getty Thesaurus of Geographic Names (TGN)";
+	
+	/** 
+	 * Pattern to identify nation entities in a Getty TGN parentage string.
+	 */
+	private static final Pattern NATION_PARENT_PATTERN = Pattern.compile("(?i)^\\s*(.*?)\\s*\\(nation\\)\\s*(?:\\[[^]]*\\])?\\s*$");
 	
 	/**
 	 * Default constructor
@@ -265,7 +274,18 @@ public class GettyLookup {
 							while (it.hasNext()) {
 								retval.add(it.next().getValue());
 							}
-							GeoUtilSingleton.getInstance().addGettyCountryLookupItem(country, retval);
+							String preferredTerm = subject.getPreferredTerm().getValue();
+						    if (!GEOUtil.isEmpty(preferredTerm)) {
+						        preferredTerm = removeGettyPlaceType(preferredTerm);
+						        if (!retval.contains(preferredTerm)) {
+						        	retval.add(preferredTerm);
+						        }
+						    }
+							String preferredParentage = subject.getPreferredParent();
+							String nationNameFromParentage = extractNationFromParentage(preferredParentage).trim();
+						    if (!GEOUtil.isEmpty(nationNameFromParentage) && !retval.contains(nationNameFromParentage)) {
+						        retval.add(nationNameFromParentage);
+						    }
 						}
 					}
 				} catch (JAXBException e) {
@@ -280,8 +300,61 @@ public class GettyLookup {
 				}	
 			} 
 		}
+		if (retval.size() > 0) { 
+			GeoUtilSingleton.getInstance().addGettyCountryLookupItem(country, retval);
+		} else { 
+			logger.debug("No Getty TGN matches found for country: " + country);
+		}
 
 		return retval;
+	}
+	
+	/**
+	 * Remove Getty place type from a string value containing: name (type)
+	 * or name [id] or name (type) [id] and return just the name.
+	 *
+	 * @param value a {@link java.lang.String} object, e.g. "United States (nation)" or "North America (continent)".
+	 * @return a {@link java.lang.String} object, e.g. "United States" or "North America".
+	 */
+	private static String removeGettyPlaceType(String value) {
+	    if (value == null) {
+	        return null;
+	    }
+
+	    return value
+	        // Remove "(nation)", "(continent)", etc.
+	        .replaceFirst("\\s*\\([^)]*\\)", "")
+	        // Remove "[1000063]"
+	        .replaceFirst("\\s*\\[[^]]*\\]", "")
+	        .trim();
+	}
+	
+	/** 
+	 * Extract the nation name from a Getty TGN parentage string, which may contain multiple
+	 * atoms separated by commas, e.g. Belgium (nation) [1000063], Europe (continent) [1000003], World (facet) [7029392].
+	 *
+	 * @param parentage a {@link java.lang.String} object.
+	 * @return a {@link java.lang.String} object, e.g. "United States", or null if no nation is found.
+	 */
+	private static String extractNationFromParentage(String parentage) {
+	    if (GEOUtil.isEmpty(parentage)) {
+	        return null;
+	    }
+
+	    String[] atoms = parentage.split("\\s*,\\s*");
+
+	    for (String atom : atoms) {
+	        Matcher matcher = NATION_PARENT_PATTERN.matcher(atom);
+
+	        if (matcher.matches()) {
+	            String nationName = matcher.group(1).trim();
+
+	            return GEOUtil.isEmpty(nationName) ? null : nationName;
+	        }
+	    }
+
+	    // Parentage did not contain a "(nation)" atom
+	    return null;
 	}
 	
 	/**

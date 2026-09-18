@@ -1715,6 +1715,11 @@ public class DwCGeoRefDQ{
         //		result.setResultState(ResultState.RUN_HAS_RESULT);
         //		result.setValue(ComplianceValue.COMPLIANT);
         //		result.addComment("the provided value for dwc:country is empty, and dwc:countryCode=ZZ for empty");
+        } else if (!GEOUtil.isEmpty(country) && country.strip() != country) {
+        	// notes case of leading or trailing whitespace or non-printing characters, which is not compliant.
+        	result.setResultState(ResultState.RUN_HAS_RESULT);
+        	result.setValue(ComplianceValue.NOT_COMPLIANT);
+        	result.addComment("the provided value for dwc:country has leading or trailing whitespace or non-printing characters, which is not compliant.");
         } else { 
         	String foundName = CountryLookup.lookupCountryFromCode(countryCode);
         	if (foundName==null) { 
@@ -1733,7 +1738,9 @@ public class DwCGeoRefDQ{
         				boolean found = false;
         				Iterator<String> i = names.iterator();
         				while (i.hasNext() && !found) { 
-        					if (foundName.equals(i.next())) { 
+        					String namesItem = i.next();
+        					logger.debug(foundName + "=" + namesItem);
+        					if (foundName.equals(namesItem)) { 
         						found = true;
         						result.setResultState(ResultState.RUN_HAS_RESULT);
         						result.setValue(ComplianceValue.COMPLIANT);
