@@ -22,12 +22,15 @@ public class CountryLookupTest {
     private static final Log logger = LogFactory.getLog(CountryLookupTest.class);
     
 	@Test
-	public void test() {
+	public void testCountryLookup() {
 		assertEquals("Afghanistan", CountryLookup.lookupCountryFromCode("AF"));
 		assertEquals("Falkland Islands", CountryLookup.lookupCountryFromCode("FK"));
 		assertEquals("Falkland Islands", CountryLookup.lookupCountryFromCode("FLK"));
 		assertEquals("Falkland Islands", CountryLookup.lookupCountryFromCode("238"));
+		assertEquals("Solomon Islands", CountryLookup.lookupCountryFromCode("090"));
+		assertEquals("Solomon Islands", CountryLookup.lookupCountryFromCode("90"));
 		assertEquals("Vietnam", CountryLookup.lookupCountryFromCode("VN"));
+		assertEquals("France", CountryLookup.lookupCountryFromCode("FR"));
 		assertNull(CountryLookup.lookupCountryFromCode(null));
 		assertNull(CountryLookup.lookupCountryFromCode("United States"));
 		assertNull(CountryLookup.lookupCountryFromCode("ZZZZ"));

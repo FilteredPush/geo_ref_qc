@@ -151,41 +151,41 @@ public class CountryLookup {
 		if (codes.size() == 0) { 
 		
 		// Create a multivalue map with the country names as keys and the country codes as values.
-		codes.putAll("Andorra", ImmutableSet.of("AD","AND","20"));
+		codes.putAll("Andorra", ImmutableSet.of("AD","AND","20","020"));
 		codes.putAll("United Arab Emirates", ImmutableSet.of("AE","ARE","784"));
-		codes.putAll("Afghanistan", ImmutableSet.of("AF","AFG","4"));
-		codes.putAll("Antigua and Barbuda", ImmutableSet.of("AG","ATG","28"));
+		codes.putAll("Afghanistan", ImmutableSet.of("AF","AFG","4","004"));
+		codes.putAll("Antigua and Barbuda", ImmutableSet.of("AG","ATG","28","028"));
 		codes.putAll("Anguilla", ImmutableSet.of("AI","AIA","660"));
-		codes.putAll("Albania", ImmutableSet.of("AL","ALB","8"));
-		codes.putAll("Armenia", ImmutableSet.of("AM","ARM","51"));
-		codes.putAll("Angola", ImmutableSet.of("AO","AGO","24"));
-		codes.putAll("Antarctica", ImmutableSet.of("AQ","ATA","10"));
-		codes.putAll("Argentina", ImmutableSet.of("AR","ARG","32"));
-		codes.putAll("American Samoa", ImmutableSet.of("AS","ASM","16"));
-		codes.putAll("Austria", ImmutableSet.of("AT","AUT","40"));
-		codes.putAll("Australia", ImmutableSet.of("AU","AUS","36"));
+		codes.putAll("Albania", ImmutableSet.of("AL","ALB","8","008"));
+		codes.putAll("Armenia", ImmutableSet.of("AM","ARM","51","051"));
+		codes.putAll("Angola", ImmutableSet.of("AO","AGO","24","024"));
+		codes.putAll("Antarctica", ImmutableSet.of("AQ","ATA","10","010"));
+		codes.putAll("Argentina", ImmutableSet.of("AR","ARG","32","032"));
+		codes.putAll("American Samoa", ImmutableSet.of("AS","ASM","16","016"));
+		codes.putAll("Austria", ImmutableSet.of("AT","AUT","40","040"));
+		codes.putAll("Australia", ImmutableSet.of("AU","AUS","36","036"));
 		codes.putAll("Aruba", ImmutableSet.of("AW","ABW","533"));
 		codes.putAll("Aland", ImmutableSet.of("AX","ALA","248"));
-		codes.putAll("Azerbaijan", ImmutableSet.of("AZ","AZE","31"));
-		codes.putAll("Bosnia and Herzegovina", ImmutableSet.of("BA","BIH","70"));
-		codes.putAll("Barbados", ImmutableSet.of("BB","BRB","52"));
-		codes.putAll("Bangladesh", ImmutableSet.of("BD","BGD","50"));
-		codes.putAll("Belgium", ImmutableSet.of("BE","BEL","56"));
+		codes.putAll("Azerbaijan", ImmutableSet.of("AZ","AZE","31","031"));
+		codes.putAll("Bosnia and Herzegovina", ImmutableSet.of("BA","BIH","70","070"));
+		codes.putAll("Barbados", ImmutableSet.of("BB","BRB","52","052"));
+		codes.putAll("Bangladesh", ImmutableSet.of("BD","BGD","50","050"));
+		codes.putAll("Belgium", ImmutableSet.of("BE","BEL","56","056"));
 		codes.putAll("Burkina Faso", ImmutableSet.of("BF","BFA","854"));
 		codes.putAll("Bulgaria", ImmutableSet.of("BG","BGR","100"));
-		codes.putAll("Bahrain", ImmutableSet.of("BH","BHR","48"));
+		codes.putAll("Bahrain", ImmutableSet.of("BH","BHR","48","048"));
 		codes.putAll("Burundi", ImmutableSet.of("BI","BDI","108"));
 		codes.putAll("Benin", ImmutableSet.of("BJ","BEN","204"));
 		codes.putAll("Saint Barthelemy", ImmutableSet.of("BL","BLM","652"));
-		codes.putAll("Bermuda", ImmutableSet.of("BM","BMU","60"));
-		codes.putAll("Brunei", ImmutableSet.of("BN","BRN","96"));
-		codes.putAll("Bolivia", ImmutableSet.of("BO","BOL","68"));
-		codes.putAll("Brazil", ImmutableSet.of("BR","BRA","76"));
-		codes.putAll("The Bahamas", ImmutableSet.of("BS","BHS","44"));
-		codes.putAll("Bhutan", ImmutableSet.of("BT","BTN","64"));
-		codes.putAll("Botswana", ImmutableSet.of("BW","BWA","72"));
+		codes.putAll("Bermuda", ImmutableSet.of("BM","BMU","60","060"));
+		codes.putAll("Brunei", ImmutableSet.of("BN","BRN","96","096"));
+		codes.putAll("Bolivia", ImmutableSet.of("BO","BOL","68","068"));
+		codes.putAll("Brazil", ImmutableSet.of("BR","BRA","76","076"));
+		codes.putAll("The Bahamas", ImmutableSet.of("BS","BHS","44","044"));
+		codes.putAll("Bhutan", ImmutableSet.of("BT","BTN","64","064"));
+		codes.putAll("Botswana", ImmutableSet.of("BW","BWA","72","072"));
 		codes.putAll("Belarus", ImmutableSet.of("BY","BLR","112"));
-		codes.putAll("Belize", ImmutableSet.of("BZ","BLZ","84"));
+		codes.putAll("Belize", ImmutableSet.of("BZ","BLZ","84","084"));
 		codes.putAll("Canada", ImmutableSet.of("CA","CAN","124"));
 		codes.putAll("Democratic Republic of the Congo", ImmutableSet.of("CD","COD","180"));
 		codes.putAll("Central African Republic", ImmutableSet.of("CF","CAF","140"));
@@ -208,7 +208,7 @@ public class CountryLookup {
 		codes.putAll("Denmark", ImmutableSet.of("DK","DNK","208"));
 		codes.putAll("Dominica", ImmutableSet.of("DM","DMA","212"));
 		codes.putAll("Dominican Republic", ImmutableSet.of("DO","DOM","214"));
-		codes.putAll("Algeria", ImmutableSet.of("DZ","DZA","12"));
+		codes.putAll("Algeria", ImmutableSet.of("DZ","DZA","12","012"));
 		codes.putAll("Ecuador", ImmutableSet.of("EC","ECU","218"));
 		codes.putAll("Estonia", ImmutableSet.of("EE","EST","233"));
 		codes.putAll("Egypt", ImmutableSet.of("EG","EGY","818"));
@@ -221,6 +221,7 @@ public class CountryLookup {
 		codes.putAll("Falkland Islands", ImmutableSet.of("FK","FLK","238"));
 		codes.putAll("Federated States of Micronesia", ImmutableSet.of("FM","FSM","583"));
 		codes.putAll("Faroe Islands", ImmutableSet.of("FO","FRO","234"));
+		codes.putAll("France", ImmutableSet.of("FR","FRA","250"));
 		codes.putAll("Gabon", ImmutableSet.of("GA","GAB","266"));
 		codes.putAll("United Kingdom", ImmutableSet.of("GB","GBR","826"));
 		codes.putAll("Grenada", ImmutableSet.of("GD","GRD","308"));
@@ -249,7 +250,7 @@ public class CountryLookup {
 		codes.putAll("Israel", ImmutableSet.of("IL","ISR","376"));
 		codes.putAll("Isle of Man", ImmutableSet.of("IM","IMN","833"));
 		codes.putAll("India", ImmutableSet.of("IN","IND","356"));
-		codes.putAll("British Indian Ocean Territory", ImmutableSet.of("IO","IOT","86"));
+		codes.putAll("British Indian Ocean Territory", ImmutableSet.of("IO","IOT","86","086"));
 		codes.putAll("Iraq", ImmutableSet.of("IQ","IRQ","368"));
 		codes.putAll("Iran", ImmutableSet.of("IR","IRN","364"));
 		codes.putAll("Iceland", ImmutableSet.of("IS","ISL","352"));
@@ -334,7 +335,7 @@ public class CountryLookup {
 		codes.putAll("Russia", ImmutableSet.of("RU","RUS","643"));
 		codes.putAll("Rwanda", ImmutableSet.of("RW","RWA","646"));
 		codes.putAll("Saudi Arabia", ImmutableSet.of("SA","SAU","682"));
-		codes.putAll("Solomon Islands", ImmutableSet.of("SB","SLB","90"));
+		codes.putAll("Solomon Islands", ImmutableSet.of("SB","SLB","90","090"));
 		codes.putAll("Seychelles", ImmutableSet.of("SC","SYC","690"));
 		codes.putAll("Sudan", ImmutableSet.of("SD","SDN","729"));
 		codes.putAll("Sweden", ImmutableSet.of("SE","SWE","752"));
@@ -377,7 +378,7 @@ public class CountryLookup {
 		codes.putAll("Vatican", ImmutableSet.of("VA","VAT","336"));
 		codes.putAll("Saint Vincent and the Grenadines", ImmutableSet.of("VC","VCT","670"));
 		codes.putAll("Venezuela", ImmutableSet.of("VE","VEN","862"));
-		codes.putAll("British Virgin Islands", ImmutableSet.of("VG","VGB","92"));
+		codes.putAll("British Virgin Islands", ImmutableSet.of("VG","VGB","92","092"));
 		codes.putAll("United States Virgin Islands", ImmutableSet.of("VI","VIR","850"));
 		codes.putAll("Vietnam", ImmutableSet.of("VN","VNM","704"));
 		codes.putAll("Vanuatu", ImmutableSet.of("VU","VUT","548"));
@@ -387,6 +388,18 @@ public class CountryLookup {
 		codes.putAll("South Africa", ImmutableSet.of("ZA","ZAF","710"));
 		codes.putAll("Zambia", ImmutableSet.of("ZM","ZMB","894"));
 		codes.putAll("Zimbabwe", ImmutableSet.of("ZW","ZWE","716"));
+		codes.putAll("Bonaire, Sint Eustatius and Saba", ImmutableSet.of("BQ","BES","535"));
+		codes.putAll("Bouvet Island", ImmutableSet.of("BV","BVT","74","074"));
+		codes.putAll("Cocos (Keeling) Islands", ImmutableSet.of("CC","CCK","166"));
+		codes.putAll("Christmas Island", ImmutableSet.of("CX","CXR","162"));
+		codes.putAll("French Guiana", ImmutableSet.of("GF","GUF","254"));
+		codes.putAll("Guadeloupe", ImmutableSet.of("GP","GLP","312"));
+		codes.putAll("Martinique", ImmutableSet.of("MQ","MTQ","474"));
+		codes.putAll("Norway", ImmutableSet.of("NO","NOR","578"));
+		codes.putAll("Réunion", ImmutableSet.of("RE","REU","638"));
+		codes.putAll("Svalbard and Jan Mayen", ImmutableSet.of("SJ","SJM","744"));
+		codes.putAll("Tokelau", ImmutableSet.of("TK","TKL","772"));
+		codes.putAll("Mayotte", ImmutableSet.of("YT","MYT","175"));
 		
 		} 
 		

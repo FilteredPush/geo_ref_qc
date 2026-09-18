@@ -211,6 +211,14 @@ public class DwCGeoRefDQDefinitionsIT {
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
 		
+		country="France";
+		countryCode = "FR";
+		result = DwCGeoRefDQ.validationCountryCountrycodeConsistent(country, countryCode);
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));;
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());		
+		
 		// Notes
 		// This test will fail if there is leading or trailing 
         // whitespace or there are leading or trailing non-printing characters.

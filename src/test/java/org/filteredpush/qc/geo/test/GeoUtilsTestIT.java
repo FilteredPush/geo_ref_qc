@@ -74,7 +74,9 @@ public class GeoUtilsTestIT {
 				logger.debug(countryCode);
 				latitude = record.get(3);
 				longitude = record.get(4);
+				logger.debug(countryCode.concat(":").concat(latitude).concat(",").concat(longitude));
 				String countryCode3 = CountryLookup.lookupCode3FromCodeName(countryCode);
+				logger.debug(countryCode3);
 				if (countryCode3==null || countryCode3.equals("CYP") || countryCode3.equals("GAB") ||
 						countryCode3.equals("LIE") || countryCode3.equals("MCO") || 
 						countryCode3.equals("SMR") || countryCode3.equals("VAT")) 

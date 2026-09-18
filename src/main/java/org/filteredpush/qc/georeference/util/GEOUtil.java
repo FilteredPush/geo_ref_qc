@@ -497,7 +497,20 @@ public class GEOUtil {
 		    if (!collection.isEmpty()) {
 		    	if (collection.size()==1) {
 		    		SimpleFeature feature = collection.features().next();
-		    		result = feature.getAttribute("ISO_SOV1").toString();
+		    		logger.debug(feature.getAttribute("ISO_SOV1").toString());
+		    		// special case handling for failure -99 for France SOVEREIGNT: France and others 
+		    		if (feature.getAttribute("ISO_SOV1").toString().equals("-99")) {
+		    			String sovereignt = feature.getAttribute("SOVEREIGNT").toString();
+		    			logger.debug(sovereignt);
+		    			String matchedCode = CountryLookup.lookupCode3FromCodeName(sovereignt);
+		    			if (matchedCode!=null) {
+		    			   result = matchedCode;
+		    			} else { 
+		    				result = feature.getAttribute("ISO_SOV1").toString();
+		    			}
+		    		} else { 
+		    			result = feature.getAttribute("ISO_SOV1").toString();
+		    		}
 		    		if (!GEOUtil.isEmpty(feature.getAttribute("ISO_SOV2").toString())) {
 		    			result = null;
 		    		}
