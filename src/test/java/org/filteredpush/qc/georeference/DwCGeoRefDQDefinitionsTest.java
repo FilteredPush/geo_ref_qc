@@ -296,6 +296,12 @@ public class DwCGeoRefDQDefinitionsTest {
 		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
 		assertEquals(ComplianceValue.COMPLIANT, result.getValue());
 		
+		result = DwCGeoRefDQ.validationCountrycodeStandard("FR");
+		logger.debug(result.getComment());
+		assertFalse(GEOUtil.isEmpty(result.getComment()));
+		assertEquals(ResultState.RUN_HAS_RESULT, result.getResultState());
+		assertEquals(ComplianceValue.COMPLIANT, result.getValue());		
+		
         // From notes: "This test will fail if there is leading or trailing whitespace or there are leading or trailing non-printing characters."
 		result = DwCGeoRefDQ.validationCountrycodeStandard(" UG ");
 		logger.debug(result.getComment());
