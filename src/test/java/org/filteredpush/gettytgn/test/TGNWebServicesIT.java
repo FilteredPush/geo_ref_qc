@@ -1,6 +1,6 @@
 package org.filteredpush.gettytgn.test;
 /**
- * TestTGNWebServicesIT.java
+ * TGNWebServicesIT.java
  */
 
 import static org.junit.Assert.assertEquals;
@@ -40,12 +40,15 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
+ * Integration tests that make live requests to the Getty TGN web services, run by 
+ * maven failsafe in the integration-test phase, not by surefire with the unit tests.
+ * 
  * @author mole
  *
  */
-public class TestTGNWebServicesIT {
+public class TGNWebServicesIT {
 
-	private static final Log logger = LogFactory.getLog(TestTGNWebServicesIT.class);
+	private static final Log logger = LogFactory.getLog(TGNWebServicesIT.class);
 	
 	@Test 
 	public void testVocabularyObject() { 
