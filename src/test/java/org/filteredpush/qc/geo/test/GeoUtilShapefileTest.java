@@ -5,7 +5,13 @@ package org.filteredpush.qc.geo.test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -150,6 +156,40 @@ public class GeoUtilShapefileTest {
 		System.gc();
 		System.runFinalization();
 		logger.debug("Shapefile warnings: " + records.size());
+		assertNoShapefileWarnings();
+	}
+
+	/**
+	 * Test that shapefile queries from many threads at once, sharing data stores, give 
+	 * correct results and leave no shapefile readers unclosed.
+	 * 
+	 * @throws Exception on an unexpected failure.
+	 */
+	@Test
+	public void testConcurrentQueries() throws Exception { 
+		ExecutorService executor = Executors.newFixedThreadPool(8);
+		try { 
+			List<Callable<Boolean>> tasks = new ArrayList<Callable<Boolean>>();
+			for (int t=0; t<8; t++) { 
+				tasks.add(() -> { 
+					for (int i=0; i<10; i++) { 
+						assertEquals("PRK", GEOUtil.getCountryForPoint(KP_LAT, KP_LNG));
+						assertEquals("KOR", GEOUtil.getCountryForPoint(KR_LAT, KR_LNG));
+						assertNull(GEOUtil.getCountryForPoint(HIGH_SEAS_LAT, HIGH_SEAS_LNG));
+						assertTrue(GEOUtil.isPointInCountry("Korea", Double.parseDouble(KR_LAT), Double.parseDouble(KR_LNG)));
+						assertFalse(GEOUtil.isPointInCountry("Korea", Double.parseDouble(KP_LAT), Double.parseDouble(KP_LNG)));
+					}
+					return true;
+				});
+			}
+			for (Future<Boolean> future : executor.invokeAll(tasks, 300, TimeUnit.SECONDS)) { 
+				assertTrue(future.get());
+			}
+		} finally { 
+			executor.shutdownNow();
+		}
+		System.gc();
+		System.runFinalization();
 		assertNoShapefileWarnings();
 	}
 

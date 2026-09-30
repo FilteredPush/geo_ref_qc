@@ -3,12 +3,10 @@
  */
 package org.filteredpush.qc.georeference.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigInteger;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -42,6 +40,11 @@ import jakarta.xml.bind.Unmarshaller;
 
 /**
  * Check country names against the Getty Thesaurus of Geographic Names (TGN).
+ * 
+ * <p>All requests to the Getty TGN are made through a single shared {@link RemoteServiceClient}, 
+ * which throttles, retries, and caches requests, remembers failed requests, and stops sending 
+ * requests for a period if the service fails repeatedly, see {@link RemoteServiceConfig} for 
+ * the system properties that configure this behavior.</p>
  *
  * @author mole
  * @version $Id: $Id
@@ -73,44 +76,21 @@ public class GettyLookup {
 	 */
 	public static final String DEFAULT_SERVICE_BASE = "http://vocabsservices.getty.edu/TGNService.asmx/";
 	
-	/** 
-	 * System property that can be used to set the connect timeout in milliseconds for requests 
-	 * to the Getty TGN, e.g. -Dgeo_ref_qc.connectTimeoutMillis=5000
-	 */
-	public static final String CONNECT_TIMEOUT_PROPERTY = "geo_ref_qc.connectTimeoutMillis";
-	
-	/** 
-	 * System property that can be used to set the read timeout in milliseconds for requests 
-	 * to the Getty TGN, e.g. -Dgeo_ref_qc.readTimeoutMillis=60000
-	 */
-	public static final String READ_TIMEOUT_PROPERTY = "geo_ref_qc.readTimeoutMillis";
-	
-	/** 
-	 * System property that can be used to set the User-Agent sent with requests to the Getty TGN.
-	 */
-	public static final String USER_AGENT_PROPERTY = "geo_ref_qc.userAgent";
-	
-	/** Default connect timeout for requests to the Getty TGN, in milliseconds. */
-	public static final int DEFAULT_CONNECT_TIMEOUT_MILLIS = 10000;
-	
-	/** Default read timeout for requests to the Getty TGN, in milliseconds. */
-	public static final int DEFAULT_READ_TIMEOUT_MILLIS = 30000;
-	
-	/** Connect timeout used for requests to the Getty TGN, in milliseconds. */
-	static final int CONNECT_TIMEOUT_MILLIS = Integer.getInteger(CONNECT_TIMEOUT_PROPERTY, DEFAULT_CONNECT_TIMEOUT_MILLIS);
-	
-	/** Read timeout used for requests to the Getty TGN, in milliseconds. */
-	static final int READ_TIMEOUT_MILLIS = Integer.getInteger(READ_TIMEOUT_PROPERTY, DEFAULT_READ_TIMEOUT_MILLIS);
-	
-	/** User-Agent identifying this library, sent with each request to the Getty TGN. */
-	static final String USER_AGENT = System.getProperty(USER_AGENT_PROPERTY, 
-			"FilteredPush-geo_ref_qc/" + implementationVersion() + " (+https://github.com/FilteredPush/geo_ref_qc)");
+	/** Name of the Getty TGN service used in log and exception messages. */
+	public static final String SERVICE_NAME = "Getty TGN";
 	
 	/** 
 	 * Base URL used for requests to the Getty TGN web services, package visible so that unit 
 	 * tests can point requests at a local test server.
 	 */
 	static volatile String serviceBase = DEFAULT_SERVICE_BASE;
+	
+	/** 
+	 * Client shared by all requests to the Getty TGN, which throttles, retries, and caches requests, 
+	 * see {@link RemoteServiceConfig} for its settings.  Package visible so that unit tests can 
+	 * replace it with a client with different settings.
+	 */
+	static volatile RemoteServiceClient gettyClient = new RemoteServiceClient(SERVICE_NAME, RemoteServiceConfig.fromSystemProperties());
 	
 	/** JAXBContext for Getty TGN responses, thread safe and expensive to create, so created once. */
 	private static JAXBContext vocabularyContext;
@@ -123,15 +103,13 @@ public class GettyLookup {
 	}
 	
 	/**
-	 * Obtain the version of this library from the jar manifest, for use in the User-Agent.
+	 * Obtain the client shared by all requests to the Getty TGN, for example to inspect the 
+	 * number of requests made, or to reset its caches and circuit breaker.
 	 * 
-	 * @return the implementation version of this library, or "unknown" if not available 
-	 *   (e.g. when not running from a jar).
+	 * @return the RemoteServiceClient used for requests to the Getty TGN.
 	 */
-	private static String implementationVersion() { 
-		Package p = GettyLookup.class.getPackage();
-		String version = (p==null) ? null : p.getImplementationVersion();
-		return (version==null) ? "unknown" : version;
+	public static RemoteServiceClient getGettyClient() { 
+		return gettyClient;
 	}
 	
 	/**
@@ -149,55 +127,50 @@ public class GettyLookup {
 	}
 	
 	/**
-	 * Open a connection to the Getty TGN with connect and read timeouts and a User-Agent set, 
-	 * so that an unresponsive service can not block the calling thread indefinitely, and so 
-	 * that requests identify this library to the service.
-	 * 
-	 * @param request the URL to request.
-	 * @return an HttpURLConnection, not yet connected.
-	 * @throws IOException on an error opening the connection, including a 
-	 *   MalformedURLException if request is not a valid URL.
-	 */
-	static HttpURLConnection openConnection(String request) throws IOException { 
-		URL url = new URL(request);
-		HttpURLConnection getty = (HttpURLConnection) url.openConnection();
-		getty.setConnectTimeout(CONNECT_TIMEOUT_MILLIS);
-		getty.setReadTimeout(READ_TIMEOUT_MILLIS);
-		getty.setRequestProperty("User-Agent", USER_AGENT);
-		return getty;
-	}
-	
-	/**
-	 * Request a TGN Vocabulary response (e.g. from TGNGetTermMatch) from the Getty TGN, closing 
-	 * the response stream after reading it.
+	 * Request a TGN Vocabulary response (e.g. from TGNGetTermMatch) from the Getty TGN, through
+	 * the shared client, which may answer from its cache.  A response that can not be 
+	 * interpreted is removed from the cache.
 	 * 
 	 * @param request the URL to request.
 	 * @return the unmarshalled response.
-	 * @throws IOException on an error communicating with the service, including an HTTP error status.
+	 * @throws IOException on an error communicating with the service, including an HTTP error 
+	 *   status ({@link HttpStatusException}), or a request not sent because the service has been 
+	 *   failing ({@link ServiceUnavailableException}).
 	 * @throws JAXBException on an error interpreting the response.
 	 */
 	static Vocabulary fetchVocabulary(String request) throws IOException, JAXBException { 
-		HttpURLConnection getty = openConnection(request);
-		try (InputStream is = getty.getInputStream()) { 
+		RemoteServiceClient client = gettyClient;
+		byte[] body = client.get(request);
+		try { 
 			Unmarshaller unmarshaler = getVocabularyContext().createUnmarshaller();
-			return (Vocabulary) unmarshaler.unmarshal(is);
+			return (Vocabulary) unmarshaler.unmarshal(new ByteArrayInputStream(body));
+		} catch (JAXBException e) { 
+			client.evict(request);
+			throw e;
 		}
 	}
 	
 	/**
-	 * Request an XML document (e.g. from TGNGetParents) from the Getty TGN, closing the response 
-	 * stream after reading it.
+	 * Request an XML document (e.g. from TGNGetParents) from the Getty TGN, through the shared 
+	 * client, which may answer from its cache.  A response that can not be parsed is removed 
+	 * from the cache.
 	 * 
 	 * @param builder to use to parse the response.
 	 * @param request the URL to request.
 	 * @return the parsed response.
-	 * @throws IOException on an error communicating with the service, including an HTTP error status.
+	 * @throws IOException on an error communicating with the service, including an HTTP error 
+	 *   status ({@link HttpStatusException}), or a request not sent because the service has been 
+	 *   failing ({@link ServiceUnavailableException}).
 	 * @throws SAXException on an error parsing the response.
 	 */
 	static Document fetchDocument(DocumentBuilder builder, String request) throws IOException, SAXException { 
-		HttpURLConnection getty = openConnection(request);
-		try (InputStream is = getty.getInputStream()) { 
-			return builder.parse(is);
+		RemoteServiceClient client = gettyClient;
+		byte[] body = client.get(request);
+		try { 
+			return builder.parse(new ByteArrayInputStream(body));
+		} catch (SAXException e) { 
+			client.evict(request);
+			throw e;
 		}
 	}
 	

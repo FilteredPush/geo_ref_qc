@@ -65,6 +65,8 @@ public class GettyLookupTest {
 	private Map<String,String> pathResponses;
 	/** HTTP status to return for all requests, 200 for normal behavior. */
 	private volatile int statusOverride;
+	/** The Getty client in use before the test, restored after the test. */
+	private RemoteServiceClient originalClient;
 
 	/**
 	 * Start a local server standing in for the Getty TGN and point GettyLookup at it.
@@ -82,6 +84,20 @@ public class GettyLookupTest {
 		server.createContext("/", exchange -> handle(exchange));
 		server.start();
 		GettyLookup.serviceBase = "http://127.0.0.1:" + server.getAddress().getPort() + "/TGNService.asmx/";
+		originalClient = GettyLookup.gettyClient;
+		// a new client for each test, so that responses cached in one test are not seen in another, 
+		// with short delays so that retries do not slow the tests.
+		GettyLookup.gettyClient = new RemoteServiceClient(GettyLookup.SERVICE_NAME, fastConfig());
+	}
+	
+	/**
+	 * @return a configuration with the default behavior, but short delays between retries.
+	 */
+	static RemoteServiceConfig fastConfig() { 
+		return new RemoteServiceConfig()
+				.setBackoffBaseMillis(1L)
+				.setBackoffMaxMillis(5L)
+				.setMinRequestIntervalMillis(0L);
 	}
 
 	/**
@@ -90,6 +106,7 @@ public class GettyLookupTest {
 	@After
 	public void tearDown() {
 		GettyLookup.serviceBase = GettyLookup.DEFAULT_SERVICE_BASE;
+		GettyLookup.gettyClient = originalClient;
 		if (server!=null) {
 			server.stop(0);
 		}
@@ -164,26 +181,27 @@ public class GettyLookupTest {
 	}
 
 	/**
-	 * Test that connections to the Getty TGN are opened with timeouts and a User-Agent set.
-	 *
+	 * Test that the shared Getty client opens connections with timeouts and a User-Agent set.
+	 * 
 	 * @throws IOException if the connection can not be opened.
 	 */
 	@Test
-	public void testOpenConnection() throws IOException {
-		HttpURLConnection connection = GettyLookup.openConnection(GettyLookup.serviceBase + "TGNGetTermMatch?name=Belgium");
-		assertEquals(GettyLookup.CONNECT_TIMEOUT_MILLIS, connection.getConnectTimeout());
-		assertEquals(GettyLookup.READ_TIMEOUT_MILLIS, connection.getReadTimeout());
+	public void testOpenConnection() throws IOException { 
+		RemoteServiceClient client = new RemoteServiceClient(GettyLookup.SERVICE_NAME, RemoteServiceConfig.fromSystemProperties());
+		HttpURLConnection connection = client.openConnection(GettyLookup.serviceBase + "TGNGetTermMatch?name=Belgium");
+		assertEquals(client.getConfig().getConnectTimeoutMillis(), connection.getConnectTimeout());
+		assertEquals(client.getConfig().getReadTimeoutMillis(), connection.getReadTimeout());
 		assertTrue(connection.getConnectTimeout() > 0);
 		assertTrue(connection.getReadTimeout() > 0);
-		assertEquals(GettyLookup.USER_AGENT, connection.getRequestProperty("User-Agent"));
-		assertTrue(GettyLookup.USER_AGENT.startsWith("FilteredPush-geo_ref_qc/"));
+		assertEquals(client.getConfig().getUserAgent(), connection.getRequestProperty("User-Agent"));
+		assertTrue(client.getConfig().getUserAgent().startsWith("FilteredPush-geo_ref_qc/"));
 		// opening does not make a request
 		assertEquals(0, requestCount.get());
-
-		try {
-			GettyLookup.openConnection("not a url");
+		
+		try { 
+			client.openConnection("not a url");
 			fail("Expected a MalformedURLException");
-		} catch (MalformedURLException e) {
+		} catch (MalformedURLException e) { 
 			logger.debug(e.getMessage());
 		}
 	}
@@ -200,7 +218,7 @@ public class GettyLookupTest {
 		assertEquals(1, response.getCount().intValue());
 		assertEquals("Belgium (nation)", response.getSubject().get(0).getPreferredTerm().getValue());
 		assertEquals(1, requestCount.get());
-		assertEquals(GettyLookup.USER_AGENT, userAgents.get(0));
+		assertEquals(GettyLookup.gettyClient.getConfig().getUserAgent(), userAgents.get(0));
 
 		// no matches
 		response = GettyLookup.fetchVocabulary(GettyLookup.serviceBase + "TGNGetTermMatch?name=Nowhere&placetypeid=81011&nationid=");
@@ -252,7 +270,7 @@ public class GettyLookupTest {
 		Document document = GettyLookup.fetchDocument(DocumentBuilderFactory.newInstance().newDocumentBuilder(),
 				GettyLookup.serviceBase + "TGNGetParents?subjectID=7007710");
 		assertEquals("7012149", document.getElementsByTagName("Parent_Subject_ID").item(0).getTextContent());
-		assertEquals(GettyLookup.USER_AGENT, userAgents.get(0));
+		assertEquals(GettyLookup.gettyClient.getConfig().getUserAgent(), userAgents.get(0));
 	}
 
 	/**
@@ -270,9 +288,13 @@ public class GettyLookupTest {
 		pathResponses.put("/TGNService.asmx/TGNGetParents", "<Vocabulary></Vocabulary>");
 		assertEquals("", lookup.lookupParent("1"));
 
+		// a repeated lookup is answered from the cache
+		assertEquals("United States", lookup.lookupParent("7007710"));
+		assertEquals(3, requestCount.get());
+		
 		// service failure
 		statusOverride = 500;
-		assertEquals("", lookup.lookupParent("7007710"));
+		assertEquals("", lookup.lookupParent("7007711"));
 	}
 
 	/**
@@ -412,6 +434,64 @@ public class GettyLookupTest {
 		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
 		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
 		assertEquals(1, requestCount.get());
+	}
+
+	/**
+	 * Test that a lookup that failed is not resent while the failure is remembered, and 
+	 * that once the Getty TGN has failed repeatedly, lookups fail without sending requests.
+	 */
+	@Test
+	public void testFailedLookupsNotResent() { 
+		GettyLookup.gettyClient = new RemoteServiceClient(GettyLookup.SERVICE_NAME, fastConfig()
+				.setMaxRetries(1).setCircuitBreakerThreshold(3).setCircuitBreakerOpenMillis(60000L));
+		statusOverride = 503;
+		GettyLookup lookup = new GettyLookup();
+		try { 
+			lookup.lookupCountry("Belgium");
+			fail("Expected a SourceAuthorityException");
+		} catch (SourceAuthorityException e) { 
+			logger.debug(e.getMessage());
+		}
+		// one request and one retry
+		assertEquals(2, requestCount.get());
+		
+		// the same lookup is not resent
+		try { 
+			lookup.lookupCountry("Belgium");
+			fail("Expected a SourceAuthorityException");
+		} catch (SourceAuthorityException e) { 
+			logger.debug(e.getMessage());
+		}
+		assertEquals(2, requestCount.get());
+		
+		// other lookups are sent until the circuit breaker trips
+		assertNull(lookup.lookupPrimary("Testprovincia"));
+		assertEquals(4, requestCount.get());
+		try { 
+			lookup.getCountryObjects("Ghana");
+			fail("Expected a SourceAuthorityException");
+		} catch (SourceAuthorityException e) { 
+			logger.debug(e.getMessage());
+		}
+		assertEquals(6, requestCount.get());
+		assertTrue(GettyLookup.getGettyClient().isCircuitOpen());
+		
+		// then fail without being sent
+		assertNull(lookup.lookupUniquePrimary("Othertestprovincia"));
+		try { 
+			lookup.lookupCountry("Ghana");
+			fail("Expected a SourceAuthorityException");
+		} catch (SourceAuthorityException e) { 
+			logger.debug(e.getMessage());
+			assertTrue(e.getMessage().contains("unavailable"));
+		}
+		assertEquals(6, requestCount.get());
+		
+		// VALIDATION_COUNTRY_FOUND reports the external prerequisites as not met
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountryFound("Nottestlandia2", GettyLookup.GETTY_TGN);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.EXTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+		assertEquals(6, requestCount.get());
 	}
 
 }
