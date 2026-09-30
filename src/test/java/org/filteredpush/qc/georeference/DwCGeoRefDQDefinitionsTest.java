@@ -2095,5 +2095,32 @@ public class DwCGeoRefDQDefinitionsTest {
 	    assertEquals(IssueValue.NOT_ISSUE.getLabel(), result.getValue().getLabel());
 	    
 	    
-	} 
+	}
+
+	/**
+	 * Test method for {@link org.filteredpush.qc.georeference.DwCGeoRefDQ#validationCoordinatesTerrestrialmarine(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}
+	 * with empty or uninterpretable coordinates, which must be INTERNAL_PREREQUISITES_NOT_MET 
+	 * rather than throwing a NumberFormatException.  These cases are decided before the 
+	 * taxonIsMarine service is consulted, so they need no network access.
+	 */
+	@Test
+	public void testValidationCoordinatesTerrestrialmarineEmptyCoordinates() {
+		String scientificName = "Orcinus orca";
+		String[][] coordinates = { 
+				{ "", "-28.85" }, 
+				{ "-15.23", "" }, 
+				{ "", "" }, 
+				{ null, null }, 
+				{ " ", "-28.85" }, 
+				{ "foo", "-28.85" }, 
+				{ "-15.23", "200" } 
+		};
+		for (String[] coordinate : coordinates) { 
+			DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCoordinatesTerrestrialmarine(coordinate[0], coordinate[1], scientificName, null, null, null, null);
+			logger.debug(result.getComment());
+			assertEquals(ResultState.INTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+			assertNull(result.getValue());
+			assertFalse(GEOUtil.isEmpty(result.getComment()));
+		}
+	}
 }
