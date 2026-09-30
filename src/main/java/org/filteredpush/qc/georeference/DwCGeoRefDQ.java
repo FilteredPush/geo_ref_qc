@@ -204,10 +204,11 @@ public class DwCGeoRefDQ{
         				}
         			} else { 
         				GettyLookup lookup = new GettyLookup();
-        				if (lookup.lookupCountry(country)==null) { 
+        				Boolean countryFound = lookup.lookupCountry(country);
+        				if (countryFound==null) { 
         					result.addComment("Error looking up country in " + sourceAuthority);
         					result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
-        				} else if (lookup.lookupCountry(country)) { 
+        				} else if (countryFound) { 
         					result.addComment("the value provided for dwc:country [" + country + "] exists as a nation in the Getty Thesaurus of Geographic Names (TGN).");
         					result.setResultState(ResultState.RUN_HAS_RESULT);
         					result.setValue(ComplianceValue.COMPLIANT);
@@ -2864,10 +2865,11 @@ public class DwCGeoRefDQ{
         				}
         			} else { 
         				GettyLookup lookup = new GettyLookup();
-        				if (lookup.lookupPrimary(stateProvince)==null) { 
+        				Boolean primaryFound = lookup.lookupPrimary(stateProvince);
+        				if (primaryFound==null) { 
         					result.addComment("Error looking up stateProvince in " + sourceAuthority);
         					result.setResultState(ResultState.EXTERNAL_PREREQUISITES_NOT_MET);
-        				} else if (lookup.lookupPrimary(stateProvince)) { 
+        				} else if (primaryFound) { 
         					result.addComment("the value provided for dwc:stateProvince [" + stateProvince + "] exists as a primary administrative divsion in the Getty Thesaurus of Geographic Names (TGN).");
         					result.addComment(lookup.getPrimaryObject(stateProvince).getParentageString());
         					result.setResultState(ResultState.RUN_HAS_RESULT);
@@ -2970,8 +2972,9 @@ public class DwCGeoRefDQ{
         			logger.debug(countryToLookup);
         			if (lookup.lookupCountry(countryToLookup)) { 
         				logger.debug(stateProvince);
-        				logger.debug(lookup.lookupPrimary(stateProvince));
-        				if (lookup.lookupPrimary(stateProvince)) {  
+        				Boolean primaryFound = lookup.lookupPrimary(stateProvince);
+        				logger.debug(primaryFound);
+        				if (primaryFound) {  
         					if (preferredCountry==null) { 
         						preferredCountry = countryToLookup;
         					}

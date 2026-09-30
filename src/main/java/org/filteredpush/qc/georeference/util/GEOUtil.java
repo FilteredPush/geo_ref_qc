@@ -26,8 +26,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.filteredpush.qc.georeference.SourceAuthorityException;
-import org.geotools.api.data.FileDataStore;
-import org.geotools.api.data.FileDataStoreFinder;
 import org.geotools.api.data.SimpleFeatureSource;
 import org.geotools.api.feature.Property;
 import org.geotools.api.feature.simple.SimpleFeature;
@@ -443,34 +441,29 @@ public class GEOUtil {
     }    
 	
 	/**
-	 * <p>isPointInCountry.</p>
+	 * Test to see if a point is within a country, using the Natural Earth admin 0 countries 
+	 * shapefile (land boundaries only, not including exclusive economic zones).
 	 *
-	 * @param country a {@link java.lang.String} object.
-	 * @param latitude a double.
-	 * @param longitude a double.
-	 * @return a boolean.
+	 * @param country the name of the country, matched case insensitively against NAME in the shapefile.
+	 * @param latitude of the point to check, in decimal degrees.
+	 * @param longitude of the point to check, in decimal degrees.
+	 * @return true if the point is within the named country, false if not, or if the country 
+	 *   is not found, or on an error reading the shapefile.
 	 */
 	public static boolean isPointInCountry(String country, double latitude, double longitude) { 
 		boolean result = false;
         URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_0_countries.shp");
-        FileDataStore store = null;
 		try {
-			store = FileDataStoreFinder.getDataStore(countryShapeFile);
-            SimpleFeatureSource featureSource = store.getFeatureSource();
+			SimpleFeatureSource featureSource = SharedShapefiles.getFeatureSource(countryShapeFile);
 		    Filter filter = ECQL.toFilter("NAME ILIKE '"+ country +"' AND CONTAINS(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "))");
 		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
 		    result = !collection.isEmpty();
-		    featureSource.getFeatures().features().close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (CQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally { 
-			if (store!=null) { 
-				store.dispose(); 
-			}			
 		}
 		return result;
 	}
@@ -486,17 +479,19 @@ public class GEOUtil {
 	public static String getCountryForPoint(String latitude, String longitude) { 
 		String result = null;
 		URL combinedShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/merged_countries_and_eez.shp");
-        FileDataStore store = null;
 		try {
-			store = FileDataStoreFinder.getDataStore(combinedShapeFile);
-            SimpleFeatureSource featureSource = store.getFeatureSource();
+			SimpleFeatureSource featureSource = SharedShapefiles.getFeatureSource(combinedShapeFile);
 		    Filter filter = ECQL.toFilter("CONTAINS(the_geom, POINT(" + longitude + " " + latitude + "))");
 		    logger.debug(filter.toString());
 		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
 		    logger.debug(collection.size());
 		    if (!collection.isEmpty()) {
 		    	if (collection.size()==1) {
-		    		SimpleFeature feature = collection.features().next();
+		    		SimpleFeature feature;
+		    		// close the iterator, an unclosed iterator leaves a shapefile reader open, holding locks on the .shp and .dbf 
+		    		try (SimpleFeatureIterator i = collection.features()) { 
+		    			feature = i.next();
+		    		}
 		    		logger.debug(feature.getAttribute("ISO_SOV1").toString());
 		    		// special case handling for failure -99 for France SOVEREIGNT: France and others 
 		    		if (feature.getAttribute("ISO_SOV1").toString().equals("-99")) {
@@ -515,40 +510,35 @@ public class GEOUtil {
 		    			result = null;
 		    		}
 		    	}  else { 
-		    		SimpleFeatureIterator i = collection.features();
-		    		SimpleFeature feature = i.next();
-		    		String aMatch = feature.getAttribute("ISO_SOV1").toString();
-		    		logger.debug(aMatch);
-		    		boolean singleMatch = true;
-	    			if (!GEOUtil.isEmpty(feature.getAttribute("ISO_SOV2").toString())) {
-	    				singleMatch=false;
-	    			}
-		    		while (i.hasNext() && singleMatch) { 
-		    			feature = i.next();
-		    			String anotherMatch = feature.getAttribute("ISO_SOV1").toString();
+		    		try (SimpleFeatureIterator i = collection.features()) { 
+		    			SimpleFeature feature = i.next();
+		    			String aMatch = feature.getAttribute("ISO_SOV1").toString();
+		    			logger.debug(aMatch);
+		    			boolean singleMatch = true;
 		    			if (!GEOUtil.isEmpty(feature.getAttribute("ISO_SOV2").toString())) {
 		    				singleMatch=false;
 		    			}
-		    			logger.debug(anotherMatch);
-		    			if (! aMatch.equals(anotherMatch)) { 
-		    				singleMatch = false;
+		    			while (i.hasNext() && singleMatch) { 
+		    				feature = i.next();
+		    				String anotherMatch = feature.getAttribute("ISO_SOV1").toString();
+		    				if (!GEOUtil.isEmpty(feature.getAttribute("ISO_SOV2").toString())) {
+		    					singleMatch=false;
+		    				}
+		    				logger.debug(anotherMatch);
+		    				if (! aMatch.equals(anotherMatch)) { 
+		    					singleMatch = false;
+		    				}
+		    			}
+		    			if (singleMatch) {
+		    				result = aMatch;
 		    			}
 		    		}
-		    		i.close();
-		    		if (singleMatch) {
-		    			result = aMatch;
-		    		}
 		    	}
-		    	featureSource.getDataStore().dispose();
 		    }
 		} catch (IOException e) {
 			logger.debug(e.getMessage());
 		} catch (CQLException e) {
 			logger.debug(e.getMessage());
-		} finally { 
-			if (store!=null) {
-				store.dispose(); 
-			}			
 		}
 		return result;
 	}
@@ -565,22 +555,16 @@ public class GEOUtil {
 	public static boolean isPointNearCountry(String country, double latitude, double longitude, double distanceKm) { 
 		boolean result = false;
         URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_0_countries.shp");
-        FileDataStore store = null;
 		try {
-			store = FileDataStoreFinder.getDataStore(countryShapeFile);
-            SimpleFeatureSource featureSource = store.getFeatureSource();
+			SimpleFeatureSource featureSource = SharedShapefiles.getFeatureSource(countryShapeFile);
             double distanceD = distanceKm / 111d; // GeoTools ignores units, uses units of underlying projection (degrees in this case), fudge by dividing km by number of km in one degree of latitude (this will describe a wide ellipse far north or south).
 		    Filter filter = ECQL.toFilter("NAME ILIKE '"+ country +"' AND DWITHIN(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "), "+ distanceD +", kilometers)");
 		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
 		    result = !collection.isEmpty();
-		    SimpleFeatureIterator i = collection.features();
-		    i.close();
 		} catch (IOException e) {
 			logger.debug(e.getMessage());
 		} catch (CQLException e) {
 			logger.debug(e.getMessage());
-		} finally { 
-			if (store!=null) { store.dispose(); }			
 		}
 		return result;
 	}	
@@ -598,29 +582,16 @@ public class GEOUtil {
 	public static boolean isPointNearCountryPlusEEZ(String countryCode, double latitude, double longitude, double distanceKm) { 
 		boolean result = false;
 		URL combinedShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/merged_countries_and_eez.shp");
-		FileDataStore store = null;
 		try {
-			store = FileDataStoreFinder.getDataStore(combinedShapeFile);
-			SimpleFeatureSource featureSource = store.getFeatureSource();
+			SimpleFeatureSource featureSource = SharedShapefiles.getFeatureSource(combinedShapeFile);
 			double distanceD = distanceKm / 111d; // GeoTools ignores units, uses units of underlying projection (degrees in this case), fudge by dividing km by number of km in one degree of latitude (this will describe a wide ellipse far north or south).
 			Filter filter = ECQL.toFilter("ISO_SOV1 ILIKE '"+ countryCode +"' AND DWITHIN(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "), "+ distanceD +", kilometers)");
 			SimpleFeatureCollection collection=featureSource.getFeatures(filter);
 			result = !collection.isEmpty();
-			featureSource.getDataStore().dispose();
-		    SimpleFeatureIterator i = collection.features();
-		    i.close();
 		} catch (IOException e) {
 			logger.debug(e.getMessage());
 		} catch (CQLException e) {
 			logger.debug(e.getMessage());
-		} finally { 
-			if (store!=null) { 
-				try { 
-					store.dispose();
-				} catch (Exception e) { 
-					logger.error(e.getMessage());
-				}
-			}			
 		}		
 		return result;
 	}	
@@ -637,10 +608,8 @@ public class GEOUtil {
 	public static boolean isPointInPrimary(String country, String primaryDivision, double latitude, double longitude) { 
 		boolean result = false;
         URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_1_states_provinces.shp");
-        FileDataStore store = null;
 		try {
-			store = FileDataStoreFinder.getDataStore(countryShapeFile);
-            SimpleFeatureSource featureSource = store.getFeatureSource();
+			SimpleFeatureSource featureSource = SharedShapefiles.getFeatureSource(countryShapeFile);
             if (country.toLowerCase().equals("united states")) { country = "United States of America"; } 
 		    Filter filter = ECQL.toFilter("name ILIKE '"+ primaryDivision.replace("'", "''") +"' AND admin ILIKE '"+ country +"' AND CONTAINS(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "))");
 		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
@@ -650,8 +619,6 @@ public class GEOUtil {
 			e.printStackTrace();
 		} catch (CQLException e) {
 			System.out.println("GEOUtil.isPointInPrimary error: " + e.getMessage());
-		} finally { 
-			if (store!=null) { store.dispose(); }			
 		}
 		return result;
 	}
@@ -669,10 +636,8 @@ public class GEOUtil {
 	public static boolean isPointNearPrimary(String country, String primaryDivision, double latitude, double longitude, double distanceKm) {
 		boolean result = false;
 		URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_1_states_provinces.shp");
-		FileDataStore store = null;
 		try {
-			store = FileDataStoreFinder.getDataStore(countryShapeFile);
-			SimpleFeatureSource featureSource = store.getFeatureSource();
+			SimpleFeatureSource featureSource = SharedShapefiles.getFeatureSource(countryShapeFile);
 			if (country.toLowerCase().equals("united states")) { country = "United States of America"; }
 			double distanceD = distanceKm / 111d; // GeoTools ignores units, uses units of underlying projection (degrees in this case), fudge by dividing km by number of km in one degree of latitude (this will describe a wide ellipse far north or south).
 			Filter filter = ECQL.toFilter("name ILIKE '"+ primaryDivision.replace("'", "''") +"' AND admin ILIKE '"+ country +"' AND DWITHIN(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "), "+ distanceD +", kilometers)");
@@ -684,8 +649,6 @@ public class GEOUtil {
 		} catch (CQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			if (store!=null) { store.dispose(); }
 		}
 		return result;
 	}
@@ -703,10 +666,8 @@ public class GEOUtil {
 	public static boolean isPointNearPrimaryAllowDuplicates(String primaryDivision, double latitude, double longitude, double distanceKm) {
 		boolean result = false;
 		URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_1_states_provinces.shp");
-		FileDataStore store = null;
 		try {
-			store = FileDataStoreFinder.getDataStore(countryShapeFile);
-			SimpleFeatureSource featureSource = store.getFeatureSource();
+			SimpleFeatureSource featureSource = SharedShapefiles.getFeatureSource(countryShapeFile);
 			double distanceD = distanceKm / 111d; // GeoTools ignores units, uses units of underlying projection (degrees in this case), fudge by dividing km by number of km in one degree of latitude (this will describe a wide ellipse far north or south).
 			
             String sanitized =  primaryDivision.replace("'", "''");
@@ -730,10 +691,6 @@ public class GEOUtil {
 			logger.debug(e.getMessage());
 		} catch (CQLException e) {
 			logger.debug(e.getMessage());
-		} finally {
-			if (store!=null) { 
-				store.dispose(); 
-			}
 		}
 		return result;
 	}
@@ -747,10 +704,8 @@ public class GEOUtil {
 	public static boolean isCountryKnown(String country) { 
 		boolean result = false;
         URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_0_countries.shp");
-        FileDataStore store = null;
 		try {
-			store = FileDataStoreFinder.getDataStore(countryShapeFile);
-            SimpleFeatureSource featureSource = store.getFeatureSource();
+			SimpleFeatureSource featureSource = SharedShapefiles.getFeatureSource(countryShapeFile);
 		    Filter filter = ECQL.toFilter("NAME ILIKE '"+ country +"'");
 		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
 		    result = !collection.isEmpty();
@@ -760,8 +715,6 @@ public class GEOUtil {
 		} catch (CQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally { 
-			if (store!=null) { store.dispose(); }
 		}
 		return result;
 	}	
@@ -776,10 +729,8 @@ public class GEOUtil {
 	public static boolean isPrimaryKnown(String country, String primaryDivision) { 
 		boolean result = false;
         URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_1_states_provinces.shp");
-        FileDataStore store = null;
 		try {
-			store = FileDataStoreFinder.getDataStore(countryShapeFile);
-            SimpleFeatureSource featureSource = store.getFeatureSource();
+			SimpleFeatureSource featureSource = SharedShapefiles.getFeatureSource(countryShapeFile);
             if (country.toLowerCase().equals("united states")) { country = "United States of America"; } 
             
             String sanitizedPrimary =  primaryDivision.replace("'", "''");
@@ -805,8 +756,6 @@ public class GEOUtil {
 			logger.debug(e.getMessage(),e);
 		} catch (CQLException e) {
 			System.out.println("GEOUtil.isPrimaryKnown error: " + e.getMessage());
-		} finally { 
-			if (store!=null) { store.dispose(); }			
 		}
 		return result;
 	}
@@ -821,10 +770,8 @@ public class GEOUtil {
 	public static boolean isPrimaryAloneKnown(String primaryDivision) { 
 		boolean result = false;
         URL countryShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_admin_1_states_provinces.shp");
-        FileDataStore store = null;
 		try {
-			store = FileDataStoreFinder.getDataStore(countryShapeFile);
-            SimpleFeatureSource featureSource = store.getFeatureSource();
+			SimpleFeatureSource featureSource = SharedShapefiles.getFeatureSource(countryShapeFile);
             
             String sanitized =  primaryDivision.replace("'", "''");
             StringBuffer filterString = new StringBuffer();
@@ -847,8 +794,6 @@ public class GEOUtil {
 			logger.debug(e.getMessage(),e);
 		} catch (CQLException e) {
 			System.out.println("GEOUtil.isPrimaryKnown error: " + e.getMessage());
-		} finally { 
-			if (store!=null) { store.dispose(); }			
 		}
 		return result;
 	}
@@ -1749,10 +1694,8 @@ public class GEOUtil {
 			}
 			// check if coordinate is in high seas, i.e. not within any country or exclusive economic zone
 			URL combinedShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/merged_countries_and_eez.shp");
-	        FileDataStore store = null;
 			try {
-				store = FileDataStoreFinder.getDataStore(combinedShapeFile);
-	            SimpleFeatureSource featureSource = store.getFeatureSource();
+				SimpleFeatureSource featureSource = SharedShapefiles.getFeatureSource(combinedShapeFile);
 			    Filter filter = ECQL.toFilter("CONTAINS(the_geom, POINT(" + decimalLongitude + " " + decimalLatitude + "))");
 			    logger.debug(filter.toString());
 			    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
@@ -1770,11 +1713,6 @@ public class GEOUtil {
 			} catch (IOException e) {
 				logger.error(e.getMessage());
 				throw new SourceAuthorityException("Failed to determine if coordinate is in high seas: " + e.getMessage());
-			}
-			finally {
-				if (store!=null) { 
-					store.dispose();
-				}
 			}
 		}
 		return retval;

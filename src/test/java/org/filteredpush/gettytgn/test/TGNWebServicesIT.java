@@ -1,6 +1,6 @@
 package org.filteredpush.gettytgn.test;
 /**
- * TestTGNWebServicesIT.java
+ * TGNWebServicesIT.java
  */
 
 import static org.junit.Assert.assertEquals;
@@ -30,7 +30,6 @@ import edu.getty.tgn.objects.Vocabulary;
 import edu.getty.tgn.objects.Vocabulary.Subject;
 import edu.getty.tgn.objects.Vocabulary.Subject.Term;
 import edu.getty.tgn.service.GettyTGNObject;
-import edu.getty.tgn.service.TGNWebServices;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
@@ -41,32 +40,16 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
+ * Integration tests that make live requests to the Getty TGN web services, run by 
+ * maven failsafe in the integration-test phase, not by surefire with the unit tests.
+ * 
  * @author mole
  *
  */
-public class TestTGNWebServicesIT {
+public class TGNWebServicesIT {
 
-	private static final Log logger = LogFactory.getLog(TestTGNWebServicesIT.class);
+	private static final Log logger = LogFactory.getLog(TGNWebServicesIT.class);
 	
-	@Test
-	public void testTGNGetNations() { 
-    	TGNWebServices tgn = new TGNWebServices();
-    	try {
-			edu.getty.tgn.service.ArrayOfListResults retval = tgn.getTGNWebServicesSoap().tgnGetNations("", "");
-			List<edu.getty.tgn.service.ListResults> retList =  retval.getListResults();
-			assertTrue(retList.size()>0);
-			Iterator<edu.getty.tgn.service.ListResults> i = retList.iterator();
-			while (i.hasNext()) { 
-				edu.getty.tgn.service.ListResults row = i.next();
-				System.out.println(row.getListValue());
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-
 	@Test 
 	public void testVocabularyObject() { 
 		

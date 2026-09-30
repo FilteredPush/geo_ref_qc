@@ -48,6 +48,53 @@ The geo_ref_qc library implements the following BDQ Standard tests:
 - VALIDATION_DECIMALLATITUDE_NOTEMPTY 
 - VALIDATION_COUNTRY_FOUND 
 
+## Remote services and spatial data
+
+Tests that use the Getty Thesaurus of Geographic Names (TGN) make requests to its web services through a 
+single shared client (`org.filteredpush.qc.georeference.util.RemoteServiceClient`), which:
+
+- identifies itself with the User-Agent `FilteredPush-geo_ref_qc/{version} (+https://github.com/FilteredPush/geo_ref_qc)` and has explicit connect and read timeouts,
+- limits the number of concurrent requests, and the minimum interval between requests, so that many concurrent 
+  callers (e.g. multithreaded test execution) produce a throttled stream of requests rather than a burst,
+- retries only plausibly transient failures (HTTP 408, 429, 500, 502, 503, 504, and connection failures) with 
+  exponential backoff and jitter, honoring `Retry-After`,
+- caches responses, including responses that find no match, so repeated lookups are not resent, and sends only 
+  one request at a time for the same lookup,
+- remembers failed requests for a period, during which the same request fails without being resent, 
+- has a circuit breaker: after a number of consecutive failed requests, requests fail without being sent for a period 
+  (tests report EXTERNAL_PREREQUISITES_NOT_MET), then a single trial request is allowed, and requests resume if it succeeds.
+
+These settings can be changed with java system properties, set before the first lookup is made:
+
+| System property | Default | Meaning |
+| --- | --- | --- |
+| `geo_ref_qc.userAgent` | `FilteredPush-geo_ref_qc/{version} (+https://github.com/FilteredPush/geo_ref_qc)` | User-Agent header |
+| `geo_ref_qc.connectTimeoutMillis` | 10000 | Connect timeout |
+| `geo_ref_qc.readTimeoutMillis` | 30000 | Read timeout |
+| `geo_ref_qc.maxConcurrentRequests` | 2 | Maximum concurrent requests to the service |
+| `geo_ref_qc.minRequestIntervalMillis` | 100 | Minimum interval between the start of requests (0 for none) |
+| `geo_ref_qc.acquireTimeoutMillis` | 60000 | Longest wait for a turn to make a request before failing |
+| `geo_ref_qc.maxRetries` | 3 | Retries after a transient failure (total attempts = maxRetries + 1) |
+| `geo_ref_qc.backoffBaseMillis` | 500 | Base delay for exponential backoff |
+| `geo_ref_qc.backoffMaxMillis` | 8000 | Maximum backoff delay |
+| `geo_ref_qc.maxRetryAfterMillis` | 30000 | Longest `Retry-After` that will be waited for, longer requests fail without retrying |
+| `geo_ref_qc.cacheSize` | 5000 | Maximum number of cached responses, 0 disables caching |
+| `geo_ref_qc.failureCacheMillis` | 60000 | How long a failed request is remembered, 0 to not remember failures |
+| `geo_ref_qc.circuitBreakerThreshold` | 5 | Consecutive failed requests that trip the circuit breaker, 0 to disable it |
+| `geo_ref_qc.circuitBreakerOpenMillis` | 60000 | How long requests fail without being sent once the circuit breaker has tripped |
+
+For example:
+
+    java -Dgeo_ref_qc.maxConcurrentRequests=4 -Dgeo_ref_qc.maxRetries=5 -jar ...
+
+Tests that use WoRMS do so through sci_name_qc, see its documentation for the equivalent settings.
+
+The shapefiles used by spatial tests are opened once and shared between threads 
+(`org.filteredpush.qc.georeference.util.SharedShapefiles`).  When running from the geo_ref_qc jar, 
+the shapefiles are first copied from the jar to a temporary directory (deleted when the JVM exits), 
+as reading a shapefile from inside a jar requires decompressing the whole file for every query.  
+A container that unloads this library can call `SharedShapefiles.disposeAll()` to release them.
+
 # Include using maven
 
 Available in Maven Central.  

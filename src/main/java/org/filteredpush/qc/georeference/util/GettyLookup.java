@@ -3,13 +3,12 @@
  */
 package org.filteredpush.qc.georeference.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigInteger;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -41,6 +40,11 @@ import jakarta.xml.bind.Unmarshaller;
 
 /**
  * Check country names against the Getty Thesaurus of Geographic Names (TGN).
+ * 
+ * <p>All requests to the Getty TGN are made through a single shared {@link RemoteServiceClient}, 
+ * which throttles, retries, and caches requests, remembers failed requests, and stops sending 
+ * requests for a period if the service fails repeatedly, see {@link RemoteServiceConfig} for 
+ * the system properties that configure this behavior.</p>
  *
  * @author mole
  * @version $Id: $Id
@@ -67,19 +71,116 @@ public class GettyLookup {
 	private static final Pattern NATION_PARENT_PATTERN = Pattern.compile("(?i)^\\s*(.*?)\\s*\\(nation\\)\\s*(?:\\[[^]]*\\])?\\s*$");
 	
 	/**
+	 * Default base URL for the Getty TGN web services.  Uses http, as the service does not 
+	 * respond to requests made with https.
+	 */
+	public static final String DEFAULT_SERVICE_BASE = "http://vocabsservices.getty.edu/TGNService.asmx/";
+	
+	/** Name of the Getty TGN service used in log and exception messages. */
+	public static final String SERVICE_NAME = "Getty TGN";
+	
+	/** 
+	 * Base URL used for requests to the Getty TGN web services, package visible so that unit 
+	 * tests can point requests at a local test server.
+	 */
+	static volatile String serviceBase = DEFAULT_SERVICE_BASE;
+	
+	/** 
+	 * Client shared by all requests to the Getty TGN, which throttles, retries, and caches requests, 
+	 * see {@link RemoteServiceConfig} for its settings.  Package visible so that unit tests can 
+	 * replace it with a client with different settings.
+	 */
+	static volatile RemoteServiceClient gettyClient = new RemoteServiceClient(SERVICE_NAME, RemoteServiceConfig.fromSystemProperties());
+	
+	/** JAXBContext for Getty TGN responses, thread safe and expensive to create, so created once. */
+	private static JAXBContext vocabularyContext;
+	
+	/**
 	 * Default constructor
 	 */
 	public GettyLookup() { 
 		init();
 	}
 	
+	/**
+	 * Obtain the client shared by all requests to the Getty TGN, for example to inspect the 
+	 * number of requests made, or to reset its caches and circuit breaker.
+	 * 
+	 * @return the RemoteServiceClient used for requests to the Getty TGN.
+	 */
+	public static RemoteServiceClient getGettyClient() { 
+		return gettyClient;
+	}
+	
+	/**
+	 * Obtain the shared JAXBContext for unmarshalling Getty TGN Vocabulary responses, 
+	 * creating it on first use.
+	 * 
+	 * @return a JAXBContext for {@link Vocabulary}.
+	 * @throws JAXBException if the JAXBContext cannot be created.
+	 */
+	private static synchronized JAXBContext getVocabularyContext() throws JAXBException { 
+		if (vocabularyContext==null) { 
+			vocabularyContext = JAXBContext.newInstance(Vocabulary.class);
+		}
+		return vocabularyContext;
+	}
+	
+	/**
+	 * Request a TGN Vocabulary response (e.g. from TGNGetTermMatch) from the Getty TGN, through
+	 * the shared client, which may answer from its cache.  A response that can not be 
+	 * interpreted is removed from the cache.
+	 * 
+	 * @param request the URL to request.
+	 * @return the unmarshalled response.
+	 * @throws IOException on an error communicating with the service, including an HTTP error 
+	 *   status ({@link HttpStatusException}), or a request not sent because the service has been 
+	 *   failing ({@link ServiceUnavailableException}).
+	 * @throws JAXBException on an error interpreting the response.
+	 */
+	static Vocabulary fetchVocabulary(String request) throws IOException, JAXBException { 
+		RemoteServiceClient client = gettyClient;
+		byte[] body = client.get(request);
+		try { 
+			Unmarshaller unmarshaler = getVocabularyContext().createUnmarshaller();
+			return (Vocabulary) unmarshaler.unmarshal(new ByteArrayInputStream(body));
+		} catch (JAXBException e) { 
+			client.evict(request);
+			throw e;
+		}
+	}
+	
+	/**
+	 * Request an XML document (e.g. from TGNGetParents) from the Getty TGN, through the shared 
+	 * client, which may answer from its cache.  A response that can not be parsed is removed 
+	 * from the cache.
+	 * 
+	 * @param builder to use to parse the response.
+	 * @param request the URL to request.
+	 * @return the parsed response.
+	 * @throws IOException on an error communicating with the service, including an HTTP error 
+	 *   status ({@link HttpStatusException}), or a request not sent because the service has been 
+	 *   failing ({@link ServiceUnavailableException}).
+	 * @throws SAXException on an error parsing the response.
+	 */
+	static Document fetchDocument(DocumentBuilder builder, String request) throws IOException, SAXException { 
+		RemoteServiceClient client = gettyClient;
+		byte[] body = client.get(request);
+		try { 
+			return builder.parse(new ByteArrayInputStream(body));
+		} catch (SAXException e) { 
+			client.evict(request);
+			throw e;
+		}
+	}
+	
 	/** 
 	 * Set up cache objects
 	 */
 	private void init() { 
-		countryCache = new HashMap<String,GettyTGNObject>();
-		primaryCache = new HashMap<String,GettyTGNObject>();
-		uniquePrimaryCache = new HashMap<String,GettyTGNObject>();
+		countryCache = Collections.synchronizedMap(new HashMap<String,GettyTGNObject>());
+		primaryCache = Collections.synchronizedMap(new HashMap<String,GettyTGNObject>());
+		uniquePrimaryCache = Collections.synchronizedMap(new HashMap<String,GettyTGNObject>());
 	}
 
 	/**
@@ -105,7 +206,7 @@ public class GettyLookup {
 				// See http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types.
 				String sovereignNationPlaceTypeID = "81011";
 				// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
-				String baseURI = "http://vocabsservices.getty.edu/TGNService.asmx/TGNGetTermMatch?";
+				String baseURI = serviceBase + "TGNGetTermMatch?";
 
 				StringBuilder request = new StringBuilder();
 				request.append(baseURI);
@@ -115,19 +216,14 @@ public class GettyLookup {
 				request.append("&nationid=").append("");
 				logger.debug(request.toString());
 				try {
-					URL url = new URL(request.toString());
-					HttpURLConnection getty = (HttpURLConnection) url.openConnection();
-					InputStream is = getty.getInputStream();
-					JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
-					Unmarshaller unmarshaler = jc.createUnmarshaller();
-					Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
+					Vocabulary response = fetchVocabulary(request.toString());
 					System.out.println(response.getCount());
 					if (response.getCount().compareTo(BigInteger.ONE)==0) { 
 						// idiom for line above from BigInteger docs: (x.compareTo(y) <op> 0)
 						// one match
 						retval = true;
 						if (!countryCache.containsKey(country)) { 
-							countryCache.put("country", new GettyTGNObject(response.getSubject().get(0),sovereignNationPlaceTypeID));
+							countryCache.put(country, new GettyTGNObject(response.getSubject().get(0),sovereignNationPlaceTypeID));
 						}
 					} else if (response.getCount().compareTo(BigInteger.ONE)>0) {
 						// idiom for line above from BigInteger docs: (x.compareTo(y) <op> 0)
@@ -180,7 +276,7 @@ public class GettyLookup {
 			// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
 			String sovereignNationPlaceTypeID = "81011";
 			// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
-			String baseURI = "http://vocabsservices.getty.edu/TGNService.asmx/TGNGetTermMatch?";
+			String baseURI = serviceBase + "TGNGetTermMatch?";
 
 			StringBuilder request = new StringBuilder();
 			request.append(baseURI);
@@ -190,12 +286,7 @@ public class GettyLookup {
 			request.append("&nationid=").append("");
 			logger.debug(request.toString());
 			try {
-				URL url = new URL(request.toString());
-				HttpURLConnection getty = (HttpURLConnection) url.openConnection();
-				InputStream is = getty.getInputStream();
-				JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
-				Unmarshaller unmarshaler = jc.createUnmarshaller();
-				Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
+				Vocabulary response = fetchVocabulary(request.toString());
 				logger.debug(response.getCount());
 				if (response.getCount().compareTo(BigInteger.ONE)==0) { 
 					String preferredTerm = response.getSubject().get(0).getPreferredTerm().getValue();
@@ -246,7 +337,7 @@ public class GettyLookup {
 				// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
 				String sovereignNationPlaceTypeID = "81011";
 				// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
-				String baseURI = "http://vocabsservices.getty.edu/TGNService.asmx/TGNGetTermMatch?";
+				String baseURI = serviceBase + "TGNGetTermMatch?";
 
 				StringBuilder request = new StringBuilder();
 				request.append(baseURI);
@@ -256,12 +347,7 @@ public class GettyLookup {
 				request.append("&nationid=").append("");
 				logger.debug(request.toString());
 				try {
-					URL url = new URL(request.toString());
-					HttpURLConnection getty = (HttpURLConnection) url.openConnection();
-					InputStream is = getty.getInputStream();
-					JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
-					Unmarshaller unmarshaler = jc.createUnmarshaller();
-					Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
+					Vocabulary response = fetchVocabulary(request.toString());
 					System.out.println(response.getCount());
 					System.out.println(response.getCount());
 					if (response.getCount().compareTo(BigInteger.ONE)==0) { 
@@ -376,7 +462,7 @@ public class GettyLookup {
 			// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
 			String placeTypeID = "81100"; //first level subdivision
 			// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
-			String baseURI = "http://vocabsservices.getty.edu/TGNService.asmx/TGNGetTermMatch?";
+			String baseURI = serviceBase + "TGNGetTermMatch?";
 
 			StringBuilder request = new StringBuilder();
 			request.append(baseURI);
@@ -387,12 +473,7 @@ public class GettyLookup {
 			request.append("&nationid=").append("");
 			logger.debug(request.toString());
 			try {
-				URL url = new URL(request.toString());
-				HttpURLConnection getty = (HttpURLConnection) url.openConnection();
-				InputStream is = getty.getInputStream();
-				JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
-				Unmarshaller unmarshaler = jc.createUnmarshaller();
-				Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
+				Vocabulary response = fetchVocabulary(request.toString());
 				logger.debug(response.getCount());
 				logger.debug(response.getCount());
 				if (response.getCount().compareTo(BigInteger.ONE) >= 0) { 
@@ -443,7 +524,7 @@ public class GettyLookup {
 				// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
 				String placeTypeID = "81100"; //first level subdivision
 				// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
-				String baseURI = "http://vocabsservices.getty.edu/TGNService.asmx/TGNGetTermMatch?";
+				String baseURI = serviceBase + "TGNGetTermMatch?";
 
 				StringBuilder request = new StringBuilder();
 				request.append(baseURI);
@@ -454,12 +535,7 @@ public class GettyLookup {
 				request.append("&nationid=").append("");
 				logger.debug(request.toString());
 				try {
-					URL url = new URL(request.toString());
-					HttpURLConnection getty = (HttpURLConnection) url.openConnection();
-					InputStream is = getty.getInputStream();
-					JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
-					Unmarshaller unmarshaler = jc.createUnmarshaller();
-					Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
+					Vocabulary response = fetchVocabulary(request.toString());
 					logger.debug(response.getCount());
 					logger.debug(response.getCount());
 					if (response.getCount().compareTo(BigInteger.ONE) == 0) { 
@@ -504,7 +580,7 @@ public class GettyLookup {
 			// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
 			String sovereignNationPlaceTypeID = "81011";
 			// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
-			String baseURI = "http://vocabsservices.getty.edu/TGNService.asmx/TGNGetTermMatch?";
+			String baseURI = serviceBase + "TGNGetTermMatch?";
 
 			StringBuilder request = new StringBuilder();
 			request.append(baseURI);
@@ -513,12 +589,7 @@ public class GettyLookup {
 			request.append("&nationid=").append("");
 			logger.debug(request.toString());
 			try {
-				URL url = new URL(request.toString());
-				HttpURLConnection getty = (HttpURLConnection) url.openConnection();
-				InputStream is = getty.getInputStream();
-				JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
-				Unmarshaller unmarshaler = jc.createUnmarshaller();
-				Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
+				Vocabulary response = fetchVocabulary(request.toString());
 				logger.debug(response.getCount());
 				if (response.getCount().compareTo(BigInteger.ONE)==0) { 
 					// idiom for line above from BigInteger docs: (x.compareTo(y) <op> 0)
@@ -576,7 +647,7 @@ public class GettyLookup {
 		// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
 		String placeTypeID = "81100";
 		// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
-		String baseURI = "http://vocabsservices.getty.edu//TGNService.asmx/TGNGetTermMatch?";
+		String baseURI = serviceBase + "TGNGetTermMatch?";
 
 		StringBuilder request = new StringBuilder();
 		request.append(baseURI);
@@ -584,12 +655,7 @@ public class GettyLookup {
 		request.append("&placetypeid=").append(placeTypeID);
 		request.append("&nationid=").append("");
 		try {
-			URL url = new URL(request.toString());
-			HttpURLConnection getty = (HttpURLConnection) url.openConnection();
-			InputStream is = getty.getInputStream();
-			JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
-			Unmarshaller unmarshaler = jc.createUnmarshaller();
-			Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
+			Vocabulary response = fetchVocabulary(request.toString());
 			System.out.println(response.getCount());
 			if (response.getCount()==BigInteger.ONE) { 
 				// found match
@@ -631,7 +697,7 @@ public class GettyLookup {
 			// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
 			String placeTypeID = "81100";
 			// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
-			String baseURI = "http://vocabsservices.getty.edu//TGNService.asmx/TGNGetTermMatch?";
+			String baseURI = serviceBase + "TGNGetTermMatch?";
 
 			StringBuilder request = new StringBuilder();
 			request.append(baseURI);
@@ -639,12 +705,7 @@ public class GettyLookup {
 			request.append("&placetypeid=").append(placeTypeID);
 			request.append("&nationid=").append("");
 			try {
-				URL url = new URL(request.toString());
-				HttpURLConnection getty = (HttpURLConnection) url.openConnection();
-				InputStream is = getty.getInputStream();
-				JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
-				Unmarshaller unmarshaler = jc.createUnmarshaller();
-				Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
+				Vocabulary response = fetchVocabulary(request.toString());
 				System.out.println(response.getCount());
 				if (response.getCount()==BigInteger.ONE) { 
 					// found match
@@ -688,7 +749,7 @@ public class GettyLookup {
 			// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
 			String placeTypeID = "81100";
 			// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
-			String baseURI = "http://vocabsservices.getty.edu//TGNService.asmx/TGNGetTermMatch?";
+			String baseURI = serviceBase + "TGNGetTermMatch?";
 
 			StringBuilder request = new StringBuilder();
 			request.append(baseURI);
@@ -697,12 +758,7 @@ public class GettyLookup {
 			request.append("&placetypeid=").append(placeTypeID);
 			request.append("&nationid=").append("");
 			try {
-				URL url = new URL(request.toString());
-				HttpURLConnection getty = (HttpURLConnection) url.openConnection();
-				InputStream is = getty.getInputStream();
-				JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
-				Unmarshaller unmarshaler = jc.createUnmarshaller();
-				Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
+				Vocabulary response = fetchVocabulary(request.toString());
 				System.out.println(response.getCount());
 				if (response.getCount()==BigInteger.ONE) { 
 					// found match
@@ -729,40 +785,40 @@ public class GettyLookup {
 		return retval;
 	}
 	
-	
+	/**
+	 * Look up the name of the immediate parent of a subject in the Getty TGN, makes two 
+	 * requests, TGNGetParents to find the parent subject ID, then TGNGetSubject to find 
+	 * the name of the parent.
+	 * 
+	 * @param subjectid the Getty TGN subject ID of the subject for which to find the parent.
+	 * @return the term text for the parent, or an empty string if no parent was found or on 
+	 *   an error querying the Getty TGN.
+	 */
 	public String lookupParent(String subjectid) { 
 		
 		String retval = "";
 		
-		String baseURI = "http://vocabsservices.getty.edu/TGNService.asmx/TGNGetParents?";
+		String baseURI = serviceBase + "TGNGetParents?";
 		
 		StringBuilder request = new StringBuilder();
 		request.append(baseURI);
 		request.append("subjectID=").append(subjectid);
 		logger.debug(request);
     	try {
-    		URL url = new URL(request.toString());
-    		HttpURLConnection getty = (HttpURLConnection) url.openConnection();
-    		InputStream is = getty.getInputStream();
-    		
     		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			try {
 				DocumentBuilder builder = factory.newDocumentBuilder();
-				Document document = builder.parse(is);
+				Document document = fetchDocument(builder, request.toString());
 				NodeList nodes = document.getElementsByTagName("Parent_Subject_ID");
 				if (nodes.getLength() > 0) { 
 					logger.debug(nodes.item(0).getTextContent());
 					String parentid = nodes.item(0).getTextContent();
 
-					baseURI = "http://vocabsservices.getty.edu/TGNService.asmx/TGNGetSubject?";
+					baseURI = serviceBase + "TGNGetSubject?";
 					request = new StringBuilder();
 					request.append(baseURI);
 					request.append("subjectID=").append(parentid);
-					url = new URL(request.toString());
-					getty = (HttpURLConnection) url.openConnection();
-					is = getty.getInputStream();
-					builder = factory.newDocumentBuilder();
-					document = builder.parse(is);
+					document = fetchDocument(builder, request.toString());
 					nodes = document.getElementsByTagName("Term_Text");
 					if (nodes.getLength()>0) { 
 						logger.debug(nodes.item(0).getTextContent());
@@ -795,24 +851,26 @@ public class GettyLookup {
 	}
 	
 	/**
-	 * <p>getPrimaryObject.</p>
+	 * Find the sovereign nation level entities in the Getty TGN that match a country name.
+	 * Always queries the Getty TGN, does not consult the cache of primary divisions, as a 
+	 * country name may also be the name of a primary division (e.g. Georgia).
 	 *
-	 * @param country a {@link java.lang.String} object.
-	 * @return a {@link edu.getty.tgn.service.GettyTGNObject} object.
-	 * @throws SourceAuthorityException 
+	 * @param country the name of the country to look up.
+	 * @return a list of the matching nation level entities, empty if there are no matches or if
+	 *   country is empty (in which case the Getty TGN is not queried).
+	 * @throws SourceAuthorityException on an error querying the Getty TGN or interpreting its response.
 	 */
 	public List<GettyTGNObject> getCountryObjects(String country) throws SourceAuthorityException { 
 
 		List<GettyTGNObject> retval = new ArrayList<GettyTGNObject>();
 		
-		if (uniquePrimaryCache.containsKey(country)) { 
-			logger.debug(uniquePrimaryCache.get(country).getName());
-			retval.add(uniquePrimaryCache.get(country));
-		} else { 
+		// Note: uniquePrimaryCache holds state/province objects, it must not be consulted here, 
+		// as a country name may also be the name of a primary division (e.g. Georgia).
+		if (!GEOUtil.isEmpty(country)) { 
 			// See: http://vocabsservices.getty.edu/Schemas/TGN/tgn_place_type.xsd for place types
 			String placeTypeID = "81011";
 			// See documentation in: https://www.getty.edu/research/tools/vocabularies/vocab_web_services.pdf
-			String baseURI = "http://vocabsservices.getty.edu//TGNService.asmx/TGNGetTermMatch?";
+			String baseURI = serviceBase + "TGNGetTermMatch?";
 
 			StringBuilder request = new StringBuilder();
 			request.append(baseURI);
@@ -821,12 +879,7 @@ public class GettyLookup {
 			request.append("&placetypeid=").append(placeTypeID);
 			request.append("&nationid=").append("");
 			try {
-				URL url = new URL(request.toString());
-				HttpURLConnection getty = (HttpURLConnection) url.openConnection();
-				InputStream is = getty.getInputStream();
-				JAXBContext jc = JAXBContext.newInstance(Vocabulary.class);
-				Unmarshaller unmarshaler = jc.createUnmarshaller();
-				Vocabulary response = (Vocabulary) unmarshaler.unmarshal(is);
+				Vocabulary response = fetchVocabulary(request.toString());
 				System.out.println(response.getCount());
 				if (response.getCount()==BigInteger.ONE) { 
 					// found match

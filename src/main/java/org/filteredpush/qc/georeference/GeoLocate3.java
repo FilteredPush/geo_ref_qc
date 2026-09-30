@@ -10,10 +10,12 @@ import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -37,7 +39,7 @@ public class GeoLocate3 {
     private List<List> log = new LinkedList<List>();
 
     static int count = 0;
-	private static HashMap<String, CacheValue> coordinatesCache = new HashMap<String, CacheValue>();
+	private static final Map<String, CacheValue> coordinatesCache = Collections.synchronizedMap(new HashMap<String, CacheValue>());
 	private Vector<String> newFoundCoordinates;
 	private static final String ColumnDelimiterInCacheFile = "\t";
 	

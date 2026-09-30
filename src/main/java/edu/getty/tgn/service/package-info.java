@@ -1,6 +1,6 @@
 /**
- * TGN Web Services
- * 
+ * Representation of places found in the Getty Thesaurus of Geographic Names (TGN), see 
+ * {@link edu.getty.tgn.service.GettyTGNObject}.  Requests to the Getty TGN are made by 
+ * {@link org.filteredpush.qc.georeference.util.GettyLookup}.
  */
-@jakarta.xml.bind.annotation.XmlSchema(namespace = "http://vocabsservices.getty.edu/", elementFormDefault = jakarta.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package edu.getty.tgn.service;

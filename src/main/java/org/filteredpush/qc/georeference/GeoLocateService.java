@@ -13,10 +13,12 @@ import org.geolocate.webservices.svcv2.GeorefResultSet;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lowery on 2/24/17.
@@ -28,7 +30,7 @@ public class GeoLocateService {
     private static final Log logger = LogFactory.getLog(GeoLocate3.class);
 
     private boolean useCache = true;
-    private static HashMap<String, List<GeolocationResult>> responseCache = new HashMap<>();
+    private static final Map<String, List<GeolocationResult>> responseCache = Collections.synchronizedMap(new HashMap<String, List<GeolocationResult>>());
     /**
      * Given country, stateProvince, county/Shire, and locality strings, return all matches found by geolocate for
      * that location.

@@ -9,8 +9,6 @@ import java.net.URL;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.filteredpush.qc.georeference.SourceAuthorityException;
-import org.geotools.api.data.FileDataStore;
-import org.geotools.api.data.FileDataStoreFinder;
 import org.geotools.api.data.SimpleFeatureSource;
 import org.geotools.api.feature.simple.SimpleFeature;
 import org.geotools.api.filter.Filter;
@@ -54,10 +52,8 @@ public class GISDataLoader {
 		boolean result = false;
 
         URL landShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_land.shp");
-        FileDataStore store = null;
 		try {
-			store = FileDataStoreFinder.getDataStore(landShapeFile);
-            SimpleFeatureSource featureSource = store.getFeatureSource();
+			SimpleFeatureSource featureSource = SharedShapefiles.getFeatureSource(landShapeFile);
             logger.debug(featureSource.getInfo().toString());
             logger.debug(featureSource.getName().toString());
 		    String filterString = " CONTAINS (the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "))";
@@ -69,15 +65,6 @@ public class GISDataLoader {
 			logger.error(e.getMessage(), e);
 		} catch (CQLException e) {
 			logger.error(e.getMessage(), e);
-		} finally { 
-			// close 
-			if (store!=null) { 
-				try { 
-					store.dispose();
-				} catch (Exception e) { 
-					logger.error(e.getMessage());
-				}
-			}
 		}
 		
 		if (invertSense) {
@@ -102,10 +89,8 @@ public class GISDataLoader {
 		boolean result = false;
 
         URL landShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/ne_10m_land.shp");
-        FileDataStore store = null;
 		try {
-			store = FileDataStoreFinder.getDataStore(landShapeFile);
-            SimpleFeatureSource featureSource = store.getFeatureSource();
+			SimpleFeatureSource featureSource = SharedShapefiles.getFeatureSource(landShapeFile);
             logger.debug(featureSource.getInfo().toString());
             logger.debug(featureSource.getName().toString());
             double distanceD = distanceKm / 111d; // GeoTools ignores units, uses units of underlying projection (degrees in this case), fudge by dividing km by number of km in one degree of latitude (this will describe a wide ellipse far north or south).
@@ -122,15 +107,6 @@ public class GISDataLoader {
 		} catch (CQLException e) {
 			logger.error(e.getMessage(), e);
 			throw new SourceAuthorityException("Error querying spatial data file: " + e.getMessage());
-		} finally { 
-			// close 
-			if (store!=null) { 
-				try { 
-					store.dispose();
-				} catch (Exception e) { 
-					logger.error(e.getMessage());
-				}
-			}
 		}
 		
 		if (invertSense) {
@@ -155,10 +131,8 @@ public class GISDataLoader {
 		boolean result = false;
 
         URL centroidShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/gbif_pcli_country_centroids.shp");
-        FileDataStore store = null;
 		try {
-			store = FileDataStoreFinder.getDataStore(centroidShapeFile);
-            SimpleFeatureSource featureSource = store.getFeatureSource();
+			SimpleFeatureSource featureSource = SharedShapefiles.getFeatureSource(centroidShapeFile);
             logger.debug(featureSource.getInfo().toString());
             logger.debug(featureSource.getName().toString());
             double distanceD = distanceKm / 111d; // GeoTools ignores units, uses units of underlying projection (degrees in this case), fudge by dividing km by number of km in one degree of latitude (this will describe a wide ellipse far north or south).
@@ -176,15 +150,6 @@ public class GISDataLoader {
 		} catch (CQLException e) {
 			logger.error(e.getMessage(), e);
 			throw new SourceAuthorityException("Error reading country centroids: " + e.getMessage());
-		} finally { 
-			// close 
-			if (store!=null) { 
-				try { 
-					store.dispose();
-				} catch (Exception e) { 
-					logger.error(e.getMessage());
-				}
-			}
 		}
 		
 		return result;
@@ -201,10 +166,8 @@ public class GISDataLoader {
 		Double result = null;
 
         URL centroidShapeFile = GEOUtil.class.getResource("/org.filteredpush.kuration.services/gbif_pcli_country_centroids.shp");
-        FileDataStore store = null;
 		try {
-			store = FileDataStoreFinder.getDataStore(centroidShapeFile);
-            SimpleFeatureSource featureSource = store.getFeatureSource();
+			SimpleFeatureSource featureSource = SharedShapefiles.getFeatureSource(centroidShapeFile);
             logger.debug(featureSource.getInfo().toString());
             logger.debug(featureSource.getName().toString());
 		    StringBuffer filterString = new StringBuffer();
@@ -232,15 +195,6 @@ public class GISDataLoader {
 			logger.error(e.getMessage(), e);
 		} catch (CQLException e) {
 			logger.error(e.getMessage(), e);
-		} finally { 
-			// close 
-			if (store!=null) { 
-				try { 
-					store.dispose();
-				} catch (Exception e) { 
-					logger.error(e.getMessage());
-				}
-			}
 		}
 		
 		return result;
