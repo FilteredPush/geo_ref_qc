@@ -4,6 +4,7 @@
 package org.filteredpush.qc.georeference.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -40,11 +41,12 @@ public class GeoUtilSingleton {
 	}
 	
 	private void init() { 
-		tgnCountries = new HashMap<String,Boolean>();
-		tgnNations = new HashMap<String,String>();
-		tgnPrimary = new HashMap<String,Boolean>();
-		gettyCountryLookup = new HashMap<String,ArrayList<String>>();
-		gettyPrimaryLookup = new HashMap<String,ArrayList<String>>();
+		// synchronized maps, as the singleton is shared between threads 
+		tgnCountries = Collections.synchronizedMap(new HashMap<String,Boolean>());
+		tgnNations = Collections.synchronizedMap(new HashMap<String,String>());
+		tgnPrimary = Collections.synchronizedMap(new HashMap<String,Boolean>());
+		gettyCountryLookup = Collections.synchronizedMap(new HashMap<String,ArrayList<String>>());
+		gettyPrimaryLookup = Collections.synchronizedMap(new HashMap<String,ArrayList<String>>());
 	}
 	
 	/**
@@ -124,7 +126,7 @@ public class GeoUtilSingleton {
 	 * @return true if country is an exact match to a value in the TGNGetNations list, false if not, null if
 	 *   obtaining the list results in an exception.
 	 */
-	public Boolean isTgnNation(String country) { 
+	public synchronized Boolean isTgnNation(String country) { 
 		Boolean retval = false;
 		if (tgnNations.size()==0) { 
 	    	TGNWebServices tgn = new TGNWebServices();
@@ -214,7 +216,7 @@ public class GeoUtilSingleton {
 	 *
 	 * @return a reusable GettyLookup instance.
 	 */
-	public GettyLookup getGettyLookup() {
+	public synchronized GettyLookup getGettyLookup() {
 		if (gettyLookup==null) { 
 			this.gettyLookup = new GettyLookup();
 		}

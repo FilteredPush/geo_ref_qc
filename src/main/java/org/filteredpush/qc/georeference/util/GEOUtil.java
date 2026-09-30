@@ -443,12 +443,14 @@ public class GEOUtil {
     }    
 	
 	/**
-	 * <p>isPointInCountry.</p>
+	 * Test to see if a point is within a country, using the Natural Earth admin 0 countries 
+	 * shapefile (land boundaries only, not including exclusive economic zones).
 	 *
-	 * @param country a {@link java.lang.String} object.
-	 * @param latitude a double.
-	 * @param longitude a double.
-	 * @return a boolean.
+	 * @param country the name of the country, matched case insensitively against NAME in the shapefile.
+	 * @param latitude of the point to check, in decimal degrees.
+	 * @param longitude of the point to check, in decimal degrees.
+	 * @return true if the point is within the named country, false if not, or if the country 
+	 *   is not found, or on an error reading the shapefile.
 	 */
 	public static boolean isPointInCountry(String country, double latitude, double longitude) { 
 		boolean result = false;
@@ -460,7 +462,6 @@ public class GEOUtil {
 		    Filter filter = ECQL.toFilter("NAME ILIKE '"+ country +"' AND CONTAINS(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "))");
 		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
 		    result = !collection.isEmpty();
-		    featureSource.getFeatures().features().close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -496,7 +497,11 @@ public class GEOUtil {
 		    logger.debug(collection.size());
 		    if (!collection.isEmpty()) {
 		    	if (collection.size()==1) {
-		    		SimpleFeature feature = collection.features().next();
+		    		SimpleFeature feature;
+		    		// close the iterator, an unclosed iterator leaves a shapefile reader open, holding locks on the .shp and .dbf 
+		    		try (SimpleFeatureIterator i = collection.features()) { 
+		    			feature = i.next();
+		    		}
 		    		logger.debug(feature.getAttribute("ISO_SOV1").toString());
 		    		// special case handling for failure -99 for France SOVEREIGNT: France and others 
 		    		if (feature.getAttribute("ISO_SOV1").toString().equals("-99")) {
@@ -515,31 +520,30 @@ public class GEOUtil {
 		    			result = null;
 		    		}
 		    	}  else { 
-		    		SimpleFeatureIterator i = collection.features();
-		    		SimpleFeature feature = i.next();
-		    		String aMatch = feature.getAttribute("ISO_SOV1").toString();
-		    		logger.debug(aMatch);
-		    		boolean singleMatch = true;
-	    			if (!GEOUtil.isEmpty(feature.getAttribute("ISO_SOV2").toString())) {
-	    				singleMatch=false;
-	    			}
-		    		while (i.hasNext() && singleMatch) { 
-		    			feature = i.next();
-		    			String anotherMatch = feature.getAttribute("ISO_SOV1").toString();
+		    		try (SimpleFeatureIterator i = collection.features()) { 
+		    			SimpleFeature feature = i.next();
+		    			String aMatch = feature.getAttribute("ISO_SOV1").toString();
+		    			logger.debug(aMatch);
+		    			boolean singleMatch = true;
 		    			if (!GEOUtil.isEmpty(feature.getAttribute("ISO_SOV2").toString())) {
 		    				singleMatch=false;
 		    			}
-		    			logger.debug(anotherMatch);
-		    			if (! aMatch.equals(anotherMatch)) { 
-		    				singleMatch = false;
+		    			while (i.hasNext() && singleMatch) { 
+		    				feature = i.next();
+		    				String anotherMatch = feature.getAttribute("ISO_SOV1").toString();
+		    				if (!GEOUtil.isEmpty(feature.getAttribute("ISO_SOV2").toString())) {
+		    					singleMatch=false;
+		    				}
+		    				logger.debug(anotherMatch);
+		    				if (! aMatch.equals(anotherMatch)) { 
+		    					singleMatch = false;
+		    				}
+		    			}
+		    			if (singleMatch) {
+		    				result = aMatch;
 		    			}
 		    		}
-		    		i.close();
-		    		if (singleMatch) {
-		    			result = aMatch;
-		    		}
 		    	}
-		    	featureSource.getDataStore().dispose();
 		    }
 		} catch (IOException e) {
 			logger.debug(e.getMessage());
@@ -573,8 +577,6 @@ public class GEOUtil {
 		    Filter filter = ECQL.toFilter("NAME ILIKE '"+ country +"' AND DWITHIN(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "), "+ distanceD +", kilometers)");
 		    SimpleFeatureCollection collection=featureSource.getFeatures(filter);
 		    result = !collection.isEmpty();
-		    SimpleFeatureIterator i = collection.features();
-		    i.close();
 		} catch (IOException e) {
 			logger.debug(e.getMessage());
 		} catch (CQLException e) {
@@ -606,9 +608,6 @@ public class GEOUtil {
 			Filter filter = ECQL.toFilter("ISO_SOV1 ILIKE '"+ countryCode +"' AND DWITHIN(the_geom, POINT(" + Double.toString(longitude) + " " + Double.toString(latitude) + "), "+ distanceD +", kilometers)");
 			SimpleFeatureCollection collection=featureSource.getFeatures(filter);
 			result = !collection.isEmpty();
-			featureSource.getDataStore().dispose();
-		    SimpleFeatureIterator i = collection.features();
-		    i.close();
 		} catch (IOException e) {
 			logger.debug(e.getMessage());
 		} catch (CQLException e) {
