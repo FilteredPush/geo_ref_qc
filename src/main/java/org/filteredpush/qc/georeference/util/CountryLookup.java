@@ -447,20 +447,6 @@ public class CountryLookup {
 	}
 	
 	/**
-	 * <p>countryExistsGettyNation.</p>
-	 *
-	 * @param countryName a {@link java.lang.String} object.
-	 * @return a {@link java.lang.Boolean} object.
-	 */
-	public static Boolean countryExistsGettyNation(String countryName) { 
-		Boolean retval = false;
-		
-		GeoUtilSingleton.getInstance().isTgnNation(countryName);
-		
-		return retval;
-	}
-	
-	/**
 	 * Obtain the list of two letter country codes.
 	 *
 	 * @return a list of two letter country codes.

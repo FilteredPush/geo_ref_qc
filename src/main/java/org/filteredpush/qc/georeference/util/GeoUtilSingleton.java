@@ -6,14 +6,12 @@ package org.filteredpush.qc.georeference.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.getty.tgn.service.TGNWebServices;
 
 /**
  * <p>GeoUtilSingleton class.</p>
@@ -29,8 +27,6 @@ public class GeoUtilSingleton {
 	private Map<String,Boolean> tgnCountries;
 	private Map<String,Boolean> tgnPrimary;
 	
-	private Map<String,String> tgnNations;
-	
 	private Map<String,ArrayList<String>> gettyCountryLookup;	
 	private Map<String,ArrayList<String>> gettyPrimaryLookup;	
 	
@@ -43,7 +39,6 @@ public class GeoUtilSingleton {
 	private void init() { 
 		// synchronized maps, as the singleton is shared between threads 
 		tgnCountries = Collections.synchronizedMap(new HashMap<String,Boolean>());
-		tgnNations = Collections.synchronizedMap(new HashMap<String,String>());
 		tgnPrimary = Collections.synchronizedMap(new HashMap<String,Boolean>());
 		gettyCountryLookup = Collections.synchronizedMap(new HashMap<String,ArrayList<String>>());
 		gettyPrimaryLookup = Collections.synchronizedMap(new HashMap<String,ArrayList<String>>());
@@ -117,37 +112,6 @@ public class GeoUtilSingleton {
 		if (match!=null) { 
 			tgnPrimary.put(stateProvince, match);
 		}
-	}
-	
-	/**
-	 * Check provided country against the TGN list of nations, obtained and cached from the TGNGetNations service.
-	 *
-	 * @param country to check
-	 * @return true if country is an exact match to a value in the TGNGetNations list, false if not, null if
-	 *   obtaining the list results in an exception.
-	 */
-	public synchronized Boolean isTgnNation(String country) { 
-		Boolean retval = false;
-		if (tgnNations.size()==0) { 
-	    	TGNWebServices tgn = new TGNWebServices();
-	    	try {
-				edu.getty.tgn.service.ArrayOfListResults serviceReturn = tgn.getTGNWebServicesSoap().tgnGetNations("", "");
-				List<edu.getty.tgn.service.ListResults> retList =  serviceReturn.getListResults();
-				Iterator<edu.getty.tgn.service.ListResults> i = retList.iterator();
-				while (i.hasNext()) { 
-					edu.getty.tgn.service.ListResults row = i.next();
-					tgnNations.put(row.getListValue(), row.getListId());
-				}
-			} catch (Exception e) {
-				retval = null;
-				logger.debug(e.getMessage(),e);
-			}
-		} 
-		if (retval!=null) { 
-			retval = tgnNations.containsKey(country);
-		}
-		
-		return retval;
 	}
 	
 	

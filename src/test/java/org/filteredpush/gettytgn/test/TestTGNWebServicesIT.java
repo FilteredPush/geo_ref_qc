@@ -30,7 +30,6 @@ import edu.getty.tgn.objects.Vocabulary;
 import edu.getty.tgn.objects.Vocabulary.Subject;
 import edu.getty.tgn.objects.Vocabulary.Subject.Term;
 import edu.getty.tgn.service.GettyTGNObject;
-import edu.getty.tgn.service.TGNWebServices;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
@@ -48,25 +47,6 @@ public class TestTGNWebServicesIT {
 
 	private static final Log logger = LogFactory.getLog(TestTGNWebServicesIT.class);
 	
-	@Test
-	public void testTGNGetNations() { 
-    	TGNWebServices tgn = new TGNWebServices();
-    	try {
-			edu.getty.tgn.service.ArrayOfListResults retval = tgn.getTGNWebServicesSoap().tgnGetNations("", "");
-			List<edu.getty.tgn.service.ListResults> retList =  retval.getListResults();
-			assertTrue(retList.size()>0);
-			Iterator<edu.getty.tgn.service.ListResults> i = retList.iterator();
-			while (i.hasNext()) { 
-				edu.getty.tgn.service.ListResults row = i.next();
-				System.out.println(row.getListValue());
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-
 	@Test 
 	public void testVocabularyObject() { 
 		
