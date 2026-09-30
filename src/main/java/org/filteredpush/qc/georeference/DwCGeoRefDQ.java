@@ -2970,15 +2970,28 @@ public class DwCGeoRefDQ{
         			}
         			logger.debug(country);
         			logger.debug(countryToLookup);
-        			if (lookup.lookupCountry(countryToLookup)) { 
+        			Boolean countryFound = lookup.lookupCountry(countryToLookup);
+        			if (countryFound==null) { 
+        				// lookupCountry returns null if the Getty TGN could not be queried
+        				throw new SourceAuthorityException("Unable to look up dwc:country ["+country+"] in the Getty TGN");
+        			}
+        			if (countryFound) { 
         				logger.debug(stateProvince);
         				Boolean primaryFound = lookup.lookupPrimary(stateProvince);
         				logger.debug(primaryFound);
+        				if (primaryFound==null) { 
+        					// lookupPrimary returns null if the Getty TGN could not be queried
+        					throw new SourceAuthorityException("Unable to look up dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
+        				}
         				if (primaryFound) {  
         					if (preferredCountry==null) { 
         						preferredCountry = countryToLookup;
         					}
         					GettyTGNObject primaryObject = lookup.getPrimaryObject(stateProvince);
+        					if (primaryObject==null) { 
+        						// getPrimaryObject returns null if the Getty TGN could not be queried
+        						throw new SourceAuthorityException("Unable to look up the parentage of dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
+        					}
         					String primaryParentage = primaryObject.getParentageString();
         					logger.debug("[" + primaryParentage + "]");
         					logger.debug("preferredCountry: [" + preferredCountry + "]");
@@ -3122,7 +3135,12 @@ public class DwCGeoRefDQ{
         			if (GEOUtil.isEmpty(country)) { 
         				// If country is empty, does stateProvince match a single entry? 
         				logger.debug(stateProvince);
-        				if (lookup.lookupUniquePrimary(stateProvince)) {  
+        				Boolean uniquePrimaryFound = lookup.lookupUniquePrimary(stateProvince);
+        				if (uniquePrimaryFound==null) { 
+        					// lookupUniquePrimary returns null if the Getty TGN could not be queried
+        					throw new SourceAuthorityException("Unable to look up dwc:stateProvince ["+stateProvince+"] in the Getty TGN");
+        				}
+        				if (uniquePrimaryFound) {  
         					result.setResultState(ResultState.RUN_HAS_RESULT);
         					result.setValue(ComplianceValue.COMPLIANT);
         					result.addComment("Provided value of dwc:country is empty and dwc:stateProvince ["+stateProvince+"] matches a single primary division level entity known to the Getty TGN");
@@ -3133,7 +3151,12 @@ public class DwCGeoRefDQ{
         				}
         			} else if (GEOUtil.isEmpty(stateProvince)) { 
         				// If stateProvince is empty, does country match a single entity
-        				if (lookup.lookupCountry(countryToLookup)) { 
+        				Boolean countryFound = lookup.lookupCountry(countryToLookup);
+        				if (countryFound==null) { 
+        					// lookupCountry returns null if the Getty TGN could not be queried
+        					throw new SourceAuthorityException("Unable to look up dwc:country ["+country+"] in the Getty TGN");
+        				}
+        				if (countryFound) { 
         					result.setResultState(ResultState.RUN_HAS_RESULT);
         					result.setValue(ComplianceValue.COMPLIANT);
         					result.addComment("Provided value of dwc:stateProvince is empty and dwc:country ["+country+"] matches a single nation level entity known to the Getty TGN");
@@ -3145,7 +3168,12 @@ public class DwCGeoRefDQ{
         			} else { 
         				logger.debug(country);
         				logger.debug(countryToLookup);
-        				if (lookup.lookupCountry(countryToLookup)) { 
+        				Boolean countryFound = lookup.lookupCountry(countryToLookup);
+        				if (countryFound==null) { 
+        					// lookupCountry returns null if the Getty TGN could not be queried
+        					throw new SourceAuthorityException("Unable to look up dwc:country ["+country+"] in the Getty TGN");
+        				}
+        				if (countryFound) { 
         					logger.debug(stateProvince);
         					// logger.debug(lookup.lookupPrimary(stateProvince));
         					List<GettyTGNObject> primaryMatches = lookup.getPrimaryObjects(stateProvince);

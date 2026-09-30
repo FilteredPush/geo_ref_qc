@@ -111,8 +111,9 @@ from being resent for every record that contains the same country or state/provi
   - `lookupPrimary`, `lookupUniquePrimary`, `getPreferredCountryName`, `getParentageForPrimary`, and `getPrimaryObject` return `null`;
   - `lookupParent` returns an empty string.
   
-  Tests that use the TGN, such as VALIDATION_COUNTRY_FOUND and VALIDATION_STATEPROVINCE_FOUND, report these failures 
-  as EXTERNAL_PREREQUISITES_NOT_MET.
+  The tests that use the TGN (VALIDATION_COUNTRY_FOUND, VALIDATION_STATEPROVINCE_FOUND, VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT, 
+  VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT, and VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS) report these failures as 
+  EXTERNAL_PREREQUISITES_NOT_MET, with the reason in the result comments.
 - **The drawback:** if the Getty TGN recovers during the period, lookups that failed shortly before still fail until their 
   failures expire.
 

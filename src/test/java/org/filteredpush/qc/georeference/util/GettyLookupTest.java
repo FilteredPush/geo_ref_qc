@@ -65,6 +65,8 @@ public class GettyLookupTest {
 	private Map<String,String> pathResponses;
 	/** HTTP status to return for all requests, 200 for normal behavior. */
 	private volatile int statusOverride;
+	/** Names for which TGNGetTermMatch fails with HTTP 503, as if the service were failing for those requests. */
+	private java.util.Set<String> failingNames;
 	/** The Getty client in use before the test, restored after the test. */
 	private RemoteServiceClient originalClient;
 
@@ -80,6 +82,7 @@ public class GettyLookupTest {
 		termMatchResponses = Collections.synchronizedMap(new HashMap<String,String>());
 		pathResponses = Collections.synchronizedMap(new HashMap<String,String>());
 		statusOverride = 200;
+		failingNames = java.util.Collections.newSetFromMap(new java.util.concurrent.ConcurrentHashMap<String,Boolean>());
 		server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
 		server.createContext("/", exchange -> handle(exchange));
 		server.start();
@@ -116,6 +119,7 @@ public class GettyLookupTest {
 		requestCount.incrementAndGet();
 		userAgents.add(exchange.getRequestHeaders().getFirst("User-Agent"));
 		String body = null;
+		boolean failed = false;
 		if (statusOverride==200) {
 			String path = exchange.getRequestURI().getPath();
 			if (path.endsWith("/TGNGetTermMatch")) {
@@ -125,14 +129,17 @@ public class GettyLookupTest {
 					name = name.replaceAll("^\"|\"$", "");
 				}
 				body = termMatchResponses.get(query.get("placetypeid") + "|" + name);
-				if (body==null) {
+				if (failingNames.contains(name)) {
+					failed = true;
+					body = null;
+				} else if (body==null) {
 					body = vocabulary(0, "");
 				}
 			} else {
 				body = pathResponses.get(path);
 			}
 		}
-		int status = (body==null) ? (statusOverride==200 ? 404 : statusOverride) : 200;
+		int status = (body==null) ? (statusOverride==200 ? (failed ? 503 : 404) : statusOverride) : 200;
 		byte[] bytes = (body==null ? "error" : body).getBytes(StandardCharsets.UTF_8);
 		exchange.getResponseHeaders().add("Content-Type", "text/xml; charset=utf-8");
 		exchange.sendResponseHeaders(status, bytes.length);
@@ -492,6 +499,82 @@ public class GettyLookupTest {
 		logger.debug(result.getComment());
 		assertEquals(ResultState.EXTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
 		assertEquals(6, requestCount.get());
+	}
+
+	private void addPrimary(String name, String nation, String subjectID, String nationSubjectID) { 
+		termMatchResponses.put(PRIMARY_PLACE_TYPE + "|" + name, vocabulary(1, 
+				subject(name + " (province)", name + " (province) [" + subjectID + "], " + nation + " (nation) [" + nationSubjectID 
+						+ "], World (facet) [7029392]", subjectID, name)));
+	}
+	
+	/**
+	 * VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT is COMPLIANT for a state/province of the country.
+	 */
+	@Test
+	public void testValidationCountrystateprovinceConsistent() { 
+		// names not used elsewhere, as the shared GettyLookup caches results for the life of the JVM.
+		addNation("Consistentlandia", "9999981");
+		addPrimary("Consistentprovincia", "Consistentlandia", "9999982", "9999981");
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountrystateprovinceConsistent("Consistentlandia", "Consistentprovincia", GettyLookup.GETTY_TGN);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+	}
+	
+	/**
+	 * VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT reports EXTERNAL_PREREQUISITES_NOT_MET, rather than throwing
+	 * a NullPointerException, when the country is found but the state/province can not be looked up, 
+	 * both when the lookup fails and when the failure is remembered.
+	 */
+	@Test
+	public void testValidationCountrystateprovinceConsistentPrimaryFails() { 
+		addNation("Consistentlandia2", "9999983");
+		failingNames.add("Failprovincia");
+		for (int i=0; i<2; i++) { 
+			int before = requestCount.get();
+			DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountrystateprovinceConsistent("Consistentlandia2", "Failprovincia", GettyLookup.GETTY_TGN);
+			logger.debug(result.getComment());
+			assertEquals(ResultState.EXTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+			assertNull(result.getValue());
+			assertTrue(result.getComment(), result.getComment().contains("Unable to look up dwc:stateProvince [Failprovincia] in the Getty TGN"));
+			if (i==1) { 
+				// the failure is remembered, the repeated lookup is not sent
+				assertEquals(before, requestCount.get());
+			}
+		}
+	}
+	
+	/**
+	 * VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS with an empty country is COMPLIANT for a unique state/province.
+	 */
+	@Test
+	public void testValidationCountrystateprovinceUnambiguousEmptyCountry() { 
+		addPrimary("Unambiguousprovincia", "Unambiguouslandia", "9999984", "9999985");
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountrystateprovinceUnambiguous("", "Unambiguousprovincia", GettyLookup.GETTY_TGN);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.RUN_HAS_RESULT.getLabel(), result.getResultState().getLabel());
+		assertEquals(ComplianceValue.COMPLIANT.getLabel(), result.getValue().getLabel());
+	}
+	
+	/**
+	 * VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS reports EXTERNAL_PREREQUISITES_NOT_MET, rather than throwing
+	 * a NullPointerException, when the country is empty and the state/province can not be looked up, and
+	 * when the country is provided and the state/province can not be looked up.
+	 */
+	@Test
+	public void testValidationCountrystateprovinceUnambiguousPrimaryFails() { 
+		failingNames.add("Failprovincia2");
+		DQResponse<ComplianceValue> result = DwCGeoRefDQ.validationCountrystateprovinceUnambiguous("", "Failprovincia2", GettyLookup.GETTY_TGN);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.EXTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+		assertNull(result.getValue());
+		assertTrue(result.getComment(), result.getComment().contains("Unable to look up dwc:stateProvince [Failprovincia2] in the Getty TGN"));
+		
+		addNation("Unambiguouslandia2", "9999986");
+		result = DwCGeoRefDQ.validationCountrystateprovinceUnambiguous("Unambiguouslandia2", "Failprovincia2", GettyLookup.GETTY_TGN);
+		logger.debug(result.getComment());
+		assertEquals(ResultState.EXTERNAL_PREREQUISITES_NOT_MET.getLabel(), result.getResultState().getLabel());
+		assertNull(result.getValue());
 	}
 
 }
