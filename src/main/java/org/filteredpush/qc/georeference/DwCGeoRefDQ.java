@@ -3337,6 +3337,17 @@ public class DwCGeoRefDQ{
         	if (GEOUtil.isEmpty(scientificName)) { 
         		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
         		result.addComment("The value provided for dwc:scientificName is empty");
+        	} else if (GEOUtil.isEmpty(decimalLatitude)) { 
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        		result.addComment("The value provided for dwc:decimalLatitude is empty");
+        	} else if (GEOUtil.isEmpty(decimalLongitude)) { 
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        		result.addComment("The value provided for dwc:decimalLongitude is empty");
+        	} else if (GEOUtil.parseLatitude(decimalLatitude.trim())==null || GEOUtil.parseLongitude(decimalLongitude.trim())==null) { 
+        		// checked before the taxon lookup, so that a coordinate that cannot be evaluated 
+        		// neither throws a NumberFormatException nor costs a call to the taxonIsMarine service.
+        		result.setResultState(ResultState.INTERNAL_PREREQUISITES_NOT_MET);
+        		result.addComment("Unable to interpret dwc:decimalLatitude ["+decimalLatitude+"] and dwc:decimalLongitude ["+decimalLongitude+"] as a coordinate in range.");
         	} else { 
         		
         		Boolean marine = null;
@@ -3485,8 +3496,8 @@ public class DwCGeoRefDQ{
         					nonMarine = false;
         				}
         				// evaluate against geospatial data
-       					Double lat = Double.parseDouble(decimalLatitude);
-       					Double lon = Double.parseDouble(decimalLongitude);
+       					Double lat = GEOUtil.parseLatitude(decimalLatitude.trim());
+       					Double lon = GEOUtil.parseLongitude(decimalLongitude.trim());
        					Double buffer_meters = Double.parseDouble(spatialBufferInMeters);
         				if (marine) { 
         					
