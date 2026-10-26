@@ -428,10 +428,11 @@
 									<exclude>org.jetbrains.kotlin:*</exclude>
 									<exclude>org.locationtech.spatial4j:spatial4j</exclude>
 									<exclude>org.threeten:threetenbp</exclude>
-									<!-- CF native image libraries, jaxb, mail -->
+									<!-- CF native image libraries, mail; jaxb-impl 4 is kept, its jakarta runtime
+									(org.glassfish.jaxb.runtime) does not overlap CF's javax jaxb-impl, and the
+									Getty and GeoLocate clients need it -->
 									<exclude>javax.media:jai_core</exclude>
 									<exclude>javax.media:jai_imageio*</exclude>
-									<exclude>com.sun.xml.bind:jaxb-impl</exclude>
 									<exclude>com.sun.mail:jakarta.mail</exclude>
 								</excludes>
 							</artifactSet>
