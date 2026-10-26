@@ -373,14 +373,66 @@
 							</filters>
 							<artifactSet>
 								<excludes>
+									<!-- provided by ColdFusion cfusion/lib; bundling would override its copy for the whole webapp -->
+									<exclude>org.apache.logging.log4j:log4j-api</exclude>
+									<exclude>org.apache.logging.log4j:log4j-core</exclude>
+									<exclude>org.apache.logging.log4j:log4j-jcl</exclude>
+									<exclude>org.slf4j:slf4j-api</exclude>
+									<exclude>commons-logging:commons-logging</exclude>
+									<exclude>org.apache.commons:commons-csv</exclude>
+									<exclude>commons-beanutils:commons-beanutils</exclude>
+									<exclude>org.dom4j:dom4j</exclude>
+									<exclude>javax.activation:activation</exclude>
+									<exclude>javax.mail:mail</exclude>
+									<exclude>xerces:xercesImpl</exclude>
+									<!-- provided by MCZbase WEB-INF/lib (guava-31.1-jre, failureaccess-1.0.1) -->
+									<exclude>com.google.guava:guava</exclude>
+									<exclude>com.google.guava:failureaccess</exclude>
+									<exclude>com.google.guava:listenablefuture</exclude>
+									<!-- compile time only -->
+									<exclude>org.projectlombok:lombok</exclude>
+									<!-- loaded from the sci_name_qc cfweblib jar -->
+									<exclude>org.filteredpush:sci_name_qc</exclude>
+									<!-- also in the sci_name_qc cfweblib jar; jts-core stays here, GeoTools needs 1.19 -->
+									<exclude>com.fasterxml.jackson.core:*</exclude>
+									<exclude>com.github.jsonld-java:jsonld-java</exclude>
+									<exclude>com.google.code.findbugs:jsr305</exclude>
+									<exclude>com.google.code.gson:gson</exclude>
+									<exclude>com.googlecode.json-simple:json-simple</exclude>
+									<exclude>com.google.errorprone:error_prone_annotations</exclude>
+									<exclude>com.google.j2objc:j2objc-annotations</exclude>
+									<exclude>commons-cli:commons-cli</exclude>
+									<exclude>commons-codec:commons-codec</exclude>
+									<exclude>commons-collections:commons-collections</exclude>
+									<exclude>commons-digester:commons-digester</exclude>
+									<exclude>commons-io:commons-io</exclude>
+									<exclude>commons-validator:commons-validator</exclude>
+									<exclude>com.squareup.okhttp3:*</exclude>
+									<exclude>com.squareup.okio:*</exclude>
+									<exclude>de.grundid.opendatalab:geojson-jackson</exclude>
+									<exclude>io.gsonfire:gson-fire</exclude>
+									<exclude>io.swagger.core.v3:swagger-annotations</exclude>
+									<exclude>it.unimi.dsi:fastutil</exclude>
+									<exclude>javax.annotation:javax.annotation-api</exclude>
+									<exclude>javax.json:javax.json-api</exclude>
+									<exclude>javax.validation:validation-api</exclude>
+									<exclude>no.hasmac:hasmac-json-ld</exclude>
+									<exclude>org.apache.commons:commons-lang3</exclude>
+									<exclude>org.apache.commons:commons-text</exclude>
+									<exclude>org.checkerframework:checker-qual</exclude>
+									<exclude>org.cyberborean:rdfbeans</exclude>
+									<exclude>org.datakurator:ffdq-api</exclude>
+									<exclude>org.eclipse.rdf4j:*</exclude>
+									<exclude>org.gbif:*</exclude>
+									<exclude>org.jetbrains:annotations</exclude>
+									<exclude>org.jetbrains.kotlin:*</exclude>
+									<exclude>org.locationtech.spatial4j:spatial4j</exclude>
+									<exclude>org.threeten:threetenbp</exclude>
+									<!-- CF native image libraries, jaxb, mail -->
 									<exclude>javax.media:jai_core</exclude>
 									<exclude>javax.media:jai_imageio*</exclude>
 									<exclude>com.sun.xml.bind:jaxb-impl</exclude>
 									<exclude>com.sun.mail:jakarta.mail</exclude>
-									<exclude>javax.mail:mail</exclude>
-									<exclude>xerces:xercesImpl</exclude>
-									<exclude>commons-logging:commons</exclude>
-									<exclude>org.filteredpush:sci_name_qc</exclude>
 								</excludes>
 							</artifactSet>
 							<transformers>
