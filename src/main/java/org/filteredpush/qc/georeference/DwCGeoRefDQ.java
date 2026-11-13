@@ -803,7 +803,7 @@ public class DwCGeoRefDQ{
      */
     @Amendment(label="AMENDMENT_COORDINATES_CONVERTED", description="Propose amendment to the value of dwc:geodeticDatum and potentially to dwc:decimalLatitude and/or dwc:decimalLongitude based on a conversion between spatial reference systems.")
     @Provides("620749b9-7d9c-4890-97d2-be3d1cde6da8")
-    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/620749b9-7d9c-4890-97d2-be3d1cde6da8/2023-06-24")
+    @ProvidesVersion("urn:uuid:620749b9-7d9c-4890-97d2-be3d1cde6da8")
     @Specification("INTERNAL_PREREQUISITES_NOT_MET if dwc:decimalLatitude is EMPTY or does not have a valid value, or dwc:decimalLongitude is EMPTY or does not have a valid value, or dwc:geodeticDatum is EMPTY or does not contain an interpretable value; AMENDED if the values of dwc:decimalLatitude, dwc:decimalLongitude and dwc:geodeticDatum are changed based on a conversion between the coordinate reference systems as specified by dwc:geodeticDatum and bdqval:defaultGeodeticDatum, and, if dwc:coordinateUncertaintyInMeters was an interpretable value, the uncertainty from the conversion is added to it, and the value of dwc:coordinatePrecision is provided from the conversion result; otherwise NOT_AMENDED. bdqval:defaultGeodeticDatum = 'EPSG:4326'")
     public static DQResponse<AmendmentValue> amendmentCoordinatesConverted(
     		@ActedUpon("dwc:decimalLatitude") String decimalLatitude, 
@@ -2909,7 +2909,7 @@ public class DwCGeoRefDQ{
      */
     @Validation(label="VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT", description=" 	Are the combination of the values of dwc:country, dwc:stateProvince consistent with the values in the bdqval:sourceAuthority?")
     @Provides("e654f562-44f8-43fd-983b-2aaba4c6dda9")
-    @ProvidesVersion("https://rs.tdwg.org/bdqtest/terms/e654f562-44f8-43fd-983b-2aaba4c6dda9/2023-09-18")
+    @ProvidesVersion("urn:uuid:e654f562-44f8-43fd-983b-2aaba4c6dda9")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdqval:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country or dwc:stateProvince are EMPTY; COMPLIANT if the value of dwc:stateProvince occurs as an administrative entity that is a child to the entity matching the value of dwc:country in the bdqval:sourceAuthority, and the match to dwc:country is an ISO country-like entity in the bdqval:sourceAuthority; otherwise NOT_COMPLIANT  	bdqval:sourceAuthority default = \"The Getty Thesaurus of Geographic Names (TGN)\" {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
     public static DQResponse<ComplianceValue> validationCountrystateprovinceConsistent(
     		@ActedUpon("dwc:country") String country, 

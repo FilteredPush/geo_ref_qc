@@ -231,7 +231,7 @@ public class DwCGeoRefDQDefaults extends DwCGeoRefDQ {
      */
     @Validation(label="VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT", description=" 	Are the combination of the values of dwc:country, dwc:stateProvince consistent with the values in the bdqvalsourceAuthority?")
     @Provides("e654f562-44f8-43fd-983b-2aaba4c6dda9")
-    @ProvidesVersion("https://rs.tdwg.org/bdq/terms/e654f562-44f8-43fd-983b-2aaba4c6dda9/2023-09-18")
+    @ProvidesVersion("urn:uuid:e654f562-44f8-43fd-983b-2aaba4c6dda9")
     @Specification("EXTERNAL_PREREQUISITES_NOT_MET if the bdqvalsourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country or dwc:stateProvince are EMPTY; COMPLIANT if the value of dwc:stateProvince occurs as an administrative entity that is a child to the entity matching the value of dwc:country in the bdqvalsourceAuthority, and the match to dwc:country is an ISO country-like entity in the bdqvalsourceAuthority; otherwise NOT_COMPLIANT  	bdqvalsourceAuthority default = \"The Getty Thesaurus of Geographic Names (TGN)\" {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}")
     public static DQResponse<ComplianceValue> validationCountrystateprovinceConsistent(
     		@ActedUpon("dwc:country") String country, 
