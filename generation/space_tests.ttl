@@ -29,8 +29,8 @@ bdqtest:0493bcfb-652e-4d17-815b-b0cce0742fbe-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:Standard;
   bdqffdq:hasActedUponInformationElement <urn:uuid:c3620a97-65d6-4f9c-8a03-32e0d240a423>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:840b01e0-cdfb-4457-a139-bc47f76c85ee>, <urn:uuid:f8394935-a95a-4810-bd5b-c31c19936866>,
-    <urn:uuid:e40e29e8-11ad-494c-a15f-0ac80b861cb5>, <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:70ca162c-3be5-47d1-92ff-6bf654932d58>, <urn:uuid:5396f0df-0f81-4a45-a2f7-7c051202fb70>,
+    <urn:uuid:547a3487-f597-4d64-bbd5-57718c94ec53>, <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/20";
   rdfs:label "VALIDATION_COUNTRYCODE_STANDARD";
   dcterms:isVersionOf bdqtest:0493bcfb-652e-4d17-815b-b0cce0742fbe;
@@ -54,16 +54,16 @@ bdqcrit:Standard a bdqffdq:Criterion;
 
 bdqffdq:ActedUpon rdfs:subClassOf bdqffdq:InformationElement .
 
-<urn:uuid:840b01e0-cdfb-4457-a139-bc47f76c85ee> a dcterms:BibliographicResource;
+<urn:uuid:70ca162c-3be5-47d1-92ff-6bf654932d58> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "ISO (n.dat.) ISO 3166 Country Codes. https://www.iso.org/iso-3166-country-codes.html" .
 
-<urn:uuid:f8394935-a95a-4810-bd5b-c31c19936866> a dcterms:BibliographicResource;
+<urn:uuid:5396f0df-0f81-4a45-a2f7-7c051202fb70> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "ISO (n.dat) 3166-1 alpha-2. https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" .
 
-<urn:uuid:e40e29e8-11ad-494c-a15f-0ac80b861cb5> a dcterms:BibliographicResource;
+<urn:uuid:547a3487-f597-4d64-bbd5-57718c94ec53> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "DataHub (2018) List of all countries with their two digit codes (ISO 3166-1). https://datahub.io/core/country-list" .
 
-<urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624> a dcterms:BibliographicResource;
+<urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Chapman AD and Wieczorek JR (2020) Georeferencing Best Practices. Copenhagen: GBIF Secretariat. https://doi.org/10.15468/doc-gg7h-s853" .
 
 <urn:uuid:02f5a440-a473-42cf-a3f1-6c10334d5eb8> a bdqffdq:ValidationMethod;
@@ -94,7 +94,7 @@ bdqtest:69b2efdc-6269-45a4-aecb-4cb99c2ae134-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:Found;
   bdqffdq:hasActedUponInformationElement <urn:uuid:30db5994-81fa-4684-ac54-cfc226209d27>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:0268847c-7c06-445a-ab0a-a2bd607b8508>, <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:4c4c297e-44bb-49b8-8534-77241473cfb1>, <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/21";
   rdfs:label "VALIDATION_COUNTRY_FOUND";
   dcterms:isVersionOf bdqtest:69b2efdc-6269-45a4-aecb-4cb99c2ae134;
@@ -108,7 +108,7 @@ bdqcrit:Found a bdqffdq:Criterion;
   rdfs:label "Information Element ActedUpon dwc:country";
   skos:prefLabel "Information Element ActedUpon dwc:country" .
 
-<urn:uuid:0268847c-7c06-445a-ab0a-a2bd607b8508> a dcterms:BibliographicResource;
+<urn:uuid:4c4c297e-44bb-49b8-8534-77241473cfb1> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Getty Research Institute (2017) Getty Thesaurus of Geographic Names Online. https://www.getty.edu/research/tools/vocabularies/tgn/index.html" .
 
 <urn:uuid:04cee4e0-0c83-40cc-8de2-e7391f0a97a9> a bdqffdq:ValidationMethod;
@@ -145,7 +145,7 @@ bdqtest:8f1e6e58-544b-4365-a569-fb781341644e-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:Consistent;
   bdqffdq:hasActedUponInformationElement <urn:uuid:06adabf0-e6d4-4f99-819f-7dd38c796617>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/24";
   rdfs:label "VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH";
   dcterms:isVersionOf bdqtest:8f1e6e58-544b-4365-a569-fb781341644e;
@@ -185,7 +185,7 @@ bdqtest:0949110d-c06b-450e-9649-7c1374d940d1-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:InRange;
   bdqffdq:hasActedUponInformationElement <urn:uuid:bda769d4-d876-4bd0-8026-89bed5aad0eb>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/30";
   rdfs:label "VALIDATION_DECIMALLONGITUDE_INRANGE";
   dcterms:isVersionOf bdqtest:0949110d-c06b-450e-9649-7c1374d940d1;
@@ -226,7 +226,7 @@ bdqtest:3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e-2025-03-07 a bdqffdq:Amendment;
   bdqffdq:hasActedUponInformationElement <urn:uuid:10a04e3b-9254-49b6-8095-166179cd3707>;
   bdqffdq:hasConsultedInformationElement <urn:uuid:2ad22c2b-cebb-4924-b0e4-b36c64535010>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/32";
   rdfs:label "AMENDMENT_COORDINATES_FROM_VERBATIM";
   dcterms:isVersionOf bdqtest:3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e;
@@ -281,8 +281,8 @@ bdqtest:0bb8297d-8f8a-42d2-80c1-558f29efe798-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:InRange;
   bdqffdq:hasActedUponInformationElement <urn:uuid:af5393af-6a71-4e39-aa70-7609ee10d1d0>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:e83aefdf-f4e7-4bdb-9612-4fa9cec31393>, <urn:uuid:3d826296-f1a9-4056-a5da-ee00baa8f7e7>,
-    <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:3254d912-73cb-4d6d-b797-7feb3af049c8>, <urn:uuid:1ebb22d5-8ab1-4fbf-8151-e0be3ea09666>,
+    <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/39";
   rdfs:label "VALIDATION_MINELEVATION_INRANGE";
   dcterms:isVersionOf bdqtest:0bb8297d-8f8a-42d2-80c1-558f29efe798;
@@ -293,10 +293,10 @@ bdqtest:0bb8297d-8f8a-42d2-80c1-558f29efe798-2025-03-07 a bdqffdq:Validation;
   rdfs:label "Information Element ActedUpon dwc:minimumElevationInMeters";
   skos:prefLabel "Information Element ActedUpon dwc:minimumElevationInMeters" .
 
-<urn:uuid:e83aefdf-f4e7-4bdb-9612-4fa9cec31393> a dcterms:BibliographicResource;
+<urn:uuid:3254d912-73cb-4d6d-b797-7feb3af049c8> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Wikipedia (2020) List of elevations extremes by country. https://en.wikipedia.org/wiki/List_of_elevation_extremes_by_country_" .
 
-<urn:uuid:3d826296-f1a9-4056-a5da-ee00baa8f7e7> a dcterms:BibliographicResource;
+<urn:uuid:1ebb22d5-8ab1-4fbf-8151-e0be3ea09666> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Wikipedia (2020) Extreme points of Antarctica. https://en.wikipedia.org/wiki/Extreme_points_of_Antarctica" .
 
 <urn:uuid:1aa9c50e-7e8a-445f-9cf3-12af51a9ec10> a bdqffdq:ValidationMethod;
@@ -340,7 +340,7 @@ bdqtest:58486cb6-1114-4a8a-ba1e-bd89cfe887e9-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:NotEmpty;
   bdqffdq:hasActedUponInformationElement <urn:uuid:033157e4-b8c3-466b-ba9a-38bc9b3ad86d>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/40";
   rdfs:label "VALIDATION_LOCATION_NOTEMPTY";
   dcterms:isVersionOf bdqtest:58486cb6-1114-4a8a-ba1e-bd89cfe887e9;
@@ -385,7 +385,7 @@ bdqtest:6ce2b2b4-6afe-4d13-82a0-390d31ade01c-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasActedUponInformationElement <urn:uuid:30db5994-81fa-4684-ac54-cfc226209d27>;
   bdqffdq:hasConsultedInformationElement <urn:uuid:d24a7b73-972a-4fdd-a790-91acb5fcf725>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/42";
   rdfs:label "VALIDATION_COUNTRY_NOTEMPTY";
   dcterms:isVersionOf bdqtest:6ce2b2b4-6afe-4d13-82a0-390d31ade01c;
@@ -421,8 +421,8 @@ bdqtest:fec5ffe6-3958-4312-82d9-ebcca0efb350-2025-03-07 a bdqffdq:Amendment;
   dcterms:description "Proposes an amendment to the value of dwc:countryCode if it can be interpreted as an ISO 3166-1-alpha-2 country code.";
   bdqffdq:hasActedUponInformationElement <urn:uuid:c3620a97-65d6-4f9c-8a03-32e0d240a423>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:840b01e0-cdfb-4457-a139-bc47f76c85ee>, <urn:uuid:4685d9ef-0cfb-430e-92e8-c8422542ae1e>,
-    <urn:uuid:e40e29e8-11ad-494c-a15f-0ac80b861cb5>, <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:70ca162c-3be5-47d1-92ff-6bf654932d58>, <urn:uuid:a2ba8081-1397-42c9-92ad-e396238332b4>,
+    <urn:uuid:547a3487-f597-4d64-bbd5-57718c94ec53>, <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/48";
   rdfs:label "AMENDMENT_COUNTRYCODE_STANDARDIZED";
   dcterms:isVersionOf bdqtest:fec5ffe6-3958-4312-82d9-ebcca0efb350;
@@ -431,7 +431,7 @@ bdqtest:fec5ffe6-3958-4312-82d9-ebcca0efb350-2025-03-07 a bdqffdq:Amendment;
 bdqenh:Standardized a bdqffdq:Enhancement;
   rdfs:label "Standardized" .
 
-<urn:uuid:4685d9ef-0cfb-430e-92e8-c8422542ae1e> a dcterms:BibliographicResource;
+<urn:uuid:a2ba8081-1397-42c9-92ad-e396238332b4> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Wikipedia (2020) ISO 3166-1 alpha-2. https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" .
 
 <urn:uuid:29b2e2ac-9667-4774-ac06-45333555c620> a bdqffdq:AmendmentMethod;
@@ -459,10 +459,10 @@ bdqtest:adb27d29-9f0d-4d52-b760-a77ba57a69c9-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:Consistent;
   bdqffdq:hasActedUponInformationElement <urn:uuid:6f6a46c6-9979-41a2-83c2-fd196e89c8c1>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:840b01e0-cdfb-4457-a139-bc47f76c85ee>, <urn:uuid:4685d9ef-0cfb-430e-92e8-c8422542ae1e>,
-    <urn:uuid:dc9fa08d-8488-43d1-8fe2-e61bc050d91b>, <urn:uuid:d670242d-a647-44ed-ad68-6cbc5c7c09aa>,
-    <urn:uuid:57588fd8-3fab-4212-bf98-fd7ada000112>, <urn:uuid:ec100170-6b1d-436f-8698-3f638c1f9ce7>,
-    <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>, <urn:uuid:ee5a0b3d-c024-40f1-9348-a4e1408062f5>;
+  dcterms:references <urn:uuid:70ca162c-3be5-47d1-92ff-6bf654932d58>, <urn:uuid:a2ba8081-1397-42c9-92ad-e396238332b4>,
+    <urn:uuid:c63833fa-835d-439f-8a48-204ec281a683>, <urn:uuid:65638c00-c42f-4aa3-a641-d746df21e940>,
+    <urn:uuid:95fc2b8b-5647-4170-81f9-18a03a34ba4a>, <urn:uuid:1fa0f884-feeb-4c46-a500-8e297417408c>,
+    <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>, <urn:uuid:659f4f43-ef7d-4c48-917c-7d5b16655bfe>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/50";
   rdfs:label "VALIDATION_COORDINATESCOUNTRYCODE_CONSISTENT";
   dcterms:isVersionOf bdqtest:adb27d29-9f0d-4d52-b760-a77ba57a69c9;
@@ -476,19 +476,19 @@ bdqdim:Consistency a bdqffdq:DataQualityDimension;
   rdfs:label "Information Element ActedUpon dwc:countryCode, dwc:decimalLatitude, dwc:decimalLongitude";
   skos:prefLabel "Information Element ActedUpon dwc:countryCode, dwc:decimalLatitude, dwc:decimalLongitude" .
 
-<urn:uuid:dc9fa08d-8488-43d1-8fe2-e61bc050d91b> a dcterms:BibliographicResource;
+<urn:uuid:c63833fa-835d-439f-8a48-204ec281a683> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Flanders Marine Institute (2023) Maritime Boundaries Geodatabase, version 12. Available online at https://www.marineregions.org/. https://doi.org/10.14284/628" .
 
-<urn:uuid:d670242d-a647-44ed-ad68-6cbc5c7c09aa> a dcterms:BibliographicResource;
+<urn:uuid:65638c00-c42f-4aa3-a641-d746df21e940> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Kelso NV and Patterson T (2010) Introducing Natural Earth data—Naturalearthdata.com. Geographica Technica. Special issue, 2010 pp 82–89. https://technicalgeography.org/pdf/sp_i_2010/12_introducing_natural_earth_data__naturaleart.pdf" .
 
-<urn:uuid:57588fd8-3fab-4212-bf98-fd7ada000112> a dcterms:BibliographicResource;
+<urn:uuid:95fc2b8b-5647-4170-81f9-18a03a34ba4a> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Natural Earth (2022) Natural Earth Free vector and raster map data at 1:10m, 1:50m, and 1:110m scales. v5.1.2. https://www.naturalearthdata.com/,https://github.com/nvkelso/natural-earth-vector/releases/tag/v5.1.2" .
 
-<urn:uuid:ec100170-6b1d-436f-8698-3f638c1f9ce7> a dcterms:BibliographicResource;
+<urn:uuid:1fa0f884-feeb-4c46-a500-8e297417408c> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Natural Earth (2022) Admin 1 – States, provinces. v5.1.1 2022-05-12. https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/" .
 
-<urn:uuid:ee5a0b3d-c024-40f1-9348-a4e1408062f5> a dcterms:BibliographicResource;
+<urn:uuid:659f4f43-ef7d-4c48-917c-7d5b16655bfe> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Dooley, JF Jnr. (2005) An inventory and comparison of globally consistent geospatial databases and libraries. Rome: FAO. http://www.fao.org/3/a0118e/a0118e00.htm#Contents" .
 
 <urn:uuid:2afcbce1-7cf8-4c5c-9df4-d267dc2df704> a bdqffdq:ValidationMethod;
@@ -532,11 +532,11 @@ bdqtest:b9c184ce-a859-410c-9d12-71a338200380-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasActedUponInformationElement <urn:uuid:9d387033-c581-4fb5-9af2-73ec89c99e77>;
   bdqffdq:hasConsultedInformationElement <urn:uuid:328124cc-fa45-495a-9c39-b7b5d9aa79c5>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:be4bc050-ca63-4ef8-853f-ff0085a43123>, <urn:uuid:98f2bf44-431e-4420-8f84-56d0b7513632>,
-    <urn:uuid:d670242d-a647-44ed-ad68-6cbc5c7c09aa>, <urn:uuid:48200fc7-4cb3-499d-9fd5-7febd5590010>,
-    <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>, <urn:uuid:ee5a0b3d-c024-40f1-9348-a4e1408062f5>,
-    <urn:uuid:ec100170-6b1d-436f-8698-3f638c1f9ce7>, <urn:uuid:946f921f-08f2-413e-a3fa-4e950ba0565b>,
-    <urn:uuid:c20ac17c-760e-4d70-9deb-b084b032544f>, <urn:uuid:f22fceec-fbe4-4476-8a1f-435f96307c46>;
+  dcterms:references <urn:uuid:a5ff2ec4-8a19-4310-a4ca-26c58805140e>, <urn:uuid:d3a3ff8b-07cd-4824-b3ec-14a6a8c09a61>,
+    <urn:uuid:65638c00-c42f-4aa3-a641-d746df21e940>, <urn:uuid:650469f2-50cf-484c-8f74-61e49e9c5d17>,
+    <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>, <urn:uuid:659f4f43-ef7d-4c48-917c-7d5b16655bfe>,
+    <urn:uuid:1fa0f884-feeb-4c46-a500-8e297417408c>, <urn:uuid:d613f480-f534-4c61-bb03-266ebd841d3e>,
+    <urn:uuid:ea5c3c67-bdd6-4435-bbc3-33db67f29382>, <urn:uuid:2bb7667a-02f1-4d17-9f60-1b1680c3b13b>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/51";
   rdfs:label "VALIDATION_COORDINATESTERRESTRIALMARINE_CONSISTENT";
   dcterms:isVersionOf bdqtest:b9c184ce-a859-410c-9d12-71a338200380;
@@ -552,22 +552,22 @@ bdqtest:b9c184ce-a859-410c-9d12-71a338200380-2025-03-07 a bdqffdq:Validation;
   rdfs:label "Information Element Consulted dwc:scientificName";
   skos:prefLabel "Information Element Consulted dwc:scientificName" .
 
-<urn:uuid:be4bc050-ca63-4ef8-853f-ff0085a43123> a dcterms:BibliographicResource;
+<urn:uuid:a5ff2ec4-8a19-4310-a4ca-26c58805140e> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "WoRMS (2019) WoRMS - World Register of Marine Species. https://www.marinespecies.org/" .
 
-<urn:uuid:98f2bf44-431e-4420-8f84-56d0b7513632> a dcterms:BibliographicResource;
+<urn:uuid:d3a3ff8b-07cd-4824-b3ec-14a6a8c09a61> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Rees T (compiler) (2024) Interim Register of Marine and Nonmarine Genera (IRMNG) VLIZ, Belgium. https://www.irmng.org/" .
 
-<urn:uuid:48200fc7-4cb3-499d-9fd5-7febd5590010> a dcterms:BibliographicResource;
+<urn:uuid:650469f2-50cf-484c-8f74-61e49e9c5d17> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "OBIS (2024) Ocean Biodiversity Information System (OBIS). https://obis.org/" .
 
-<urn:uuid:946f921f-08f2-413e-a3fa-4e950ba0565b> a dcterms:BibliographicResource;
+<urn:uuid:d613f480-f534-4c61-bb03-266ebd841d3e> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Natural Earth (2022) Natural Earth Free vector and raster map data at 1:10m, 1:50m, and 1:110m scales. v5.1.2. https://github.com/nvkelso/natural-earth-vector/releases/tag/v5.1.2" .
 
-<urn:uuid:c20ac17c-760e-4d70-9deb-b084b032544f> a dcterms:BibliographicResource;
+<urn:uuid:ea5c3c67-bdd6-4435-bbc3-33db67f29382> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Natural Earth (2009) Minor Islands. https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-minor-islands/" .
 
-<urn:uuid:f22fceec-fbe4-4476-8a1f-435f96307c46> a dcterms:BibliographicResource;
+<urn:uuid:2bb7667a-02f1-4d17-9f60-1b1680c3b13b> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Google Maps Platform (2020) Reverse Geocoding API. https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse" .
 
 <urn:uuid:2bb364f7-118b-4258-8afe-978901e5cf67> a bdqffdq:ValidationMethod;
@@ -625,7 +625,7 @@ bdqtest:f2b4a50a-6b2f-4930-b9df-da87b6a21082-2025-03-07 a bdqffdq:Amendment;
   bdqffdq:hasActedUponInformationElement <urn:uuid:9d387033-c581-4fb5-9af2-73ec89c99e77>;
   bdqffdq:hasConsultedInformationElement <urn:uuid:d24a7b73-972a-4fdd-a790-91acb5fcf725>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/54";
   rdfs:label "AMENDMENT_COORDINATES_TRANSPOSED";
   dcterms:isVersionOf bdqtest:f2b4a50a-6b2f-4930-b9df-da87b6a21082;
@@ -667,7 +667,7 @@ bdqtest:c5658b83-4471-4f57-9d94-bf7d0a96900c-2025-03-07 a bdqffdq:Amendment;
   bdqffdq:hasActedUponInformationElement <urn:uuid:06adabf0-e6d4-4f99-819f-7dd38c796617>;
   bdqffdq:hasConsultedInformationElement <urn:uuid:6ce80718-30e4-4458-beb3-6b03d30f66ed>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/55";
   rdfs:label "AMENDMENT_MINDEPTHMAXDEPTH_FROM_VERBATIM";
   dcterms:isVersionOf bdqtest:c5658b83-4471-4f57-9d94-bf7d0a96900c;
@@ -703,10 +703,10 @@ bdqtest:f18a470b-3fe1-4aae-9c65-a6d3db6b550c-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:Consistent;
   bdqffdq:hasActedUponInformationElement <urn:uuid:de507979-dc94-4cb9-9c87-9d33972f4a4e>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>, <urn:uuid:ee5a0b3d-c024-40f1-9348-a4e1408062f5>,
-    <urn:uuid:f22fceec-fbe4-4476-8a1f-435f96307c46>, <urn:uuid:d670242d-a647-44ed-ad68-6cbc5c7c09aa>,
-    <urn:uuid:ec100170-6b1d-436f-8698-3f638c1f9ce7>, <urn:uuid:57588fd8-3fab-4212-bf98-fd7ada000112>,
-    <urn:uuid:efef0861-fecd-43c9-8f2e-cd43964ace8f>, <urn:uuid:ac9fed59-9268-4741-82bc-2ff1931134b7>;
+  dcterms:references <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>, <urn:uuid:659f4f43-ef7d-4c48-917c-7d5b16655bfe>,
+    <urn:uuid:2bb7667a-02f1-4d17-9f60-1b1680c3b13b>, <urn:uuid:65638c00-c42f-4aa3-a641-d746df21e940>,
+    <urn:uuid:1fa0f884-feeb-4c46-a500-8e297417408c>, <urn:uuid:95fc2b8b-5647-4170-81f9-18a03a34ba4a>,
+    <urn:uuid:3b7fb18c-d6ba-40b4-81c9-489e2cebfad1>, <urn:uuid:676c1019-c740-4401-9d7e-ddc7a0608b89>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/56";
   rdfs:label "VALIDATION_COORDINATESSTATEPROVINCE_CONSISTENT";
   dcterms:isVersionOf bdqtest:f18a470b-3fe1-4aae-9c65-a6d3db6b550c;
@@ -717,10 +717,10 @@ bdqtest:f18a470b-3fe1-4aae-9c65-a6d3db6b550c-2025-03-07 a bdqffdq:Validation;
   rdfs:label "Information Element ActedUpon dwc:stateProvince, dwc:decimalLatitude, dwc:decimalLongitude";
   skos:prefLabel "Information Element ActedUpon dwc:stateProvince, dwc:decimalLatitude, dwc:decimalLongitude" .
 
-<urn:uuid:efef0861-fecd-43c9-8f2e-cd43964ace8f> a dcterms:BibliographicResource;
+<urn:uuid:3b7fb18c-d6ba-40b4-81c9-489e2cebfad1> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "ESRI (2020) World Administrative Divisions. https://www.arcgis.com/home/item.html?id=f0ceb8af000a4ffbae75d742538c548b" .
 
-<urn:uuid:ac9fed59-9268-4741-82bc-2ff1931134b7> a dcterms:BibliographicResource;
+<urn:uuid:676c1019-c740-4401-9d7e-ddc7a0608b89> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "ProgrammableWeb (2006) GeoNames API. https://www.geonames.org/" .
 
 <urn:uuid:315a198d-3811-40dd-918a-756f598f3294> a bdqffdq:ValidationMethod;
@@ -760,9 +760,9 @@ bdqtest:7e0c0418-fe16-4a39-98bd-80e19d95b9d1-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:Standard;
   bdqffdq:hasActedUponInformationElement <urn:uuid:2d1e1a48-f915-4db5-beba-ae73017f3f8b>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:87341e6a-c33e-48e9-bea8-1b650b838801>, <urn:uuid:31b7dafa-59de-43b3-b601-0e804d313b70>,
-    <urn:uuid:2c8d3bf2-a33c-4a7e-a822-0a292657ab5e>, <urn:uuid:5fc8dc64-ba93-487f-ad6e-a7236517e904>,
-    <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>, <urn:uuid:f0bf9d48-d798-41e0-ba51-831b65e199ac>;
+  dcterms:references <urn:uuid:ca985ce1-a864-4e9e-80d8-53300efc03ee>, <urn:uuid:8b863182-8e13-4de0-92db-58daf75cf93e>,
+    <urn:uuid:421d160d-e374-4dd4-b5c8-07c54b1bfc7a>, <urn:uuid:d768ce9b-f4f4-48ea-963c-48505f6d91d7>,
+    <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>, <urn:uuid:0c77cbb2-462e-4b8a-a7cf-b4ecce9b8c29>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/59";
   rdfs:label "VALIDATION_GEODETICDATUM_STANDARD";
   dcterms:isVersionOf bdqtest:7e0c0418-fe16-4a39-98bd-80e19d95b9d1;
@@ -773,19 +773,19 @@ bdqtest:7e0c0418-fe16-4a39-98bd-80e19d95b9d1-2025-03-07 a bdqffdq:Validation;
   rdfs:label "Information Element ActedUpon dwc:geodeticDatum";
   skos:prefLabel "Information Element ActedUpon dwc:geodeticDatum" .
 
-<urn:uuid:87341e6a-c33e-48e9-bea8-1b650b838801> a dcterms:BibliographicResource;
+<urn:uuid:ca985ce1-a864-4e9e-80d8-53300efc03ee> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Maptiler (2019) EPSG.io. https://epsg.io/" .
 
-<urn:uuid:31b7dafa-59de-43b3-b601-0e804d313b70> a dcterms:BibliographicResource;
+<urn:uuid:8b863182-8e13-4de0-92db-58daf75cf93e> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "EPSG (2024) About the EPSG Dataset. https://epsg.org/" .
 
-<urn:uuid:2c8d3bf2-a33c-4a7e-a822-0a292657ab5e> a dcterms:BibliographicResource;
+<urn:uuid:421d160d-e374-4dd4-b5c8-07c54b1bfc7a> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Spatial Reference (2024) What is SpatialReference.org. https://spatialreference.org/" .
 
-<urn:uuid:5fc8dc64-ba93-487f-ad6e-a7236517e904> a dcterms:BibliographicResource;
+<urn:uuid:d768ce9b-f4f4-48ea-963c-48505f6d91d7> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Geomatic Solutions (2026) GeoRepository. https://epsg.org/about.html" .
 
-<urn:uuid:f0bf9d48-d798-41e0-ba51-831b65e199ac> a dcterms:BibliographicResource;
+<urn:uuid:0c77cbb2-462e-4b8a-a7cf-b4ecce9b8c29> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Wieczorek C and Wieczorek J (2021) Georeferencing Calculator. https://georeferencing.org/calculator/" .
 
 <urn:uuid:344cb9f6-68e1-4d7c-a976-7edcd9f20935> a bdqffdq:ValidationMethod;
@@ -814,9 +814,9 @@ bdqtest:0345b325-836d-4235-96d0-3b5caf150fc0-2025-03-07 a bdqffdq:Amendment;
   dcterms:description "Proposes an amendment to the value of dwc:geodeticDatum using the bdqval:sourceAuthority.";
   bdqffdq:hasActedUponInformationElement <urn:uuid:2d1e1a48-f915-4db5-beba-ae73017f3f8b>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:87341e6a-c33e-48e9-bea8-1b650b838801>, <urn:uuid:31b7dafa-59de-43b3-b601-0e804d313b70>,
-    <urn:uuid:2c8d3bf2-a33c-4a7e-a822-0a292657ab5e>, <urn:uuid:5fc8dc64-ba93-487f-ad6e-a7236517e904>,
-    <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>, <urn:uuid:f0bf9d48-d798-41e0-ba51-831b65e199ac>;
+  dcterms:references <urn:uuid:ca985ce1-a864-4e9e-80d8-53300efc03ee>, <urn:uuid:8b863182-8e13-4de0-92db-58daf75cf93e>,
+    <urn:uuid:421d160d-e374-4dd4-b5c8-07c54b1bfc7a>, <urn:uuid:d768ce9b-f4f4-48ea-963c-48505f6d91d7>,
+    <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>, <urn:uuid:0c77cbb2-462e-4b8a-a7cf-b4ecce9b8c29>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/60";
   rdfs:label "AMENDMENT_GEODETICDATUM_STANDARDIZED";
   dcterms:isVersionOf bdqtest:0345b325-836d-4235-96d0-3b5caf150fc0;
@@ -848,8 +848,8 @@ bdqtest:b23110e7-1be7-444a-a677-cdee0cf4330c-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:Consistent;
   bdqffdq:hasActedUponInformationElement <urn:uuid:9cada38d-ed7c-485d-8b9b-ea57e4124253>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:840b01e0-cdfb-4457-a139-bc47f76c85ee>, <urn:uuid:e40e29e8-11ad-494c-a15f-0ac80b861cb5>,
-    <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:70ca162c-3be5-47d1-92ff-6bf654932d58>, <urn:uuid:547a3487-f597-4d64-bbd5-57718c94ec53>,
+    <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/62";
   rdfs:label "VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT";
   dcterms:isVersionOf bdqtest:b23110e7-1be7-444a-a677-cdee0cf4330c;
@@ -887,7 +887,7 @@ bdqtest:2d638c8b-4c62-44a0-a14d-fa147bf9823d-2025-03-07 a bdqffdq:Amendment;
   bdqffdq:hasActedUponInformationElement <urn:uuid:3d5994c8-29df-4399-965c-c2c596a6767f>;
   bdqffdq:hasConsultedInformationElement <urn:uuid:0c598386-f49e-40b3-bbcc-b217e7d2b449>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/68";
   rdfs:label "AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM";
   dcterms:isVersionOf bdqtest:2d638c8b-4c62-44a0-a14d-fa147bf9823d;
@@ -929,10 +929,10 @@ bdqtest:8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae-2025-03-07 a bdqffdq:Amendment;
   bdqffdq:hasActedUponInformationElement <urn:uuid:c3620a97-65d6-4f9c-8a03-32e0d240a423>;
   bdqffdq:hasConsultedInformationElement <urn:uuid:c3849b5d-feb7-4388-ab95-ec54ff1031ea>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>, <urn:uuid:3cfcec0f-2770-4405-8a75-fd13c693c8e6>,
-    <urn:uuid:ee5a0b3d-c024-40f1-9348-a4e1408062f5>, <urn:uuid:4685d9ef-0cfb-430e-92e8-c8422542ae1e>,
-    <urn:uuid:e40e29e8-11ad-494c-a15f-0ac80b861cb5>, <urn:uuid:d670242d-a647-44ed-ad68-6cbc5c7c09aa>,
-    <urn:uuid:ec100170-6b1d-436f-8698-3f638c1f9ce7>, <urn:uuid:57588fd8-3fab-4212-bf98-fd7ada000112>;
+  dcterms:references <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>, <urn:uuid:95c9d062-c0d8-4fbb-a049-ff3ba89136cb>,
+    <urn:uuid:659f4f43-ef7d-4c48-917c-7d5b16655bfe>, <urn:uuid:a2ba8081-1397-42c9-92ad-e396238332b4>,
+    <urn:uuid:547a3487-f597-4d64-bbd5-57718c94ec53>, <urn:uuid:65638c00-c42f-4aa3-a641-d746df21e940>,
+    <urn:uuid:1fa0f884-feeb-4c46-a500-8e297417408c>, <urn:uuid:95fc2b8b-5647-4170-81f9-18a03a34ba4a>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/73";
   rdfs:label "AMENDMENT_COUNTRYCODE_FROM_COORDINATES";
   dcterms:isVersionOf bdqtest:8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae;
@@ -943,7 +943,7 @@ bdqtest:8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae-2025-03-07 a bdqffdq:Amendment;
   rdfs:label "Information Element Consulted dwc:decimalLatitude, dwc:decimalLongitude";
   skos:prefLabel "Information Element Consulted dwc:decimalLatitude, dwc:decimalLongitude" .
 
-<urn:uuid:3cfcec0f-2770-4405-8a75-fd13c693c8e6> a dcterms:BibliographicResource;
+<urn:uuid:95c9d062-c0d8-4fbb-a049-ff3ba89136cb> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "VLIZ (2023) Marineregions.org. https://www.marineregions.org/downloads.php#marbound" .
 
 <urn:uuid:5e55d983-5667-438c-9754-a71dfe2472af> a bdqffdq:AmendmentMethod;
@@ -978,7 +978,7 @@ bdqtest:239ec40e-a729-4a8e-ba69-e0bf03ac1c44-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:NotEmpty;
   bdqffdq:hasActedUponInformationElement <urn:uuid:2d1e1a48-f915-4db5-beba-ae73017f3f8b>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/78";
   rdfs:label "VALIDATION_GEODETICDATUM_NOTEMPTY";
   dcterms:isVersionOf bdqtest:239ec40e-a729-4a8e-ba69-e0bf03ac1c44;
@@ -1009,7 +1009,7 @@ bdqtest:b6ecda2a-ce36-437a-b515-3ae94948fe83-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:InRange;
   bdqffdq:hasActedUponInformationElement <urn:uuid:e7528e9b-e4d8-42bf-b6e1-169587ca69b8>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/79";
   rdfs:label "VALIDATION_DECIMALLATITUDE_INRANGE";
   dcterms:isVersionOf bdqtest:b6ecda2a-ce36-437a-b515-3ae94948fe83;
@@ -1046,7 +1046,7 @@ bdqtest:1bf0e210-6792-4128-b8cc-ab6828aa4871-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:Likely;
   bdqffdq:hasActedUponInformationElement <urn:uuid:9d387033-c581-4fb5-9af2-73ec89c99e77>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/87";
   rdfs:label "VALIDATION_COORDINATES_NOTZERO";
   dcterms:isVersionOf bdqtest:1bf0e210-6792-4128-b8cc-ab6828aa4871;
@@ -1084,7 +1084,7 @@ bdqtest:9beb9442-d942-4f42-8b6a-fcea01ee086a-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:NotEmpty;
   bdqffdq:hasActedUponInformationElement <urn:uuid:bda769d4-d876-4bd0-8026-89bed5aad0eb>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/96";
   rdfs:label "VALIDATION_DECIMALLONGITUDE_NOTEMPTY";
   dcterms:isVersionOf bdqtest:9beb9442-d942-4f42-8b6a-fcea01ee086a;
@@ -1115,8 +1115,8 @@ bdqtest:853b79a2-b314-44a2-ae46-34a1e7ed85e4-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:NotEmpty;
   bdqffdq:hasActedUponInformationElement <urn:uuid:c3620a97-65d6-4f9c-8a03-32e0d240a423>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:840b01e0-cdfb-4457-a139-bc47f76c85ee>, <urn:uuid:4685d9ef-0cfb-430e-92e8-c8422542ae1e>,
-    <urn:uuid:e40e29e8-11ad-494c-a15f-0ac80b861cb5>;
+  dcterms:references <urn:uuid:70ca162c-3be5-47d1-92ff-6bf654932d58>, <urn:uuid:a2ba8081-1397-42c9-92ad-e396238332b4>,
+    <urn:uuid:547a3487-f597-4d64-bbd5-57718c94ec53>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/98";
   rdfs:label "VALIDATION_COUNTRYCODE_NOTEMPTY";
   dcterms:isVersionOf bdqtest:853b79a2-b314-44a2-ae46-34a1e7ed85e4;
@@ -1148,9 +1148,9 @@ bdqtest:7498ca76-c4d4-42e2-8103-acacccbdffa7-2025-03-07 a bdqffdq:Amendment;
   bdqffdq:hasActedUponInformationElement <urn:uuid:a543e69c-08a5-4408-a25a-3cdc53d4ce71>;
   bdqffdq:hasConsultedInformationElement <urn:uuid:c3849b5d-feb7-4388-ab95-ec54ff1031ea>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:87341e6a-c33e-48e9-bea8-1b650b838801>, <urn:uuid:31b7dafa-59de-43b3-b601-0e804d313b70>,
-    <urn:uuid:2c8d3bf2-a33c-4a7e-a822-0a292657ab5e>, <urn:uuid:5fc8dc64-ba93-487f-ad6e-a7236517e904>,
-    <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>, <urn:uuid:f0bf9d48-d798-41e0-ba51-831b65e199ac>;
+  dcterms:references <urn:uuid:ca985ce1-a864-4e9e-80d8-53300efc03ee>, <urn:uuid:8b863182-8e13-4de0-92db-58daf75cf93e>,
+    <urn:uuid:421d160d-e374-4dd4-b5c8-07c54b1bfc7a>, <urn:uuid:d768ce9b-f4f4-48ea-963c-48505f6d91d7>,
+    <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>, <urn:uuid:0c77cbb2-462e-4b8a-a7cf-b4ecce9b8c29>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/102";
   rdfs:label "AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT";
   dcterms:isVersionOf bdqtest:7498ca76-c4d4-42e2-8103-acacccbdffa7;
@@ -1198,7 +1198,7 @@ bdqtest:04b2c8f3-c71b-4e95-8e43-f70374c5fb92-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:InRange;
   bdqffdq:hasActedUponInformationElement <urn:uuid:fc3cb031-4e35-4b08-b9b8-b7ca7d5efd27>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:3f01d3d1-9e3b-4241-9126-0db000503258>, <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:c967c0d4-2bf8-4511-88d8-3a30e8a10d03>, <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/107";
   rdfs:label "VALIDATION_MINDEPTH_INRANGE";
   dcterms:isVersionOf bdqtest:04b2c8f3-c71b-4e95-8e43-f70374c5fb92;
@@ -1209,7 +1209,7 @@ bdqtest:04b2c8f3-c71b-4e95-8e43-f70374c5fb92-2025-03-07 a bdqffdq:Validation;
   rdfs:label "Information Element ActedUpon dwc:minimumDepthInMeters";
   skos:prefLabel "Information Element ActedUpon dwc:minimumDepthInMeters" .
 
-<urn:uuid:3f01d3d1-9e3b-4241-9126-0db000503258> a dcterms:BibliographicResource;
+<urn:uuid:c967c0d4-2bf8-4511-88d8-3a30e8a10d03> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Wikipedia (2024) Extreme points on Earth. https://en.wikipedia.org/wiki/Extreme_points_of_Earth" .
 
 <urn:uuid:9cc301b1-e303-4abb-9d24-d31506de9436> a bdqffdq:ValidationMethod;
@@ -1253,7 +1253,7 @@ bdqtest:d708526b-6561-438e-aa1a-82cd80b06396-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:Consistent;
   bdqffdq:hasActedUponInformationElement <urn:uuid:3d5994c8-29df-4399-965c-c2c596a6767f>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/108";
   rdfs:label "VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION";
   dcterms:isVersionOf bdqtest:d708526b-6561-438e-aa1a-82cd80b06396;
@@ -1285,7 +1285,7 @@ bdqtest:c6adf2ea-3051-4498-97f4-4b2f8a105f57-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:InRange;
   bdqffdq:hasActedUponInformationElement <urn:uuid:53bfecf4-0d88-49a2-8f12-672345ef4f50>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:3ce76950-87a2-4d2a-bbc3-b545b9400cdb>, <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:ba77c759-e62a-4d4b-8759-5767822ae170>, <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/109";
   rdfs:label "VALIDATION_COORDINATEUNCERTAINTY_INRANGE";
   dcterms:isVersionOf bdqtest:c6adf2ea-3051-4498-97f4-4b2f8a105f57;
@@ -1296,7 +1296,7 @@ bdqtest:c6adf2ea-3051-4498-97f4-4b2f8a105f57-2025-03-07 a bdqffdq:Validation;
   rdfs:label "Information Element ActedUpon dwc:coordinateUncertaintyInMeters";
   skos:prefLabel "Information Element ActedUpon dwc:coordinateUncertaintyInMeters" .
 
-<urn:uuid:3ce76950-87a2-4d2a-bbc3-b545b9400cdb> a dcterms:BibliographicResource;
+<urn:uuid:ba77c759-e62a-4d4b-8759-5767822ae170> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Wikipedia (2020) Great-circle distance. https://en.wikipedia.org/wiki/Great-circle_distance" .
 
 <urn:uuid:a5bbeae3-9dc8-4a0c-9f68-58526e5d6a76> a bdqffdq:ValidationMethod;
@@ -1325,8 +1325,8 @@ bdqtest:c971fe3f-84c1-4636-9f44-b1ec31fd63c7-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:InRange;
   bdqffdq:hasActedUponInformationElement <urn:uuid:d06be5a2-809e-4b7a-9f4b-6ba1e6951d36>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:e83aefdf-f4e7-4bdb-9612-4fa9cec31393>, <urn:uuid:3d826296-f1a9-4056-a5da-ee00baa8f7e7>,
-    <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:3254d912-73cb-4d6d-b797-7feb3af049c8>, <urn:uuid:1ebb22d5-8ab1-4fbf-8151-e0be3ea09666>,
+    <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/112";
   rdfs:label "VALIDATION_MAXELEVATION_INRANGE";
   dcterms:isVersionOf bdqtest:c971fe3f-84c1-4636-9f44-b1ec31fd63c7;
@@ -1374,7 +1374,7 @@ bdqtest:7d2485d5-1ba7-4f25-90cb-f4480ff1a275-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:NotEmpty;
   bdqffdq:hasActedUponInformationElement <urn:uuid:e7528e9b-e4d8-42bf-b6e1-169587ca69b8>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/119";
   rdfs:label "VALIDATION_DECIMALLATITUDE_NOTEMPTY";
   dcterms:isVersionOf bdqtest:7d2485d5-1ba7-4f25-90cb-f4480ff1a275;
@@ -1406,7 +1406,7 @@ bdqtest:3f1db29a-bfa5-40db-9fd1-fde020d81939-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:InRange;
   bdqffdq:hasActedUponInformationElement <urn:uuid:ced8854b-d1ce-4d71-9b77-e5d67a74c4f9>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:3f01d3d1-9e3b-4241-9126-0db000503258>, <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>;
+  dcterms:references <urn:uuid:c967c0d4-2bf8-4511-88d8-3a30e8a10d03>, <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/187";
   rdfs:label "VALIDATION_MAXDEPTH_INRANGE";
   dcterms:isVersionOf bdqtest:3f1db29a-bfa5-40db-9fd1-fde020d81939;
@@ -1454,8 +1454,8 @@ bdqtest:4daa7986-d9b0-4dd5-ad17-2d7a771ea71a-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:Found;
   bdqffdq:hasActedUponInformationElement <urn:uuid:0e6f3880-8203-445f-9bff-f44f52120abe>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:0268847c-7c06-445a-ab0a-a2bd607b8508>, <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>,
-    <urn:uuid:840b01e0-cdfb-4457-a139-bc47f76c85ee>, <urn:uuid:f8394935-a95a-4810-bd5b-c31c19936866>;
+  dcterms:references <urn:uuid:4c4c297e-44bb-49b8-8534-77241473cfb1>, <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>,
+    <urn:uuid:70ca162c-3be5-47d1-92ff-6bf654932d58>, <urn:uuid:5396f0df-0f81-4a45-a2f7-7c051202fb70>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/199";
   rdfs:label "VALIDATION_STATEPROVINCE_FOUND";
   dcterms:isVersionOf bdqtest:4daa7986-d9b0-4dd5-ad17-2d7a771ea71a;
@@ -1498,9 +1498,9 @@ bdqtest:d257eb98-27cb-48e5-8d3c-ab9fca4edd11-2025-03-07 a bdqffdq:Validation;
   bdqffdq:hasCriterion bdqcrit:Unambiguous;
   bdqffdq:hasActedUponInformationElement <urn:uuid:63ee37ac-d0ae-4578-82f8-7a956d92baf0>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:40422f7e-9d50-45c0-b908-bdddf8c40624>, <urn:uuid:52c60ae5-67b4-4378-b84a-419a8246b93b>,
-    <urn:uuid:0268847c-7c06-445a-ab0a-a2bd607b8508>, <urn:uuid:840b01e0-cdfb-4457-a139-bc47f76c85ee>,
-    <urn:uuid:f8394935-a95a-4810-bd5b-c31c19936866>;
+  dcterms:references <urn:uuid:d88b7236-01d3-4640-8979-c9e7638d2cbb>, <urn:uuid:aec23153-fddc-4943-9313-1a859f17afea>,
+    <urn:uuid:4c4c297e-44bb-49b8-8534-77241473cfb1>, <urn:uuid:70ca162c-3be5-47d1-92ff-6bf654932d58>,
+    <urn:uuid:5396f0df-0f81-4a45-a2f7-7c051202fb70>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/201";
   rdfs:label "VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS";
   dcterms:isVersionOf bdqtest:d257eb98-27cb-48e5-8d3c-ab9fca4edd11;
@@ -1514,7 +1514,7 @@ bdqcrit:Unambiguous a bdqffdq:Criterion;
   rdfs:label "Information Element ActedUpon dwc:country, dwc:stateProvince";
   skos:prefLabel "Information Element ActedUpon dwc:country, dwc:stateProvince" .
 
-<urn:uuid:52c60ae5-67b4-4378-b84a-419a8246b93b> a dcterms:BibliographicResource;
+<urn:uuid:aec23153-fddc-4943-9313-1a859f17afea> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Vertnet (2022) DwC Vocabs. https://github.com/VertNet/DwCVocabs/tree/master/vocabs" .
 
 <urn:uuid:f1a7f272-9040-42da-9b64-62abedefb1b0> a bdqffdq:ValidationMethod;
@@ -1550,7 +1550,7 @@ bdqtest:256e51b3-1e08-4349-bb7e-5186631c3f8e-2025-03-07 a bdqffdq:Issue;
   bdqffdq:hasActedUponInformationElement <urn:uuid:6f6a46c6-9979-41a2-83c2-fd196e89c8c1>;
   bdqffdq:hasConsultedInformationElement <urn:uuid:5be9ff68-1232-4f09-a3ef-5d78ccdecf8c>;
   dcterms:issued "2025-03-07"^^xsd:date;
-  dcterms:references <urn:uuid:32210cf6-a64d-445d-9a59-8a1ab8d7ef0e>;
+  dcterms:references <urn:uuid:c87728cc-a59d-41d4-adfd-4545c00538e5>;
   skos:historyNote "https://github.com/tdwg/bdq/issues/287";
   rdfs:label "ISSUE_COORDINATES_CENTEROFCOUNTRY";
   dcterms:isVersionOf bdqtest:256e51b3-1e08-4349-bb7e-5186631c3f8e;
@@ -1563,7 +1563,7 @@ bdqffdq:Issue rdfs:subClassOf bdqffdq:DataQualityNeed .
   rdfs:label "Information Element Consulted dwc:coordinateUncertaintyInMeters";
   skos:prefLabel "Information Element Consulted dwc:coordinateUncertaintyInMeters" .
 
-<urn:uuid:32210cf6-a64d-445d-9a59-8a1ab8d7ef0e> a dcterms:BibliographicResource;
+<urn:uuid:c87728cc-a59d-41d4-adfd-4545c00538e5> a dcterms:BibliographicResource;
   dcterms:bibliographicCitation "Waller JT (2023) Processing Country Centroids at the Global Biodiversity Information Facility. Biodiversity Information Science and Standards 7: e110728. https://doi.org/10.3897/biss.7.110728" .
 
 <urn:uuid:0239b59b-db0e-4e6a-8ba8-2f89abf9e78e> a bdqffdq:IssueMethod;
@@ -1597,7 +1597,824 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   rdfs:label "Default value for bdqval:sourceAuthority:\"GBIF Catalogue of Country Centroides\"";
   bdqffdq:hasParameter bdqval:sourceAuthority .
 
-<urn:uuid:eb02b995-b950-445a-8960-0a7840cf4826> a bdqffdq:ValidationPolicy;
+bdqtest:87537c73-4f70-4938-8114-7f5b149ed03c-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "Occurrences from the high seas is not expected to contain a value in dwc:muncipality.  Marine occurrences from within an EEZ may or may not legitimately have a value in municipality.   Local governments vary considerably in how far offshore they consider to be within the municipality, so nearshore marine occurrences may legitimately have a value in municipality.  Terrestrial material may or may not fall within the boundaries of an geopolitical entity that could be place within municipality.   This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; not straightforward to implement or likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:municipality?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:85fed726-0b93-45b1-81d4-aabd35a63068>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/258";
+  rdfs:label "VALIDATION_MUNICIPALITY_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:87537c73-4f70-4938-8114-7f5b149ed03c;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:85fed726-0b93-45b1-81d4-aabd35a63068> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:municipality;
+  rdfs:label "Information Element ActedUpon dwc:municipality";
+  skos:prefLabel "Information Element ActedUpon dwc:municipality" .
+
+<urn:uuid:ba6f6b9d-fc91-45b3-bb4e-a7b8f10caa6a> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:9e421b82-ab79-4026-8493-35b286e112f5>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_MUNICIPALITY_NOTEMPTY with Specification for: VALIDATION_MUNICIPALITY_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_MUNICIPALITY_NOTEMPTY with Specification for: VALIDATION_MUNICIPALITY_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:87537c73-4f70-4938-8114-7f5b149ed03c-2024-09-05 .
+
+<urn:uuid:9e421b82-ab79-4026-8493-35b286e112f5> a bdqffdq:Specification;
+  skos:example "dwc:municipality=\"Holzminden\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:municipality is bdqval:NotEmpty\"",
+    "dwc:municipality=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:municipality is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if dwc:municipality is bdqval:NotEmpty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_MUNICIPALITY_NOTEMPTY";
+  dcterms:description "COMPLIANT if dwc:municipality is bdqval:NotEmpty; otherwise NOT_COMPLIANT" .
+
+bdqtest:53e02d0c-93bd-444f-aa7f-68832bdd3143-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; not straightforward to implement or likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:georeferenceVerificationStatus?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:9b4be52e-3d74-446b-a5ff-c1fc15e28ac3>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/257";
+  rdfs:label "VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:53e02d0c-93bd-444f-aa7f-68832bdd3143;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:9b4be52e-3d74-446b-a5ff-c1fc15e28ac3> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:georeferenceVerificationStatus;
+  rdfs:label "Information Element ActedUpon dwc:georeferenceVerificationStatus";
+  skos:prefLabel "Information Element ActedUpon dwc:georeferenceVerificationStatus" .
+
+<urn:uuid:67539533-a97a-4745-ad61-8f34192bc8dc> a bdqffdq:ValidationMethod;
+  skos:note "duplicate TG2 Validation SPACE Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:7bc482c8-0b56-4c47-bfd6-7a76290e68c4>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY with Specification for: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY with Specification for: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:53e02d0c-93bd-444f-aa7f-68832bdd3143-2024-09-05 .
+
+<urn:uuid:7bc482c8-0b56-4c47-bfd6-7a76290e68c4> a bdqffdq:Specification;
+  skos:example "dwc:georeferenceVerificationStatus=\"requires georeference\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:georeferenceVerificationStatus is bdqval:NotEmpty\"",
+    "dwc:georeferenceVerificationStatus=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:georeferenceVerificationStatus is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if dwc:georeferenceVerificationStatus is bdqval:NotEmpty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY";
+  dcterms:description "COMPLIANT if dwc:georeferenceVerificationStatus is bdqval:NotEmpty; otherwise NOT_COMPLIANT" .
+
+bdqtest:e1765718-0964-4b40-9451-a66b23ca6268-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "A COMPLIANT response on this test may have some quality value in some use cases, but a NOT_COMPLAINT response doesn't without the context of a georeference.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:georeferencedDate?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:8a2ac780-0639-498b-8e25-927f85aad4a2>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/256";
+  rdfs:label "VALIDATION_GEOREFERENCEDDATE_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:e1765718-0964-4b40-9451-a66b23ca6268;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:8a2ac780-0639-498b-8e25-927f85aad4a2> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:georeferencedDate;
+  rdfs:label "Information Element ActedUpon dwc:georeferencedDate";
+  skos:prefLabel "Information Element ActedUpon dwc:georeferencedDate" .
+
+<urn:uuid:209ca5e1-1d4a-401b-89df-9fdd2179ef57> a bdqffdq:ValidationMethod;
+  skos:note "duplicate TG2 Validation SPACE Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:f3d28dd6-d57f-410a-85ae-12c63f2de9df>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY with Specification for: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY with Specification for: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:e1765718-0964-4b40-9451-a66b23ca6268-2024-09-05 .
+
+<urn:uuid:f3d28dd6-d57f-410a-85ae-12c63f2de9df> a bdqffdq:Specification;
+  skos:example "dwc:georeferencedDate=\"1963-03-08T14:07-0600\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:georeferencedDate is bdqval:NotEmpty\"",
+    "dwc:georeferencedDate=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:georeferencedDate is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if dwc:georeferencedDate is bdqval:NotEmpty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY";
+  dcterms:description "COMPLIANT if dwc:georeferencedDate is bdqval:NotEmpty; otherwise NOT_COMPLIANT" .
+
+bdqtest:59d9dc66-8d86-4b8e-8f26-54b542d6c375-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:verbatimSRS?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:5f2a8123-ff8a-4696-a17a-28a8a80913e8>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/253";
+  rdfs:label "VALIDATION_VERBATIMSRS_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:59d9dc66-8d86-4b8e-8f26-54b542d6c375;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:5f2a8123-ff8a-4696-a17a-28a8a80913e8> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:verbatimSRS;
+  rdfs:label "Information Element ActedUpon dwc:verbatimSRS";
+  skos:prefLabel "Information Element ActedUpon dwc:verbatimSRS" .
+
+<urn:uuid:35baf9d6-d37d-4cc1-9eda-b9ce0fd02af3> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:447561f8-9241-4b9a-8609-40372926870f>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_VERBATIMSRS_NOTEMPTY with Specification for: VALIDATION_VERBATIMSRS_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_VERBATIMSRS_NOTEMPTY with Specification for: VALIDATION_VERBATIMSRS_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:59d9dc66-8d86-4b8e-8f26-54b542d6c375-2024-09-05 .
+
+<urn:uuid:447561f8-9241-4b9a-8609-40372926870f> a bdqffdq:Specification;
+  skos:example "dwc:verbatimSRS=\"Australian 1984\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:verbatimSRS is bdqval:NotEmpty\"",
+    "dwc:verbatimSRS=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:verbatimSRS is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if dwc:verbatimSRS is bdqval:NotEmpty or all of dwc:verbatimCoordinates and dwc:verbatimLatitude and dwc:decimalLatitude are bdqval:Empty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_VERBATIMSRS_NOTEMPTY";
+  dcterms:description "COMPLIANT if dwc:verbatimSRS is bdqval:NotEmpty or all of dwc:verbatimCoordinates and dwc:verbatimLatitude and dwc:decimalLatitude are bdqval:Empty; otherwise NOT_COMPLIANT" .
+
+bdqtest:6e62e8e3-cffd-4afe-957c-5b200a6eaa4e-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; likely to return a high percentage of either bdqval:ISSUE or bdqval:NOT_ISSUE results (cf. bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:verbatimLongitude?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:c4635006-c31f-44ed-b255-ff3f07077ef6>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/252";
+  rdfs:label "ISSUE_VERBATIMLONGITUDE_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:6e62e8e3-cffd-4afe-957c-5b200a6eaa4e;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:c4635006-c31f-44ed-b255-ff3f07077ef6> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:verbatimLongitude;
+  rdfs:label "Information Element ActedUpon dwc:verbatimLongitude";
+  skos:prefLabel "Information Element ActedUpon dwc:verbatimLongitude" .
+
+<urn:uuid:72106b24-7c9c-4a78-a5ee-b79c61ec239a> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:5340ea82-129c-4bec-a27f-cfc0c5e87038>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: ISSUE_VERBATIMLONGITUDE_NOTEMPTY with Specification for: ISSUE_VERBATIMLONGITUDE_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: ISSUE_VERBATIMLONGITUDE_NOTEMPTY with Specification for: ISSUE_VERBATIMLONGITUDE_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:6e62e8e3-cffd-4afe-957c-5b200a6eaa4e-2024-09-05 .
+
+<urn:uuid:5340ea82-129c-4bec-a27f-cfc0c5e87038> a bdqffdq:Specification;
+  skos:example "dwc:verbatimLongitude=\"147 16 09.0E\": Response.status=RUN_HAS_RESULT, Response.result=POTENTIAL_ISSUE, Response.comment=\"dwc:verbatimLongitude is bdqval:NotEmpty\"",
+    "dwc:verbatimLongitude=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_ISSUE, Response.comment=\"dwc:verbatimLongitude is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "POTENTIAL_ISSUE if dwc:verbatimLongitude is bdqval:NotEmpty; otherwise NOT_ISSUE";
+  rdfs:label "Specification for: ISSUE_VERBATIMLONGITUDE_NOTEMPTY";
+  dcterms:description "POTENTIAL_ISSUE if dwc:verbatimLongitude is bdqval:NotEmpty; otherwise NOT_ISSUE" .
+
+bdqtest:286fa10a-dab0-4f73-8732-76e379c932df-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative or likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:verbatimLatitude?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:4bcc5d79-6625-4578-9fda-f35a2216ed0f>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/251";
+  rdfs:label "ISSUE_VERBATIMLATITUDE_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:286fa10a-dab0-4f73-8732-76e379c932df;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:4bcc5d79-6625-4578-9fda-f35a2216ed0f> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:verbatimLatitude;
+  rdfs:label "Information Element ActedUpon dwc:verbatimLatitude";
+  skos:prefLabel "Information Element ActedUpon dwc:verbatimLatitude" .
+
+<urn:uuid:9fbead44-b91b-422f-b705-064d29d8fdc1> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:862fc787-c79e-4d43-9f59-92be8d54b5a9>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: ISSUE_VERBATIMLATITUDE_NOTEMPTY with Specification for: ISSUE_VERBATIMLATITUDE_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: ISSUE_VERBATIMLATITUDE_NOTEMPTY with Specification for: ISSUE_VERBATIMLATITUDE_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:286fa10a-dab0-4f73-8732-76e379c932df-2024-09-05 .
+
+<urn:uuid:862fc787-c79e-4d43-9f59-92be8d54b5a9> a bdqffdq:Specification;
+  skos:example "dwc:verbatimLatitude=\"42 45 04.03S\": Response.status=RUN_HAS_RESULT, Response.result=POTENTIAL_ISSUE, Response.comment=\"dwc:verbatimLatitude is bdqval:NotEmpty\"",
+    "dwc:verbatimLatitude=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_ISSUE, Response.comment=\"dwc:verbatimLatitude is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "POTENTIAL_ISSUE if dwc:verbatimLatitude is bdqval:NotEmpty; otherwise NOT_ISSUE";
+  rdfs:label "Specification for: ISSUE_VERBATIMLATITUDE_NOTEMPTY";
+  dcterms:description "POTENTIAL_ISSUE if dwc:verbatimLatitude is bdqval:NotEmpty; otherwise NOT_ISSUE" .
+
+bdqtest:c9fc7ef1-7714-4dfa-8dea-589d5b43f432-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:verbatimElevation?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:1dab17d4-9b51-4b88-b1a2-d53a9fceeecf>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/249";
+  rdfs:label "ISSUE_VERBATIMELEVATION_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:c9fc7ef1-7714-4dfa-8dea-589d5b43f432;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:1dab17d4-9b51-4b88-b1a2-d53a9fceeecf> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:verbatimElevation;
+  rdfs:label "Information Element ActedUpon dwc:verbatimElevation";
+  skos:prefLabel "Information Element ActedUpon dwc:verbatimElevation" .
+
+<urn:uuid:bddcd039-bbb5-4e5c-832d-dd27cf08ba0d> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:63cd57d7-e686-410a-8108-4b24a2a4594f>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: ISSUE_VERBATIMELEVATION_NOTEMPTY with Specification for: ISSUE_VERBATIMELEVATION_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: ISSUE_VERBATIMELEVATION_NOTEMPTY with Specification for: ISSUE_VERBATIMELEVATION_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:c9fc7ef1-7714-4dfa-8dea-589d5b43f432-2024-09-05 .
+
+<urn:uuid:63cd57d7-e686-410a-8108-4b24a2a4594f> a bdqffdq:Specification;
+  skos:example "dwc:verbatimElevation=\"31ft 5in\": Response.status=RUN_HAS_RESULT, Response.result=POTENTIAL_ISSUE, Response.comment=\"dwc:verbatimElevation is bdqval:NotEmpty\"",
+    "dwc:verbatimElevation=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_ISSUE, Response.comment=\"dwc:verbatimElevation is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "POTENTIAL_ISSUE if dwc:verbatimElevation is bdqval:NotEmpty; otherwise NOT_ISSUE";
+  rdfs:label "Specification for: ISSUE_VERBATIMELEVATION_NOTEMPTY";
+  dcterms:description "POTENTIAL_ISSUE if dwc:verbatimElevation is bdqval:NotEmpty; otherwise NOT_ISSUE" .
+
+bdqtest:402c0a7c-2fbd-45d4-b644-61a47a887779-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:verbatimDepth?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:df4349d5-29ed-4e97-b936-12d35ff61e6f>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/248";
+  rdfs:label "ISSUE_VERBATIMDEPTH_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:402c0a7c-2fbd-45d4-b644-61a47a887779;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:df4349d5-29ed-4e97-b936-12d35ff61e6f> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:verbatimDepth;
+  rdfs:label "Information Element ActedUpon dwc:verbatimDepth";
+  skos:prefLabel "Information Element ActedUpon dwc:verbatimDepth" .
+
+<urn:uuid:183d3af2-867c-440a-97c7-8e710bb2212b> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:4c6e843f-70bf-44b0-bc58-69c337cb6a16>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: ISSUE_VERBATIMDEPTH_NOTEMPTY with Specification for: ISSUE_VERBATIMDEPTH_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: ISSUE_VERBATIMDEPTH_NOTEMPTY with Specification for: ISSUE_VERBATIMDEPTH_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:402c0a7c-2fbd-45d4-b644-61a47a887779-2024-09-05 .
+
+<urn:uuid:4c6e843f-70bf-44b0-bc58-69c337cb6a16> a bdqffdq:Specification;
+  skos:example "dwc:verbatimDepth=\"30ft\": Response.status=RUN_HAS_RESULT, Response.result=POTENTIAL_ISSUE, Response.comment=\"dwc:verbatimDepth is bdqval:NotEmpty\"",
+    "dwc:verbatimDepth=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_ISSUE, Response.comment=\"dwc:verbatimDepth is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "POTENTIAL_ISSUE if dwc:verbatimDepth is bdqval:NotEmpty; otherwise NOT_ISSUE";
+  rdfs:label "Specification for: ISSUE_VERBATIMDEPTH_NOTEMPTY";
+  dcterms:description "POTENTIAL_ISSUE if dwc:verbatimDepth is bdqval:NotEmpty; otherwise NOT_ISSUE" .
+
+bdqtest:533118dd-eb18-4339-b2f8-0b7f71801305-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative or likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:verbatimCoordinates?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:65372b63-7608-40b8-b01b-12005ba8f0e1>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/247";
+  rdfs:label "ISSUE_VERBATIMCOORDINATES_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:533118dd-eb18-4339-b2f8-0b7f71801305;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:65372b63-7608-40b8-b01b-12005ba8f0e1> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:verbatimCoordinates;
+  rdfs:label "Information Element ActedUpon dwc:verbatimCoordinates";
+  skos:prefLabel "Information Element ActedUpon dwc:verbatimCoordinates" .
+
+<urn:uuid:9b4675f5-52e5-47ae-b67f-af51a2730e32> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:a6c05ecb-7cd6-401b-92ff-8c4023f06cb6>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: ISSUE_VERBATIMCOORDINATES_NOTEMPTY with Specification for: ISSUE_VERBATIMCOORDINATES_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: ISSUE_VERBATIMCOORDINATES_NOTEMPTY with Specification for: ISSUE_VERBATIMCOORDINATES_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:533118dd-eb18-4339-b2f8-0b7f71801305-2024-09-05 .
+
+<urn:uuid:a6c05ecb-7cd6-401b-92ff-8c4023f06cb6> a bdqffdq:Specification;
+  skos:example "dwc:verbatimCoordinates=\"Z55G E522029.4 N5265916.2\": Response.status=RUN_HAS_RESULT, Response.result=POTENTIAL_ISSUE, Response.comment=\"dwc:verbatimCoordinates is bdqval:NotEmpty\"",
+    "dwc:verbatimCoordinates=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_ISSUE, Response.comment=\"dwc:verbatimCoordinates is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "POTENTIAL_ISSUE if dwc:verbatimCoordinates is bdqval:NotEmpty; otherwise NOT_ISSUE";
+  rdfs:label "Specification for: ISSUE_VERBATIMCOORDINATES_NOTEMPTY";
+  dcterms:description "POTENTIAL_ISSUE if dwc:verbatimCoordinates is bdqval:NotEmpty; otherwise NOT_ISSUE" .
+
+bdqtest:476d3e8e-e061-414c-b8ef-6d6da8f1ec02-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; not straightforward to implement or likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:stateProvince?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:0e6f3880-8203-445f-9bff-f44f52120abe>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/245";
+  rdfs:label "VALIDATION_STATEPROVINCE_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:476d3e8e-e061-414c-b8ef-6d6da8f1ec02;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:5b02109a-3b9d-447b-a6ec-f7e629f61e07> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:4bc6eff0-671f-471d-a659-72ed48d1d224>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_STATEPROVINCE_NOTEMPTY with Specification for: VALIDATION_STATEPROVINCE_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_STATEPROVINCE_NOTEMPTY with Specification for: VALIDATION_STATEPROVINCE_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:476d3e8e-e061-414c-b8ef-6d6da8f1ec02-2024-09-05 .
+
+<urn:uuid:4bc6eff0-671f-471d-a659-72ed48d1d224> a bdqffdq:Specification;
+  skos:example "dwc:stateProvince=\"Victoria\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:stateProvince is bdqval:NotEmpty\"",
+    "dwc:stateProvince=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:stateProvince is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if dwc:stateProvince is bdqval:NotEmpty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_STATEPROVINCE_NOTEMPTY";
+  dcterms:description "COMPLIANT if dwc:stateProvince is bdqval:NotEmpty; otherwise NOT_COMPLIANT" .
+
+bdqtest:b8500bf0-273b-45c0-91a5-ebade24f1b04-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; not straightforward to implement or likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:minimumElevation?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:a6faa430-90c1-4916-9745-5d27486a641d>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/240";
+  rdfs:label "VALIDATION_MINIMUMELEVATION_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:b8500bf0-273b-45c0-91a5-ebade24f1b04;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:a6faa430-90c1-4916-9745-5d27486a641d> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:minimumElevation;
+  rdfs:label "Information Element ActedUpon dwc:minimumElevation";
+  skos:prefLabel "Information Element ActedUpon dwc:minimumElevation" .
+
+<urn:uuid:54010700-e2d0-433b-b572-bac6526d36a9> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:3c886074-ff94-4201-884d-e24411187f82>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_MINIMUMELEVATION_NOTEMPTY with Specification for: VALIDATION_MINIMUMELEVATION_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_MINIMUMELEVATION_NOTEMPTY with Specification for: VALIDATION_MINIMUMELEVATION_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:b8500bf0-273b-45c0-91a5-ebade24f1b04-2024-09-05 .
+
+<urn:uuid:3c886074-ff94-4201-884d-e24411187f82> a bdqffdq:Specification;
+  skos:example "dwc:minimumElevation=\"28\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:minimumElevation is bdqval:NotEmpty\"",
+    "dwc:minimumElevation=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:minimumElevation is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if dwc:minimumElevation is bdqval:NotEmpty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_MINIMUMELEVATION_NOTEMPTY";
+  dcterms:description "COMPLIANT if dwc:minimumElevation is bdqval:NotEmpty; otherwise NOT_COMPLIANT" .
+
+bdqtest:e10777f1-ca8c-4129-ab2a-7c81856a4ba5-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; not straightforward to implement or likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:minimumDepth?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:218a0f4a-5a87-47a6-8aba-a284d8754ada>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/239";
+  rdfs:label "VALIDATION_MINIMUMDEPTH_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:e10777f1-ca8c-4129-ab2a-7c81856a4ba5;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:218a0f4a-5a87-47a6-8aba-a284d8754ada> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:minimumDepth;
+  rdfs:label "Information Element ActedUpon dwc:minimumDepth";
+  skos:prefLabel "Information Element ActedUpon dwc:minimumDepth" .
+
+<urn:uuid:66c49f2f-2db7-4552-a1c0-07256c91b7b6> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:80d63559-cce6-4b95-ba27-6b87f6fca36b>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_MINIMUMDEPTH_NOTEMPTY with Specification for: VALIDATION_MINIMUMDEPTH_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_MINIMUMDEPTH_NOTEMPTY with Specification for: VALIDATION_MINIMUMDEPTH_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:e10777f1-ca8c-4129-ab2a-7c81856a4ba5-2024-09-05 .
+
+<urn:uuid:80d63559-cce6-4b95-ba27-6b87f6fca36b> a bdqffdq:Specification;
+  skos:example "dwc:minimumDepth=\"27\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:minimumDepth is bdqval:NotEmpty\"",
+    "dwc:minimumDepth=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:minimumDepth is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if dwc:minimumDepth is bdqval:NotEmpty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_MINIMUMDEPTH_NOTEMPTY";
+  dcterms:description "COMPLIANT if dwc:minimumDepth is bdqval:NotEmpty; otherwise NOT_COMPLIANT" .
+
+bdqtest:653d907a-af86-4c1d-9156-0e86f79cbd2a-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; not straightforward to implement or likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:maximumElevation?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:2b1f94e3-8cd9-42ff-8f8d-79fda091c5f1>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/238";
+  rdfs:label "VALIDATION_MAXIMUMELEVATION_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:653d907a-af86-4c1d-9156-0e86f79cbd2a;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:2b1f94e3-8cd9-42ff-8f8d-79fda091c5f1> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:maximumElevation;
+  rdfs:label "Information Element ActedUpon dwc:maximumElevation";
+  skos:prefLabel "Information Element ActedUpon dwc:maximumElevation" .
+
+<urn:uuid:756b673f-d28a-4e3a-aa19-e26e2e569c08> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:a590ae97-7f36-474c-a43e-92a32097db3c>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_MAXIMUMELEVATION_NOTEMPTY with Specification for: VALIDATION_MAXIMUMELEVATION_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_MAXIMUMELEVATION_NOTEMPTY with Specification for: VALIDATION_MAXIMUMELEVATION_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:653d907a-af86-4c1d-9156-0e86f79cbd2a-2024-09-05 .
+
+<urn:uuid:a590ae97-7f36-474c-a43e-92a32097db3c> a bdqffdq:Specification;
+  skos:example "dwc:maximumElevation=\"26\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:maximumElevation is bdqval:NotEmpty\"",
+    "dwc:maximumElevation=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:maximumElevation is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if dwc:maximumElevation is bdqval:NotEmpty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_MAXIMUMELEVATION_NOTEMPTY";
+  dcterms:description "COMPLIANT if dwc:maximumElevation is bdqval:NotEmpty; otherwise NOT_COMPLIANT" .
+
+bdqtest:7236d80f-53cc-4871-9359-fbd468808136-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; not straightforward to implement or likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:maximumDepth?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:84964dbe-dd31-4da1-8ed7-7c2d772da96b>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/237";
+  rdfs:label "VALIDATION_MAXIMUMDEPTH_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:7236d80f-53cc-4871-9359-fbd468808136;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:84964dbe-dd31-4da1-8ed7-7c2d772da96b> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:maximumDepth;
+  rdfs:label "Information Element ActedUpon dwc:maximumDepth";
+  skos:prefLabel "Information Element ActedUpon dwc:maximumDepth" .
+
+<urn:uuid:8bf31492-eccc-4a7b-9121-adca77703a85> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:f7143777-4aa3-4588-acfa-b05aac6eccc8>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_MAXIMUMDEPTH_NOTEMPTY with Specification for: VALIDATION_MAXIMUMDEPTH_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_MAXIMUMDEPTH_NOTEMPTY with Specification for: VALIDATION_MAXIMUMDEPTH_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:7236d80f-53cc-4871-9359-fbd468808136-2024-09-05 .
+
+<urn:uuid:f7143777-4aa3-4588-acfa-b05aac6eccc8> a bdqffdq:Specification;
+  skos:example "dwc:maximumDepth=\"25\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:maximumDepth is bdqval:NotEmpty\"",
+    "dwc:maximumDepth=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:maximumDepth is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if dwc:maximumDepth is bdqval:NotEmpty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_MAXIMUMDEPTH_NOTEMPTY";
+  dcterms:description "COMPLIANT if dwc:maximumDepth is bdqval:NotEmpty; otherwise NOT_COMPLIANT" .
+
+bdqtest:83282c46-0bd8-4f6c-a015-40506b0d5dc5-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; not straightforward to implement or likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:locality?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:a882a3c9-eb96-4601-b14b-4a1f4db95038>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/236";
+  rdfs:label "VALIDATION_LOCALITY_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:83282c46-0bd8-4f6c-a015-40506b0d5dc5;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:a882a3c9-eb96-4601-b14b-4a1f4db95038> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:locality;
+  rdfs:label "Information Element ActedUpon dwc:locality";
+  skos:prefLabel "Information Element ActedUpon dwc:locality" .
+
+<urn:uuid:6bff6603-8be1-4e48-b5f9-afa4b0f6cbfe> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:2007d1cb-0368-4f43-820c-7ba88443c3bb>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_LOCALITY_NOTEMPTY with Specification for: VALIDATION_LOCALITY_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_LOCALITY_NOTEMPTY with Specification for: VALIDATION_LOCALITY_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:83282c46-0bd8-4f6c-a015-40506b0d5dc5-2024-09-05 .
+
+<urn:uuid:2007d1cb-0368-4f43-820c-7ba88443c3bb> a bdqffdq:Specification;
+  skos:example "dwc:locality=\"Tarkine Wilderness\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:locality is bdqval:NotEmpty\"",
+    "dwc:locality=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:locality is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if dwc:locality is bdqval:NotEmpty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_LOCALITY_NOTEMPTY";
+  dcterms:description "COMPLIANT if dwc:locality is bdqval:NotEmpty; otherwise NOT_COMPLIANT" .
+
+bdqtest:0b90c114-5ff1-4024-a174-b866b7ca6b81-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; not straightforward to implement or likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:islandGroup?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:15f535d1-5b58-4faa-9880-602bb5dbd13d>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/234";
+  rdfs:label "VALIDATION_ISLANDGROUP_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:0b90c114-5ff1-4024-a174-b866b7ca6b81;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:15f535d1-5b58-4faa-9880-602bb5dbd13d> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:islandGroup;
+  rdfs:label "Information Element ActedUpon dwc:islandGroup";
+  skos:prefLabel "Information Element ActedUpon dwc:islandGroup" .
+
+<urn:uuid:4303e2b8-8296-4438-9f80-28a57781d09d> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:27781083-126f-4f98-814e-1e63083fc6cb>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_ISLANDGROUP_NOTEMPTY with Specification for: VALIDATION_ISLANDGROUP_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_ISLANDGROUP_NOTEMPTY with Specification for: VALIDATION_ISLANDGROUP_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:0b90c114-5ff1-4024-a174-b866b7ca6b81-2024-09-05 .
+
+<urn:uuid:27781083-126f-4f98-814e-1e63083fc6cb> a bdqffdq:Specification;
+  skos:example "dwc:islandGroup=\"Seychelles\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:islandGroup is bdqval:NotEmpty",
+    "dwc:islandGroup=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:islandGroup is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if dwc:islandGroup is bdqval:NotEmpty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_ISLANDGROUP_NOTEMPTY";
+  dcterms:description "COMPLIANT if dwc:islandGroup is bdqval:NotEmpty; otherwise NOT_COMPLIANT" .
+
+bdqtest:4d72c8d0-c785-4e8a-aea5-08c0a9f2d88b-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; not straightforward to implement or likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:island?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:cc75806b-e1fb-47c0-8f44-8f1fbabeb7c9>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/233";
+  rdfs:label "VALIDATION_ISLAND_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:4d72c8d0-c785-4e8a-aea5-08c0a9f2d88b;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:cc75806b-e1fb-47c0-8f44-8f1fbabeb7c9> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:island;
+  rdfs:label "Information Element ActedUpon dwc:island";
+  skos:prefLabel "Information Element ActedUpon dwc:island" .
+
+<urn:uuid:38677f78-4279-4d11-8a22-e4feb60a9dba> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:81352c13-3714-4fbb-be0f-460d1f5e0b3f>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_ISLAND_NOTEMPTY with Specification for: VALIDATION_ISLAND_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_ISLAND_NOTEMPTY with Specification for: VALIDATION_ISLAND_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:4d72c8d0-c785-4e8a-aea5-08c0a9f2d88b-2024-09-05 .
+
+<urn:uuid:81352c13-3714-4fbb-be0f-460d1f5e0b3f> a bdqffdq:Specification;
+  skos:example "dwc:island=\"Tasmania\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:island is bdqval:NotEmpty\"",
+    "dwc:island=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:island is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if dwc:island is bdqval:NotEmpty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_ISLAND_NOTEMPTY";
+  dcterms:description "COMPLIANT if dwc:island is bdqval:NotEmpty; otherwise NOT_COMPLIANT" .
+
+bdqtest:cfa2c8fd-e778-4f2b-8c16-2221d46e0006-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This would belong in core, except we are treating the georeference as the primary terms for locality, and the textual terms as secondary, and dwc:higherGeography is a concatenation of the textual higher geography terms, thus this appropriately falls outside of core.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:higherGeography?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:61e292b6-e579-4a5b-b2a2-b584ad965a89>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/230";
+  rdfs:label "VALIDATION_HIGHERGEOGRAPHY_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:cfa2c8fd-e778-4f2b-8c16-2221d46e0006;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:61e292b6-e579-4a5b-b2a2-b584ad965a89> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:higherGeography;
+  rdfs:label "Information Element ActedUpon dwc:higherGeography";
+  skos:prefLabel "Information Element ActedUpon dwc:higherGeography" .
+
+<urn:uuid:9747c7d8-f498-43d5-a664-84d09ae2e41b> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:07f8bf45-4a71-4740-bbeb-6cadbd4bdbad>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_HIGHERGEOGRAPHY_NOTEMPTY with Specification for: VALIDATION_HIGHERGEOGRAPHY_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_HIGHERGEOGRAPHY_NOTEMPTY with Specification for: VALIDATION_HIGHERGEOGRAPHY_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:cfa2c8fd-e778-4f2b-8c16-2221d46e0006-2024-09-05 .
+
+<urn:uuid:07f8bf45-4a71-4740-bbeb-6cadbd4bdbad> a bdqffdq:Specification;
+  skos:example "dwc:higherGeography=\"South Pacific Ocean\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:higherGeography is bdqval:NotEmpty\"",
+    "dwc:higherGeography=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:higherGeography is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if dwc:higherGeography is bdqval:NotEmpty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_HIGHERGEOGRAPHY_NOTEMPTY";
+  dcterms:description "COMPLIANT if dwc:higherGeography is bdqval:NotEmpty; otherwise NOT_COMPLIANT" .
+
+bdqtest:21fe55e5-3190-45a4-af17-dd47cf33275e-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; not straightforward to implement or likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists. This test illustrates the need for a new set of tests (based on the TG2 template) that examine the quality of the Darwin Core geospatial values in a record.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:georeferenceVerificationStatus?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:9b4be52e-3d74-446b-a5ff-c1fc15e28ac3>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/228";
+  rdfs:label "VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:21fe55e5-3190-45a4-af17-dd47cf33275e;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:083fdace-7876-4b94-b692-20adc9f6630d> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:487df663-096d-41a8-bbf8-e09f5580be02>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY with Specification for: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY with Specification for: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY" .
+
+<urn:uuid:487df663-096d-41a8-bbf8-e09f5580be02> a bdqffdq:Specification;
+  skos:example "dwc:georeferenceVerificationStatus=\"verified by contributor\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:georeferenceVerificationStatus is bdqval:NotEmpty\"",
+    "dwc:georeferenceVerificationStatus=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:georeferenceVerificationStatus is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if dwc:georeferenceVerificationStatus is bdqval:NotEmpty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY";
+  dcterms:description "COMPLIANT if dwc:georeferenceVerificationStatus is bdqval:NotEmpty; otherwise NOT_COMPLIANT" .
+
+<urn:uuid:083fdace-7876-4b94-b692-20adc9f6630d> bdqffdq:forValidation bdqtest:21fe55e5-3190-45a4-af17-dd47cf33275e-2024-09-05 .
+
+bdqtest:2b03e9ae-b7b9-48e6-bbf9-31bfcdcae212-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; not straightforward to implement or likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:georeferencedDate?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:8a2ac780-0639-498b-8e25-927f85aad4a2>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/227";
+  rdfs:label "VALIDATION_GEOREFERENCEDDATE_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:2b03e9ae-b7b9-48e6-bbf9-31bfcdcae212;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:84160e81-2e32-4992-8aa4-79a07941d2bc> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:60b5570a-b043-46f2-b8a4-641945121473>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY with Specification for: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY with Specification for: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:2b03e9ae-b7b9-48e6-bbf9-31bfcdcae212-2024-09-05 .
+
+<urn:uuid:60b5570a-b043-46f2-b8a4-641945121473> a bdqffdq:Specification;
+  skos:example "dwc:georeferencedDate=\"2024_01_29\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:georeferencedDate is bdqval:NotEmpty\"",
+    "dwc:georeferencedDate=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:georeferencedDate is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if dwc:georeferencedDate is bdqval:NotEmpty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY";
+  dcterms:description "COMPLIANT if dwc:georeferencedDate is bdqval:NotEmpty; otherwise NOT_COMPLIANT" .
+
+bdqtest:c6b705fc-7cf8-4af1-88ab-7a38d85f7109-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; not straightforward to implement or likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:footprintWKT?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:0fe794b2-625c-4a65-ba2c-b6be87a2a6f0>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/226";
+  rdfs:label "VALIDATION_FOOTPRINTWKT_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:c6b705fc-7cf8-4af1-88ab-7a38d85f7109;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:0fe794b2-625c-4a65-ba2c-b6be87a2a6f0> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:footprintWKT;
+  rdfs:label "Information Element ActedUpon dwc:footprintWKT";
+  skos:prefLabel "Information Element ActedUpon dwc:footprintWKT" .
+
+<urn:uuid:f7d62ca2-f693-4364-8d1a-28fae7fa8548> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:4a09ab69-8a62-42f3-ba9c-7930240457a6>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_FOOTPRINTWKT_NOTEMPTY with Specification for: VALIDATION_FOOTPRINTWKT_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_FOOTPRINTWKT_NOTEMPTY with Specification for: VALIDATION_FOOTPRINTWKT_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:c6b705fc-7cf8-4af1-88ab-7a38d85f7109-2024-09-05 .
+
+<urn:uuid:4a09ab69-8a62-42f3-ba9c-7930240457a6> a bdqffdq:Specification;
+  skos:example """dwc:footprintWKT=\"	POLYGON ((10 20, 11 20, 11 21, 10 21, 10 20))\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:footprintWKT is bdqval:NotEmpty\"""",
+    "dwc:footprintWKT=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:footprintWKT is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if dwc:footprintWKT is bdqval:NotEmpty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_FOOTPRINTWKT_NOTEMPTY";
+  dcterms:description "COMPLIANT if dwc:footprintWKT is bdqval:NotEmpty; otherwise NOT_COMPLIANT" .
+
+bdqtest:77b380ce-7c9d-498f-a2b5-3ac5c5bf23f7-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; not straightforward to implement or likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:coordinatePrecision?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:a6a00500-f7f0-4ea9-aff1-dbc5a67bc10c>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/222";
+  rdfs:label "VALIDATION_COORDINATEPRECISION_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:77b380ce-7c9d-498f-a2b5-3ac5c5bf23f7;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:a6a00500-f7f0-4ea9-aff1-dbc5a67bc10c> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:coordinatePrecision;
+  rdfs:label "Information Element ActedUpon dwc:coordinatePrecision";
+  skos:prefLabel "Information Element ActedUpon dwc:coordinatePrecision" .
+
+<urn:uuid:89262c57-d0a0-41d4-81fe-86aa0fc9d417> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:119474df-b3b2-4846-a165-f027ff559737>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_COORDINATEPRECISION_NOTEMPTY with Specification for: VALIDATION_COORDINATEPRECISION_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_COORDINATEPRECISION_NOTEMPTY with Specification for: VALIDATION_COORDINATEPRECISION_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:77b380ce-7c9d-498f-a2b5-3ac5c5bf23f7-2024-09-05 .
+
+<urn:uuid:119474df-b3b2-4846-a165-f027ff559737> a bdqffdq:Specification;
+  skos:example "dwc:coordinatePrecision=\"0.01667\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:coordinatePrecision is bdqval:NotEmpty\"",
+    "dwc:coordinatePrecision=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:coordinatePrecision is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if dwc:coordinatePrecision is bdqval:NotEmpty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_COORDINATEPRECISION_NOTEMPTY";
+  dcterms:description "COMPLIANT if dwc:coordinatePrecision is bdqval:NotEmpty; otherwise NOT_COMPLIANT" .
+
+bdqtest:181c51da-d5d8-41e9-94f9-1387fa5a5a2b-2024-09-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "This bdqval:Supplementary test is not regarded as CORE because of one or more of the reasons: not being widely applicable; not informative; likely to return a high percentage of either bdqval:COMPLIANT or bdqval:NOT_COMPLIANT results (cf bdqval:Response.result). A Supplementary test may be implemented as CORE when a suitable Use Case exists. This test is seen of little current value due to the low population of dwc:waterbody and dwc:continent and the complexity of the definition of both terms.";
+  bdqffdq:hasDataQualityDimension bdqdim:Completeness;
+  dcterms:description "Is there a value in dwc:continent?";
+  bdqffdq:hasCriterion bdqcrit:NotEmpty;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:eec9d48b-fca7-4edd-8785-8b44dc965b65>;
+  dcterms:issued "2024-09-05"^^xsd:date;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/221";
+  rdfs:label "VALIDATION_CONTINENTWATERBODY_NOTEMPTY";
+  dcterms:isVersionOf bdqtest:181c51da-d5d8-41e9-94f9-1387fa5a5a2b;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:eec9d48b-fca7-4edd-8785-8b44dc965b65> a bdqffdq:ActedUpon;
+  bdqffdq:composedOf dwc:continent, dwc:waterbody;
+  rdfs:label "Information Element ActedUpon dwc:continent, dwc:waterbody";
+  skos:prefLabel "Information Element ActedUpon dwc:continent, dwc:waterbody" .
+
+<urn:uuid:09127586-aa0b-4d59-853d-00d3809313b0> a bdqffdq:ValidationMethod;
+  skos:note "TG2 Validation SPACE Test Supplementary Completeness";
+  bdqffdq:hasSpecification <urn:uuid:46aa4df3-8d98-4970-9172-ccaf47c1e997>;
+  skos:historyNote "Source: TG2";
+  rdfs:label "ValidationMethod: VALIDATION_CONTINENTWATERBODY_NOTEMPTY with Specification for: VALIDATION_CONTINENTWATERBODY_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_CONTINENTWATERBODY_NOTEMPTY with Specification for: VALIDATION_CONTINENTWATERBODY_NOTEMPTY";
+  bdqffdq:forValidation bdqtest:181c51da-d5d8-41e9-94f9-1387fa5a5a2b-2024-09-05 .
+
+<urn:uuid:46aa4df3-8d98-4970-9172-ccaf47c1e997> a bdqffdq:Specification;
+  skos:example "dwc:continent=\"Australia\", dwc:waterbody=\"\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:continent is bdqval:NotEmpty\"",
+    "dwc:continent=\"\", dwc:waterbody=\"\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:continent is bdqval:Empty\"";
+  bdqffdq:hasAuthoritiesDefaults "";
+  bdqffdq:hasExpectedResponse "COMPLIANT if either dwc:continent or dwc:waterBody is bdqval:NotEmpty; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_CONTINENTWATERBODY_NOTEMPTY";
+  dcterms:description "COMPLIANT if either dwc:continent or dwc:waterBody is bdqval:NotEmpty; otherwise NOT_COMPLIANT" .
+
+bdqtest:e654f562-44f8-43fd-983b-2aaba4c6dda9-2025-03-05 a bdqffdq:Validation;
+  bdqffdq:hasResourceType bdqffdq:SingleRecord;
+  skos:note "See table https://github.com/tdwg/bdq/issues/95#issuecomment-1226450014. A fail condition may arise from the content being internally inconsistent (not all of the information can be true at the same time), or from the vocabulary being incapable of resolving the combination of term values.  This test should match despite leading or trailing whitespace or there are leading or trailing non-printing characters. @tucotuco: \"Of #200 and #201, #201 is the strongest test. If it passes for a record, #200 must necessarily also pass and doesn't tell you anything. If #201 fails,#200 could still pass and that would tell you that there are multiple matches on the country/stateProvince combo: It would tell you the nature of the problem. Along with #42 (Country not empty), #200 would tell you whether there was an ambiguous combination of country (not empty) and stateProvince, such as would happen with Argentina/Buenos Aires. While if country is empty, then the ambiguity is purely at the stateProvince level\".";
+  bdqffdq:hasDataQualityDimension bdqdim:Consistency;
+  dcterms:description "Are the combination of the values of dwc:country, dwc:stateProvince consistent with the values in the bdqval:sourceAuthority?";
+  bdqffdq:hasCriterion bdqcrit:Consistent;
+  bdqffdq:hasActedUponInformationElement <urn:uuid:63ee37ac-d0ae-4578-82f8-7a956d92baf0>;
+  dcterms:issued "2025-03-05"^^xsd:date;
+  dcterms:references <urn:uuid:e58ba4f8-9f8b-4524-bd69-7b7709d0086c>, <urn:uuid:e1028ecd-9704-4301-a476-1f47bdd5fc2c>,
+    <urn:uuid:e28b4994-5f15-4c1b-8afe-17153a1fa65e>, <urn:uuid:70ca162c-3be5-47d1-92ff-6bf654932d58>,
+    <urn:uuid:5396f0df-0f81-4a45-a2f7-7c051202fb70>;
+  skos:historyNote "https://github.com/tdwg/bdq/issues/200";
+  rdfs:label "VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT";
+  dcterms:isVersionOf bdqtest:e654f562-44f8-43fd-983b-2aaba4c6dda9;
+  skos:prefLabel "Missing prefLabel for SingleRecord" .
+
+<urn:uuid:e58ba4f8-9f8b-4524-bd69-7b7709d0086c> a dcterms:BibliographicResource;
+  dcterms:bibliographicCitation "Chapman, AD and Wieczorek, JR (2020). Georeferencing Best Practices. Copenhagen: GBIF Secretariat (https://doi.org/10.15468/doc-gg7h-s853)" .
+
+<urn:uuid:e1028ecd-9704-4301-a476-1f47bdd5fc2c> a dcterms:BibliographicResource;
+  dcterms:bibliographicCitation "VertNet (2019). DwCVocabs (https://github.com/VertNet/DwCVocabs/blob/master/vocabs/Geography.csv)" .
+
+<urn:uuid:e28b4994-5f15-4c1b-8afe-17153a1fa65e> a dcterms:BibliographicResource;
+  dcterms:bibliographicCitation "Getty Research Institute (2017). Getty Thesaurus of Geographic Names Online (https://www.getty.edu/research/tools/vocabularies/tgn/index.html)" .
+
+<urn:uuid:f93ba397-7bdf-4cb0-836b-467bc2a8a9f8> a bdqffdq:ValidationMethod;
+  skos:note "Example Implementations: Kurator/FilteredPush geo_ref_qc Library  DOI: [10.5281/zenodo.14064324](https://doi.org/10.5281/zenodo.14064324)",
+    "Example Implementations Source Code: https://github.com/FilteredPush/geo_ref_qc/blob/d0746151fd84c0310b5ac2a17a2e0cd249ad6b8c/src/main/java/org/filteredpush/qc/georeference/DwCGeoRefDQ.java#L2893",
+    "TG2 Validation SPACE CODED Test VOCABULARY Supplementary Consistency Parameterized";
+  bdqffdq:hasSpecification <urn:uuid:39cbb213-b33a-4e45-bfa4-967ee277455b>;
+  skos:historyNote "Source: VertNet, Kurator";
+  rdfs:label "ValidationMethod: VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT with Specification for: VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT";
+  skos:prefLabel "ValidationMethod: VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT with Specification for: VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT";
+  bdqffdq:forValidation bdqtest:e654f562-44f8-43fd-983b-2aaba4c6dda9-2025-03-05 .
+
+<urn:uuid:39cbb213-b33a-4e45-bfa4-967ee277455b> a bdqffdq:Specification;
+  skos:example "dwc:country=\"Australia\", dwc:stateProvince=\"WA\": Response.status=RUN_HAS_RESULT, Response.result=COMPLIANT, Response.comment=\"dwc:country is consistent with dwc:stateProvince. dwc:stateProvince matches Western Australia in dwc:country Australia\"",
+    "dwc:country=\"Australia\", dwc:stateProvince=\"Florida\": Response.status=RUN_HAS_RESULT, Response.result=NOT_COMPLIANT, Response.comment=\"dwc:country is not consistent with dwc:stateProvince\"";
+  bdqffdq:hasAuthoritiesDefaults "bdqval:sourceAuthority default = \"The Getty Thesaurus of Geographic Names (TGN)\" {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}";
+  bdqffdq:hasExpectedResponse "EXTERNAL_PREREQUISITES_NOT_MET if the bdqval:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country or dwc:stateProvince are bdqval:Empty; COMPLIANT if the value of dwc:stateProvince occurs as an administrative entity that is a child to the administrative entity matching the value of dwc:country in the bdqval:sourceAuthority, and the match to dwc:country is an ISO 3166 country-like administrative entity in the bdqval:sourceAuthority; otherwise NOT_COMPLIANT";
+  rdfs:label "Specification for: VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT";
+  dcterms:description "EXTERNAL_PREREQUISITES_NOT_MET if the bdqval:sourceAuthority is not available; INTERNAL_PREREQUISITES_NOT_MET if the terms dwc:country or dwc:stateProvince are bdqval:Empty; COMPLIANT if the value of dwc:stateProvince occurs as an administrative entity that is a child to the administrative entity matching the value of dwc:country in the bdqval:sourceAuthority, and the match to dwc:country is an ISO 3166 country-like administrative entity in the bdqval:sourceAuthority; otherwise NOT_COMPLIANT bdqval:sourceAuthority default = \"The Getty Thesaurus of Geographic Names (TGN)\" {[https://www.getty.edu/research/tools/vocabularies/tgn/index.html]}";
+  bdqffdq:hasArgument <urn:uuid:7ccbc893-d9cf-4dbd-861a-c7d88702de43> .
+
+<urn:uuid:7ccbc893-d9cf-4dbd-861a-c7d88702de43> a bdqffdq:Argument;
+  bdqffdq:hasArgumentValue "The Getty Thesaurus of Geographic Names (TGN)";
+  rdfs:label "Default value for bdqval:sourceAuthority:\"The Getty Thesaurus of Geographic Names (TGN)\"";
+  bdqffdq:hasParameter bdqval:sourceAuthority .
+
+<urn:uuid:ae0271c6-c374-4040-a955-1460b78cf6ed> a bdqffdq:ValidationPolicy;
   bdqffdq:includedInPolicy bdqtest:0949110d-c06b-450e-9649-7c1374d940d1-2025-03-07,
     bdqtest:b6ecda2a-ce36-437a-b515-3ae94948fe83-2025-03-07, bdqtest:9beb9442-d942-4f42-8b6a-fcea01ee086a-2025-03-07,
     bdqtest:7d2485d5-1ba7-4f25-90cb-f4480ff1a275-2025-03-07, bdqtest:4daa7986-d9b0-4dd5-ad17-2d7a771ea71a-2025-03-07;
@@ -1608,7 +2425,7 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
 bdquc:Alien-Species a bdqffdq:UseCase;
   rdfs:label "bdquc:Alien-Species" .
 
-<urn:uuid:66d70908-4404-48c0-b363-6e2052960bf6> a bdqffdq:ValidationPolicy;
+<urn:uuid:1e32001c-aebd-4717-9945-eba0ded2301c> a bdqffdq:ValidationPolicy;
   bdqffdq:includedInPolicy bdqtest:0493bcfb-652e-4d17-815b-b0cce0742fbe-2025-03-07,
     bdqtest:69b2efdc-6269-45a4-aecb-4cb99c2ae134-2025-03-07, bdqtest:8f1e6e58-544b-4365-a569-fb781341644e-2025-03-07,
     bdqtest:0949110d-c06b-450e-9649-7c1374d940d1-2025-03-07, bdqtest:0bb8297d-8f8a-42d2-80c1-558f29efe798-2025-03-07,
@@ -1629,7 +2446,7 @@ bdquc:Alien-Species a bdqffdq:UseCase;
 bdquc:Spatial-Temporal_Patterns a bdqffdq:UseCase;
   rdfs:label "bdquc:Spatial-Temporal_Patterns" .
 
-<urn:uuid:4f285ed3-e71a-4652-ae08-912c2e33f2fa> a bdqffdq:ValidationPolicy;
+<urn:uuid:0aae575b-5b19-4960-ad14-b2ee0b466b1b> a bdqffdq:ValidationPolicy;
   bdqffdq:includedInPolicy bdqtest:0949110d-c06b-450e-9649-7c1374d940d1-2025-03-07,
     bdqtest:b6ecda2a-ce36-437a-b515-3ae94948fe83-2025-03-07, bdqtest:9beb9442-d942-4f42-8b6a-fcea01ee086a-2025-03-07,
     bdqtest:c6adf2ea-3051-4498-97f4-4b2f8a105f57-2025-03-07, bdqtest:7d2485d5-1ba7-4f25-90cb-f4480ff1a275-2025-03-07;
@@ -1640,7 +2457,7 @@ bdquc:Spatial-Temporal_Patterns a bdqffdq:UseCase;
 bdquc:Species-Distribution-Modeling-Trees a bdqffdq:UseCase;
   rdfs:label "bdquc:Species-Distribution-Modeling-Trees" .
 
-<urn:uuid:2c658080-3a60-4305-868b-09f7f6c69279> a bdqffdq:AmendmentPolicy;
+<urn:uuid:de512180-837f-4f18-810b-f0306ac414f8> a bdqffdq:AmendmentPolicy;
   bdqffdq:includedInPolicy bdqtest:3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e-2025-03-07,
     bdqtest:fec5ffe6-3958-4312-82d9-ebcca0efb350-2025-03-07, bdqtest:f2b4a50a-6b2f-4930-b9df-da87b6a21082-2025-03-07,
     bdqtest:c5658b83-4471-4f57-9d94-bf7d0a96900c-2025-03-07, bdqtest:0345b325-836d-4235-96d0-3b5caf150fc0-2025-03-07,
@@ -1649,7 +2466,7 @@ bdquc:Species-Distribution-Modeling-Trees a bdqffdq:UseCase;
   rdfs:label "AmendmentPolicy: (8) amendments  in UseCase bdquc:Spatial-Temporal_Patterns";
   bdqffdq:hasUseCase bdquc:Spatial-Temporal_Patterns .
 
-<urn:uuid:ff0670a3-2e23-4d3b-94af-107c4e62536c> a bdqffdq:IssuePolicy;
+<urn:uuid:d4956b07-99ac-49af-bf59-b169461167d5> a bdqffdq:IssuePolicy;
   bdqffdq:includedInPolicy bdqtest:256e51b3-1e08-4349-bb7e-5186631c3f8e-2025-03-07;
   rdfs:label "IssuePolicy: (1) issues  in UseCase bdquc:Spatial-Temporal_Patterns";
   bdqffdq:hasUseCase bdquc:Spatial-Temporal_Patterns .
