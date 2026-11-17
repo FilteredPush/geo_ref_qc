@@ -8,7 +8,6 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ 
-	GeoLocateServiceTestIT.class,
 	GeoUtilsTestIT.class
 	})
 public class AllTestsIT {

@@ -10,9 +10,6 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.dom4j.Document;
-import org.geolocate.webservices.svcv2.GeorefResult;
-import org.geolocate.webservices.svcv2.GeorefResultSet;
 
 /**
  * Representation of a single georeference assertion as made by GeoLocate's service.
@@ -68,54 +65,6 @@ public class GeolocationResult implements Serializable {
 		this.coordinateUncertainty = null;
 	}
 	
-	/**
-	 * <p>constructFromXML.</p>
-	 *
-	 * @param geolocateXmlResult a {@link org.dom4j.Document} object.
-	 * @return a {@link java.util.List} object.
-	 */
-	public static List<GeolocationResult> constructFromXML(Document geolocateXmlResult) {
-		ArrayList<GeolocationResult> result = new ArrayList<GeolocationResult>();
-
-		return result;
-	}
-
-	/**
-	 * <p>constructFromGeolocateResultSet.</p>
-	 *
-	 * @param results a {@link org.geolocate.webservices.svcv2.GeorefResultSet} object.
-	 * @return a {@link java.util.List} object.
-	 */
-	public static List<GeolocationResult> constructFromGeolocateResultSet(GeorefResultSet results) {
-		ArrayList<GeolocationResult> resultList = new ArrayList<GeolocationResult>();
-		if (results !=null && results.getNumResults()>0) {
-		    int numResults = results.getNumResults();
-		    Iterator<GeorefResult> i = results.getResultSet().iterator();
-			while(i.hasNext()) {
-			   GeorefResult row = i.next();
-			   if (row.getScore()>MIN_SCORE_THRESHOLD) {
-				   int uncertainty = 0;
-				   try {
-					   if (row.getUncertaintyRadiusMeters()!=null && !row.getUncertaintyRadiusMeters().equals("Unavailable")) {
-					      uncertainty = Integer.parseInt(row.getUncertaintyRadiusMeters());
-					   }
-				   } catch (NumberFormatException ex) {
-					   logger.debug(ex.getMessage());
-				   }
-				   GeolocationResult result = new GeolocationResult(
-						   row.getWGS84Coordinate().getLatitude(),
-						   row.getWGS84Coordinate().getLongitude(),
-						   uncertainty,
-						   row.getScore(),
-						   row.getParsePattern()
-						   );
-				   resultList.add(result);
-			   }
-			}
-		}
-		return resultList;
-	}
-
 	/**
 	 * <p>isLocationNearAResult.</p>
 	 *
