@@ -72,8 +72,8 @@ bdqffdq:ActedUpon rdfs:subClassOf bdqffdq:InformationElement .
     "TG2 Validation SPACE CODED Test VOCABULARY Conformance ISO/DCMI STANDARD CORE";
   bdqffdq:hasSpecification <urn:uuid:01b96157-e4a1-4884-95d7-3bcfc5f3c047>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_COUNTRYCODE_STANDARD with Specification for: VALIDATION_COUNTRYCODE_STANDARD";
-  skos:prefLabel "ValidationMethod: VALIDATION_COUNTRYCODE_STANDARD with Specification for: VALIDATION_COUNTRYCODE_STANDARD";
+  rdfs:label "ValidationMethod: VALIDATION_COUNTRYCODE_STANDARD with Specification: Specification for: VALIDATION_COUNTRYCODE_STANDARD";
+  skos:prefLabel "ValidationMethod: VALIDATION_COUNTRYCODE_STANDARD with Specification: Specification for: VALIDATION_COUNTRYCODE_STANDARD";
   bdqffdq:forValidation bdqtest:0493bcfb-652e-4d17-815b-b0cce0742fbe-2025-03-07 .
 
 bdqffdq:ValidationMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
@@ -117,8 +117,8 @@ bdqcrit:Found a bdqffdq:Criterion;
     "TG2 Validation SPACE CODED Test VOCABULARY Conformance Parameterized CORE";
   bdqffdq:hasSpecification <urn:uuid:051f6ad7-1a4b-4e6c-8a1d-2af76de24848>;
   skos:historyNote "Source: ALA, GBIF";
-  rdfs:label "ValidationMethod: VALIDATION_COUNTRY_FOUND with Specification for: VALIDATION_COUNTRY_FOUND";
-  skos:prefLabel "ValidationMethod: VALIDATION_COUNTRY_FOUND with Specification for: VALIDATION_COUNTRY_FOUND";
+  rdfs:label "ValidationMethod: VALIDATION_COUNTRY_FOUND with Specification: Specification for: VALIDATION_COUNTRY_FOUND";
+  skos:prefLabel "ValidationMethod: VALIDATION_COUNTRY_FOUND with Specification: Specification for: VALIDATION_COUNTRY_FOUND";
   bdqffdq:forValidation bdqtest:69b2efdc-6269-45a4-aecb-4cb99c2ae134-2025-03-07 .
 
 <urn:uuid:051f6ad7-1a4b-4e6c-8a1d-2af76de24848> a bdqffdq:Specification;
@@ -165,8 +165,8 @@ bdqcrit:Consistent a bdqffdq:Criterion;
     "TG2 Validation SPACE CODED Test Conformance CORE";
   bdqffdq:hasSpecification <urn:uuid:12f7f82e-ab1c-4690-92b8-ecc9328256c1>;
   skos:historyNote "Source: ALA, GBIF, OBIS";
-  rdfs:label "ValidationMethod: VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH with Specification for: VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH";
-  skos:prefLabel "ValidationMethod: VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH with Specification for: VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH";
+  rdfs:label "ValidationMethod: VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH with Specification: Specification for: VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH";
+  skos:prefLabel "ValidationMethod: VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH with Specification: Specification for: VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH";
   bdqffdq:forValidation bdqtest:8f1e6e58-544b-4365-a569-fb781341644e-2025-03-07 .
 
 <urn:uuid:12f7f82e-ab1c-4690-92b8-ecc9328256c1> a bdqffdq:Specification;
@@ -205,8 +205,8 @@ bdqcrit:InRange a bdqffdq:Criterion;
     "TG2 Validation SPACE CODED Test Conformance CORE";
   bdqffdq:hasSpecification <urn:uuid:1a504f7f-21a7-49e1-a0dc-f51146957fa4>;
   skos:historyNote "Source: ALA, GBIF, OBIS";
-  rdfs:label "ValidationMethod: VALIDATION_DECIMALLONGITUDE_INRANGE with Specification for: VALIDATION_DECIMALLONGITUDE_INRANGE";
-  skos:prefLabel "ValidationMethod: VALIDATION_DECIMALLONGITUDE_INRANGE with Specification for: VALIDATION_DECIMALLONGITUDE_INRANGE";
+  rdfs:label "ValidationMethod: VALIDATION_DECIMALLONGITUDE_INRANGE with Specification: Specification for: VALIDATION_DECIMALLONGITUDE_INRANGE";
+  skos:prefLabel "ValidationMethod: VALIDATION_DECIMALLONGITUDE_INRANGE with Specification: Specification for: VALIDATION_DECIMALLONGITUDE_INRANGE";
   bdqffdq:forValidation bdqtest:0949110d-c06b-450e-9649-7c1374d940d1-2025-03-07 .
 
 <urn:uuid:1a504f7f-21a7-49e1-a0dc-f51146957fa4> a bdqffdq:Specification;
@@ -260,8 +260,8 @@ bdqffdq:Consulted rdfs:subClassOf bdqffdq:InformationElement .
   bdqffdq:forAmendment bdqtest:3c2590c7-af8a-4eb4-af57-5f73ba9d1f8e-2025-03-07;
   bdqffdq:hasSpecification <urn:uuid:1e16fbb3-0c8d-4f23-bf55-68e159ab2b04>;
   skos:historyNote "Source: ALA";
-  rdfs:label "AmendmentMethod: AMENDMENT_COORDINATES_FROM_VERBATIM with Specification Specification for: AMENDMENT_COORDINATES_FROM_VERBATIM";
-  skos:prefLabel "AmendmentMethod: AMENDMENT_COORDINATES_FROM_VERBATIM with Specification Specification for: AMENDMENT_COORDINATES_FROM_VERBATIM" .
+  rdfs:label "AmendmentMethod: AMENDMENT_COORDINATES_FROM_VERBATIM with Specification: Specification for: AMENDMENT_COORDINATES_FROM_VERBATIM";
+  skos:prefLabel "AmendmentMethod: AMENDMENT_COORDINATES_FROM_VERBATIM with Specification: Specification for: AMENDMENT_COORDINATES_FROM_VERBATIM" .
 
 bdqffdq:AmendmentMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
 
@@ -305,8 +305,8 @@ bdqtest:0bb8297d-8f8a-42d2-80c1-558f29efe798-2025-03-07 a bdqffdq:Validation;
     "TG2 Validation SPACE CODED Test Conformance Parameterized CORE";
   bdqffdq:hasSpecification <urn:uuid:2bb79221-0312-410a-aef6-f569485df6a6>;
   skos:historyNote "Source: ALA, GBIF";
-  rdfs:label "ValidationMethod: VALIDATION_MINELEVATION_INRANGE with Specification for: VALIDATION_MINELEVATION_INRANGE";
-  skos:prefLabel "ValidationMethod: VALIDATION_MINELEVATION_INRANGE with Specification for: VALIDATION_MINELEVATION_INRANGE";
+  rdfs:label "ValidationMethod: VALIDATION_MINELEVATION_INRANGE with Specification: Specification for: VALIDATION_MINELEVATION_INRANGE";
+  skos:prefLabel "ValidationMethod: VALIDATION_MINELEVATION_INRANGE with Specification: Specification for: VALIDATION_MINELEVATION_INRANGE";
   bdqffdq:forValidation bdqtest:0bb8297d-8f8a-42d2-80c1-558f29efe798-2025-03-07 .
 
 <urn:uuid:2bb79221-0312-410a-aef6-f569485df6a6> a bdqffdq:Specification;
@@ -364,8 +364,8 @@ bdqcrit:NotEmpty a bdqffdq:Criterion;
     "TG2 Validation SPACE CODED Test Completeness CORE";
   bdqffdq:hasSpecification <urn:uuid:30ed5e2d-ef30-4988-8dbb-12c119e94ac3>;
   skos:historyNote "Source: Lee Belbin";
-  rdfs:label "ValidationMethod: VALIDATION_LOCATION_NOTEMPTY with Specification for: VALIDATION_LOCATION_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_LOCATION_NOTEMPTY with Specification for: VALIDATION_LOCATION_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_LOCATION_NOTEMPTY with Specification: Specification for: VALIDATION_LOCATION_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_LOCATION_NOTEMPTY with Specification: Specification for: VALIDATION_LOCATION_NOTEMPTY";
   bdqffdq:forValidation bdqtest:58486cb6-1114-4a8a-ba1e-bd89cfe887e9-2025-03-07 .
 
 <urn:uuid:30ed5e2d-ef30-4988-8dbb-12c119e94ac3> a bdqffdq:Specification;
@@ -401,8 +401,8 @@ bdqtest:6ce2b2b4-6afe-4d13-82a0-390d31ade01c-2025-03-07 a bdqffdq:Validation;
     "Example Implementations Source Code: https://github.com/FilteredPush/geo_ref_qc/blob/v2.0.1/src/main/java/org/filteredpush/qc/georeference/DwCGeoRefDQ.java#L747",
     "TG2 Validation SPACE CODED Test Completeness CORE";
   bdqffdq:hasSpecification <urn:uuid:34ef6ea2-de06-4d2c-88fe-2c779de8f7db>;
-  rdfs:label "ValidationMethod: VALIDATION_COUNTRY_NOTEMPTY with Specification for: VALIDATION_COUNTRY_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_COUNTRY_NOTEMPTY with Specification for: VALIDATION_COUNTRY_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_COUNTRY_NOTEMPTY with Specification: Specification for: VALIDATION_COUNTRY_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_COUNTRY_NOTEMPTY with Specification: Specification for: VALIDATION_COUNTRY_NOTEMPTY";
   bdqffdq:forValidation bdqtest:6ce2b2b4-6afe-4d13-82a0-390d31ade01c-2025-03-07 .
 
 <urn:uuid:34ef6ea2-de06-4d2c-88fe-2c779de8f7db> a bdqffdq:Specification;
@@ -440,8 +440,8 @@ bdqenh:Standardized a bdqffdq:Enhancement;
     "TG2 Amendment SPACE CODED Test VOCABULARY Conformance ISO/DCMI STANDARD CORE";
   bdqffdq:forAmendment bdqtest:fec5ffe6-3958-4312-82d9-ebcca0efb350-2025-03-07;
   bdqffdq:hasSpecification <urn:uuid:3e076cfa-56ff-4b79-9739-736d062eac5a>;
-  rdfs:label "AmendmentMethod: AMENDMENT_COUNTRYCODE_STANDARDIZED with Specification Specification for: AMENDMENT_COUNTRYCODE_STANDARDIZED";
-  skos:prefLabel "AmendmentMethod: AMENDMENT_COUNTRYCODE_STANDARDIZED with Specification Specification for: AMENDMENT_COUNTRYCODE_STANDARDIZED" .
+  rdfs:label "AmendmentMethod: AMENDMENT_COUNTRYCODE_STANDARDIZED with Specification: Specification for: AMENDMENT_COUNTRYCODE_STANDARDIZED";
+  skos:prefLabel "AmendmentMethod: AMENDMENT_COUNTRYCODE_STANDARDIZED with Specification: Specification for: AMENDMENT_COUNTRYCODE_STANDARDIZED" .
 
 <urn:uuid:3e076cfa-56ff-4b79-9739-736d062eac5a> a bdqffdq:Specification;
   skos:example "dwc:countryCode=\"Australia\": Response.status=AMENDED, Response.result=dwc:countryCode=\"AU\", Response.comment=\"dwc:countryCode contains an interpretable value\"",
@@ -497,8 +497,8 @@ bdqdim:Consistency a bdqffdq:DataQualityDimension;
     "TG2 Validation SPACE CODED Test VOCABULARY Consistency ISO/DCMI STANDARD Parameterized CORE";
   bdqffdq:hasSpecification <urn:uuid:4343a7e0-7f0b-434d-99d4-e939ecb16e1f>;
   skos:historyNote "Source: ALA, GBIF, iDigBio";
-  rdfs:label "ValidationMethod: VALIDATION_COORDINATESCOUNTRYCODE_CONSISTENT with Specification for: VALIDATION_COORDINATESCOUNTRYCODE_CONSISTENT";
-  skos:prefLabel "ValidationMethod: VALIDATION_COORDINATESCOUNTRYCODE_CONSISTENT with Specification for: VALIDATION_COORDINATESCOUNTRYCODE_CONSISTENT";
+  rdfs:label "ValidationMethod: VALIDATION_COORDINATESCOUNTRYCODE_CONSISTENT with Specification: Specification for: VALIDATION_COORDINATESCOUNTRYCODE_CONSISTENT";
+  skos:prefLabel "ValidationMethod: VALIDATION_COORDINATESCOUNTRYCODE_CONSISTENT with Specification: Specification for: VALIDATION_COORDINATESCOUNTRYCODE_CONSISTENT";
   bdqffdq:forValidation bdqtest:adb27d29-9f0d-4d52-b760-a77ba57a69c9-2025-03-07 .
 
 <urn:uuid:4343a7e0-7f0b-434d-99d4-e939ecb16e1f> a bdqffdq:Specification;
@@ -576,8 +576,8 @@ bdqtest:b9c184ce-a859-410c-9d12-71a338200380-2025-03-07 a bdqffdq:Validation;
     "TG2 Validation SPACE CODED Test VOCABULARY Consistency Parameterized CORE";
   bdqffdq:hasSpecification <urn:uuid:45cb9e13-7944-4535-a5ef-f6ededb77305>;
   skos:historyNote "Source: ALA, OBIS";
-  rdfs:label "ValidationMethod: VALIDATION_COORDINATESTERRESTRIALMARINE_CONSISTENT with Specification for: VALIDATION_COORDINATESTERRESTRIALMARINE_CONSISTENT";
-  skos:prefLabel "ValidationMethod: VALIDATION_COORDINATESTERRESTRIALMARINE_CONSISTENT with Specification for: VALIDATION_COORDINATESTERRESTRIALMARINE_CONSISTENT";
+  rdfs:label "ValidationMethod: VALIDATION_COORDINATESTERRESTRIALMARINE_CONSISTENT with Specification: Specification for: VALIDATION_COORDINATESTERRESTRIALMARINE_CONSISTENT";
+  skos:prefLabel "ValidationMethod: VALIDATION_COORDINATESTERRESTRIALMARINE_CONSISTENT with Specification: Specification for: VALIDATION_COORDINATESTERRESTRIALMARINE_CONSISTENT";
   bdqffdq:forValidation bdqtest:b9c184ce-a859-410c-9d12-71a338200380-2025-03-07 .
 
 <urn:uuid:45cb9e13-7944-4535-a5ef-f6ededb77305> a bdqffdq:Specification;
@@ -641,8 +641,8 @@ bdqenh:Transposed a bdqffdq:Enhancement;
   bdqffdq:forAmendment bdqtest:f2b4a50a-6b2f-4930-b9df-da87b6a21082-2025-03-07;
   bdqffdq:hasSpecification <urn:uuid:46caea46-0c94-4efb-9e5f-1b170f2ad54e>;
   skos:historyNote "Source: iDigBio, GBIF, BISON, FP, Kurator, ALA";
-  rdfs:label "AmendmentMethod: AMENDMENT_COORDINATES_TRANSPOSED with Specification Specification for: AMENDMENT_COORDINATES_TRANSPOSED";
-  skos:prefLabel "AmendmentMethod: AMENDMENT_COORDINATES_TRANSPOSED with Specification Specification for: AMENDMENT_COORDINATES_TRANSPOSED" .
+  rdfs:label "AmendmentMethod: AMENDMENT_COORDINATES_TRANSPOSED with Specification: Specification for: AMENDMENT_COORDINATES_TRANSPOSED";
+  skos:prefLabel "AmendmentMethod: AMENDMENT_COORDINATES_TRANSPOSED with Specification: Specification for: AMENDMENT_COORDINATES_TRANSPOSED" .
 
 <urn:uuid:46caea46-0c94-4efb-9e5f-1b170f2ad54e> a bdqffdq:Specification;
   skos:example "dwc:decimalLatitude=\"25.46\", dwc:decimalLongitude=\"135.87\", dwc:countryCode=\"AU\": Response.status=AMENDED, Response.result=dwc:decimalLatitude=\"-25.46\", dwc:decimalLongitude=\"135.87\", Response.comment=\"dwc:decimalLatitude sign reversed to fit dwc:countryCode=AU\"",
@@ -684,8 +684,8 @@ bdqtest:c5658b83-4471-4f57-9d94-bf7d0a96900c-2025-03-07 a bdqffdq:Amendment;
     "TG2 Amendment SPACE CODED Test Completeness CORE";
   bdqffdq:forAmendment bdqtest:c5658b83-4471-4f57-9d94-bf7d0a96900c-2025-03-07;
   bdqffdq:hasSpecification <urn:uuid:4db033ea-b0f7-4d01-a5fc-a0459a73a67d>;
-  rdfs:label "AmendmentMethod: AMENDMENT_MINDEPTHMAXDEPTH_FROM_VERBATIM with Specification Specification for: AMENDMENT_MINDEPTHMAXDEPTH_FROM_VERBATIM";
-  skos:prefLabel "AmendmentMethod: AMENDMENT_MINDEPTHMAXDEPTH_FROM_VERBATIM with Specification Specification for: AMENDMENT_MINDEPTHMAXDEPTH_FROM_VERBATIM" .
+  rdfs:label "AmendmentMethod: AMENDMENT_MINDEPTHMAXDEPTH_FROM_VERBATIM with Specification: Specification for: AMENDMENT_MINDEPTHMAXDEPTH_FROM_VERBATIM";
+  skos:prefLabel "AmendmentMethod: AMENDMENT_MINDEPTHMAXDEPTH_FROM_VERBATIM with Specification: Specification for: AMENDMENT_MINDEPTHMAXDEPTH_FROM_VERBATIM" .
 
 <urn:uuid:4db033ea-b0f7-4d01-a5fc-a0459a73a67d> a bdqffdq:Specification;
   skos:example "dwc:minimumDepthInMeters=\"\", dwc:maximumDepthInMeters=\"\", dwc:verbatimDepth=\"10 feet\": Response.status=FILLED_IN, Response.result=dwc:minimumDepthInMeters=\"3.048\", dwc:maximumDepthInMeters=\"3.048\", Response.comment=\"dwc:verbatimDepth contains interpretable values\"",
@@ -729,8 +729,8 @@ bdqtest:f18a470b-3fe1-4aae-9c65-a6d3db6b550c-2025-03-07 a bdqffdq:Validation;
     "TG2 Validation SPACE CODED Test VOCABULARY Consistency CORE";
   bdqffdq:hasSpecification <urn:uuid:4dd617df-a984-419f-b7b5-098b2023c4ab>;
   skos:historyNote "Source: ALA";
-  rdfs:label "ValidationMethod: VALIDATION_COORDINATESSTATEPROVINCE_CONSISTENT with Specification for: VALIDATION_COORDINATESSTATEPROVINCE_CONSISTENT";
-  skos:prefLabel "ValidationMethod: VALIDATION_COORDINATESSTATEPROVINCE_CONSISTENT with Specification for: VALIDATION_COORDINATESSTATEPROVINCE_CONSISTENT";
+  rdfs:label "ValidationMethod: VALIDATION_COORDINATESSTATEPROVINCE_CONSISTENT with Specification: Specification for: VALIDATION_COORDINATESSTATEPROVINCE_CONSISTENT";
+  skos:prefLabel "ValidationMethod: VALIDATION_COORDINATESSTATEPROVINCE_CONSISTENT with Specification: Specification for: VALIDATION_COORDINATESSTATEPROVINCE_CONSISTENT";
   bdqffdq:forValidation bdqtest:f18a470b-3fe1-4aae-9c65-a6d3db6b550c-2025-03-07 .
 
 <urn:uuid:4dd617df-a984-419f-b7b5-098b2023c4ab> a bdqffdq:Specification;
@@ -794,8 +794,8 @@ bdqtest:7e0c0418-fe16-4a39-98bd-80e19d95b9d1-2025-03-07 a bdqffdq:Validation;
     "TG2 Validation SPACE CODED Test VOCABULARY Conformance CORE";
   bdqffdq:hasSpecification <urn:uuid:5cc05662-c029-4ba9-b32e-fb487ccba71c>;
   skos:historyNote "Source: ALA, GBIF";
-  rdfs:label "ValidationMethod: VALIDATION_GEODETICDATUM_STANDARD with Specification for: VALIDATION_GEODETICDATUM_STANDARD";
-  skos:prefLabel "ValidationMethod: VALIDATION_GEODETICDATUM_STANDARD with Specification for: VALIDATION_GEODETICDATUM_STANDARD";
+  rdfs:label "ValidationMethod: VALIDATION_GEODETICDATUM_STANDARD with Specification: Specification for: VALIDATION_GEODETICDATUM_STANDARD";
+  skos:prefLabel "ValidationMethod: VALIDATION_GEODETICDATUM_STANDARD with Specification: Specification for: VALIDATION_GEODETICDATUM_STANDARD";
   bdqffdq:forValidation bdqtest:7e0c0418-fe16-4a39-98bd-80e19d95b9d1-2025-03-07 .
 
 <urn:uuid:5cc05662-c029-4ba9-b32e-fb487ccba71c> a bdqffdq:Specification;
@@ -829,8 +829,8 @@ bdqtest:0345b325-836d-4235-96d0-3b5caf150fc0-2025-03-07 a bdqffdq:Amendment;
   bdqffdq:forAmendment bdqtest:0345b325-836d-4235-96d0-3b5caf150fc0-2025-03-07;
   bdqffdq:hasSpecification <urn:uuid:5daf8c2f-50df-423c-a740-55079b625c10>;
   skos:historyNote "Source: Paul Morris";
-  rdfs:label "AmendmentMethod: AMENDMENT_GEODETICDATUM_STANDARDIZED with Specification Specification for: AMENDMENT_GEODETICDATUM_STANDARDIZED";
-  skos:prefLabel "AmendmentMethod: AMENDMENT_GEODETICDATUM_STANDARDIZED with Specification Specification for: AMENDMENT_GEODETICDATUM_STANDARDIZED" .
+  rdfs:label "AmendmentMethod: AMENDMENT_GEODETICDATUM_STANDARDIZED with Specification: Specification for: AMENDMENT_GEODETICDATUM_STANDARDIZED";
+  skos:prefLabel "AmendmentMethod: AMENDMENT_GEODETICDATUM_STANDARDIZED with Specification: Specification for: AMENDMENT_GEODETICDATUM_STANDARDIZED" .
 
 <urn:uuid:5daf8c2f-50df-423c-a740-55079b625c10> a bdqffdq:Specification;
   skos:example "dwc:geodeticDatum=\"WGS84\": Response.status=AMENDED, Response.result=dwc:geodeticDatum=\"EPSG:4326\", Response.comment=\"dwc:geodeticDatum contains a valid code in the bdqval:sourceAuthority\"",
@@ -866,8 +866,8 @@ bdqtest:b23110e7-1be7-444a-a677-cdee0cf4330c-2025-03-07 a bdqffdq:Validation;
     "TG2 Validation SPACE CODED Test VOCABULARY Consistency ISO/DCMI STANDARD CORE";
   bdqffdq:hasSpecification <urn:uuid:6f1093a0-0da5-4691-a95e-184d6d55eeb0>;
   skos:historyNote "Source: GBIF";
-  rdfs:label "ValidationMethod: VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT with Specification for: VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT";
-  skos:prefLabel "ValidationMethod: VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT with Specification for: VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT";
+  rdfs:label "ValidationMethod: VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT with Specification: Specification for: VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT";
+  skos:prefLabel "ValidationMethod: VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT with Specification: Specification for: VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT";
   bdqffdq:forValidation bdqtest:b23110e7-1be7-444a-a677-cdee0cf4330c-2025-03-07 .
 
 <urn:uuid:6f1093a0-0da5-4691-a95e-184d6d55eeb0> a bdqffdq:Specification;
@@ -909,8 +909,8 @@ bdqtest:2d638c8b-4c62-44a0-a14d-fa147bf9823d-2025-03-07 a bdqffdq:Amendment;
     "TG2 Amendment SPACE CODED Test Completeness CORE";
   bdqffdq:forAmendment bdqtest:2d638c8b-4c62-44a0-a14d-fa147bf9823d-2025-03-07;
   bdqffdq:hasSpecification <urn:uuid:84195393-4797-465f-bfc1-b764df67c5c2>;
-  rdfs:label "AmendmentMethod: AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM with Specification Specification for: AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM";
-  skos:prefLabel "AmendmentMethod: AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM with Specification Specification for: AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM" .
+  rdfs:label "AmendmentMethod: AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM with Specification: Specification for: AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM";
+  skos:prefLabel "AmendmentMethod: AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM with Specification: Specification for: AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM" .
 
 <urn:uuid:84195393-4797-465f-bfc1-b764df67c5c2> a bdqffdq:Specification;
   skos:example "dwc:verbatimElevation=\"100 feet\", dwc:minimumElevationInMeters=\"\", dwc:maximumElevationInMeters=\"\": Response.status=FILLED_IN, Response.result=dwc:minimumElevationInMeters=\"30.48\", dwc:maximumElevationInMeters=\"30.48\", Response.comment=\"dwc:verbatimElevation contains an interpretable value\"",
@@ -953,8 +953,8 @@ bdqtest:8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae-2025-03-07 a bdqffdq:Amendment;
   bdqffdq:forAmendment bdqtest:8c5fe9c9-4ba9-49ef-b15a-9ccd0424e6ae-2025-03-07;
   bdqffdq:hasSpecification <urn:uuid:95ac057e-a941-416f-b7dc-ad7aca875cff>;
   skos:historyNote "Source: ALA, GBIF, iDigBio";
-  rdfs:label "AmendmentMethod: AMENDMENT_COUNTRYCODE_FROM_COORDINATES with Specification Specification for: AMENDMENT_COUNTRYCODE_FROM_COORDINATES";
-  skos:prefLabel "AmendmentMethod: AMENDMENT_COUNTRYCODE_FROM_COORDINATES with Specification Specification for: AMENDMENT_COUNTRYCODE_FROM_COORDINATES" .
+  rdfs:label "AmendmentMethod: AMENDMENT_COUNTRYCODE_FROM_COORDINATES with Specification: Specification for: AMENDMENT_COUNTRYCODE_FROM_COORDINATES";
+  skos:prefLabel "AmendmentMethod: AMENDMENT_COUNTRYCODE_FROM_COORDINATES with Specification: Specification for: AMENDMENT_COUNTRYCODE_FROM_COORDINATES" .
 
 <urn:uuid:95ac057e-a941-416f-b7dc-ad7aca875cff> a bdqffdq:Specification;
   skos:example "dwc:decimalLatitude=\"-25.23\", dwc:decimalLongitude=\"135.43\", dwc:countryCode=\"\": Response.status=FILLED_IN, Response.result=dwc:countryCode=\"AU\", Response.comment=\"dwc:decimalLatitude and dwc:decimalLongitude contain interpretable values\"",
@@ -989,8 +989,8 @@ bdqtest:239ec40e-a729-4a8e-ba69-e0bf03ac1c44-2025-03-07 a bdqffdq:Validation;
     "Example Implementations Source Code: https://github.com/FilteredPush/geo_ref_qc/blob/v2.0.1/src/main/java/org/filteredpush/qc/georeference/DwCGeoRefDQ.java#L2105",
     "TG2 Validation SPACE CODED Test Completeness CORE";
   bdqffdq:hasSpecification <urn:uuid:a3c8b277-15fb-4ae8-afb1-e64fb6eb5241>;
-  rdfs:label "ValidationMethod: VALIDATION_GEODETICDATUM_NOTEMPTY with Specification for: VALIDATION_GEODETICDATUM_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_GEODETICDATUM_NOTEMPTY with Specification for: VALIDATION_GEODETICDATUM_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_GEODETICDATUM_NOTEMPTY with Specification: Specification for: VALIDATION_GEODETICDATUM_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_GEODETICDATUM_NOTEMPTY with Specification: Specification for: VALIDATION_GEODETICDATUM_NOTEMPTY";
   bdqffdq:forValidation bdqtest:239ec40e-a729-4a8e-ba69-e0bf03ac1c44-2025-03-07 .
 
 <urn:uuid:a3c8b277-15fb-4ae8-afb1-e64fb6eb5241> a bdqffdq:Specification;
@@ -1026,8 +1026,8 @@ bdqtest:b6ecda2a-ce36-437a-b515-3ae94948fe83-2025-03-07 a bdqffdq:Validation;
     "TG2 Validation SPACE CODED Test Conformance CORE";
   bdqffdq:hasSpecification <urn:uuid:a5111c0c-d198-4ecc-af10-809ae2b3ae01>;
   skos:historyNote "Source: ALA, GBIF, OBIS";
-  rdfs:label "ValidationMethod: VALIDATION_DECIMALLATITUDE_INRANGE with Specification for: VALIDATION_DECIMALLATITUDE_INRANGE";
-  skos:prefLabel "ValidationMethod: VALIDATION_DECIMALLATITUDE_INRANGE with Specification for: VALIDATION_DECIMALLATITUDE_INRANGE";
+  rdfs:label "ValidationMethod: VALIDATION_DECIMALLATITUDE_INRANGE with Specification: Specification for: VALIDATION_DECIMALLATITUDE_INRANGE";
+  skos:prefLabel "ValidationMethod: VALIDATION_DECIMALLATITUDE_INRANGE with Specification: Specification for: VALIDATION_DECIMALLATITUDE_INRANGE";
   bdqffdq:forValidation bdqtest:b6ecda2a-ce36-437a-b515-3ae94948fe83-2025-03-07 .
 
 <urn:uuid:a5111c0c-d198-4ecc-af10-809ae2b3ae01> a bdqffdq:Specification;
@@ -1064,8 +1064,8 @@ bdqcrit:Likely a bdqffdq:Criterion;
     "TG2 Validation SPACE CODED Test Likeliness CORE";
   bdqffdq:hasSpecification <urn:uuid:b482148e-9ac2-47ad-99b5-462508e9f360>;
   skos:historyNote "Source: ALA, GBIF, OBIS";
-  rdfs:label "ValidationMethod: VALIDATION_COORDINATES_NOTZERO with Specification for: VALIDATION_COORDINATES_NOTZERO";
-  skos:prefLabel "ValidationMethod: VALIDATION_COORDINATES_NOTZERO with Specification for: VALIDATION_COORDINATES_NOTZERO";
+  rdfs:label "ValidationMethod: VALIDATION_COORDINATES_NOTZERO with Specification: Specification for: VALIDATION_COORDINATES_NOTZERO";
+  skos:prefLabel "ValidationMethod: VALIDATION_COORDINATES_NOTZERO with Specification: Specification for: VALIDATION_COORDINATES_NOTZERO";
   bdqffdq:forValidation bdqtest:1bf0e210-6792-4128-b8cc-ab6828aa4871-2025-03-07 .
 
 <urn:uuid:b482148e-9ac2-47ad-99b5-462508e9f360> a bdqffdq:Specification;
@@ -1095,8 +1095,8 @@ bdqtest:9beb9442-d942-4f42-8b6a-fcea01ee086a-2025-03-07 a bdqffdq:Validation;
     "Example Implementations Source Code: https://github.com/FilteredPush/geo_ref_qc/blob/v2.0.1/src/main/java/org/filteredpush/qc/georeference/DwCGeoRefDQ.java#L2273",
     "TG2 Validation SPACE CODED Test Completeness CORE";
   bdqffdq:hasSpecification <urn:uuid:c893ee17-ee8b-43ec-bf17-97ac814ea502>;
-  rdfs:label "ValidationMethod: VALIDATION_DECIMALLONGITUDE_NOTEMPTY with Specification for: VALIDATION_DECIMALLONGITUDE_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_DECIMALLONGITUDE_NOTEMPTY with Specification for: VALIDATION_DECIMALLONGITUDE_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_DECIMALLONGITUDE_NOTEMPTY with Specification: Specification for: VALIDATION_DECIMALLONGITUDE_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_DECIMALLONGITUDE_NOTEMPTY with Specification: Specification for: VALIDATION_DECIMALLONGITUDE_NOTEMPTY";
   bdqffdq:forValidation bdqtest:9beb9442-d942-4f42-8b6a-fcea01ee086a-2025-03-07 .
 
 <urn:uuid:c893ee17-ee8b-43ec-bf17-97ac814ea502> a bdqffdq:Specification;
@@ -1127,8 +1127,8 @@ bdqtest:853b79a2-b314-44a2-ae46-34a1e7ed85e4-2025-03-07 a bdqffdq:Validation;
     "Example Implementations Source Code: https://github.com/FilteredPush/geo_ref_qc/blob/v2.0.1/src/main/java/org/filteredpush/qc/georeference/DwCGeoRefDQ.java#L2308",
     "TG2 Validation SPACE CODED Test VOCABULARY Completeness CORE";
   bdqffdq:hasSpecification <urn:uuid:d153d4bd-b39d-43b0-b00a-395ff3e2ca62>;
-  rdfs:label "ValidationMethod: VALIDATION_COUNTRYCODE_NOTEMPTY with Specification for: VALIDATION_COUNTRYCODE_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_COUNTRYCODE_NOTEMPTY with Specification for: VALIDATION_COUNTRYCODE_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_COUNTRYCODE_NOTEMPTY with Specification: Specification for: VALIDATION_COUNTRYCODE_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_COUNTRYCODE_NOTEMPTY with Specification: Specification for: VALIDATION_COUNTRYCODE_NOTEMPTY";
   bdqffdq:forValidation bdqtest:853b79a2-b314-44a2-ae46-34a1e7ed85e4-2025-03-07 .
 
 <urn:uuid:d153d4bd-b39d-43b0-b00a-395ff3e2ca62> a bdqffdq:Specification;
@@ -1171,8 +1171,8 @@ bdqenh:AssumedDefault a bdqffdq:Enhancement;
   bdqffdq:forAmendment bdqtest:7498ca76-c4d4-42e2-8103-acacccbdffa7-2025-03-07;
   bdqffdq:hasSpecification <urn:uuid:da49fa95-ce7b-46cf-825a-91d53f21a997>;
   skos:historyNote "Source: ALA, GBIF";
-  rdfs:label "AmendmentMethod: AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT with Specification Specification for: AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT";
-  skos:prefLabel "AmendmentMethod: AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT with Specification Specification for: AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT" .
+  rdfs:label "AmendmentMethod: AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT with Specification: Specification for: AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT";
+  skos:prefLabel "AmendmentMethod: AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT with Specification: Specification for: AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT" .
 
 <urn:uuid:da49fa95-ce7b-46cf-825a-91d53f21a997> a bdqffdq:Specification;
   skos:example "dwc:geodeticDatum=\"[null]\", dwc:decimalLatitude=\"-30.00\", dwc:decimalLongitude=\"130.00\", dwc:coordinateUncertaintyInMeters=\"50\": Response.status=AMENDED, Response.result=dwc:geodeticDatum=\"EPSG:4326\", dwc:coordinateUncertaintyInMeters=\"2836\", Response.comment=\"dwc:godeticDatum is bdqval:Empty so filled in with default and dwc:coordinateUncertaintyInMeters amended to maximum possible value\"",
@@ -1218,8 +1218,8 @@ bdqtest:04b2c8f3-c71b-4e95-8e43-f70374c5fb92-2025-03-07 a bdqffdq:Validation;
     "TG2 Validation SPACE CODED Test Conformance Parameterized CORE";
   bdqffdq:hasSpecification <urn:uuid:f3e03531-7ee5-4721-aae2-f554389e0544>;
   skos:historyNote "Source: ALA, GBIF";
-  rdfs:label "ValidationMethod: VALIDATION_MINDEPTH_INRANGE with Specification for: VALIDATION_MINDEPTH_INRANGE";
-  skos:prefLabel "ValidationMethod: VALIDATION_MINDEPTH_INRANGE with Specification for: VALIDATION_MINDEPTH_INRANGE";
+  rdfs:label "ValidationMethod: VALIDATION_MINDEPTH_INRANGE with Specification: Specification for: VALIDATION_MINDEPTH_INRANGE";
+  skos:prefLabel "ValidationMethod: VALIDATION_MINDEPTH_INRANGE with Specification: Specification for: VALIDATION_MINDEPTH_INRANGE";
   bdqffdq:forValidation bdqtest:04b2c8f3-c71b-4e95-8e43-f70374c5fb92-2025-03-07 .
 
 <urn:uuid:f3e03531-7ee5-4721-aae2-f554389e0544> a bdqffdq:Specification;
@@ -1265,8 +1265,8 @@ bdqtest:d708526b-6561-438e-aa1a-82cd80b06396-2025-03-07 a bdqffdq:Validation;
     "TG2 Validation SPACE CODED Test Conformance CORE";
   bdqffdq:hasSpecification <urn:uuid:f799fb5c-37e4-46d7-a07e-87eb071df9c6>;
   skos:historyNote "Source: @Tasilee";
-  rdfs:label "ValidationMethod: VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION with Specification for: VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION";
-  skos:prefLabel "ValidationMethod: VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION with Specification for: VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION";
+  rdfs:label "ValidationMethod: VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION with Specification: Specification for: VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION";
+  skos:prefLabel "ValidationMethod: VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION with Specification: Specification for: VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION";
   bdqffdq:forValidation bdqtest:d708526b-6561-438e-aa1a-82cd80b06396-2025-03-07 .
 
 <urn:uuid:f799fb5c-37e4-46d7-a07e-87eb071df9c6> a bdqffdq:Specification;
@@ -1305,8 +1305,8 @@ bdqtest:c6adf2ea-3051-4498-97f4-4b2f8a105f57-2025-03-07 a bdqffdq:Validation;
     "TG2 Validation SPACE CODED Test Conformance CORE";
   bdqffdq:hasSpecification <urn:uuid:f8dfc3fc-6580-4518-b2b4-595c29e9042e>;
   skos:historyNote "Source: ALA";
-  rdfs:label "ValidationMethod: VALIDATION_COORDINATEUNCERTAINTY_INRANGE with Specification for: VALIDATION_COORDINATEUNCERTAINTY_INRANGE";
-  skos:prefLabel "ValidationMethod: VALIDATION_COORDINATEUNCERTAINTY_INRANGE with Specification for: VALIDATION_COORDINATEUNCERTAINTY_INRANGE";
+  rdfs:label "ValidationMethod: VALIDATION_COORDINATEUNCERTAINTY_INRANGE with Specification: Specification for: VALIDATION_COORDINATEUNCERTAINTY_INRANGE";
+  skos:prefLabel "ValidationMethod: VALIDATION_COORDINATEUNCERTAINTY_INRANGE with Specification: Specification for: VALIDATION_COORDINATEUNCERTAINTY_INRANGE";
   bdqffdq:forValidation bdqtest:c6adf2ea-3051-4498-97f4-4b2f8a105f57-2025-03-07 .
 
 <urn:uuid:f8dfc3fc-6580-4518-b2b4-595c29e9042e> a bdqffdq:Specification;
@@ -1343,8 +1343,8 @@ bdqtest:c971fe3f-84c1-4636-9f44-b1ec31fd63c7-2025-03-07 a bdqffdq:Validation;
     "TG2 Validation SPACE CODED Test Likeliness Parameterized CORE";
   bdqffdq:hasSpecification <urn:uuid:f9471802-a5f7-4f4e-9810-f3f4f43dad1a>;
   skos:historyNote "Source: ALA, GBIF";
-  rdfs:label "ValidationMethod: VALIDATION_MAXELEVATION_INRANGE with Specification for: VALIDATION_MAXELEVATION_INRANGE";
-  skos:prefLabel "ValidationMethod: VALIDATION_MAXELEVATION_INRANGE with Specification for: VALIDATION_MAXELEVATION_INRANGE";
+  rdfs:label "ValidationMethod: VALIDATION_MAXELEVATION_INRANGE with Specification: Specification for: VALIDATION_MAXELEVATION_INRANGE";
+  skos:prefLabel "ValidationMethod: VALIDATION_MAXELEVATION_INRANGE with Specification: Specification for: VALIDATION_MAXELEVATION_INRANGE";
   bdqffdq:forValidation bdqtest:c971fe3f-84c1-4636-9f44-b1ec31fd63c7-2025-03-07 .
 
 <urn:uuid:f9471802-a5f7-4f4e-9810-f3f4f43dad1a> a bdqffdq:Specification;
@@ -1386,8 +1386,8 @@ bdqtest:7d2485d5-1ba7-4f25-90cb-f4480ff1a275-2025-03-07 a bdqffdq:Validation;
     "TG2 Validation SPACE CODED Test Completeness CORE";
   bdqffdq:hasSpecification <urn:uuid:0067fa60-5503-490e-8c94-93fb79cc7da2>;
   skos:historyNote "Source: TG2-Gainesville";
-  rdfs:label "ValidationMethod: VALIDATION_DECIMALLATITUDE_NOTEMPTY with Specification for: VALIDATION_DECIMALLATITUDE_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_DECIMALLATITUDE_NOTEMPTY with Specification for: VALIDATION_DECIMALLATITUDE_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_DECIMALLATITUDE_NOTEMPTY with Specification: Specification for: VALIDATION_DECIMALLATITUDE_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_DECIMALLATITUDE_NOTEMPTY with Specification: Specification for: VALIDATION_DECIMALLATITUDE_NOTEMPTY";
   bdqffdq:forValidation bdqtest:7d2485d5-1ba7-4f25-90cb-f4480ff1a275-2025-03-07 .
 
 <urn:uuid:0067fa60-5503-490e-8c94-93fb79cc7da2> a bdqffdq:Specification;
@@ -1423,8 +1423,8 @@ bdqtest:3f1db29a-bfa5-40db-9fd1-fde020d81939-2025-03-07 a bdqffdq:Validation;
     "TG2 Validation SPACE CODED Test Conformance Parameterized CORE";
   bdqffdq:hasSpecification <urn:uuid:cebc8ba0-ca02-4f1e-830e-ec693bc628e4>;
   skos:historyNote "Source: ALA, GBIF";
-  rdfs:label "ValidationMethod: VALIDATION_MAXDEPTH_INRANGE with Specification for: VALIDATION_MAXDEPTH_INRANGE";
-  skos:prefLabel "ValidationMethod: VALIDATION_MAXDEPTH_INRANGE with Specification for: VALIDATION_MAXDEPTH_INRANGE";
+  rdfs:label "ValidationMethod: VALIDATION_MAXDEPTH_INRANGE with Specification: Specification for: VALIDATION_MAXDEPTH_INRANGE";
+  skos:prefLabel "ValidationMethod: VALIDATION_MAXDEPTH_INRANGE with Specification: Specification for: VALIDATION_MAXDEPTH_INRANGE";
   bdqffdq:forValidation bdqtest:3f1db29a-bfa5-40db-9fd1-fde020d81939-2025-03-07 .
 
 <urn:uuid:cebc8ba0-ca02-4f1e-830e-ec693bc628e4> a bdqffdq:Specification;
@@ -1472,8 +1472,8 @@ bdqtest:4daa7986-d9b0-4dd5-ad17-2d7a771ea71a-2025-03-07 a bdqffdq:Validation;
     "TG2 Validation SPACE CODED Test VOCABULARY Conformance Parameterized CORE";
   bdqffdq:hasSpecification <urn:uuid:d261fac1-ce61-4879-bc04-870fa885b578>;
   skos:historyNote "Source: ALA, GBIF";
-  rdfs:label "ValidationMethod: VALIDATION_STATEPROVINCE_FOUND with Specification for: VALIDATION_STATEPROVINCE_FOUND";
-  skos:prefLabel "ValidationMethod: VALIDATION_STATEPROVINCE_FOUND with Specification for: VALIDATION_STATEPROVINCE_FOUND";
+  rdfs:label "ValidationMethod: VALIDATION_STATEPROVINCE_FOUND with Specification: Specification for: VALIDATION_STATEPROVINCE_FOUND";
+  skos:prefLabel "ValidationMethod: VALIDATION_STATEPROVINCE_FOUND with Specification: Specification for: VALIDATION_STATEPROVINCE_FOUND";
   bdqffdq:forValidation bdqtest:4daa7986-d9b0-4dd5-ad17-2d7a771ea71a-2025-03-07 .
 
 <urn:uuid:d261fac1-ce61-4879-bc04-870fa885b578> a bdqffdq:Specification;
@@ -1523,8 +1523,8 @@ bdqcrit:Unambiguous a bdqffdq:Criterion;
     "TG2 Validation SPACE CODED Test VOCABULARY Conformance Parameterized CORE";
   bdqffdq:hasSpecification <urn:uuid:e5efdd20-d1fc-4287-91f9-15b9ce3f3aac>;
   skos:historyNote "Source: VertNet, Kurator";
-  rdfs:label "ValidationMethod: VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS with Specification for: VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS";
-  skos:prefLabel "ValidationMethod: VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS with Specification for: VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS";
+  rdfs:label "ValidationMethod: VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS with Specification: Specification for: VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS";
+  skos:prefLabel "ValidationMethod: VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS with Specification: Specification for: VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS";
   bdqffdq:forValidation bdqtest:d257eb98-27cb-48e5-8d3c-ab9fca4edd11-2025-03-07 .
 
 <urn:uuid:e5efdd20-d1fc-4287-91f9-15b9ce3f3aac> a bdqffdq:Specification;
@@ -1572,9 +1572,9 @@ bdqffdq:Issue rdfs:subClassOf bdqffdq:DataQualityNeed .
     "TG2 Issue SPACE CODED Test Conformance Parameterized CORE";
   bdqffdq:hasSpecification <urn:uuid:693aa9a5-6058-4399-a474-43268a8e503b>;
   skos:historyNote "Source: GBIF";
-  rdfs:label "IssueMethod: ISSUE_COORDINATES_CENTEROFCOUNTRY with Specification Specification for: ISSUE_COORDINATES_CENTEROFCOUNTRY";
+  rdfs:label "IssueMethod: ISSUE_COORDINATES_CENTEROFCOUNTRY with Specification: Specification for: ISSUE_COORDINATES_CENTEROFCOUNTRY";
   bdqffdq:forIssue bdqtest:256e51b3-1e08-4349-bb7e-5186631c3f8e-2025-03-07;
-  skos:prefLabel "IssueMethod: ISSUE_COORDINATES_CENTEROFCOUNTRY with Specification Specification for: ISSUE_COORDINATES_CENTEROFCOUNTRY" .
+  skos:prefLabel "IssueMethod: ISSUE_COORDINATES_CENTEROFCOUNTRY with Specification: Specification for: ISSUE_COORDINATES_CENTEROFCOUNTRY" .
 
 bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
 
@@ -1618,8 +1618,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:9e421b82-ab79-4026-8493-35b286e112f5>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_MUNICIPALITY_NOTEMPTY with Specification for: VALIDATION_MUNICIPALITY_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_MUNICIPALITY_NOTEMPTY with Specification for: VALIDATION_MUNICIPALITY_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_MUNICIPALITY_NOTEMPTY with Specification: Specification for: VALIDATION_MUNICIPALITY_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_MUNICIPALITY_NOTEMPTY with Specification: Specification for: VALIDATION_MUNICIPALITY_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:87537c73-4f70-4938-8114-7f5b149ed03c> .
 
 <urn:uuid:9e421b82-ab79-4026-8493-35b286e112f5> a bdqffdq:Specification;
@@ -1651,8 +1651,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "duplicate TG2 Validation SPACE Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:7bc482c8-0b56-4c47-bfd6-7a76290e68c4>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY with Specification for: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY with Specification for: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY with Specification: Specification for: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY with Specification: Specification for: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:53e02d0c-93bd-444f-aa7f-68832bdd3143> .
 
 <urn:uuid:7bc482c8-0b56-4c47-bfd6-7a76290e68c4> a bdqffdq:Specification;
@@ -1684,8 +1684,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "duplicate TG2 Validation SPACE Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:f3d28dd6-d57f-410a-85ae-12c63f2de9df>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY with Specification for: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY with Specification for: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY with Specification: Specification for: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY with Specification: Specification for: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:e1765718-0964-4b40-9451-a66b23ca6268> .
 
 <urn:uuid:f3d28dd6-d57f-410a-85ae-12c63f2de9df> a bdqffdq:Specification;
@@ -1717,8 +1717,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:447561f8-9241-4b9a-8609-40372926870f>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_VERBATIMSRS_NOTEMPTY with Specification for: VALIDATION_VERBATIMSRS_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_VERBATIMSRS_NOTEMPTY with Specification for: VALIDATION_VERBATIMSRS_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_VERBATIMSRS_NOTEMPTY with Specification: Specification for: VALIDATION_VERBATIMSRS_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_VERBATIMSRS_NOTEMPTY with Specification: Specification for: VALIDATION_VERBATIMSRS_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:59d9dc66-8d86-4b8e-8f26-54b542d6c375> .
 
 <urn:uuid:447561f8-9241-4b9a-8609-40372926870f> a bdqffdq:Specification;
@@ -1750,8 +1750,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:5340ea82-129c-4bec-a27f-cfc0c5e87038>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: ISSUE_VERBATIMLONGITUDE_NOTEMPTY with Specification for: ISSUE_VERBATIMLONGITUDE_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: ISSUE_VERBATIMLONGITUDE_NOTEMPTY with Specification for: ISSUE_VERBATIMLONGITUDE_NOTEMPTY";
+  rdfs:label "ValidationMethod: ISSUE_VERBATIMLONGITUDE_NOTEMPTY with Specification: Specification for: ISSUE_VERBATIMLONGITUDE_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: ISSUE_VERBATIMLONGITUDE_NOTEMPTY with Specification: Specification for: ISSUE_VERBATIMLONGITUDE_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:6e62e8e3-cffd-4afe-957c-5b200a6eaa4e> .
 
 <urn:uuid:5340ea82-129c-4bec-a27f-cfc0c5e87038> a bdqffdq:Specification;
@@ -1783,8 +1783,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:862fc787-c79e-4d43-9f59-92be8d54b5a9>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: ISSUE_VERBATIMLATITUDE_NOTEMPTY with Specification for: ISSUE_VERBATIMLATITUDE_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: ISSUE_VERBATIMLATITUDE_NOTEMPTY with Specification for: ISSUE_VERBATIMLATITUDE_NOTEMPTY";
+  rdfs:label "ValidationMethod: ISSUE_VERBATIMLATITUDE_NOTEMPTY with Specification: Specification for: ISSUE_VERBATIMLATITUDE_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: ISSUE_VERBATIMLATITUDE_NOTEMPTY with Specification: Specification for: ISSUE_VERBATIMLATITUDE_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:286fa10a-dab0-4f73-8732-76e379c932df> .
 
 <urn:uuid:862fc787-c79e-4d43-9f59-92be8d54b5a9> a bdqffdq:Specification;
@@ -1816,8 +1816,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:63cd57d7-e686-410a-8108-4b24a2a4594f>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: ISSUE_VERBATIMELEVATION_NOTEMPTY with Specification for: ISSUE_VERBATIMELEVATION_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: ISSUE_VERBATIMELEVATION_NOTEMPTY with Specification for: ISSUE_VERBATIMELEVATION_NOTEMPTY";
+  rdfs:label "ValidationMethod: ISSUE_VERBATIMELEVATION_NOTEMPTY with Specification: Specification for: ISSUE_VERBATIMELEVATION_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: ISSUE_VERBATIMELEVATION_NOTEMPTY with Specification: Specification for: ISSUE_VERBATIMELEVATION_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:c9fc7ef1-7714-4dfa-8dea-589d5b43f432> .
 
 <urn:uuid:63cd57d7-e686-410a-8108-4b24a2a4594f> a bdqffdq:Specification;
@@ -1849,8 +1849,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:4c6e843f-70bf-44b0-bc58-69c337cb6a16>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: ISSUE_VERBATIMDEPTH_NOTEMPTY with Specification for: ISSUE_VERBATIMDEPTH_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: ISSUE_VERBATIMDEPTH_NOTEMPTY with Specification for: ISSUE_VERBATIMDEPTH_NOTEMPTY";
+  rdfs:label "ValidationMethod: ISSUE_VERBATIMDEPTH_NOTEMPTY with Specification: Specification for: ISSUE_VERBATIMDEPTH_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: ISSUE_VERBATIMDEPTH_NOTEMPTY with Specification: Specification for: ISSUE_VERBATIMDEPTH_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:402c0a7c-2fbd-45d4-b644-61a47a887779> .
 
 <urn:uuid:4c6e843f-70bf-44b0-bc58-69c337cb6a16> a bdqffdq:Specification;
@@ -1882,8 +1882,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:a6c05ecb-7cd6-401b-92ff-8c4023f06cb6>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: ISSUE_VERBATIMCOORDINATES_NOTEMPTY with Specification for: ISSUE_VERBATIMCOORDINATES_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: ISSUE_VERBATIMCOORDINATES_NOTEMPTY with Specification for: ISSUE_VERBATIMCOORDINATES_NOTEMPTY";
+  rdfs:label "ValidationMethod: ISSUE_VERBATIMCOORDINATES_NOTEMPTY with Specification: Specification for: ISSUE_VERBATIMCOORDINATES_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: ISSUE_VERBATIMCOORDINATES_NOTEMPTY with Specification: Specification for: ISSUE_VERBATIMCOORDINATES_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:533118dd-eb18-4339-b2f8-0b7f71801305> .
 
 <urn:uuid:a6c05ecb-7cd6-401b-92ff-8c4023f06cb6> a bdqffdq:Specification;
@@ -1910,8 +1910,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:4bc6eff0-671f-471d-a659-72ed48d1d224>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_STATEPROVINCE_NOTEMPTY with Specification for: VALIDATION_STATEPROVINCE_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_STATEPROVINCE_NOTEMPTY with Specification for: VALIDATION_STATEPROVINCE_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_STATEPROVINCE_NOTEMPTY with Specification: Specification for: VALIDATION_STATEPROVINCE_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_STATEPROVINCE_NOTEMPTY with Specification: Specification for: VALIDATION_STATEPROVINCE_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:476d3e8e-e061-414c-b8ef-6d6da8f1ec02> .
 
 <urn:uuid:4bc6eff0-671f-471d-a659-72ed48d1d224> a bdqffdq:Specification;
@@ -1943,8 +1943,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:3c886074-ff94-4201-884d-e24411187f82>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_MINIMUMELEVATION_NOTEMPTY with Specification for: VALIDATION_MINIMUMELEVATION_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_MINIMUMELEVATION_NOTEMPTY with Specification for: VALIDATION_MINIMUMELEVATION_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_MINIMUMELEVATION_NOTEMPTY with Specification: Specification for: VALIDATION_MINIMUMELEVATION_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_MINIMUMELEVATION_NOTEMPTY with Specification: Specification for: VALIDATION_MINIMUMELEVATION_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:b8500bf0-273b-45c0-91a5-ebade24f1b04> .
 
 <urn:uuid:3c886074-ff94-4201-884d-e24411187f82> a bdqffdq:Specification;
@@ -1976,8 +1976,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:80d63559-cce6-4b95-ba27-6b87f6fca36b>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_MINIMUMDEPTH_NOTEMPTY with Specification for: VALIDATION_MINIMUMDEPTH_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_MINIMUMDEPTH_NOTEMPTY with Specification for: VALIDATION_MINIMUMDEPTH_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_MINIMUMDEPTH_NOTEMPTY with Specification: Specification for: VALIDATION_MINIMUMDEPTH_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_MINIMUMDEPTH_NOTEMPTY with Specification: Specification for: VALIDATION_MINIMUMDEPTH_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:e10777f1-ca8c-4129-ab2a-7c81856a4ba5> .
 
 <urn:uuid:80d63559-cce6-4b95-ba27-6b87f6fca36b> a bdqffdq:Specification;
@@ -2009,8 +2009,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:a590ae97-7f36-474c-a43e-92a32097db3c>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_MAXIMUMELEVATION_NOTEMPTY with Specification for: VALIDATION_MAXIMUMELEVATION_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_MAXIMUMELEVATION_NOTEMPTY with Specification for: VALIDATION_MAXIMUMELEVATION_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_MAXIMUMELEVATION_NOTEMPTY with Specification: Specification for: VALIDATION_MAXIMUMELEVATION_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_MAXIMUMELEVATION_NOTEMPTY with Specification: Specification for: VALIDATION_MAXIMUMELEVATION_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:653d907a-af86-4c1d-9156-0e86f79cbd2a> .
 
 <urn:uuid:a590ae97-7f36-474c-a43e-92a32097db3c> a bdqffdq:Specification;
@@ -2042,8 +2042,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:f7143777-4aa3-4588-acfa-b05aac6eccc8>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_MAXIMUMDEPTH_NOTEMPTY with Specification for: VALIDATION_MAXIMUMDEPTH_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_MAXIMUMDEPTH_NOTEMPTY with Specification for: VALIDATION_MAXIMUMDEPTH_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_MAXIMUMDEPTH_NOTEMPTY with Specification: Specification for: VALIDATION_MAXIMUMDEPTH_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_MAXIMUMDEPTH_NOTEMPTY with Specification: Specification for: VALIDATION_MAXIMUMDEPTH_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:7236d80f-53cc-4871-9359-fbd468808136> .
 
 <urn:uuid:f7143777-4aa3-4588-acfa-b05aac6eccc8> a bdqffdq:Specification;
@@ -2075,8 +2075,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:2007d1cb-0368-4f43-820c-7ba88443c3bb>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_LOCALITY_NOTEMPTY with Specification for: VALIDATION_LOCALITY_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_LOCALITY_NOTEMPTY with Specification for: VALIDATION_LOCALITY_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_LOCALITY_NOTEMPTY with Specification: Specification for: VALIDATION_LOCALITY_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_LOCALITY_NOTEMPTY with Specification: Specification for: VALIDATION_LOCALITY_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:83282c46-0bd8-4f6c-a015-40506b0d5dc5> .
 
 <urn:uuid:2007d1cb-0368-4f43-820c-7ba88443c3bb> a bdqffdq:Specification;
@@ -2108,8 +2108,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:27781083-126f-4f98-814e-1e63083fc6cb>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_ISLANDGROUP_NOTEMPTY with Specification for: VALIDATION_ISLANDGROUP_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_ISLANDGROUP_NOTEMPTY with Specification for: VALIDATION_ISLANDGROUP_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_ISLANDGROUP_NOTEMPTY with Specification: Specification for: VALIDATION_ISLANDGROUP_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_ISLANDGROUP_NOTEMPTY with Specification: Specification for: VALIDATION_ISLANDGROUP_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:0b90c114-5ff1-4024-a174-b866b7ca6b81> .
 
 <urn:uuid:27781083-126f-4f98-814e-1e63083fc6cb> a bdqffdq:Specification;
@@ -2141,8 +2141,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:81352c13-3714-4fbb-be0f-460d1f5e0b3f>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_ISLAND_NOTEMPTY with Specification for: VALIDATION_ISLAND_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_ISLAND_NOTEMPTY with Specification for: VALIDATION_ISLAND_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_ISLAND_NOTEMPTY with Specification: Specification for: VALIDATION_ISLAND_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_ISLAND_NOTEMPTY with Specification: Specification for: VALIDATION_ISLAND_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:4d72c8d0-c785-4e8a-aea5-08c0a9f2d88b> .
 
 <urn:uuid:81352c13-3714-4fbb-be0f-460d1f5e0b3f> a bdqffdq:Specification;
@@ -2174,8 +2174,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:07f8bf45-4a71-4740-bbeb-6cadbd4bdbad>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_HIGHERGEOGRAPHY_NOTEMPTY with Specification for: VALIDATION_HIGHERGEOGRAPHY_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_HIGHERGEOGRAPHY_NOTEMPTY with Specification for: VALIDATION_HIGHERGEOGRAPHY_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_HIGHERGEOGRAPHY_NOTEMPTY with Specification: Specification for: VALIDATION_HIGHERGEOGRAPHY_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_HIGHERGEOGRAPHY_NOTEMPTY with Specification: Specification for: VALIDATION_HIGHERGEOGRAPHY_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:cfa2c8fd-e778-4f2b-8c16-2221d46e0006> .
 
 <urn:uuid:07f8bf45-4a71-4740-bbeb-6cadbd4bdbad> a bdqffdq:Specification;
@@ -2202,8 +2202,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:487df663-096d-41a8-bbf8-e09f5580be02>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY with Specification for: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY with Specification for: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY with Specification: Specification for: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY with Specification: Specification for: VALIDATION_GEOREFERENCEVERIFICATIONSTATUS_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:21fe55e5-3190-45a4-af17-dd47cf33275e> .
 
 <urn:uuid:487df663-096d-41a8-bbf8-e09f5580be02> a bdqffdq:Specification;
@@ -2239,8 +2239,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
 
 <urn:uuid:84160e81-2e32-4992-8aa4-79a07941d2bc> bdqffdq:hasSpecification <urn:uuid:60b5570a-b043-46f2-b8a4-641945121473>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY with Specification for: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY with Specification for: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY with Specification: Specification for: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY with Specification: Specification for: VALIDATION_GEOREFERENCEDDATE_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:2b03e9ae-b7b9-48e6-bbf9-31bfcdcae212> .
 
 <urn:uuid:c6b705fc-7cf8-4af1-88ab-7a38d85f7109> a bdqffdq:Validation;
@@ -2264,8 +2264,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:4a09ab69-8a62-42f3-ba9c-7930240457a6>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_FOOTPRINTWKT_NOTEMPTY with Specification for: VALIDATION_FOOTPRINTWKT_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_FOOTPRINTWKT_NOTEMPTY with Specification for: VALIDATION_FOOTPRINTWKT_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_FOOTPRINTWKT_NOTEMPTY with Specification: Specification for: VALIDATION_FOOTPRINTWKT_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_FOOTPRINTWKT_NOTEMPTY with Specification: Specification for: VALIDATION_FOOTPRINTWKT_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:c6b705fc-7cf8-4af1-88ab-7a38d85f7109> .
 
 <urn:uuid:4a09ab69-8a62-42f3-ba9c-7930240457a6> a bdqffdq:Specification;
@@ -2297,8 +2297,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:119474df-b3b2-4846-a165-f027ff559737>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_COORDINATEPRECISION_NOTEMPTY with Specification for: VALIDATION_COORDINATEPRECISION_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_COORDINATEPRECISION_NOTEMPTY with Specification for: VALIDATION_COORDINATEPRECISION_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_COORDINATEPRECISION_NOTEMPTY with Specification: Specification for: VALIDATION_COORDINATEPRECISION_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_COORDINATEPRECISION_NOTEMPTY with Specification: Specification for: VALIDATION_COORDINATEPRECISION_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:77b380ce-7c9d-498f-a2b5-3ac5c5bf23f7> .
 
 <urn:uuid:119474df-b3b2-4846-a165-f027ff559737> a bdqffdq:Specification;
@@ -2330,8 +2330,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
   skos:note "TG2 Validation SPACE Test Supplementary Completeness";
   bdqffdq:hasSpecification <urn:uuid:46aa4df3-8d98-4970-9172-ccaf47c1e997>;
   skos:historyNote "Source: TG2";
-  rdfs:label "ValidationMethod: VALIDATION_CONTINENTWATERBODY_NOTEMPTY with Specification for: VALIDATION_CONTINENTWATERBODY_NOTEMPTY";
-  skos:prefLabel "ValidationMethod: VALIDATION_CONTINENTWATERBODY_NOTEMPTY with Specification for: VALIDATION_CONTINENTWATERBODY_NOTEMPTY";
+  rdfs:label "ValidationMethod: VALIDATION_CONTINENTWATERBODY_NOTEMPTY with Specification: Specification for: VALIDATION_CONTINENTWATERBODY_NOTEMPTY";
+  skos:prefLabel "ValidationMethod: VALIDATION_CONTINENTWATERBODY_NOTEMPTY with Specification: Specification for: VALIDATION_CONTINENTWATERBODY_NOTEMPTY";
   bdqffdq:forValidation <urn:uuid:181c51da-d5d8-41e9-94f9-1387fa5a5a2b> .
 
 <urn:uuid:46aa4df3-8d98-4970-9172-ccaf47c1e997> a bdqffdq:Specification;
@@ -2372,8 +2372,8 @@ bdqffdq:IssueMethod rdfs:subClassOf bdqffdq:DataQualityMethod .
     "TG2 Validation SPACE CODED Test VOCABULARY Supplementary Consistency Parameterized";
   bdqffdq:hasSpecification <urn:uuid:39cbb213-b33a-4e45-bfa4-967ee277455b>;
   skos:historyNote "Source: VertNet, Kurator";
-  rdfs:label "ValidationMethod: VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT with Specification for: VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT";
-  skos:prefLabel "ValidationMethod: VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT with Specification for: VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT";
+  rdfs:label "ValidationMethod: VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT with Specification: Specification for: VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT";
+  skos:prefLabel "ValidationMethod: VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT with Specification: Specification for: VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT";
   bdqffdq:forValidation <urn:uuid:e654f562-44f8-43fd-983b-2aaba4c6dda9> .
 
 <urn:uuid:39cbb213-b33a-4e45-bfa4-967ee277455b> a bdqffdq:Specification;
