@@ -15,7 +15,7 @@ Available in [![Maven Central](https://img.shields.io/maven-central/v/org.filter
     <dependency>
         <groupId>org.filteredpush</groupId>
         <artifactId>geo_ref_qc</artifactId>
-        <version>2.1.1</version>
+        <version>2.2.0</version>
     </dependency>
 
 
