@@ -1,6 +1,4 @@
 # geo_ref_qc
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.filteredpush/geo_ref_qc/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.filteredpush/geo_ref_qc)
-
 Data Quality library for dwc:decimalLatitude, dwc:decimalLongitude and other Locality terms.
 
 DOI: 10.5281/zenodo.14064324
@@ -8,6 +6,19 @@ DOI: 10.5281/zenodo.14064324
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14064324.svg)](https://doi.org/10.5281/zenodo.14064324)
 
 Tools for working with georeferences in forms found in biodiversity data.  This library provides tools for validating and correcting georeferences in biodiversity data.  It is designed to support the tests defined in the (draft) [BDQ Standard](https://github.com/tdwg/bdq/blob/master/tg2/_review/index.md) for biodiversity data quality, and supports data quality assertions framed using the bdqffdq vocabulary.  The library is designed to be used in a variety of contexts, including as a standalone library, within a a data quality service, or as part of a a data quality workflow.  It takes inputs expressed using Darwin Core terms for spatial concepts, but can be used for quality control of spatial data in other contexts.
+
+
+# Include using maven
+
+Available in [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.filteredpush/geo_ref_qc/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.filteredpush/geo_ref_qc).
+
+    <dependency>
+        <groupId>org.filteredpush</groupId>
+        <artifactId>geo_ref_qc</artifactId>
+        <version>2.1.1</version>
+    </dependency>
+
+
 
 ## BDQ Standard Tests
 
@@ -145,17 +156,6 @@ The shapefiles used by spatial tests are opened once and shared between threads
 the shapefiles are first copied from the jar to a temporary directory (deleted when the JVM exits), 
 as reading a shapefile from inside a jar requires decompressing the whole file for every query.  
 A container that unloads this library can call `SharedShapefiles.disposeAll()` to release them.
-
-# Include using maven
-
-Available in Maven Central.  
-
-    <dependency>
-        <groupId>org.filteredpush</groupId>
-        <artifactId>geo_ref_qc</artifactId>
-        <version>2.1.1</version>
-    </dependency>
-
 
 # Building
 
