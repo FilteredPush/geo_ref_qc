@@ -10,7 +10,7 @@ Tools for working with georeferences in forms found in biodiversity data.  This 
 
 # Include using maven
 
-Available in [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.filteredpush/geo_ref_qc/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.filteredpush/geo_ref_qc).
+Available in [![Maven Central](https://img.shields.io/maven-central/v/org.filteredpush/geo_ref_qc)](https://central.sonatype.com/artifact/org.filteredpush/geo_ref_qc).
 
     <dependency>
         <groupId>org.filteredpush</groupId>
