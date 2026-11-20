@@ -22,42 +22,60 @@ Available in [![Maven Central](https://img.shields.io/maven-central/v/org.filter
 
 ## BDQ Standard Tests
 
-The geo_ref_qc library implements the following BDQ Standard tests:
+geo_ref_qc implements the following CORE Tests of the draft TDWG [BDQ Standard](https://bdq.tdwg.org/) ([review draft](https://bdq.tdwg.org/draft/)). Each links to its entry in the BDQ Quick Reference Guide.
 
-- AMENDMENT_MINDEPTH-MAXDEPTH_FROM_VERBATIM 
-- AMENDMENT_COUNTRYCODE_STANDARDIZED 
-- VALIDATION_GEODETICDATUM_NOTEMPTY 
-- VALIDATION_COUNTRY_COUNTRYCODE_CONSISTENT 
-- VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS 
-- AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT 
-- VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH 
-- VALIDATION_DECIMALLATITUDE_INRANGE 
-- VALIDATION_LOCATION_NOTEMPTY 
-- ISSUE_COORDINATES_CENTEROFCOUNTRY 
-- VALIDATION_MINDEPTH_INRANGE 
-- AMENDMENT_COORDINATES_FROM_VERBATIM 
-- VALIDATION_STATEPROVINCE_FOUND 
-- AMENDMENT_COUNTRYCODE_FROM_COORDINATES 
-- VALIDATION_COUNTRY_NOTEMPTY 
-- VALIDATION_COORDINATEUNCERTAINTY_INRANGE 
-- AMENDMENT_GEODETICDATUM_STANDARDIZED 
-- VALIDATION_MINELEVATION_INRANGE 
-- VALIDATION_DECIMALLONGITUDE_NOTEMPTY 
-- VALIDATION_COORDINATES_STATE-PROVINCE_CONSISTENT 
-- VALIDATION_DECIMALLONGITUDE_INRANGE 
-- VALIDATION_COUNTRYCODE_STANDARD 
-- AMENDMENT_COORDINATES_TRANSPOSED 
-- VALIDATION_COORDINATES_COUNTRYCODE_CONSISTENT 
-- VALIDATION_MAXDEPTH_INRANGE 
-- VALIDATION_COORDINATES_ZERO 
-- VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION 
-- VALIDATION_GEODETICDATUM_STANDARD 
-- VALIDATION_COORDINATES_TERRESTRIALMARINE 
-- AMENDMENT_MINELEVATION-MAXELEVATION_FROM_VERBATIM 
-- VALIDATION_COUNTRYCODE_NOTEMPTY 
-- VALIDATION_MAXELEVATION_INRANGE 
-- VALIDATION_DECIMALLATITUDE_NOTEMPTY 
-- VALIDATION_COUNTRY_FOUND 
+**Validations**
+
+- [VALIDATION_COORDINATESCOUNTRYCODE_CONSISTENT](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_COORDINATESCOUNTRYCODE_CONSISTENT)
+- [VALIDATION_COORDINATESSTATEPROVINCE_CONSISTENT](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_COORDINATESSTATEPROVINCE_CONSISTENT)
+- [VALIDATION_COORDINATESTERRESTRIALMARINE_CONSISTENT](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_COORDINATESTERRESTRIALMARINE_CONSISTENT)
+- [VALIDATION_COORDINATES_NOTZERO](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_COORDINATES_NOTZERO)
+- [VALIDATION_COORDINATEUNCERTAINTY_INRANGE](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_COORDINATEUNCERTAINTY_INRANGE)
+- [VALIDATION_COUNTRYCODE_NOTEMPTY](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_COUNTRYCODE_NOTEMPTY)
+- [VALIDATION_COUNTRYCODE_STANDARD](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_COUNTRYCODE_STANDARD)
+- [VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_COUNTRYCOUNTRYCODE_CONSISTENT)
+- [VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_COUNTRYSTATEPROVINCE_UNAMBIGUOUS)
+- [VALIDATION_COUNTRY_FOUND](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_COUNTRY_FOUND)
+- [VALIDATION_COUNTRY_NOTEMPTY](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_COUNTRY_NOTEMPTY)
+- [VALIDATION_DECIMALLATITUDE_INRANGE](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_DECIMALLATITUDE_INRANGE)
+- [VALIDATION_DECIMALLATITUDE_NOTEMPTY](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_DECIMALLATITUDE_NOTEMPTY)
+- [VALIDATION_DECIMALLONGITUDE_INRANGE](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_DECIMALLONGITUDE_INRANGE)
+- [VALIDATION_DECIMALLONGITUDE_NOTEMPTY](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_DECIMALLONGITUDE_NOTEMPTY)
+- [VALIDATION_GEODETICDATUM_NOTEMPTY](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_GEODETICDATUM_NOTEMPTY)
+- [VALIDATION_GEODETICDATUM_STANDARD](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_GEODETICDATUM_STANDARD)
+- [VALIDATION_LOCATION_NOTEMPTY](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_LOCATION_NOTEMPTY)
+- [VALIDATION_MAXDEPTH_INRANGE](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_MAXDEPTH_INRANGE)
+- [VALIDATION_MAXELEVATION_INRANGE](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_MAXELEVATION_INRANGE)
+- [VALIDATION_MINDEPTH_INRANGE](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_MINDEPTH_INRANGE)
+- [VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_MINDEPTH_LESSTHAN_MAXDEPTH)
+- [VALIDATION_MINELEVATION_INRANGE](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_MINELEVATION_INRANGE)
+- [VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_MINELEVATION_LESSTHAN_MAXELEVATION)
+- [VALIDATION_STATEPROVINCE_FOUND](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#VALIDATION_STATEPROVINCE_FOUND)
+
+**Amendments**
+
+- [AMENDMENT_COORDINATES_FROM_VERBATIM](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#AMENDMENT_COORDINATES_FROM_VERBATIM)
+- [AMENDMENT_COORDINATES_TRANSPOSED](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#AMENDMENT_COORDINATES_TRANSPOSED)
+- [AMENDMENT_COUNTRYCODE_FROM_COORDINATES](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#AMENDMENT_COUNTRYCODE_FROM_COORDINATES)
+- [AMENDMENT_COUNTRYCODE_STANDARDIZED](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#AMENDMENT_COUNTRYCODE_STANDARDIZED)
+- [AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#AMENDMENT_GEODETICDATUM_ASSUMEDDEFAULT)
+- [AMENDMENT_GEODETICDATUM_STANDARDIZED](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#AMENDMENT_GEODETICDATUM_STANDARDIZED)
+- [AMENDMENT_MINDEPTHMAXDEPTH_FROM_VERBATIM](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#AMENDMENT_MINDEPTHMAXDEPTH_FROM_VERBATIM)
+- [AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#AMENDMENT_MINELEVATIONMAXELEVATION_FROM_VERBATIM)
+
+**Issues**
+
+- [ISSUE_COORDINATES_CENTEROFCOUNTRY](https://bdq.tdwg.org/draft/docs/terms/bdqtest/#ISSUE_COORDINATES_CENTEROFCOUNTRY)
+
+### Supplementary Tests
+
+These Tests are not in the BDQ Standard; each links to its tdwg/bdq issue.
+
+**Validations**
+
+- VALIDATION_COUNTRYSTATEPROVINCE_CONSISTENT ([tdwg/bdq#200](https://github.com/tdwg/bdq/issues/200))
+
+Also experimental: AMENDMENT_COORDINATES_CONVERTED, from an immature Test proposal ([tdwg/bdq#43](https://github.com/tdwg/bdq/issues/43)).
 
 ## Remote services and spatial data
 
@@ -175,3 +193,19 @@ After this, you will need to login to the sonatype oss repository hosting nexus 
 
     mvn nexus-staging:release -P release
 
+## Related BDQ libraries and applications
+
+This library is one of a set of libraries and applications for the draft TDWG [BDQ Standard](https://bdq.tdwg.org/) (Biodiversity Data Quality), about to go into public review ([review draft](https://bdq.tdwg.org/draft/)). None of them are part of the standard.
+
+| Repository | Kind | Role | Available from |
+|---|---|---|---|
+| [ffdq-api](https://github.com/kurator-org/ffdq-api) | Library | Java annotations and result API for Test implementations | [Maven Central](https://central.sonatype.com/artifact/org.datakurator/ffdq-api), [latest release](https://github.com/kurator-org/ffdq-api/releases/latest) |
+| [kurator-ffdq](https://github.com/kurator-org/kurator-ffdq) | Library | bdqffdq model, RDF reports, Test RDF generation and Test runner | [Maven Central](https://central.sonatype.com/artifact/org.datakurator/kurator-ffdq), [latest release](https://github.com/kurator-org/kurator-ffdq/releases/latest) |
+| [sci_name_qc](https://github.com/FilteredPush/sci_name_qc) | Test implementations | NAME Tests | [Maven Central](https://central.sonatype.com/artifact/org.filteredpush/sci_name_qc), [latest release](https://github.com/FilteredPush/sci_name_qc/releases/latest) |
+| [event_date_qc](https://github.com/FilteredPush/event_date_qc) | Test implementations | TIME Tests | [Maven Central](https://central.sonatype.com/artifact/org.filteredpush/event_date_qc), [latest release](https://github.com/FilteredPush/event_date_qc/releases/latest) |
+| [rec_occur_qc](https://github.com/FilteredPush/rec_occur_qc) | Test implementations | OTHER (metadata) Tests and SingleRecord Measures | [Maven Central](https://central.sonatype.com/artifact/org.filteredpush/rec_occur_qc), [latest release](https://github.com/FilteredPush/rec_occur_qc/releases/latest) |
+| [geo_ref_qc](https://github.com/FilteredPush/geo_ref_qc) (this repository) | Test implementations | SPACE Tests | [Maven Central](https://central.sonatype.com/artifact/org.filteredpush/geo_ref_qc), [latest release](https://github.com/FilteredPush/geo_ref_qc/releases/latest) |
+| [bdqtestrunner](https://github.com/FilteredPush/bdqtestrunner) | Application | Checks Test implementations against the BDQ Test validation data | [latest release](https://github.com/FilteredPush/bdqtestrunner/releases/latest) |
+| [bdq_workbench](https://github.com/FilteredPush/bdq_workbench) | Application | Runs BDQ Tests over Darwin Core data for a Use Case | [latest release](https://github.com/FilteredPush/bdq_workbench/releases/latest) |
+| [bdq_usecase_builder](https://github.com/FilteredPush/bdq_usecase_builder) | Application | Authors Use Cases and Test definitions | [latest release](https://github.com/FilteredPush/bdq_usecase_builder/releases/latest) |
+| [bdq_issue_to_csv](https://github.com/kurator-org/bdq_issue_to_csv) | Application | Converts tdwg/bdq Test issues to a term-version CSV | [latest release](https://github.com/kurator-org/bdq_issue_to_csv/releases/latest) |
